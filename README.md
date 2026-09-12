@@ -217,6 +217,22 @@ status line that is announced to screen readers. One thing to decide: these serv
 process your visitors' messages on their servers, outside your control. It is worth
 reading the provider's terms and mentioning them if you ever publish a privacy statement.
 
+### Two things the build now refuses to let you get wrong
+
+**Asset filenames carry a content hash** — `site.63edf093.css`, `site.fc5d48f5.js`. Change
+a source file and the name changes with it, so a browser physically cannot serve you
+yesterday's JavaScript against today's HTML. No hard-refresh, no "I pushed but nothing
+changed", and the files can be cached forever.
+
+**`src/app.js` and `src/template.html` are checked against each other.** Every
+`getElementById("x")` in app.js must have a matching `id="x"` in the shell, or the build
+stops and names the missing id. Without that check a half-updated `src/` deploys perfectly
+happily and then renders a blank page with one console error — which is exactly what
+happened once.
+
+> **Update the four `src/` files together.** `app.js`, `content.js`, `styles.css` and
+> `template.html` are one set. Mixing versions is the only way to break this site.
+
 ### DNS for liminex.net
 
 At whoever holds the DNS for liminex.net (currently pointing at Squarespace),

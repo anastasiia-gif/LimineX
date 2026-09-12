@@ -15,7 +15,7 @@ plus shared CSS and JS. No dependencies.
     src/template.html  the page shell (nav, footer)
     PAGES below        the URL, title and description of every page
 """
-import base64, json, mimetypes, os, shutil, sys
+import base64, hashlib, json, mimetypes, os, re, shutil, sys
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 def p(*a): return os.path.join(ROOT, *a)
@@ -267,12 +267,28 @@ LD = json.dumps({
 }, ensure_ascii=False)
 
 # ---------------------------------------------------------------- write
+_app_src  = read("src/app.js")
+_tpl_src  = read("src/template.html")
+_wanted   = set(re.findall(r'getElementById\(\s*"([^"]+)"\s*\)', _app_src))
+# ids the shell provides, plus every id app.js writes into the DOM itself
+_present  = set(re.findall(r'id="([^"]+)"', _tpl_src)) \
+          | set(re.findall(r'id="([^"]+)"', _app_src)) | {"app"}
+_missing  = sorted(_wanted - _present)
+if _missing:
+    raise SystemExit(
+        "\nBUILD STOPPED — src/app.js and src/template.html are out of step.\n"
+        "app.js looks for element id(s) the page shell does not contain:\n"
+        + "".join("    #%s\n" % i for i in _missing) +
+        "This happens when only some of the src/ files are updated. Replace\n"
+        "app.js, content.js, styles.css and template.html together, from the\n"
+        "same set, and build again.\n")
+
 dist = p("dist")
 shutil.rmtree(dist, ignore_errors=True)
 os.makedirs(p("dist/assets"), exist_ok=True)
 
-open(p("dist/assets/site.css"), "w", encoding="utf-8").write(read("src/styles.css"))
-open(p("dist/assets/site.js"), "w", encoding="utf-8").write("\n".join([
+_css_body = read("src/styles.css")
+_js_body = "\n".join([
     read("assets/logo_assets.js"),
     "var WORKSHOTS = " + json.dumps(shots) + ";",
     "var RENDERS = " + json.dumps(renders) + ";",
@@ -282,7 +298,16 @@ open(p("dist/assets/site.js"), "w", encoding="utf-8").write("\n".join([
     "var FORM_KEY = " + json.dumps(FORM_KEY) + ";",
     "var CONTACT_EMAIL = " + json.dumps(CONTACT_EMAIL) + ";",
     read("src/content.js"), read("src/graphics.js"),
-    read("src/drawings.js"), read("src/app.js")]))
+    read("src/drawings.js"), _app_src])
+
+def fingerprint(body, stem, ext):
+    h = hashlib.sha256(body.encode("utf-8")).hexdigest()[:8]
+    name = "%s.%s.%s" % (stem, h, ext)
+    open(p("dist/assets/" + name), "w", encoding="utf-8").write(body)
+    return name
+
+CSS_NAME = fingerprint(_css_body, "site", "css")
+JS_NAME  = fingerprint(_js_body,  "site", "js")
 
 tpl = read("src/template.html")
 UI = {"nl": {"skip": "Naar de inhoud", "nav": "Hoofdnavigatie"},
@@ -326,8 +351,8 @@ for pg in PAGES:
                    .replace("__EN_URL__", url_for(pg, "en"))
                    .replace("__H1__", meta["h1"])
                    .replace("__INTRO__", meta["intro"])
-                   .replace("__CSS__", asset(url, "site.css"))
-                   .replace("__JS__", asset(url, "site.js"))
+                   .replace("__CSS__", asset(url, CSS_NAME))
+                   .replace("__JS__", asset(url, JS_NAME))
                    .replace("__BOOT__", json.dumps({"page": pg["id"], "lang": lang})))
         doc = ('<!doctype html>\n<html lang="%s">\n<head>\n<meta charset="utf-8">\n'
                '<meta name="viewport" content="width=device-width,initial-scale=1">\n' % lang
@@ -398,15 +423,15 @@ if CUSTOM_DOMAIN:
 # A single self-contained file, for previewing or emailing. Not deployed.
 if "--single" in sys.argv:
     one = (open(p("dist/index.html"), encoding="utf-8").read()
-           .replace('<link rel="stylesheet" href="assets/site.css">',
-                    "<style>\n" + read("src/styles.css") + "\n</style>")
-           .replace('<script src="assets/site.js" defer></script>',
-                    "<script>\n" + open(p("dist/assets/site.js"), encoding="utf-8").read() + "\n</script>"))
+           .replace('<link rel="stylesheet" href="assets/%s">' % CSS_NAME,
+                    "<style>\n" + _css_body + "\n</style>")
+           .replace('<script src="assets/%s" defer></script>' % JS_NAME,
+                    "<script>\n" + _js_body + "\n</script>"))
     open(p("dist/single.html"), "w", encoding="utf-8").write(one)
     print("dist/single.html  %d KB" % (len(one) // 1024))
 
-css_kb = os.path.getsize(p("dist/assets/site.css")) // 1024
-js_kb = os.path.getsize(p("dist/assets/site.js")) // 1024
+css_kb = os.path.getsize(p("dist/assets/" + CSS_NAME)) // 1024
+js_kb = os.path.getsize(p("dist/assets/" + JS_NAME)) // 1024
 print("served from  %s%s/" % (SITE_ORIGIN, BASE_PATH))
-print("%d pages  ·  site.css %d KB  ·  site.js %d KB" % (len(written), css_kb, js_kb))
+print("%d pages  ·  %s %d KB  ·  %s %d KB" % (len(written), CSS_NAME, css_kb, JS_NAME, js_kb))
 for u in written: print("   ", u)
