@@ -189,7 +189,7 @@ everything filled in. That works, but it loses people who use webmail, so set on
 |---|---|---|
 | [Web3Forms](https://web3forms.com) | email only | **Recommended.** Endpoint `https://api.web3forms.com/submit` plus an access key. A plain API host, so corporate DNS and ad blockers rarely touch it. |
 | [Formspree](https://formspree.io) | yes | The most established; 50 submissions/month free; offers a DPA on paid plans. |
-| [FormSubmit](https://formsubmit.co) | no | Quickest to set up, but the host is blocked on some corporate networks and by some ad blockers. |
+| [FormSubmit](https://formsubmit.co) | no | **Do not use.** The host is blocked by common ad blockers and filtered company DNS, so the request dies before it is sent. `build.py` now refuses this endpoint and falls back to the mail client. |
 
 Then set these repository variables (*Settings → Secrets and variables → Actions →
 Variables*) and push. Nothing in the code changes:
@@ -203,11 +203,19 @@ Variables*) and push. Nothing in the code changes:
 `FORM_KEY` is posted as `access_key`, which is what Web3Forms expects. Services that don't
 use a key simply ignore it — leave the variable unset.
 
+If a configured endpoint fails at the network level — blocked host, no connection — the
+form opens the visitor's mail client with the message already written, rather than showing
+an error and losing the enquiry.
+
+`build.py` prints the contact address and the endpoint it is building with on every run,
+and refuses two configurations that have already cost real enquiries: a `formsubmit.co`
+endpoint, and a Web3Forms endpoint with no `FORM_KEY`. An unset repository variable arrives
+as an empty string, so the defaults in `build.py` apply to those too.
+
 Two things already handled: a hidden honeypot field that catches most bots, and a
 status line that is announced to screen readers. One thing to decide: these services
-process your visitors' messages on their servers, outside your control. For a company
-that sells accessibility and compliance work, it is worth reading the provider's terms
-and mentioning them if you ever publish a privacy statement.
+process your visitors' messages on their servers, outside your control. It is worth
+reading the provider's terms and mentioning them if you ever publish a privacy statement.
 
 ### DNS for liminex.net
 

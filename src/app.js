@@ -141,6 +141,25 @@ function folioCards(){
   }
   return h+'</div>';
 }
+/* Alternating rows: picture then text, then text then picture. `key` names an image in
+   assets/renders/; without one you get a labelled photo slot saying what belongs there. */
+function altRows(items){
+  var h='<div class="alt">';
+  for(var i=0;i<items.length;i++){
+    var it=items[i];
+    var src=(typeof RENDERS!=="undefined") && RENDERS[it.key];
+    h+='<div class="altrow rv">'
+      +'<div class="altmedia">'
+      +(src ? '<img src="'+src+'" alt="" loading="lazy">'
+            : ph(t(it.shot), lang==="nl"?"16:10":"16:10"))
+      +'</div>'
+      +'<div class="alttext">'
+      +(it.n?'<span class="sn">'+it.n+'</span>':'')
+      +'<h3>'+esc(t(it.t))+'</h3><p>'+esc(t(it.p))+'</p></div></div>';
+  }
+  return h+'</div>';
+}
+
 /* The domains grid: what "engineering" means here, one card per domain, each with a
    worked example. Content lives in DISCIPLINES in content.js. */
 function discGrid(){
@@ -256,19 +275,24 @@ function renderHome(){
   h+='<section class="band"><div class="wrap">'
     +'<h2 class="rv">'+esc(t(d.howh))+'</h2>'
     +'<p class="deck rv" style="margin-top:18px">'+esc(t(d.howd))+'</p>'
-    +'<div class="rv">'+stepList(d.how,["web","test","cad","dfm"])+'</div>'
+    +altRows([
+      {key:"how-1", n:"01", t:d.how[0].h, p:d.how[0].p, shot:d.how[0].note},
+      {key:"how-2", n:"02", t:d.how[1].h, p:d.how[1].p, shot:d.how[1].note},
+      {key:"how-3", n:"03", t:d.how[2].h, p:d.how[2].p, shot:d.how[2].note},
+      {key:"how-4", n:"04", t:d.how[3].h, p:d.how[3].p, shot:d.how[3].note}
+    ])
     +'</div></section>';
 
   /* 4. who we are, the team, and the ask — one dark block */
   h+='<section class="band band--dark"><div class="wrap">'
     +'<div class="lbl rv">'+esc(t(d.whoh))+'</div>'
     +'<h2 class="rv" style="margin-top:20px;max-width:19ch">'+esc(t(d.whoq))+'</h2>'
-    +'<div class="rv" style="margin-top:46px;max-width:64ch"><p class="muted">'
+    +'<div class="whorow rv"><div><p class="muted">'
     +esc(t(d.whop)).split("\n\n").join('</p><p class="muted">')+'</p></div>'
-    +'<div class="stats rv">';
+    +'<div class="stats stats--side">';
   for(var s=0;s<d.stats.length;s++)
     h+='<div><div class="n">'+esc(d.stats[s].n)+'</div><div class="k">'+esc(t(d.stats[s].k))+'</div></div>';
-  h+='</div>';
+  h+='</div></div>';
   h+='<div class="team rv" style="margin-top:76px">';
   for(var m=0;m<d.team.length;m++)
     h+='<div class="p">'+ph(t(d.team[m].n),lang==="nl"?"Portret \u00b7 4:5":"Portrait \u00b7 4:5")
@@ -326,8 +350,23 @@ function renderWeb(){
   /* 2. what we do — the main content, first on the page */
   h+='<section class="band band--tight"><div class="narrow">'
     +'<p class="deck" style="max-width:none">'+esc(t(d.intro))+'</p></div>'
-    +'<div class="wrap">'+svcList(d.svcs,lang==="nl"?"Wat we doen":"What we do",
-        ["access","web","ai","maintain","data"])+'</div></section>';
+    +'<div class="wrap"><h2 class="rv">'+(lang==="nl"?"Wat we doen":"What we do")+'</h2>'
+    +altRows([
+      {key:"web-1", t:d.svcs[0].n, p:d.svcs[0].d, shot:C.home.shots.web},
+      {key:"web-2", t:d.svcs[1].n, p:d.svcs[1].d, shot:{nl:"Foto \u2014 een proces dat geautomatiseerd wordt",
+                                                        en:"Photo \u2014 a process being automated"}},
+      {key:"web-3", t:d.svcs[2].n, p:d.svcs[2].d, shot:{nl:"Foto \u2014 onderhoud en monitoring",
+                                                        en:"Photo \u2014 maintenance and monitoring"}}
+    ])
+    +'<p class="onreq rv" style="margin-top:44px">'
+    +(lang==="nl"
+        ? "Elk project is anders, dus dit is geen prijslijst. Wat vergelijkbaar werk ongeveer kost, staat op de pagina "
+        : "Every project is different, so this isn't a price list. What comparable work roughly costs is on the ")
+    +go("price",' class="inlink"')+(lang==="nl"?"tarieven":"pricing")+'</a>'
+    +(lang==="nl"
+        ? ". Na \u00e9\u00e9n gesprek krijgt u een vaste prijs op \u00e9\u00e9n pagina."
+        : " page. After one conversation you get a fixed price on one page.")
+    +'</p></div></section>';
 
   /* 3. the exhibition of delivered work, ending on the ask */
   h+=flowSplit(3,"var(--paper)","var(--paper2)",5);
@@ -386,6 +425,60 @@ function renderYard(){
   return h;
 }
 
+/* "Coming soon" with a one-click interest register. A static site has no database, so a
+   click posts to the same form endpoint the contact page uses — which is better than a
+   counter anyway: an interested person leaves an address we can reply to. The browser
+   remembers it locally so the panel doesn't ask twice. */
+function indiaPanel(){
+  var d=C.india;
+  return '<section class="band band--grey"><div class="wrap"><div class="soon rv" id="soon">'
+    +'<div class="lbl lbl--q">'+esc(t(d.lbl))+'</div>'
+    +'<h2>'+esc(t(d.h))+'</h2>'
+    +'<p class="deck">'+esc(t(d.p)).split("\n\n").join('</p><p class="deck">')+'</p>'
+    +'<div id="soonbox">'
+      +'<button class="btn" id="soonbtn" type="button">'+esc(t(d.btn))+'</button>'
+    +'</div>'
+    +'<p class="formstat" id="soonstat" role="status" aria-live="polite"></p>'
+    +'</div></div></section>';
+}
+function setupSoon(){
+  var box=document.getElementById("soonbox");
+  if(!box) return;
+  var d=C.india, stat=document.getElementById("soonstat");
+  var done=false;
+  try{ done = localStorage.getItem("liminex-india")==="1"; }catch(e){}
+  if(done){ box.innerHTML=""; stat.className="formstat is-ok"; stat.textContent=t(d.already); return; }
+
+  document.getElementById("soonbtn").addEventListener("click",function(){
+    box.innerHTML='<form id="soonform" class="soonform">'
+      +'<label class="sr" for="soonmail">'+esc(t(d.mailph))+'</label>'
+      +'<input id="soonmail" name="email" type="email" placeholder="'+esc(t(d.mailph))+'">'
+      +'<button class="btn" type="submit">'+esc(t(d.send))+'</button></form>';
+    document.getElementById("soonmail").focus();
+    document.getElementById("soonform").addEventListener("submit",function(e){
+      e.preventDefault();
+      var mail=document.getElementById("soonmail").value.trim();
+      var finish=function(ok){
+        try{ localStorage.setItem("liminex-india","1"); }catch(e){}
+        box.innerHTML="";
+        stat.className="formstat is-ok";
+        stat.textContent = ok ? (mail?t(d.ok):t(d.okq)) : t(d.fail);
+      };
+      if(typeof FORM_ENDPOINT!=="string" || !FORM_ENDPOINT){ finish(true); return; }
+      var fd=new FormData();
+      if(typeof FORM_KEY==="string" && FORM_KEY) fd.append("access_key",FORM_KEY);
+      fd.append("subject","Liminex \u2014 interest: production in India");
+      fd.append("_subject","Liminex \u2014 interest: production in India");
+      fd.append("email", mail || "no address given");
+      fd.append("message","Someone registered interest in series production in India."
+        +(mail?"":" They did not leave an address."));
+      fetch(FORM_ENDPOINT,{method:"POST",body:fd,headers:{"Accept":"application/json"}})
+        .then(function(r){ finish(r.ok); })
+        .catch(function(){ finish(false); });
+    });
+  });
+}
+
 function renderArea(id){
   if(id==="web") return renderWeb();
   if(id==="yard") return renderYard();
@@ -416,6 +509,7 @@ function renderArea(id){
     +stepList(d.steps,STEPICONS[id]);
   if(d.note) h+='<div class="marginnote"><h3>'+esc(t(d.noteh))+'</h3><p>'+esc(t(d.note))+'</p></div>';
   h+='</div></section>';
+  if(id==="make") h+=indiaPanel();
   h+='<section class="band band--tight"><div class="wrap">'+expBlock(true,id)
     +ctaBlock(lang==="nl"?"Zullen we hier een half uur over praten?":"Shall we spend half an hour on this?")
     +'</div></section>';
@@ -603,10 +697,15 @@ function wireForm(f){
     fetch(FORM_ENDPOINT,{method:"POST",body:data,headers:{"Accept":"application/json"}})
       .then(function(r){ if(!r.ok) throw new Error(r.status);
         f.reset(); stat.className="formstat is-ok"; stat.textContent=t(d.ok); })
-      .catch(function(){
+      .catch(function(err){
+        var link=mailtoLink(get("ty"),body);
         stat.className="formstat is-bad";
-        stat.innerHTML = esc(t(d.fail))+' <a href="'+mailtoLink(get("ty"),body)+'">'
+        stat.innerHTML = esc(t(d.fail))+' <a href="'+link+'">'
           +(lang==="nl"?"Open mijn mailprogramma":"Open my mail app")+'</a>';
+        /* Network-level failure: the request never reached anyone. Open the mail client
+           ourselves so the message still goes out. An HTTP error code means the service
+           answered, so there we leave the choice to the visitor. */
+        if(err instanceof TypeError) window.location.href=link;
       })
       .then(function(){ btn.disabled=false; });
   });
@@ -655,6 +754,7 @@ function render(moveFocus){
   window.scrollTo(0,0);
   setupReveal();
   setupForm();
+  setupSoon();
 }
 /* The opening collapses over the first ~85% of a screen height of scrolling.
    p = 0 fully open, p = 1 fully closed. The nav slides in as it closes. */

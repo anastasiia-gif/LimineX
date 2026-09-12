@@ -34,19 +34,39 @@ def read(f): return open(p(f), encoding="utf-8").read()
 #
 # Both can be overridden by environment variables, which is how the CI workflow
 # sets them without anyone editing this file.
-SITE_ORIGIN   = os.environ.get("SITE_ORIGIN", "https://anastasiia-gif.github.io")
-BASE_PATH     = os.environ.get("BASE_PATH", "/LimineX").rstrip("/")
-CUSTOM_DOMAIN = os.environ.get("CUSTOM_DOMAIN", "")   # writes dist/CNAME when set
+# GitHub passes an unset repository variable as an EMPTY STRING, not as "missing", so
+# os.environ.get(name, default) would hand back "" and quietly lose the default. env()
+# falls back on empty values too.
+def env(name, default=""):
+    return (os.environ.get(name) or "").strip() or default
+
+SITE_ORIGIN   = env("SITE_ORIGIN", "https://anastasiia-gif.github.io")
+BASE_PATH     = env("BASE_PATH", "/LimineX").rstrip("/")
+CUSTOM_DOMAIN = env("CUSTOM_DOMAIN")          # writes dist/CNAME when set
 
 # Where the contact form posts. A static site cannot send mail itself, so this is a
 # form-to-email service — see the README for how to get one. Leave it empty and the
 # form falls back to opening the visitor's own mail client instead.
-FORM_ENDPOINT = os.environ.get("FORM_ENDPOINT", "")
+FORM_ENDPOINT = env("FORM_ENDPOINT")
 # Web3Forms and Formspree-style services want a key posted with the form. Set it as a
 # repository variable next to FORM_ENDPOINT; leave empty for services that don't use one.
-FORM_KEY = os.environ.get("FORM_KEY", "")
+FORM_KEY = env("FORM_KEY")
 # Where enquiries land. Used in the footer, the form fallback and the structured data.
-CONTACT_EMAIL = os.environ.get("CONTACT_EMAIL", "anastasiia@liminex.net")
+CONTACT_EMAIL = env("CONTACT_EMAIL", "anastasiia@liminex.net")
+
+# Two ways this has already gone wrong once, caught here instead of on the live site.
+if FORM_ENDPOINT and "formsubmit.co" in FORM_ENDPOINT:
+    print("  !! FORM_ENDPOINT points at formsubmit.co. Ad blockers and filtered company\n"
+          "     DNS block that host, so the form fails before it sends and the visitor\n"
+          "     never reaches you. Use https://api.web3forms.com/submit with FORM_KEY.\n"
+          "     Dropping the endpoint for this build; the form will open the mail client.")
+    FORM_ENDPOINT = ""
+if FORM_ENDPOINT and "web3forms" in FORM_ENDPOINT and not FORM_KEY:
+    print("  !! Web3Forms needs FORM_KEY. Without it every submission is rejected.\n"
+          "     Dropping the endpoint for this build; the form will open the mail client.")
+    FORM_ENDPOINT = ""
+print("  contact address:", CONTACT_EMAIL)
+print("  form endpoint:  ", FORM_ENDPOINT or "(none - form opens the mail client)")
 
 SITE_URL = SITE_ORIGIN + BASE_PATH        # no trailing slash
 OG_IMAGE = SITE_URL + "/og.png"
@@ -68,13 +88,13 @@ PAGES = [
    "intro":"Websites and AI on one side, prototyping, electronics and control on the other. Four engineers in 's-Hertogenbosch."}},
 
  {"id":"web",   "nl":{"slug":"website-laten-maken", "nav":"IT & Web", "title":"Website laten maken in Den Bosch | Liminex",
-   "desc":"Websites, webshops en toegankelijkheidschecks voor het mkb in Noord-Brabant. Plus AI die in uw proces zit in plaats van in een browsertab.",
+   "desc":"Websites en webshops voor het mkb in Noord-Brabant, gebouwd op WCAG 2.1 AA. Plus AI die in uw proces zit in plaats van in een browsertab.",
    "h1":"Website laten maken in Den Bosch en Noord-Brabant",
-   "intro":"Websites die klanten opleveren, webshops, toegankelijkheidschecks tegen WCAG 2.1 AA, en AI die in uw proces zit in plaats van in een browsertab."},
+   "intro":"Websites die klanten opleveren, webshops die op elk toestel werken, en AI die in uw proces zit in plaats van in een browsertab."},
    "en":{"nav":"IT & Web", "slug":"web-and-ai", "title":"Web development and AI for SMEs | Liminex",
-   "desc":"Websites, online shops and accessibility audits for SMEs in Noord-Brabant, plus AI that sits inside your process instead of in a browser tab.",
+   "desc":"Websites and online shops for SMEs in Noord-Brabant, built to WCAG 2.1 AA, plus AI that sits inside your process instead of in a browser tab.",
    "h1":"Web development and AI for SMEs in Noord-Brabant",
-   "intro":"Websites that bring in customers, online shops, accessibility audits against WCAG 2.1 AA, and AI that sits inside your process."}},
+   "intro":"Websites that bring in customers, online shops that work on every device, and AI that sits inside your process instead of in a browser tab."}},
 
  {"id":"proto", "nl":{"slug":"prototyping", "nav":"Prototyping", "title":"Prototype laten maken | Liminex, Noord-Brabant",
    "desc":"Van schets naar werkend prototype: mechanica, elektronica, firmware en besturing in één team, op mkb-schaal. Eigen machines in huis.",
@@ -182,8 +202,9 @@ if os.path.isdir(work):
         print("  screenshot:", f)
 
 # Renders and photos for the cascade sections. Name the file after the key the page
-# asks for — "how-1".."how-4" for the home process, "domain-<icon>" for each engineering
-# domain (domain-mech, domain-pcb, domain-drone, ...). Any of jpg/png/webp.
+# asks for — "how-1".."how-4" for the home process rows, "web-1".."web-3" for the IT & Web
+# rows, "domain-<icon>" for each engineering domain (domain-mech, domain-pcb, domain-drone,
+# ...). Any of jpg/png/webp.
 # Without a file the section falls back to the line drawing, so partial sets are fine.
 renders = {}
 rdir = p("assets/renders")
@@ -216,7 +237,7 @@ LD = json.dumps({
     "knowsAbout": ["prototyping", "3D printing", "laser cutting", "CNC machining",
                    "electronics", "PCB design", "firmware", "embedded systems",
                    "control systems", "drone systems", "CAD design",
-                   "web development", "web accessibility", "AI for SMEs"],
+                   "web development", "AI for SMEs"],
 }, ensure_ascii=False)
 
 # ---------------------------------------------------------------- write
@@ -314,7 +335,7 @@ llms = ["# Liminex", "",
 for pg in PAGES:
     llms.append("- [%s](%s%s): %s" % (pg["en"]["nav"], SITE_ORIGIN, url_for(pg, "en"), pg["en"]["desc"]))
 llms += ["", "## What we do", "",
-         "- Websites, online shops, and WCAG 2.1 AA accessibility audits",
+         "- Websites and online shops, built to WCAG 2.1 AA",
          "- AI and workflow automation for small and medium businesses",
          "- Prototyping: mechanics, electronics, PCB design, firmware, control engineering",
          "- Robotics, drones and UAV systems, CAD and design for manufacturing",

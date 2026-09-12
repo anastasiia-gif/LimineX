@@ -182,8 +182,8 @@ home:{
   more:{nl:"Bekijken", en:"View"},
   /* the one fact per area that makes someone click. Sourced where it's a number. */
   hooks:{
-    web:{nl:"De ACM controleerde in maart 2026 grote Nederlandse webshops: ongeveer 60% voldeed niet aan de toegankelijkheidseisen.",
-         en:"In March 2026 the Dutch ACM checked large webshops: around 60% did not meet the accessibility requirements."},
+    web:{nl:"Zeven op de tien mkb-bedrijven heeft een website, maar bij veel bedrijven is die jaren oud en levert hij niets op.",
+         en:"Seven in ten SMEs have a website, but for many it is years old and brings in nothing."},
     proto:{nl:"Een ontwerpfout op dinsdag is woensdag een nieuw onderdeel \u2014 omdat de machines hier staan.",
            en:"A design mistake on Tuesday is a new part on Wednesday \u2014 because the machines are here."},
     make:{nl:"Onder een paar honderd stuks wint Nederland bijna altijd van India. Wij rekenen het voor en zeggen het eerlijk.",
@@ -256,8 +256,8 @@ home:{
   ctab:{nl:"Neem contact op", en:"Get in touch"}
 },
 foot:{
-  seo:{nl:"Liminex is een engineeringbureau in 's-Hertogenbosch. Wij bouwen websites en webshops, doen toegankelijkheidschecks en AI-automatisering, en ontwikkelen prototypes: mechanica, elektronica, PCB-ontwerp, firmware, besturingstechniek, robotica, drones en CAD. Kleine series maken we zelf met 3D-printen, lasersnijden en CNC. Actief in Noord-Brabant \u2014 's-Hertogenbosch, Eindhoven, Tilburg, Breda \u2014 en de rest van Nederland.",
-       en:"Liminex is an engineering firm in 's-Hertogenbosch, the Netherlands. We build websites and online shops, run accessibility audits and AI automation, and develop prototypes: mechanics, electronics, PCB design, firmware, control engineering, robotics, drones and CAD. Short runs we make ourselves with 3D printing, laser cutting and CNC. Working across Noord-Brabant \u2014 's-Hertogenbosch, Eindhoven, Tilburg, Breda \u2014 and the rest of the Netherlands."},
+  seo:{nl:"Liminex is een engineeringbureau in 's-Hertogenbosch. Wij bouwen websites en webshops, doen AI-automatisering, en ontwikkelen prototypes: mechanica, elektronica, PCB-ontwerp, firmware, besturingstechniek, robotica, drones en CAD. Kleine series maken we zelf met 3D-printen, lasersnijden en CNC. Actief in Noord-Brabant \u2014 's-Hertogenbosch, Eindhoven, Tilburg, Breda \u2014 en de rest van Nederland.",
+       en:"Liminex is an engineering firm in 's-Hertogenbosch, the Netherlands. We build websites and online shops, do AI automation, and develop prototypes: mechanics, electronics, PCB design, firmware, control engineering, robotics, drones and CAD. Short runs we make ourselves with 3D printing, laser cutting and CNC. Working across Noord-Brabant \u2014 's-Hertogenbosch, Eindhoven, Tilburg, Breda \u2014 and the rest of the Netherlands."},
   formh:{nl:"Stuur ons twee zinnen",en:"Send us two sentences"},
   formd:{nl:"Vertel kort wat er moet gebeuren. U krijgt binnen \u00e9\u00e9n werkdag antwoord van de engineer die het zou doen \u2014 ook als dat antwoord \u2018dit past niet bij ons\u2019 is.",
          en:"Tell us briefly what needs to happen. You'll hear back within one working day from the engineer who would do it \u2014 including if the answer is \u2018this isn't for us\u2019."},
@@ -308,12 +308,9 @@ web:{
   exhibd:{nl:"Dit is wat we tot nu toe hebben opgeleverd. Beide sites staan live en worden nog gebruikt.",
           en:"This is what we have delivered so far. Both sites are live and still in use."},
   svcs:[
-    {n:{nl:"Toegankelijkheidscheck + herstel",en:"Accessibility audit + fix"},
-     d:{nl:"Sinds 28 juni 2025 geldt de European Accessibility Act. Verkoopt u online en heeft u meer dan tien medewerkers óf meer dan €2 miljoen omzet, dan valt u eronder. De ACM controleerde in maart 2026 grote Nederlandse webshops en vond dat ongeveer 60% niet voldeed. Wij testen, rapporteren en repareren — en we hebben dezelfde check op onze eigen site gedraaid voordat we hem gingen verkopen.",
-        en:"The European Accessibility Act has applied since 28 June 2025. If you sell online and have more than ten staff or over €2m turnover, you are in scope. In March 2026 the ACM tested large Dutch webshops and found around 60% non-compliant. We test, report and fix — and we ran the same audit on our own site before we started selling it."}},
     {n:{nl:"Website of webshop",en:"Website or online shop"},
-     d:{nl:"Van één pagina tot een site met een echt contentsysteem, tweetalig, snel en vindbaar. U kunt de teksten zelf aanpassen.",
-        en:"From a single page to a site with a real content system, bilingual, fast and findable. You can edit the text yourself."}},
+     d:{nl:"Van één pagina tot een site met een echt contentsysteem, tweetalig, snel en vindbaar. U kunt de teksten zelf aanpassen. Elke site die wij opleveren voldoet aan WCAG 2.1 AA — we draaien die test op onze eigen site ook, voor elke wijziging.",
+        en:"From a single page to a site with a real content system, bilingual, fast and findable. You can edit the text yourself. Every site we deliver meets WCAG 2.1 AA — we run that test on our own site too, before every change."}},
     {n:{nl:"AI-automatisering",en:"AI automation"},
      d:{nl:"Eén proces dat nu handwerk is en dat niet hoeft te zijn: offertes uit e-mail halen, facturen inlezen, post sorteren, rapportages die zichzelf maken. We beginnen met het proces dat u het meeste tijd kost.",
         en:"One process that is manual today and doesn't need to be: pulling quotes out of email, reading invoices, triaging messages, reports that write themselves. We start with whatever costs you the most time."}},
@@ -351,6 +348,22 @@ proto:{
     {h:{nl:"Besturing & robotica",en:"Control & robotics"},p:{nl:"Machinebesturing, aandrijving, meet- en regeltechniek.",en:"Machine control, drives, measurement and regulation."}},
     {h:{nl:"Data & simulatie",en:"Data & simulation"},p:{nl:"Python, meetdata, modellen. Uitrekenen wat er gebeurt voordat u bouwt.",en:"Python, measurement data, models. Working out what happens before you build."}}
   ]
+},
+india:{
+  lbl:{nl:"Binnenkort",en:"Coming soon"},
+  h:{nl:"Serieproductie in India",en:"Series production in India"},
+  p:{nl:"We zijn een route naar Indiase fabrikanten aan het opzetten voor klanten die naar grotere aantallen gaan. Nog niet live \u2014 we willen eerst weten of er vraag naar is voordat we er tijd in steken.\n\nInteresse? Eén klik, en uw e-mailadres als u bericht wilt wanneer het zover is. Verder niets.",
+     en:"We are setting up a route to Indian manufacturers for clients moving to larger volumes. Not live yet \u2014 we want to know whether there is demand before we put time into it.\n\nInterested? One click, plus your email address if you want to hear when it is ready. Nothing else."},
+  btn:{nl:"Ja, hier heb ik interesse in",en:"Yes, I'd be interested"},
+  mailph:{nl:"uw e-mailadres (optioneel)",en:"your email address (optional)"},
+  send:{nl:"Doorgeven",en:"Register interest"},
+  ok:{nl:"Genoteerd, dank u. We laten het weten zodra dit er is.",
+      en:"Noted, thank you. We'll let you know when this is ready."},
+  okq:{nl:"Genoteerd \u2014 zonder e-mailadres, dus we tellen u mee maar kunnen u niet bereiken.",
+       en:"Noted \u2014 without an email address, so you're counted but we can't reach you."},
+  fail:{nl:"Doorgeven lukte niet. Mail ons gerust rechtstreeks.",
+        en:"That didn't register. Feel free to email us directly."},
+  already:{nl:"U heeft hier al interesse in doorgegeven. Dank.",en:"You've already registered interest. Thank you."}
 },
 make:{
   lede:{nl:"Eerst hier maken, dan pas opschalen. Wij zijn eerlijk over waar dat omslagpunt ligt.",
@@ -445,9 +458,6 @@ price:{
       {n:{nl:"Webshop",en:"Online shop"},
        d:{nl:"Producten, betalen, verzenden, voorraad. Prijs hangt vooral aan hoeveel uitzonderingen er in uw verzending zitten.",en:"Products, payments, shipping, stock. The price hangs mostly on how many exceptions live in your shipping rules."},
        v:"\u20ac3.500 \u2013 8.000"},
-      {n:{nl:"Toegankelijkheidscheck + herstel",en:"Accessibility audit + fix"},
-       d:{nl:"Testen tegen WCAG 2.1 AA, rapport met wat er stuk is, en het repareren. Verplicht voor veel webshops sinds de European Accessibility Act.",en:"Tested against WCAG 2.1 AA, a report of what is broken, and the repair. Mandatory for many online shops since the European Accessibility Act."},
-       v:"\u20ac600 \u2013 1.800"},
       {n:{nl:"Onderhoud en hosting",en:"Maintenance and hosting"},
        d:{nl:"Updates, back-ups, kleine wijzigingen. Per maand, opzegbaar.",en:"Updates, backups, small changes. Per month, cancel any time."},
        v:{nl:"\u20ac30 \u2013 90 / maand",en:"\u20ac30 \u2013 90 / month"}}
