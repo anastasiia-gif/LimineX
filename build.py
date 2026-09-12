@@ -228,16 +228,19 @@ def has_alpha(path):
 
 cutouts = []
 renders = {}
+render_files = []
 rdir = p("assets/renders")
 if os.path.isdir(rdir):
     for f in sorted(os.listdir(rdir)):
         key, ext = os.path.splitext(f)
         if ext.lower() not in (".jpg", ".jpeg", ".png", ".webp"):
             continue
-        mime = mimetypes.types_map.get(ext.lower(), "image/jpeg")
         full = os.path.join(rdir, f)
-        renders[key] = "data:%s;base64,%s" % (
-            mime, base64.b64encode(open(full, "rb").read()).decode())
+        # Renders are copied to dist/assets/renders/ and referenced by URL rather than
+        # embedded: with twenty-odd pictures, base64 in the shared JS would put every
+        # picture on every page. Root-relative so it resolves at any page depth.
+        render_files.append(full)
+        renders[key] = "%s/assets/renders/%s" % (BASE_PATH, f)
         cut = has_alpha(full)
         if cut:
             cutouts.append(key)
@@ -286,6 +289,10 @@ if _missing:
 dist = p("dist")
 shutil.rmtree(dist, ignore_errors=True)
 os.makedirs(p("dist/assets"), exist_ok=True)
+if render_files:
+    os.makedirs(p("dist/assets/renders"), exist_ok=True)
+    for f in render_files:
+        shutil.copy(f, p("dist/assets/renders", os.path.basename(f)))
 
 _css_body = read("src/styles.css")
 _js_body = "\n".join([

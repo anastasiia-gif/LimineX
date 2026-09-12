@@ -14,5 +14,13 @@ CUT-OUT vs FRAMED — decided by the file, not by the code:
   a JPG, or a PNG with a solid background      -> drawn inside a frame
 
 So to turn a picture into a floating object, knock its background out and save
-it as PNG. `python3 build.py` prints "cut-out" or "framed" for every file it
-picks up, so you can check without opening the site.
+it as PNG or WebP. `python3 build.py` prints "cut-out" or "framed" for every
+file it picks up, so you can check without opening the site.
+
+The easy way:  python3 tools/cutout.py path/to/picture.png
+It removes the background (rembg), trims to the object and writes a WebP here
+under the same name. Works on any studio shot with a plain ground. Scenes —
+a room, a car roof, people at a table — should stay framed: save those as JPG.
+
+Renders are copied to dist/assets/renders/ and referenced by URL, not embedded,
+so file size only costs the page that shows them.

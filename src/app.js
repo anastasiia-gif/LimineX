@@ -167,14 +167,28 @@ function discGrid(){
     +'<div class="disc rv">';
   for(var i=0;i<D.items.length;i++){
     var it=D.items[i];
-    h+='<div>'+(ICON[it.ic]||'')+'<h3>'+esc(t(it.t))+'</h3>'
+    /* assets/renders/domain-<ic>.png — a cut-out floats above the card text;
+       a framed picture sits in a rounded box. No file, no picture. */
+    var dsrc=(typeof RENDERS!=="undefined") && RENDERS["domain-"+it.ic];
+    var dcut=dsrc && typeof CUTOUT!=="undefined" && CUTOUT.indexOf("domain-"+it.ic)>=0;
+    h+='<div>'
+      +(dsrc?'<span class="dpic'+(dcut?' dpic--cut':'')+'"><img src="'+dsrc+'" alt="" loading="lazy"></span>':'')
+      +(ICON[it.ic]||'')+'<h3>'+esc(t(it.t))+'</h3>'
       +'<p>'+esc(t(it.p))+'</p>'
       +(it.ex?'<p class="eg"><span>'+(lang==="nl"?"Voorbeeld":"Example")+'</span>'+esc(t(it.ex))+'</p>':'')
       +'<div class="tags">'+esc(it.k)+'</div></div>';
   }
-  h+='</div><div class="discshots rv">';
-  for(var j=0;j<D.shots.length;j++) h+=ph(t(D.shots[j].t),t(D.shots[j].s));
-  return h+'</div>';
+  h+='</div>';
+  /* The three photo placeholders under the grid only matter while the cards have no
+     pictures of their own; once any domain-* render exists they go. */
+  var anyDomain=false;
+  if(typeof RENDERS!=="undefined") for(var k in RENDERS){ if(k.indexOf("domain-")===0) anyDomain=true; }
+  if(!anyDomain){
+    h+='<div class="discshots rv">';
+    for(var j=0;j<D.shots.length;j++) h+=ph(t(D.shots[j].t),t(D.shots[j].s));
+    h+='</div>';
+  }
+  return h;
 }
 
 /* The engineering drawings appear as corner marks on each page opener. The framed
@@ -262,8 +276,10 @@ function renderHome(){
   for(var i=0;i<AREAS.length;i++){
     var ar=AREAS[i];
     var cimg = (typeof RENDERS!=="undefined") && RENDERS["card-"+ar.id];
+    /* a transparent PNG floats in the card's preview area, same rule as altRows */
+    var ccut = cimg && typeof CUTOUT!=="undefined" && CUTOUT.indexOf("card-"+ar.id)>=0;
     h+=go(ar.id,' class="block rv"')
-      +'<span class="prev'+(cimg?' has-img':'')+'">'
+      +'<span class="prev'+(cimg?(ccut?' has-cut':' has-img'):'')+'">'
         +(cimg ? '<img src="'+cimg+'" alt="" loading="lazy">'
                : GLYPH[ar.glyph]+'<span class="cap">'+esc(t(d.shots[ar.id]))+'</span>')
       +'</span>'
