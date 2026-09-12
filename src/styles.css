@@ -12,17 +12,20 @@
   --dark:#101014; --dark-ink:#FFFFFF; --dark-muted:#A9ABB4; --dark-hair:#2C2E36;
   --dark-accent:#70B9F8;     /* 9.0:1 on the dark ground */
   --r:22px;
+  --bub:35 73 178;           /* brand blue, as channels, for the header bubbles */
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     --paper:#0B0B0E; --paper2:#131419; --ink:#F2F3F6; --muted:#9C9EA8; --hair:#2A2C34;
     --accent:#8FC6FF;
     --dark:#F2F3F6; --dark-ink:#15161A; --dark-muted:#5B5D66; --dark-hair:#D8DAE2; --dark-accent:#2349B2;
+    --bub:143 198 255;
   }
 }
 :root[data-theme="dark"]{
   --paper:#0B0B0E; --paper2:#131419; --ink:#F2F3F6; --muted:#9C9EA8; --hair:#2A2C34;
   --accent:#8FC6FF;
+  --bub:143 198 255;
   --dark:#F2F3F6; --dark-ink:#15161A; --dark-muted:#5B5D66; --dark-hair:#D8DAE2; --dark-accent:#2349B2;
 }
 *{box-sizing:border-box}
@@ -237,15 +240,26 @@ section.band--dark .svc p{color:var(--dark-muted)}
   .altrow:nth-child(even) .altmedia{order:0}}
 .altmedia .ph{aspect-ratio:16/10;margin:0}
 .altmedia img{width:100%;height:auto;border-radius:var(--r);display:block}
+/* Cut-outs: the object floats on the page rather than sitting in a frame. */
+.altmedia--cut{display:flex;align-items:center;justify-content:center;min-height:clamp(220px,28vw,380px)}
+.altmedia--cut img{border-radius:0;width:auto;max-width:100%;max-height:clamp(240px,32vw,420px);
+  filter:drop-shadow(0 26px 34px rgb(21 22 26/.16)) drop-shadow(0 4px 8px rgb(21 22 26/.08))}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .altmedia--cut img{filter:drop-shadow(0 26px 40px rgb(0 0 0/.55))}
+}
+:root[data-theme="dark"] .altmedia--cut img{filter:drop-shadow(0 26px 40px rgb(0 0 0/.55))}
 .alttext .sn{display:block;font-size:11px;letter-spacing:.2em;color:var(--accent);
   margin-bottom:12px;font-variant-numeric:tabular-nums}
 .alttext h3{font-size:clamp(21px,2.3vw,29px);letter-spacing:-.025em;margin:0 0 14px}
 .alttext p{margin:0;color:var(--muted);font-size:16.5px;line-height:1.65;max-width:48ch}
 
 /* story and the numbers, side by side */
-.whorow{display:grid;grid-template-columns:1.25fr 1fr;gap:clamp(32px,6vw,80px);
-  align-items:start;margin-top:46px}
-@media (max-width:860px){.whorow{grid-template-columns:1fr;gap:44px}}
+.whorow{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(240px,.8fr);
+  gap:clamp(32px,7vw,96px);align-items:start}
+@media (max-width:860px){.whorow{grid-template-columns:1fr;gap:40px}}
+.whotext h2{max-width:17ch}
+.whotext p{margin-top:22px;max-width:56ch}
+.whorow .stats--side{padding-top:clamp(4px,4vw,58px)}
 .whorow .stats--side{grid-template-columns:1fr;gap:32px;margin-top:6px}
 @media (max-width:860px){.whorow .stats--side{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:26px}}
 
@@ -259,6 +273,68 @@ section.band--dark .svc p{color:var(--dark-muted)}
 .soonform input:focus{outline:none;border-bottom-color:var(--accent)}
 .sr{position:absolute;left:-9999px}
 #soonbox{margin-top:10px}
+
+
+/* ---------------- header bubbles ----------------
+   Soft brand-coloured circles behind every page opener, so the top of a page has
+   depth without a picture. Purely decorative: drawn on a pseudo-element, below the
+   type, and never sized in a way that can create a scrollbar. */
+.opener{isolation:isolate;overflow:hidden}
+.opener::before{
+  content:"";position:absolute;inset:-18% 0 -10%;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(closest-side,rgb(var(--bub)/.20),rgb(var(--bub)/0)) 6% 22%/min(360px,48vw) min(360px,48vw) no-repeat,
+    radial-gradient(closest-side,rgb(var(--bub)/.13),rgb(var(--bub)/0)) 94% 6%/min(280px,38vw) min(280px,38vw) no-repeat,
+    radial-gradient(closest-side,rgb(var(--bub)/.10),rgb(var(--bub)/0)) 78% 88%/min(460px,60vw) min(460px,60vw) no-repeat,
+    radial-gradient(closest-side,rgb(var(--bub)/.09),rgb(var(--bub)/0)) 26% 96%/min(220px,30vw) min(220px,30vw) no-repeat;
+}
+@media (max-width:640px){
+  .opener::before{background-size:min(240px,60vw) min(240px,60vw),min(180px,46vw) min(180px,46vw),
+                                  min(260px,66vw) min(260px,66vw),min(160px,40vw) min(160px,40vw)}
+}
+
+/* the corner drawings again, fainter, so the plain sections are not bare white */
+.band{position:relative}
+.band>.wrap,.band>.narrow{position:relative;z-index:1}
+.wmark--band svg{opacity:.05;width:clamp(150px,20vw,260px)}
+.wmark--band svg:first-child{top:auto;bottom:4%;left:-2%}
+.wmark--band svg:last-child{top:2%;bottom:auto;right:-2%}
+@media (max-width:760px){.wmark--band{display:none}}
+
+/* ---------------- Project Yard: the page wears the posters' palette ---------------- */
+.page-yard{--bub:92 35 178}
+.page-yard .opener{background:linear-gradient(152deg,#12285F 0%,#2349B2 48%,#5C23B2 100%);
+  color:#FFFFFF;padding:104px 0 76px;margin-bottom:8px}
+.page-yard .opener::before{
+  background:
+    radial-gradient(closest-side,rgb(255 255 255/.16),rgb(255 255 255/0)) 8% 18%/min(380px,50vw) min(380px,50vw) no-repeat,
+    radial-gradient(closest-side,rgb(112 185 248/.28),rgb(112 185 248/0)) 92% 10%/min(300px,40vw) min(300px,40vw) no-repeat,
+    radial-gradient(closest-side,rgb(255 255 255/.10),rgb(255 255 255/0)) 74% 86%/min(460px,62vw) min(460px,62vw) no-repeat;
+}
+.page-yard .opener .lbl{color:#C9D6FF}
+.page-yard .opener .wmark svg{color:#FFFFFF;opacity:.13}
+.page-yard .band--grey{background:linear-gradient(180deg,#F4F3FC,#FAF9FE)}
+.page-yard .band--dark{background:linear-gradient(152deg,#12285F,#3B2BC0 60%,#5C23B2)}
+.page-yard .lbl{color:#5C23B2}
+.page-yard .band--dark .lbl{color:#C9D6FF}
+.page-yard .grid4 svg,.page-yard .svc svg{color:#5C23B2}
+.page-yard .btn{background:linear-gradient(140deg,#2440E0,#5C23B2);color:#FFFFFF}
+.page-yard .inlink,.page-yard a:not(.btn):not(.fcard){color:#5C23B2}
+.page-yard .band--dark a:not(.btn){color:#C9D6FF}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .page-yard .band--grey{background:linear-gradient(180deg,#15131F,#100F17)}
+  :root:not([data-theme="light"]) .page-yard .lbl{color:#C3A9FF}
+  :root:not([data-theme="light"]) .page-yard .grid4 svg,
+  :root:not([data-theme="light"]) .page-yard .svc svg{color:#C3A9FF}
+  :root:not([data-theme="light"]) .page-yard .inlink,
+  :root:not([data-theme="light"]) .page-yard a:not(.btn):not(.fcard){color:#C3A9FF}
+}
+:root[data-theme="dark"] .page-yard .band--grey{background:linear-gradient(180deg,#15131F,#100F17)}
+:root[data-theme="dark"] .page-yard .lbl{color:#C3A9FF}
+:root[data-theme="dark"] .page-yard .grid4 svg,
+:root[data-theme="dark"] .page-yard .svc svg{color:#C3A9FF}
+:root[data-theme="dark"] .page-yard .inlink,
+:root[data-theme="dark"] .page-yard a:not(.btn):not(.fcard){color:#C3A9FF}
 
 /* ---------------- disciplines ---------------- */
 .disc{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2px;margin-top:56px;

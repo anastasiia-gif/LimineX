@@ -67,23 +67,18 @@ function renderFooter(){
   document.getElementById("f-seo").textContent=t(C.foot.seo);
   var fm=document.getElementById("f-mail");
   if(fm){ fm.textContent=mailAddress(); fm.setAttribute("href","mailto:"+mailAddress()); }
-  document.getElementById("f-formh").textContent=t(C.foot.formh);
-  document.getElementById("f-formd").textContent=t(C.foot.formd);
-  document.getElementById("foot-cta").hidden = (page==="contact");
-  /* No form down here — just a clear way to the one on the Contact page. */
-  document.getElementById("foot-cta-action").innerHTML =
-    '<div class="footact">'
-    + go("contact",' class="btn"') + esc(t(C.home.ctab)) + '</a>'
-    + '<a class="mail" href="mailto:anastasiia@liminex.net">anastasiia@liminex.net</a></div>';
+  /* Nothing above the footer columns: every page already closes on its own call to
+     action, and a second one right underneath said the same thing twice. */
   document.getElementById("foot-tag").textContent=t(C.home.tagline);
 }
-function svcList(list,heading,icons){
+function svcList(list,heading,icons,noPrice){
   var h=(heading?'<h2>'+esc(heading)+'</h2>':'')+'<div class="svcs">';
   for(var i=0;i<list.length;i++){
     var ic = icons && ICON[icons[i]];
     h+='<div class="svc'+(ic?' svc--ic':'')+'">'+(ic||'')
       +'<h3>'+esc(t(list[i].n))+'</h3><p>'+esc(t(list[i].d))+'</p></div>';
   }
+  if(noPrice) return h+'</div>';
   return h+'</div><p class="onreq">'
     +(lang==="nl"
         ? "Elk project is anders, dus dit is geen prijslijst. Wat vergelijkbaar werk ongeveer kost, staat op de pagina "
@@ -148,8 +143,11 @@ function altRows(items){
   for(var i=0;i<items.length;i++){
     var it=items[i];
     var src=(typeof RENDERS!=="undefined") && RENDERS[it.key];
+    /* A picture with a transparent background is drawn free on the page — no frame,
+       no box — which is what build.py flags as a cut-out. Everything else gets a frame. */
+    var cut=src && typeof CUTOUT!=="undefined" && CUTOUT.indexOf(it.key)>=0;
     h+='<div class="altrow rv">'
-      +'<div class="altmedia">'
+      +'<div class="altmedia'+(cut?' altmedia--cut':'')+'">'
       +(src ? '<img src="'+src+'" alt="" loading="lazy">'
             : ph(t(it.shot), lang==="nl"?"16:10":"16:10"))
       +'</div>'
@@ -197,6 +195,12 @@ function watermark(id){
   var pair=WMARKS[id];
   if(!pair) return "";
   return '<div class="wmark" aria-hidden="true">'+DRAW[pair[0]]+DRAW[pair[1]]+'</div>';
+}
+/* The same marks, fainter, for the plain white sections between the openers —
+   otherwise every second screen is an unbroken white field. Pass two drawing names. */
+function bandMark(a,b){
+  if(!DRAW[a] || !DRAW[b]) return "";
+  return '<div class="wmark wmark--band" aria-hidden="true">'+DRAW[a]+DRAW[b]+'</div>';
 }
 /* The experience section every activity page ends on: engineering work for this area,
    then the two public websites, then the ask. Pass an area id to filter. */
@@ -272,7 +276,7 @@ function renderHome(){
 
   /* 3. how working with us actually goes */
   h+=flowSplit(1,"var(--paper2)","var(--paper)",5);
-  h+='<section class="band"><div class="wrap">'
+  h+='<section class="band">'+bandMark("rule","gears")+'<div class="wrap">'
     +'<h2 class="rv">'+esc(t(d.howh))+'</h2>'
     +'<p class="deck rv" style="margin-top:18px">'+esc(t(d.howd))+'</p>'
     +altRows([
@@ -284,10 +288,13 @@ function renderHome(){
     +'</div></section>';
 
   /* 4. who we are, the team, and the ask — one dark block */
+  /* The claim and the story sit in one column; the three numbers hold the other, so the
+     headline no longer leaves half the screen empty beside it. */
   h+='<section class="band band--dark"><div class="wrap">'
-    +'<div class="lbl rv">'+esc(t(d.whoh))+'</div>'
-    +'<h2 class="rv" style="margin-top:20px;max-width:19ch">'+esc(t(d.whoq))+'</h2>'
-    +'<div class="whorow rv"><div><p class="muted">'
+    +'<div class="whorow rv"><div class="whotext">'
+    +'<div class="lbl">'+esc(t(d.whoh))+'</div>'
+    +'<h2 style="margin-top:18px">'+esc(t(d.whoq))+'</h2>'
+    +'<p class="muted">'
     +esc(t(d.whop)).split("\n\n").join('</p><p class="muted">')+'</p></div>'
     +'<div class="stats stats--side">';
   for(var s=0;s<d.stats.length;s++)
@@ -317,7 +324,7 @@ function renderAbout(){
     +'<h1>'+esc(t(d.lede))+'</h1></div></section>';
 
   /* the team */
-  h+='<section class="band band--tight"><div class="wrap"><div class="team rv">';
+  h+='<section class="band band--tight">'+bandMark("gears","bench")+'<div class="wrap"><div class="team rv">';
   for(var m=0;m<hm.team.length;m++)
     h+='<div class="p">'+ph(t(hm.team[m].n),lang==="nl"?"Portret \u00b7 4:5":"Portrait \u00b7 4:5")
       +'<div class="nm">'+esc(t(hm.team[m].n))+'</div>'
@@ -348,16 +355,18 @@ function renderWeb(){
     +'<h1>'+esc(t(d.lede))+'</h1></div></section>';
 
   /* 2. what we do — the main content, first on the page */
-  h+='<section class="band band--tight"><div class="narrow">'
+  h+='<section class="band band--tight">'+bandMark("layout","pcb")+'<div class="narrow">'
     +'<p class="deck" style="max-width:none">'+esc(t(d.intro))+'</p></div>'
     +'<div class="wrap"><h2 class="rv">'+(lang==="nl"?"Wat we doen":"What we do")+'</h2>'
     +altRows([
       {key:"web-1", t:d.svcs[0].n, p:d.svcs[0].d, shot:C.home.shots.web},
-      {key:"web-2", t:d.svcs[1].n, p:d.svcs[1].d, shot:{nl:"Foto \u2014 een proces dat geautomatiseerd wordt",
-                                                        en:"Photo \u2014 a process being automated"}},
-      {key:"web-3", t:d.svcs[2].n, p:d.svcs[2].d, shot:{nl:"Foto \u2014 onderhoud en monitoring",
-                                                        en:"Photo \u2014 maintenance and monitoring"}}
+      {key:"web-2", t:d.svcs[1].n, p:d.svcs[1].d, shot:{nl:"Foto \u2014 afrekenen en boeken op een telefoon",
+                                                        en:"Photo \u2014 checkout and booking on a phone"}},
+      {key:"web-3", t:d.svcs[2].n, p:d.svcs[2].d, shot:{nl:"Foto \u2014 een configurator op het scherm",
+                                                        en:"Photo \u2014 a configurator on screen"}}
     ])
+    +'<div class="rv" style="margin-top:64px">'
+    +svcList(d.svcs.slice(3), t(d.moreh), null, true)+'</div>'
     +'<p class="onreq rv" style="margin-top:44px">'
     +(lang==="nl"
         ? "Elk project is anders, dus dit is geen prijslijst. Wat vergelijkbaar werk ongeveer kost, staat op de pagina "
@@ -380,7 +389,7 @@ function renderWeb(){
     +'</div></section>';
 
   /* 4. how a project runs, then experience last */
-  h+='<section class="band"><div class="wrap">'
+  h+='<section class="band">'+bandMark("pcb","layout")+'<div class="wrap">'
     +'<h2>'+(lang==="nl"?"Hoe het gaat":"How it goes")+'</h2>'
     +stepList(d.steps,["web","layout","access","data"])
     +'</div></section>';
@@ -395,7 +404,7 @@ function renderYard(){
   var d=C.yard,h="";
   h+='<section class="opener">'+watermark("yard")+'<div class="narrow"><div class="lbl">Project Yard</div>'
     +'<h1>'+esc(t(d.lede))+'</h1></div></section>';
-  h+='<section class="band band--tight"><div class="wrap">'
+  h+='<section class="band band--tight">'+bandMark("pcb","gears")+'<div class="wrap">'
     +'<div class="lbl lbl--q rv">'+esc(t(d.postersh))+'</div><div class="posters">';
   for(var i=0;i<d.posters.length;i++){
     var p=d.posters[i];
@@ -404,7 +413,7 @@ function renderYard(){
   }
   h+='</div></div></section>';
   h+=flowSplit(4,"var(--paper)","var(--paper)",5);
-  h+='<section class="band band--tight"><div class="narrow">'
+  h+='<section class="band band--tight">'+bandMark("bench","laser")+'<div class="narrow">'
     +'<h2>'+esc(t(d.introh))+'</h2><p class="deck" style="max-width:none;margin-top:24px">'
     +esc(t(d.intro))+'</p></div><div class="wrap">'
     +cardRow(d.cards,["print3d","robot","test","cad"])+'</div></section>';
@@ -419,7 +428,7 @@ function renderYard(){
     +'<a href="'+FORMS.en+'" target="_blank" rel="noopener">'+esc(t(d.open))+' &rarr;</a></div>'
     +'</div><p class="muted rv" style="margin-top:34px;max-width:62ch">'+esc(t(d.status))+'</p>'
     +'</div></section>';
-  h+='<section class="band band--tight"><div class="wrap">'
+  h+='<section class="band band--tight">'+bandMark("rule","signal")+'<div class="wrap">'
     +ctaBlock(lang==="nl"?"Zullen we hier een half uur over praten?":"Shall we spend half an hour on this?")
     +'</div></section>';
   return h;
@@ -487,21 +496,43 @@ function renderArea(id){
     +'<div class="narrow"><div class="lbl">'+esc(aName(a))+'</div>'
     +'<h1>'+esc(t(d.lede))+'</h1></div></section>';
   h+=flowSplit(5,"var(--paper)","var(--paper)",5);
-  h+='<section class="band band--tight"><div class="narrow">'
+  h+='<section class="band band--tight">'+bandMark("printer","cnc")+'<div class="narrow">'
     +'<p class="deck" style="max-width:none">'+esc(t(d.intro))+'</p></div>';
   var SVCICONS={proto:["test","cad","elec","firmware","mech"],
                 make:["print3d","laser","cnc","dfm","pipe"],
                 start:["test","cad","elec","data","robot"]};
   if(d.svcs) h+='<div class="wrap">'
-    +svcList(d.svcs,lang==="nl"?"Wat we doen":"What we do",SVCICONS[id])+'</div>';
+    +svcList(d.svcs,
+             id==="make" ? t(d.aroundh) : (id==="start" ? "" : (lang==="nl"?"Wat we doen":"What we do")),
+             SVCICONS[id], id==="make")+'</div>';
   h+='</section>';
+
+  /* Manufacturing leads on the three machines that are physically here — a picture and
+     what the process is actually good for, alternating sides like the home page. */
+  if(id==="make" && d.machines){
+    h+='<section class="band band--grey">'+bandMark("cnc","printer")+'<div class="wrap">'
+      +'<h2 class="rv">'+esc(t(d.machh))+'</h2>'
+      +'<p class="deck rv" style="margin-top:18px">'+esc(t(d.machd))+'</p>'
+      +altRows(d.machines.map(function(m,i){
+         return {key:m.key, n:no(i+1), t:m.n, p:m.d, shot:m.shot};
+       }))
+      +'</div></section>';
+  }
   if(id==="proto") h+='<section class="band band--grey"><div class="wrap">'+discGrid()+'</div></section>';
+  if(id==="start" && d.svch){
+    h+='<section class="band band--grey">'+bandMark("signal","gears")+'<div class="wrap">'
+      +'<h2 class="rv">'+esc(t(d.svch))+'</h2>'
+      +'<p class="deck rv" style="margin-top:18px">'+esc(t(d.svcd))+'</p>'
+      +'<div class="rv">'+svcList(d.svcs,"",["data","gears","signal"],true)+'</div>'
+      +'</div></section>';
+  }
   var CARDICONS={start:["test","cad","robot","dfm"],make:["dfm","print3d","pipe","data"]};
   /* Prototyping shows the domains grid instead of a generic card row. */
   if(d.cards && id!=="proto") h+='<section class="band band--grey"><div class="wrap">'
     +(d.cardsh?'<h2 class="rv">'+esc(t(d.cardsh))+'</h2>':'')
     +'<div class="rv">'+cardRow(d.cards,CARDICONS[id])+'</div></div></section>';
-  h+='<section class="band"><div class="wrap">';
+  h+='<section class="band">'+bandMark(WMARKS[id]?WMARKS[id][1]:"gears",WMARKS[id]?WMARKS[id][0]:"rule")
+    +'<div class="wrap">';
   var STEPICONS={proto:["test","cad","elec","firmware","dfm"],
                  make:["dfm","cad","print3d","pipe","test"],
                  start:["test","cad","robot","dfm","data"]};
@@ -510,7 +541,8 @@ function renderArea(id){
   if(d.note) h+='<div class="marginnote"><h3>'+esc(t(d.noteh))+'</h3><p>'+esc(t(d.note))+'</p></div>';
   h+='</div></section>';
   if(id==="make") h+=indiaPanel();
-  h+='<section class="band band--tight"><div class="wrap">'+expBlock(true,id)
+  h+='<section class="band band--tight"><div class="wrap">'
+    +(id==="start" ? "" : expBlock(true,id))
     +ctaBlock(lang==="nl"?"Zullen we hier een half uur over praten?":"Shall we spend half an hour on this?")
     +'</div></section>';
   return h;
@@ -521,7 +553,7 @@ function renderWork(){
   var h='<section class="opener">'+watermark("work")+'<div class="narrow"><div class="lbl">Portfolio</div>'
     +'<h1>'+(lang==="nl"?"Werk":"Work")+'</h1><p class="deck">'+esc(t(d.lede))+'</p></div></section>';
   h+=flowSplit(6,"var(--paper)","var(--paper)",5);
-  h+='<section class="band band--tight"><div class="wrap">';
+  h+='<section class="band band--tight">'+bandMark("layout","gears")+'<div class="wrap">';
   for(var i=0;i<d.cases.length;i++){
     var c=d.cases[i];
     h+='<div class="rv" style="margin-bottom:56px">'
@@ -573,7 +605,7 @@ function renderPrice(){
       :"All amounts exclude VAT and are indicative, not a quote.")+'</p></div></section>';
 
   h+=flowSplit(8,"var(--paper2)","var(--paper)",5);
-  h+='<section class="band"><div class="wrap"><h2 class="rv">'+esc(t(d.whyh))+'</h2>'
+  h+='<section class="band">'+bandMark("valve","rule")+'<div class="wrap"><h2 class="rv">'+esc(t(d.whyh))+'</h2>'
     +'<div class="rv">'+cardRow(d.why,["cad","control","test","robot"])+'</div>'
     +'<h2 class="rv" style="margin-top:96px">'+esc(t(d.fixh))+'</h2>'
     +stepList(d.fix,["web","elec","data","dfm"])
@@ -588,7 +620,7 @@ function renderContact(){
   h+='<section class="opener">'+watermark("contact")+'<div class="narrow"><div class="lbl">'
     +(lang==="nl"?"Neem contact op":"Get in touch")+'</div><h1>Contact</h1>'
     +'<p class="deck">'+esc(t(d.lede))+'</p></div></section>';
-  h+='<section class="band band--tight"><div class="narrow">'+contactForm("f","full")+'<div class="details">';
+  h+='<section class="band band--tight">'+bandMark("signal","rule")+'<div class="narrow">'+contactForm("f","full")+'<div class="details">';
   for(var j=0;j<d.details.length;j++)
     h+='<div><div class="k">'+esc(t(d.details[j].k))+'</div><div>'+esc(t(d.details[j].v))+'</div></div>';
   h+='</div></div></section>';
@@ -738,6 +770,7 @@ function render(moveFocus){
   else if(page==="contact") h=renderContact();
   else h=renderArea(page);
   app.innerHTML=h;
+  app.className="page-"+page;      /* lets one page carry its own palette — see Project Yard */
   renderNav(); renderFooter();
   document.getElementById("navlogo").src=LOGO_MARK;
   document.getElementById("footlogo").src=LOGO_MARK;

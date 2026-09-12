@@ -201,11 +201,32 @@ if os.path.isdir(work):
             mime, base64.b64encode(open(os.path.join(work, f), "rb").read()).decode())
         print("  screenshot:", f)
 
-# Renders and photos for the cascade sections. Name the file after the key the page
-# asks for — "how-1".."how-4" for the home process rows, "web-1".."web-3" for the IT & Web
-# rows, "domain-<icon>" for each engineering domain (domain-mech, domain-pcb, domain-drone,
-# ...). Any of jpg/png/webp.
-# Without a file the section falls back to the line drawing, so partial sets are fine.
+# Renders and photos for the picture slots. Name the file after the key the page asks
+# for — "how-1".."how-4" for the home process rows, "web-1".."web-3" for the IT & Web
+# rows, "machine-print3d" / "machine-laser" / "machine-cnc" for the three machines, and
+# "domain-<icon>" for each engineering domain. Any of jpg/png/webp; without a file the
+# slot falls back to a labelled placeholder, so partial sets are fine.
+#
+# A PNG or WebP with a real transparent background is treated as a CUT-OUT: it is drawn
+# free on the page with a soft shadow, no frame and no box, which is the look Nastia
+# asked for. A JPG (or a flat PNG) gets the framed treatment instead. So the decision is
+# made by the file itself — knock the background out and the page changes with it.
+def has_alpha(path):
+    try:
+        from PIL import Image
+    except ImportError:
+        return False
+    try:
+        im = Image.open(path)
+        if im.mode not in ("RGBA", "LA", "PA") and "transparency" not in im.info:
+            return False
+        a = im.convert("RGBA").split()[-1]
+        lo, hi = a.getextrema()
+        return lo < 250          # some genuinely transparent pixels, not just an alpha channel
+    except Exception:
+        return False
+
+cutouts = []
 renders = {}
 rdir = p("assets/renders")
 if os.path.isdir(rdir):
@@ -214,9 +235,14 @@ if os.path.isdir(rdir):
         if ext.lower() not in (".jpg", ".jpeg", ".png", ".webp"):
             continue
         mime = mimetypes.types_map.get(ext.lower(), "image/jpeg")
+        full = os.path.join(rdir, f)
         renders[key] = "data:%s;base64,%s" % (
-            mime, base64.b64encode(open(os.path.join(rdir, f), "rb").read()).decode())
-        print("  render:", f, "(%d KB)" % (os.path.getsize(os.path.join(rdir, f)) // 1024))
+            mime, base64.b64encode(open(full, "rb").read()).decode())
+        cut = has_alpha(full)
+        if cut:
+            cutouts.append(key)
+        print("  render:", f, "(%d KB)%s" % (os.path.getsize(full) // 1024,
+                                             "  cut-out" if cut else "  framed"))
 
 favicon = "data:image/webp;base64," + base64.b64encode(
     open(p("assets/logo_mark.webp"), "rb").read()).decode()
@@ -250,6 +276,7 @@ open(p("dist/assets/site.js"), "w", encoding="utf-8").write("\n".join([
     read("assets/logo_assets.js"),
     "var WORKSHOTS = " + json.dumps(shots) + ";",
     "var RENDERS = " + json.dumps(renders) + ";",
+    "var CUTOUT = " + json.dumps(cutouts) + ";",
     "var ROUTES = " + json.dumps(ROUTES, ensure_ascii=False) + ";",
     "var FORM_ENDPOINT = " + json.dumps(FORM_ENDPOINT) + ";",
     "var FORM_KEY = " + json.dumps(FORM_KEY) + ";",
