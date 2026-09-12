@@ -49,6 +49,15 @@ placeholder if there isn't.
 
 The cards and the Work page link out to the live sites either way.
 
+### AI crawlers
+
+`robots.txt` explicitly allows GPTBot, OAI-SearchBot, ClaudeBot, PerplexityBot and
+Google-Extended, and the build writes an **`llms.txt`** — a plain summary of the company,
+its pages and its services for assistants to quote. That is a deliberate choice: for a
+services firm, being cited in an AI answer is distribution, and the buyer still has to
+contact a human to get the work done. To reverse it, add `Disallow: /` blocks for those
+agents in `build.py` and delete the `llms.txt` write.
+
 ### Where the drawings appear
 
 - **Corner marks** on every page opener except the home page: two per page, top-left and
@@ -150,6 +159,11 @@ BASE_PATH=/ SITE_ORIGIN=https://liminex.net python3 build.py
 ```
 
 ### The contact form
+
+There are two copies of the same form: the full one on the Contact page and a short one in
+the footer of every other page. Both come from `contactForm(prefix, shape)` in `app.js` —
+the prefix keeps their element ids apart. **Email, phone and message are required**; adding
+or removing a field is editing that one function plus `C.contact.fields`.
 
 A site on GitHub Pages is static files — there is no server, so the page cannot send
 mail by itself. It posts to a form-to-email service instead, set with `FORM_ENDPOINT`.

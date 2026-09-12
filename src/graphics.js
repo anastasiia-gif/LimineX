@@ -37,7 +37,13 @@ function flow(seed,lines){
     +'style="height:clamp(90px,13vw,190px)">'+s+'</svg>';
 }
 /* the ripple that spreads from the mark in the opening */
+/* The opening is the logo on black and nothing else. The ripples and the horizontal
+   lines that used to sit behind it were removed — grad() stays because the wave
+   dividers use it. */
 function overtureCurves(){
+  return "";
+}
+function overtureCurvesOld(){
   var id="og", s=grad(id);
   for(var i=0;i<9;i++){
     var rx=140+i*105, ry=rx*0.30;

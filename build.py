@@ -267,8 +267,38 @@ for pg in PAGES:
         written.append(url)
 
 shutil.copy(p("assets/og.png"), p("dist/og.png"))
+# AI crawlers are allowed on purpose. For a services firm, being quoted in an AI answer
+# is distribution, not theft — the buyer still has to contact a human to get the work done.
+# To opt out later, add Disallow: / blocks for the named agents below.
 open(p("dist/robots.txt"), "w").write(
-    "User-agent: *\nAllow: /\nSitemap: %s/sitemap.xml\n" % SITE_URL)
+    "User-agent: *\nAllow: /\n\n"
+    "# Assistants and AI search\n"
+    "User-agent: GPTBot\nAllow: /\n"
+    "User-agent: OAI-SearchBot\nAllow: /\n"
+    "User-agent: ClaudeBot\nAllow: /\n"
+    "User-agent: PerplexityBot\nAllow: /\n"
+    "User-agent: Google-Extended\nAllow: /\n\n"
+    "Sitemap: %s/sitemap.xml\n" % SITE_URL)
+
+# llms.txt — a plain-text summary for assistants, so an AI answering
+# "who does prototyping in Den Bosch" has something accurate to quote.
+llms = ["# Liminex", "",
+        "> %s" % PAGES[0]["en"]["desc"], "",
+        "Engineering firm in 's-Hertogenbosch, Noord-Brabant, the Netherlands.",
+        "Four engineers. Software and hardware in one team. Contact: info@liminex.net", "",
+        "## Pages", ""]
+for pg in PAGES:
+    llms.append("- [%s](%s%s): %s" % (pg["en"]["nav"], SITE_ORIGIN, url_for(pg, "en"), pg["en"]["desc"]))
+llms += ["", "## What we do", "",
+         "- Websites, online shops, and WCAG 2.1 AA accessibility audits",
+         "- AI and workflow automation for small and medium businesses",
+         "- Prototyping: mechanics, electronics, PCB design, firmware, control engineering",
+         "- Robotics, drones and UAV systems, CAD and design for manufacturing",
+         "- Short-run manufacturing in house: 3D printing, laser cutting, small CNC", "",
+         "## Pricing", "",
+         "Indicative ranges are published at %s%s — no price list; a fixed price follows one "
+         "conversation." % (SITE_ORIGIN, url_for([x for x in PAGES if x["id"]=="price"][0], "en")), ""]
+open(p("dist/llms.txt"), "w", encoding="utf-8").write("\n".join(llms))
 
 sm = ['<?xml version="1.0" encoding="UTF-8"?>',
       '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '

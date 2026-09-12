@@ -64,6 +64,12 @@ function renderFooter(){
   document.getElementById("f-h2").textContent=t(C.foot.more);
   document.getElementById("f-h3").textContent=t(C.foot.contact);
   document.getElementById("f-legal").textContent=t(C.foot.legal);
+  document.getElementById("f-seo").textContent=t(C.foot.seo);
+  document.getElementById("f-formh").textContent=t(C.foot.formh);
+  document.getElementById("f-formd").textContent=t(C.foot.formd);
+  document.getElementById("foot-cta").hidden = (page==="contact");
+  /* A short form in the footer of every page except Contact, where the full one lives. */
+  document.getElementById("foot-form").innerHTML = (page==="contact") ? "" : contactForm("ff","short");
   document.getElementById("foot-tag").textContent=t(C.home.tagline);
 }
 function svcList(list,heading,icons){
@@ -214,82 +220,90 @@ function ctaBlock(head){
 
 function renderHome(){
   var d=C.home,h="";
+
+  /* 1. the opening: the mark on black, nothing else */
   h+='<div class="opening"><section class="overture">'
-    +'<div class="curves" aria-hidden="true">'+overtureCurves()+'</div>'
-    +'<h1 class="logo"><img src="'+LOGO_HERO+'" alt="Liminex — Make non-existent reality"></h1>'
+    +'<h1 class="logo"><img src="'+LOGO_HERO+'" alt="Liminex \u2014 Make non-existent reality"></h1>'
     +'<span class="scrollcue" aria-hidden="true">'+esc(t(d.scroll))+'</span></section></div>';
 
+  /* 2. what we do — one card per area, with a preview and the fact worth clicking for */
   h+='<section class="band band--grey"><div class="wrap center">'
     +'<div class="lbl rv">'+esc(t(d.blocksh))+'</div>'
     +'<h2 class="rv" style="margin-top:18px">'+esc(t(d.blocksd))+'</h2></div>'
     +'<div class="wrap"><div class="blocks">';
   for(var i=0;i<AREAS.length;i++){
-    var a=AREAS[i];
-    h+=go(a.id,' class="block rv"')+GLYPH[a.glyph]
-      +'<span class="txt"><h3>'+esc(aName(a))+'</h3><p>'+esc(t(d.blurbs[a.id]))+'</p></span>'
-      +'<span class="more">'+esc(t(d.more))+' &rarr;</span></a>';
+    var ar=AREAS[i];
+    h+=go(ar.id,' class="block rv"')
+      +'<span class="prev">'+GLYPH[ar.glyph]
+        +'<span class="cap">'+esc(t(d.shots[ar.id]))+'</span></span>'
+      +'<span class="body"><h3>'+esc(aName(ar))+'</h3>'
+        +'<span class="intro">'+esc(t(d.blurbs[ar.id]))+'</span>'
+        +'<span class="hook">'+esc(t(d.hooks[ar.id]))+'</span>'
+        +'<span class="more">'+esc(t(d.more))+' &rarr;</span></span></a>';
   }
   h+='</div></div></section>';
 
+  /* 3. how working with us actually goes */
   h+=flowSplit(1,"var(--paper2)","var(--paper)",5);
+  h+='<section class="band"><div class="wrap">'
+    +'<h2 class="rv">'+esc(t(d.howh))+'</h2>'
+    +'<p class="deck rv" style="margin-top:18px">'+esc(t(d.howd))+'</p>'
+    +'<div class="rv">'+stepList(d.how,["web","test","cad","dfm"])+'</div>'
+    +'</div></section>';
 
-  h+='<section class="band band--tight"><div class="wrap center">'
-    +'<div class="lbl rv">'+esc(t(d.teamh))+'</div>'
-    +'<h2 class="rv" style="margin-top:18px;max-width:20ch;margin-left:auto;margin-right:auto">'
-    +esc(t(d.teamd))+'</h2></div><div class="wrap"><div class="team rv">';
-  for(var m=0;m<d.team.length;m++)
-    h+='<div class="p">'+ph(t(d.team[m].n),lang==="nl"?"Portret · 4:5":"Portrait · 4:5")
-      +'<div class="nm">'+esc(t(d.team[m].n))+'</div>'
-      +'<div class="ro">'+esc(t(d.team[m].r))+'</div></div>';
-  h+='</div><div class="twolinks rv">'
-    +'<button class="btn" data-go="about">'+esc(t(d.teamabout))+'</button>'
-    +'<button class="btn btn--ghost" data-go="work">'+esc(t(d.teamwork))+'</button>'
-    +'</div></div></section>';
-
+  /* 4. who we are, the team, and the ask — one dark block */
   h+='<section class="band band--dark"><div class="wrap">'
     +'<div class="lbl rv">'+esc(t(d.whoh))+'</div>'
     +'<h2 class="rv" style="margin-top:20px;max-width:19ch">'+esc(t(d.whoq))+'</h2>'
-    +'<div class="phrow rv">'+ph(t(d.photo1),t(d.photo1s))+ph(t(d.photo2),t(d.photo2s))+'</div>'
-    +'<div class="rv" style="margin-top:56px;max-width:64ch"><p class="muted">'
-    +esc(t(d.whop)).split("\n\n").join('</p><p class="muted">')+'</p></div><div class="stats rv">';
+    +'<div class="rv" style="margin-top:46px;max-width:64ch"><p class="muted">'
+    +esc(t(d.whop)).split("\n\n").join('</p><p class="muted">')+'</p></div>'
+    +'<div class="stats rv">';
   for(var s=0;s<d.stats.length;s++)
     h+='<div><div class="n">'+esc(d.stats[s].n)+'</div><div class="k">'+esc(t(d.stats[s].k))+'</div></div>';
-  h+='</div></div></section>';
-
-  /* Clients & partners strip: removed until there are logos we have permission to show.
-     The copy for it still lives in C.home.clientsh / clientsd / logos. */
-  h+=flowSplit(2,"var(--paper)","var(--paper2)",4);
-  h+='<section class="band band--grey"><div class="wrap">'+ctaBlock(t(d.ctah))+'</div></section>';
+  h+='</div>';
+  h+='<div class="team rv" style="margin-top:76px">';
+  for(var m=0;m<d.team.length;m++)
+    h+='<div class="p">'+ph(t(d.team[m].n),lang==="nl"?"Portret \u00b7 4:5":"Portrait \u00b7 4:5")
+      +'<div class="nm">'+esc(t(d.team[m].n))+'</div>'
+      +'<div class="ro">'+esc(t(d.team[m].r))+'</div></div>';
+  h+='</div>';
+  h+='<div class="teamcta rv"><h2>'+esc(t(d.ctah))+'</h2>'
+    +'<p>'+esc(t(d.ctasub))+'</p>'
+    +go("contact",' class="btn"')+esc(t(d.ctab))+'</a>'
+    +'<div class="twolinks" style="justify-content:center;margin-top:28px">'
+    +go("about",' class="btn btn--ghost"')+esc(t(d.teamabout))+'</a>'
+    +go("work",' class="btn btn--ghost"')+esc(t(d.teamwork))+'</a></div></div>';
+  h+='</div></section>';
   return h;
 }
 
 /* ---------------- about ---------------- */
 function renderAbout(){
   var d=C.about,hm=C.home,h="";
-  h+='<section class="opener">'+watermark("about")+'<div class="narrow"><div class="lbl">'+esc(t(hm.teamabout))+'</div>'
+  h+='<section class="opener">'+watermark("about")
+    +'<div class="narrow"><div class="lbl">'+esc(t(hm.teamabout))+'</div>'
     +'<h1>'+esc(t(d.lede))+'</h1></div></section>';
+
+  /* the team */
   h+='<section class="band band--tight"><div class="wrap"><div class="team rv">';
   for(var m=0;m<hm.team.length;m++)
-    h+='<div class="p">'+ph(t(hm.team[m].n),lang==="nl"?"Portret · 4:5":"Portrait · 4:5")
+    h+='<div class="p">'+ph(t(hm.team[m].n),lang==="nl"?"Portret \u00b7 4:5":"Portrait \u00b7 4:5")
       +'<div class="nm">'+esc(t(hm.team[m].n))+'</div>'
       +'<div class="ro">'+esc(t(hm.team[m].r))+'</div></div>';
   h+='</div></div></section>';
+
+  /* the history, and nothing else — everything that used to follow it moved or went */
   h+=flowSplit(7,"var(--paper)","var(--paper2)",5);
   h+='<section class="band band--grey"><div class="narrow"><h2>'+esc(t(d.storyh))+'</h2>'
     +'<div style="margin-top:24px"><p class="deck" style="max-width:none">'
     +esc(t(hm.whop)).split("\n\n").join('</p><p class="deck" style="max-width:none">')+'</p></div></div>'
     +'<div class="wrap"><div class="phrow rv" style="margin-top:56px">'
     +ph(t(hm.photo1),t(hm.photo1s))+ph(t(hm.photo2),t(hm.photo2s))+'</div></div></section>';
-  h+='<section class="band"><div class="wrap"><h2 class="rv">'+esc(t(d.wayh))+'</h2>'
-    +'<div class="rv">'+cardRow(d.way,["robot","test","dfm","cad"])+'</div>'
-    +'<h2 class="rv" style="margin-top:88px">'+esc(t(d.kith))+'</h2>'
-    +'<div class="rv">'+cardRow(d.kit,["print3d","laser","cnc","elec"])+'</div></div></section>';
+
   h+='<section class="band band--dark"><div class="wrap"><div class="stats rv" style="margin-top:0">';
   for(var st=0;st<hm.stats.length;st++)
     h+='<div><div class="n">'+esc(hm.stats[st].n)+'</div><div class="k">'+esc(t(hm.stats[st].k))+'</div></div>';
   h+='</div></div></section>';
-  h+='<section class="band band--tight"><div class="wrap">'+expBlock(true)
-    +ctaBlock(t(hm.ctah))+'</div></section>';
   return h;
 }
 
@@ -468,72 +482,109 @@ function renderPrice(){
 }
 
 function renderContact(){
-  var d=C.contact,opts=lang==="nl"?d.types.nl:d.types.en,o="";
-  for(var i=0;i<opts.length;i++) o+='<option>'+esc(opts[i])+'</option>';
-  var h='<section class="opener">'+watermark("contact")+'<div class="narrow"><div class="lbl">'
+  var d=C.contact,h="";
+  h+='<section class="opener">'+watermark("contact")+'<div class="narrow"><div class="lbl">'
     +(lang==="nl"?"Neem contact op":"Get in touch")+'</div><h1>Contact</h1>'
     +'<p class="deck">'+esc(t(d.lede))+'</p></div></section>';
-  h+='<section class="band band--tight"><div class="narrow"><form id="cform" novalidate>'
-    +'<div class="field"><label for="f-name">'+esc(t(d.fields.name))+'</label>'
-      +'<input id="f-name" name="name" type="text" autocomplete="name"></div>'
-    +'<div class="field"><label for="f-co">'+esc(t(d.fields.company))+'</label>'
-      +'<input id="f-co" name="company" type="text" autocomplete="organization"></div>'
-    +'<div class="field"><label for="f-em">'+esc(t(d.fields.email))+'</label>'
-      +'<input id="f-em" name="email" type="email" autocomplete="email" required></div>'
-    +'<div class="field"><label for="f-ty">'+esc(t(d.fields.type))+'</label>'
-      +'<select id="f-ty" name="subject">'+o+'</select></div>'
-    +'<div class="field"><label for="f-ms">'+esc(t(d.fields.msg))+'</label>'
-      +'<textarea id="f-ms" name="message" required></textarea></div>'
-    /* honeypot: a real person never fills this in, a bot usually does */
-    +'<div class="hp" aria-hidden="true"><label for="f-hp">'+esc(t(d.hp))+'</label>'
-      +'<input id="f-hp" name="_gotcha" type="text" tabindex="-1" autocomplete="off"></div>'
-    +'<button class="btn" type="submit" id="fsend" style="justify-self:start">'+esc(t(d.fields.send))+'</button>'
-    +'<p class="formstat" id="fstat" role="status" aria-live="polite"></p>'
-    +'<p class="formnote">'+esc(t(d.formnote))+'</p>'
-    +'<p class="formnote">'+esc(t(d.privacy))+'</p>'
-    +'</form><div class="details">';
+  h+='<section class="band band--tight"><div class="narrow">'+contactForm("f","full")+'<div class="details">';
   for(var j=0;j<d.details.length;j++)
     h+='<div><div class="k">'+esc(t(d.details[j].k))+'</div><div>'+esc(t(d.details[j].v))+'</div></div>';
   h+='</div></div></section>';
   return h;
 }
 
+/* One form, two shapes. `p` prefixes every id so the footer copy and the contact-page
+   copy can live on the same document without colliding. */
+function sel(id,name,opts){
+  var o="";
+  for(var i=0;i<opts.length;i++) o+='<option>'+esc(opts[i])+'</option>';
+  return '<select id="'+id+'" name="'+name+'">'+o+'</select>';
+}
+function contactForm(p,shape){
+  var d=C.contact, full=(shape==="full");
+  var lab=function(id,text,required){
+    return '<label for="'+p+'-'+id+'">'+esc(text)
+      +(required?'<span class="rq" aria-hidden="true">*</span>':'')+'</label>';
+  };
+  var h='<form id="'+p+'form" class="'+(full?"":"footform")+'" novalidate>';
+  if(!full) h+='<div class="frow">';
+  h+='<div class="field">'+lab("name",t(d.fields.name),false)
+      +'<input id="'+p+'-name" name="name" type="text" autocomplete="name"></div>'
+    +'<div class="field">'+lab("em",t(d.fields.email),true)
+      +'<input id="'+p+'-em" name="email" type="email" autocomplete="email" required></div>'
+    +'<div class="field">'+lab("ph",t(d.fields.phone),true)
+      +'<input id="'+p+'-ph" name="phone" type="tel" autocomplete="tel" required></div>';
+  if(!full) h+='</div>';
+  if(full){
+    h+='<div class="field">'+lab("co",t(d.fields.company),false)
+        +'<input id="'+p+'-co" name="company" type="text" autocomplete="organization"></div>'
+      +'<div class="field">'+lab("ty",t(d.fields.type),false)
+        +sel(p+"-ty","subject",lang==="nl"?d.types.nl:d.types.en)+'</div>'
+      +'<div class="field">'+lab("bd",t(d.fields.budget),false)
+        +sel(p+"-bd","budget",lang==="nl"?d.budgets.nl:d.budgets.en)+'</div>'
+      +'<div class="field">'+lab("wh",t(d.fields.when),false)
+        +sel(p+"-wh","timeline",lang==="nl"?d.whens.nl:d.whens.en)+'</div>'
+      +'<div class="field">'+lab("fd",t(d.fields.found),false)
+        +sel(p+"-fd","source",lang==="nl"?d.founds.nl:d.founds.en)+'</div>';
+  }
+  h+='<div class="field">'+lab("ms",t(d.fields.msg),true)
+      +'<textarea id="'+p+'-ms" name="message" required></textarea></div>'
+    +'<div class="hp" aria-hidden="true"><label for="'+p+'-hp">'+esc(t(d.hp))+'</label>'
+      +'<input id="'+p+'-hp" name="_gotcha" type="text" tabindex="-1" autocomplete="off"></div>'
+    +'<button class="btn" type="submit" id="'+p+'send" style="justify-self:start">'
+      +esc(t(d.fields.send))+'</button>'
+    +'<p class="formstat" id="'+p+'stat" role="status" aria-live="polite"></p>'
+    +'<p class="reqnote">'+esc(t(d.fields.reqnote))+'</p>';
+  if(full){
+    h+='<p class="formnote">'+esc(t(d.formnote))+'</p>'
+      +'<p class="formnote">'+esc(t(d.privacy))+'</p>';
+  }
+  return h+'</form>';
+}
+
 /* The form posts to whatever endpoint build.py was given (FORM_ENDPOINT).
    With no endpoint configured it falls back to opening the visitor's mail client,
    so the page never has a button that silently does nothing. */
 function setupForm(){
-  var f=document.getElementById("cform");
-  if(!f) return;
+  var forms=document.querySelectorAll("form[id$=form]");
+  for(var i=0;i<forms.length;i++) wireForm(forms[i]);
+}
+function wireForm(f){
+  var p=f.id.replace(/form$/,"");
   f.addEventListener("submit",function(e){
     e.preventDefault();
-    var d=C.contact, stat=document.getElementById("fstat"), btn=document.getElementById("fsend");
-    var get=function(id){ var el=document.getElementById(id); return el?el.value.trim():""; };
-    var email=get("f-em"), msg=get("f-ms");
+    var d=C.contact;
+    var stat=document.getElementById(p+"stat"), btn=document.getElementById(p+"send");
+    var get=function(s){ var el=document.getElementById(p+"-"+s); return el?el.value.trim():""; };
+    var email=get("em"), phone=get("ph"), msg=get("ms");
     stat.className="formstat";
-    if(!email||!msg){ stat.className="formstat is-bad"; stat.textContent=t(d.need);
-      (email?document.getElementById("f-ms"):document.getElementById("f-em")).focus(); return; }
-    if(get("f-hp")) return;                       /* bot */
+    var missing = !email ? "em" : (!phone ? "ph" : (!msg ? "ms" : null));
+    if(missing){
+      stat.className="formstat is-bad"; stat.textContent=t(d.need);
+      document.getElementById(p+"-"+missing).focus(); return;
+    }
+    if(get("hp")) return;                        /* bot */
 
-    var body=[t(d.fields.name)+": "+get("f-name"),
-              t(d.fields.company)+": "+get("f-co"),
-              t(d.fields.email)+": "+email,
-              t(d.fields.type)+": "+get("f-ty"),
-              "", msg].join("\n");
+    var lines=[];
+    var add=function(k,v){ if(v) lines.push(k+": "+v); };
+    add(t(d.fields.name),get("name")); add(t(d.fields.company),get("co"));
+    add(t(d.fields.email),email);      add(t(d.fields.phone),phone);
+    add(t(d.fields.type),get("ty"));   add(t(d.fields.budget),get("bd"));
+    add(t(d.fields.when),get("wh"));   add(t(d.fields.found),get("fd"));
+    var body=lines.join("\n")+"\n\n"+msg;
 
     if(typeof FORM_ENDPOINT!=="string" || !FORM_ENDPOINT){
       window.location.href="mailto:info@liminex.net?subject="
-        +encodeURIComponent("Liminex \u2014 "+get("f-ty"))+"&body="+encodeURIComponent(body);
+        +encodeURIComponent("Liminex \u2014 "+(get("ty")||"website"))+"&body="+encodeURIComponent(body);
       return;
     }
     btn.disabled=true; stat.textContent=t(d.sending);
     var data=new FormData(f);
-    data.append("_subject","Liminex \u2014 "+get("f-ty"));
+    data.append("_subject","Liminex \u2014 "+(get("ty")||"website"));
     data.append("_language",lang);
     fetch(FORM_ENDPOINT,{method:"POST",body:data,headers:{"Accept":"application/json"}})
-      .then(function(r){
-        if(!r.ok) throw new Error(r.status);
-        f.reset(); stat.className="formstat is-ok"; stat.textContent=t(d.ok);
-      })
+      .then(function(r){ if(!r.ok) throw new Error(r.status);
+        f.reset(); stat.className="formstat is-ok"; stat.textContent=t(d.ok); })
       .catch(function(){ stat.className="formstat is-bad"; stat.textContent=t(d.fail); })
       .then(function(){ btn.disabled=false; });
   });
