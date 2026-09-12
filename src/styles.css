@@ -168,9 +168,15 @@ h3{font-size:20px;font-weight:600}
 .plate .tb b{color:var(--ink);font-weight:500;letter-spacing:.16em}
 /* faint drawing behind a page opener */
 .opener > .narrow{position:relative;z-index:1}
-.wmark{position:absolute;inset:0;pointer-events:none;overflow:hidden;
-  display:flex;align-items:center;justify-content:center;z-index:0}
-.wmark svg{width:min(820px,124%);height:auto;opacity:.07;color:var(--ink)}
+/* Two drawings tucked into opposite corners of a page opener, chosen per page.
+   Decoration only — aria-hidden, and they never sit behind the heading. */
+.wmark{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.wmark svg{position:absolute;width:clamp(180px,26vw,340px);height:auto;
+  opacity:.085;color:var(--ink)}
+.wmark svg:first-child{top:-4%;left:-3%}
+.wmark svg:last-child{bottom:-6%;right:-3%}
+@media (max-width:760px){.wmark svg{width:clamp(130px,34vw,200px);opacity:.07}}
+@media (max-width:520px){.wmark svg:last-child{display:none}}
 
 /* ---------------- portfolio strip (every page) ---------------- */
 .folio{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:44px}
@@ -217,6 +223,27 @@ section.band--dark .svc p{color:var(--dark-muted)}
 @media (max-width:700px){.svc{grid-template-columns:1fr;gap:8px}}
 .onreq{margin-top:26px;font-size:15px;color:var(--muted)}
 
+/* ---------------- disciplines ---------------- */
+.disc{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2px;margin-top:56px;
+  border:1px solid var(--hair);border-radius:var(--r);overflow:hidden;background:var(--hair)}
+.disc > div{background:var(--paper);padding:30px 28px;display:flex;flex-direction:column;gap:13px}
+section.band--grey .disc > div{background:var(--paper2)}
+.disc .ic{width:36px;height:36px;color:var(--accent)}
+.disc h3{margin:0;font-size:17.5px}
+.disc p{margin:0;color:var(--muted);font-size:15px;line-height:1.6}
+.disc .tags{margin-top:auto;padding-top:6px;font-size:11px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted)}
+.discshots{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:20px;margin-top:24px}
+.discshots .ph{aspect-ratio:4/3}
+
+/* icons on the service rows */
+.svc .ic{width:30px;height:30px;color:var(--accent);margin-bottom:10px}
+.svc--ic{grid-template-columns:44px minmax(150px,22%) 1fr;gap:0 26px}
+@media (max-width:700px){.svc--ic{grid-template-columns:1fr;gap:8px}
+  .svc--ic .ic{margin-bottom:0}}
+.step .no .ic{width:26px;height:26px;color:var(--accent);margin-top:2px}
+.step .no{display:flex}
+
 /* ---------------- experience list ---------------- */
 .exp{margin-top:44px;border-top:1px solid var(--hair)}
 .expitem{display:grid;grid-template-columns:minmax(150px,22%) 1fr;gap:0 40px;padding:30px 0;
@@ -250,10 +277,13 @@ section.band--dark .svc p{color:var(--dark-muted)}
 .steps{margin-top:52px}
 .step{display:grid;grid-template-columns:60px 1fr;gap:0 26px;padding:28px 0;border-top:1px solid var(--hair)}
 .step .no{font-size:12px;letter-spacing:.16em;color:var(--accent);padding-top:6px;font-variant-numeric:tabular-nums}
+.step .sn{display:block;font-size:11px;letter-spacing:.18em;color:var(--muted);
+  margin-bottom:6px;font-variant-numeric:tabular-nums}
 .step h3{margin:0 0 5px;font-size:18px}
 .step p{margin:0;color:var(--muted);max-width:58ch}
 .grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px;margin-top:48px}
 .grid4 > div{border:1px solid var(--hair);border-radius:var(--r);padding:28px 26px}
+.grid4 .ic{width:30px;height:30px;color:var(--accent);margin-bottom:14px}
 .grid4 h3{margin:0 0 8px;font-size:17px}
 .grid4 p{margin:0;color:var(--muted);font-size:15.5px}
 .marginnote{border-left:2px solid var(--accent);padding:2px 0 2px 26px;margin:52px 0 0;max-width:64ch}

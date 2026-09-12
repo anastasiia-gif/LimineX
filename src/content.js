@@ -58,6 +58,72 @@ var EXPH={
   none:{nl:"Wilt u de volgende zijn?",en:"Would you like to be next?"}
 };
 
+
+/* ============================================================ DISCIPLINES
+   What "engineering" actually means here. Shown on the Prototyping page.
+   `ic` is a key in the ICON set (src/drawings.js).
+   ============================================================ */
+var DISCIPLINES = {
+  h:{nl:"Welke disciplines we dekken",en:"The disciplines we cover"},
+  d:{nl:"\u201CEngineering\u201D zegt weinig. Dit is wat er bij ons daadwerkelijk aan tafel zit \u2014 en waarom dat uitmaakt: een prototype dat op vier bureaus verdeeld wordt, wordt vier keer opnieuw uitgelegd.",
+     en:"\u201CEngineering\u201D says very little. This is what actually sits around the table here \u2014 and why that matters: a prototype split across four suppliers gets explained four times over."},
+  items:[
+    {ic:"mech", t:{nl:"Werktuigbouw",en:"Mechanical engineering"},
+     p:{nl:"Constructie, sterkte en beweging. Wat moet het dragen, hoe stijf moet het zijn, en waar gaat het stuk als het valt.",
+        en:"Structure, strength and motion. What it has to carry, how stiff it must be, and where it fails when it's dropped."},
+     k:"CAD · FEM · tolerantie"},
+    {ic:"cad", t:{nl:"CAD en ontwerp",en:"CAD and design"},
+     p:{nl:"Van schets naar tekening waar een machine mee overweg kan. Inclusief de tekeningen die een leverancier nodig heeft.",
+        en:"From sketch to a drawing a machine can work from, including the drawings a supplier needs."},
+     k:"SolidWorks · STEP · 2D"},
+    {ic:"elec", t:{nl:"Elektronica",en:"Electronics"},
+     p:{nl:"Voeding, sensoren, motoren en alles wat daar tussen moet. Meten waarom iets niet doet wat het hoort te doen.",
+        en:"Power, sensors, motors and everything in between. Measuring why something isn't doing what it should."},
+     k:"analoog · vermogen · meten"},
+    {ic:"pcb", t:{nl:"PCB-ontwerp",en:"PCB design"},
+     p:{nl:"Schema en print, van eenvoudige tweelaags tot ontwerpen waar layout en storing echt uitmaken.",
+        en:"Schematic and board, from simple two-layer up to designs where layout and noise genuinely matter."},
+     k:"schema · layout · BOM"},
+    {ic:"firmware", t:{nl:"Firmware en embedded",en:"Firmware and embedded"},
+     p:{nl:"De code die op het ding zelf draait: C/C++ op microcontrollers, drivers, communicatie en opstarten zonder verrassingen.",
+        en:"The code that runs on the thing itself: C/C++ on microcontrollers, drivers, comms, and starting up without surprises."},
+     k:"C/C++ · RTOS · drivers"},
+    {ic:"control", t:{nl:"Besturing en regeltechniek",en:"Control engineering"},
+     p:{nl:"Regelkringen die stabiel blijven als de werkelijkheid afwijkt van het model. Positie, snelheid, temperatuur, kracht.",
+        en:"Control loops that stay stable when reality departs from the model. Position, speed, temperature, force."},
+     k:"PID · state · tuning"},
+    {ic:"robot", t:{nl:"Robotica en mechatronica",en:"Robotics and mechatronics"},
+     p:{nl:"Waar mechanica, elektronica en software \u00e9\u00e9n systeem worden. Aandrijving, terugkoppeling en veiligheid.",
+        en:"Where mechanics, electronics and software become one system. Drives, feedback and safety."},
+     k:"actuatie · feedback"},
+    {ic:"drone", t:{nl:"Drones en UAV",en:"Drones and UAV"},
+     p:{nl:"Frames, vluchtcontrollers, positionering en payloads. Inclusief wat er nodig is om er legaal mee te vliegen.",
+        en:"Frames, flight controllers, positioning and payloads. Including what it takes to fly one legally."},
+     k:"ArduPilot · RTK · payload"},
+    {ic:"data", t:{nl:"Signalen en data",en:"Signals and data"},
+     p:{nl:"Metingen omzetten in iets waar een besluit op kan: filteren, karakteriseren, en zeggen hoe zeker het antwoord is.",
+        en:"Turning measurements into something you can decide on: filtering, characterising, and saying how certain the answer is."},
+     k:"Python · DSP · analyse"},
+    {ic:"dfm", t:{nl:"Ontwerpen voor productie",en:"Design for manufacturing"},
+     p:{nl:"Een prototype dat niet te maken is, is geen prototype. We ontwerpen naar het proces dat het uiteindelijk maakt.",
+        en:"A prototype that can't be made isn't a prototype. We design towards the process that will eventually make it."},
+     k:"DFM · kostprijs · serie"},
+    {ic:"test", t:{nl:"Testen en validatie",en:"Testing and validation"},
+     p:{nl:"Bewijzen dat het werkt, niet hopen. Testopstellingen, meetplannen en een eerlijk verslag als het tegenvalt.",
+        en:"Proving it works rather than hoping. Test rigs, measurement plans, and an honest report when it disappoints."},
+     k:"rigs · meetplan · rapport"},
+    {ic:"print3d", t:{nl:"Maken in huis",en:"Making it here"},
+     p:{nl:"3D-print, lasersnijden en kleine CNC staan bij ons. Een ontwerpfout op dinsdag is woensdag een nieuw onderdeel.",
+        en:"3D printing, laser cutting and small CNC are ours. A design mistake on Tuesday is a new part on Wednesday."},
+     k:"FDM · laser · CNC"}
+  ],
+  shots:[
+    {t:{nl:"Foto — de bank",en:"Photo — the bench"},s:{nl:"Solderen of meten · 4:3",en:"Soldering or measuring · 4:3"}},
+    {t:{nl:"Foto — een onderdeel",en:"Photo — a part"},s:{nl:"Net van de printer · 4:3",en:"Fresh off the printer · 4:3"}},
+    {t:{nl:"Foto — CAD op het scherm",en:"Photo — CAD on screen"},s:{nl:"Over de schouder · 4:3",en:"Over the shoulder · 4:3"}}
+  ]
+};
+
 var C = {
 home:{
   tagline:{nl:"Make non-existent reality", en:"Make non-existent reality"},
@@ -111,7 +177,7 @@ home:{
   ctab:{nl:"Neem contact op", en:"Get in touch"}
 },
 foot:{work:{nl:"Werk",en:"Work"}, more:{nl:"Meer",en:"More"}, contact:{nl:"Contact",en:"Contact"},
-  legal:{nl:"Prijs altijd op aanvraag",en:"Price always on request"}},
+  legal:{nl:"Richtprijzen staan op de tarievenpagina",en:"Indicative prices are on the pricing page"}},
 about:{
   lede:{nl:"Vier engineers uit 's-Hertogenbosch die software en hardware onder hetzelfde dak doen.",
         en:"Four engineers from 's-Hertogenbosch doing software and hardware under one roof."},

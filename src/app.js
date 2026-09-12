@@ -66,10 +66,13 @@ function renderFooter(){
   document.getElementById("f-legal").textContent=t(C.foot.legal);
   document.getElementById("foot-tag").textContent=t(C.home.tagline);
 }
-function svcList(list,heading){
+function svcList(list,heading,icons){
   var h=(heading?'<h2>'+esc(heading)+'</h2>':'')+'<div class="svcs">';
-  for(var i=0;i<list.length;i++)
-    h+='<div class="svc"><h3>'+esc(t(list[i].n))+'</h3><p>'+esc(t(list[i].d))+'</p></div>';
+  for(var i=0;i<list.length;i++){
+    var ic = icons && ICON[icons[i]];
+    h+='<div class="svc'+(ic?' svc--ic':'')+'">'+(ic||'')
+      +'<h3>'+esc(t(list[i].n))+'</h3><p>'+esc(t(list[i].d))+'</p></div>';
+  }
   return h+'</div><p class="onreq">'
     +(lang==="nl"?"Elk project is anders, dus dit is geen prijslijst. Wat vergelijkbaar werk ongeveer kost staat bij "
                  :"Every project is different, so this isn't a price list. What comparable work roughly costs is on ")
@@ -77,17 +80,22 @@ function svcList(list,heading){
     +(lang==="nl"?". Na één gesprek krijgt u een vaste prijs op één pagina."
                  :". After one conversation you get a fixed price on one page.")+'</p>';
 }
-function stepList(list){
+function stepList(list,icons){
   var h='<div class="steps">';
-  for(var i=0;i<list.length;i++)
-    h+='<div class="step"><div class="no">'+no(i+1)+'</div><div><h3>'+esc(t(list[i].h))
-      +'</h3><p>'+esc(t(list[i].p))+'</p></div></div>';
+  for(var i=0;i<list.length;i++){
+    var ic = icons && ICON[icons[i]];
+    h+='<div class="step"><div class="no">'+(ic||no(i+1))+'</div>'
+      +'<div>'+(ic?'<span class="sn">'+no(i+1)+'</span>':'')
+      +'<h3>'+esc(t(list[i].h))+'</h3><p>'+esc(t(list[i].p))+'</p></div></div>';
+  }
   return h+'</div>';
 }
-function cardRow(list){
+function cardRow(list,icons){
   var h='<div class="grid4">';
-  for(var i=0;i<list.length;i++)
-    h+='<div><h3>'+esc(t(list[i].h))+'</h3><p>'+esc(t(list[i].p))+'</p></div>';
+  for(var i=0;i<list.length;i++){
+    var ic = icons && ICON[icons[i]];
+    h+='<div>'+(ic||'')+'<h3>'+esc(t(list[i].h))+'</h3><p>'+esc(t(list[i].p))+'</p></div>';
+  }
   return h+'</div>';
 }
 function ph(title,sub){
@@ -135,6 +143,21 @@ var PLATES={
       {k:"cnc",    t:{nl:"CNC-frees",en:"CNC mill"}, n:"CNC"}
     ]}
 };
+/* The disciplines grid — what "engineering" means in practice. */
+function discGrid(){
+  var D=DISCIPLINES;
+  var h='<h2 class="rv">'+esc(t(D.h))+'</h2>'
+    +'<p class="deck rv" style="margin-top:20px">'+esc(t(D.d))+'</p>'
+    +'<div class="disc rv">';
+  for(var i=0;i<D.items.length;i++){
+    var it=D.items[i];
+    h+='<div>'+(ICON[it.ic]||'')+'<h3>'+esc(t(it.t))+'</h3>'
+      +'<p>'+esc(t(it.p))+'</p><div class="tags">'+esc(it.k)+'</div></div>';
+  }
+  h+='</div><div class="discshots rv">';
+  for(var j=0;j<D.shots.length;j++) h+=ph(t(D.shots[j].t),t(D.shots[j].s));
+  return h+'</div>';
+}
 function plate(id){
   var p=PLATES[id]; if(!p) return "";
   var h='<h2 class="rv">'+esc(t(p.h))+'</h2><div class="plate rv"><div class="sheet">';
@@ -150,8 +173,22 @@ function plate(id){
                           :"Illustrative \u2014 not a production drawing")+'</span></div></div>';
   return h;
 }
-function watermark(kind){
-  return '<div class="wmark" aria-hidden="true">'+DRAW[kind]+'</div>';
+/* Which drawings sit in the corners of each page's opener. */
+var WMARKS={
+  web:   ["layout","pcb"],
+  proto: ["part","drone"],
+  make:  ["cnc","printer"],
+  yard:  ["bench","laser"],
+  start: ["signal","gears"],
+  price: ["rule","valve"],
+  work:  ["layout","gears"],
+  about: ["gears","bench"],
+  contact:["signal","rule"]
+};
+function watermark(id){
+  var pair=WMARKS[id];
+  if(!pair) return "";
+  return '<div class="wmark" aria-hidden="true">'+DRAW[pair[0]]+DRAW[pair[1]]+'</div>';
 }
 /* The experience section every activity page ends on: engineering work for this area,
    then the two public websites, then the ask. Pass an area id to filter. */
@@ -163,8 +200,13 @@ function expItems(area){
   }
   return out;
 }
+/* Which proof belongs on which page. Websites are proof for web work, engineering
+   items are proof for hardware work; showing both everywhere is noise. */
+var SHOWFOLIO={web:true, work:true, about:true, price:true};
 function expBlock(withNext, area){
   var items=expItems(area);
+  var folio=(area===undefined)||SHOWFOLIO[area]===true;
+  if(!items.length && !folio) return "";
   var h='<div class="lbl lbl--q rv">'+esc(t(EXPH.h))+'</div>'
     +'<h2 class="rv" style="margin-top:16px;max-width:20ch">'+esc(t(withNext?EXPH.none:C.folio.expd))+'</h2>'
     +'<p class="deck rv" style="margin-top:18px">'+esc(t(EXPH.d))+'</p>';
@@ -178,8 +220,12 @@ function expBlock(withNext, area){
     }
     h+='</div>';
   }
-  h+='<h3 class="rv" style="margin-top:64px">'+(lang==="nl"?"Sites die live staan":"Sites that are live")+'</h3>';
-  h+=folioCards();
+  if(folio){
+    if(items.length)
+      h+='<h3 class="rv" style="margin-top:64px">'
+        +(lang==="nl"?"Sites die live staan":"Sites that are live")+'</h3>';
+    h+=folioCards();
+  }
   if(withNext) h+='<p class="deck rv" style="margin-top:30px">'+esc(t(C.folio.nextp))+'</p>';
   return h;
 }
@@ -242,7 +288,7 @@ function renderHome(){
 /* ---------------- about ---------------- */
 function renderAbout(){
   var d=C.about,hm=C.home,h="";
-  h+='<section class="opener"><div class="narrow"><div class="lbl">'+esc(t(hm.teamabout))+'</div>'
+  h+='<section class="opener">'+watermark("about")+'<div class="narrow"><div class="lbl">'+esc(t(hm.teamabout))+'</div>'
     +'<h1>'+esc(t(d.lede))+'</h1></div></section>';
   h+='<section class="band band--tight"><div class="wrap"><div class="team rv">';
   for(var m=0;m<hm.team.length;m++)
@@ -257,9 +303,9 @@ function renderAbout(){
     +'<div class="wrap"><div class="phrow rv" style="margin-top:56px">'
     +ph(t(hm.photo1),t(hm.photo1s))+ph(t(hm.photo2),t(hm.photo2s))+'</div></div></section>';
   h+='<section class="band"><div class="wrap"><h2 class="rv">'+esc(t(d.wayh))+'</h2>'
-    +'<div class="rv">'+cardRow(d.way)+'</div>'
+    +'<div class="rv">'+cardRow(d.way,["robot","test","dfm","cad"])+'</div>'
     +'<h2 class="rv" style="margin-top:88px">'+esc(t(d.kith))+'</h2>'
-    +'<div class="rv">'+cardRow(d.kit)+'</div></div></section>';
+    +'<div class="rv">'+cardRow(d.kit,["print3d","laser","cnc","elec"])+'</div></div></section>';
   h+='<section class="band band--dark"><div class="wrap"><div class="stats rv" style="margin-top:0">';
   for(var st=0;st<hm.stats.length;st++)
     h+='<div><div class="n">'+esc(hm.stats[st].n)+'</div><div class="k">'+esc(t(hm.stats[st].k))+'</div></div>';
@@ -274,13 +320,14 @@ function renderWeb(){
   var d=C.web,h="";
 
   /* 1. opener */
-  h+='<section class="opener"><div class="narrow"><div class="lbl">IT &amp; Web</div>'
+  h+='<section class="opener">'+watermark("web")+'<div class="narrow"><div class="lbl">IT &amp; Web</div>'
     +'<h1>'+esc(t(d.lede))+'</h1></div></section>';
 
   /* 2. what we do — the main content, first on the page */
   h+='<section class="band band--tight"><div class="narrow">'
     +'<p class="deck" style="max-width:none">'+esc(t(d.intro))+'</p></div>'
-    +'<div class="wrap">'+svcList(d.svcs,lang==="nl"?"Wat we doen":"What we do")+'</div></section>';
+    +'<div class="wrap">'+svcList(d.svcs,lang==="nl"?"Wat we doen":"What we do",
+        ["access","web","ai","maintain","data"])+'</div></section>';
 
   /* 3. the exhibition of delivered work, ending on the ask */
   h+=flowSplit(3,"var(--paper)","var(--paper2)",5);
@@ -295,9 +342,10 @@ function renderWeb(){
 
   /* 4. how a project runs, then experience last */
   h+='<section class="band"><div class="wrap">'
-    +'<h2>'+(lang==="nl"?"Hoe het gaat":"How it goes")+'</h2>'+stepList(d.steps)
+    +'<h2>'+(lang==="nl"?"Hoe het gaat":"How it goes")+'</h2>'
+    +stepList(d.steps,["web","layout","access","data"])
     +'</div></section>';
-  h+='<section class="band band--tight"><div class="wrap">'+expBlock(true,"web")
+  h+='<section class="band band--tight"><div class="wrap">'
     +ctaBlock(lang==="nl"?"Zullen we hier een half uur over praten?":"Shall we spend half an hour on this?")
     +'</div></section>';
   return h;
@@ -306,7 +354,7 @@ function renderWeb(){
 /* Project Yard reads as a set of posters */
 function renderYard(){
   var d=C.yard,h="";
-  h+='<section class="opener"><div class="narrow"><div class="lbl">Project Yard</div>'
+  h+='<section class="opener">'+watermark("yard")+'<div class="narrow"><div class="lbl">Project Yard</div>'
     +'<h1>'+esc(t(d.lede))+'</h1></div></section>';
   h+='<section class="band band--tight"><div class="wrap">'
     +'<div class="lbl lbl--q rv">'+esc(t(d.postersh))+'</div><div class="posters">';
@@ -319,7 +367,8 @@ function renderYard(){
   h+=flowSplit(4,"var(--paper)","var(--paper)",5);
   h+='<section class="band band--tight"><div class="narrow">'
     +'<h2>'+esc(t(d.introh))+'</h2><p class="deck" style="max-width:none;margin-top:24px">'
-    +esc(t(d.intro))+'</p></div><div class="wrap">'+cardRow(d.cards)+'</div></section>';
+    +esc(t(d.intro))+'</p></div><div class="wrap">'
+    +cardRow(d.cards,["print3d","robot","test","cad"])+'</div></section>';
   h+='<section class="band band--dark"><div class="wrap">'
     +'<div class="lbl rv">'+esc(t(d.formh))+'</div>'
     +'<h2 class="rv" style="margin-top:18px;max-width:18ch">'+esc(t(d.statush))+'</h2>'
@@ -331,7 +380,7 @@ function renderYard(){
     +'<a href="'+FORMS.en+'" target="_blank" rel="noopener">'+esc(t(d.open))+' &rarr;</a></div>'
     +'</div><p class="muted rv" style="margin-top:34px;max-width:62ch">'+esc(t(d.status))+'</p>'
     +'</div></section>';
-  h+='<section class="band band--tight"><div class="wrap">'+expBlock(true,"yard")
+  h+='<section class="band band--tight"><div class="wrap">'
     +ctaBlock(lang==="nl"?"Zullen we hier een half uur over praten?":"Shall we spend half an hour on this?")
     +'</div></section>';
   return h;
@@ -341,20 +390,31 @@ function renderArea(id){
   if(id==="web") return renderWeb();
   if(id==="yard") return renderYard();
   var a=area(id),d=C[id],h="";
-  var WM={proto:"part",make:"cnc",start:"drone"};
-  h+='<section class="opener">'+(WM[id]?watermark(WM[id]):"")
+  h+='<section class="opener">'+watermark(id)
     +'<div class="narrow"><div class="lbl">'+esc(aName(a))+'</div>'
     +'<h1>'+esc(t(d.lede))+'</h1></div></section>';
   h+=flowSplit(5,"var(--paper)","var(--paper)",5);
   h+='<section class="band band--tight"><div class="narrow">'
     +'<p class="deck" style="max-width:none">'+esc(t(d.intro))+'</p></div>';
-  if(d.svcs) h+='<div class="wrap">'+svcList(d.svcs,lang==="nl"?"Wat we doen":"What we do")+'</div>';
+  var SVCICONS={proto:["test","cad","elec","firmware","mech"],
+                make:["print3d","laser","cnc","dfm","pipe"],
+                start:["test","cad","elec","data","robot"]};
+  if(d.svcs) h+='<div class="wrap">'
+    +svcList(d.svcs,lang==="nl"?"Wat we doen":"What we do",SVCICONS[id])+'</div>';
   h+='</section>';
+  if(id==="proto") h+='<section class="band band--grey"><div class="wrap">'+discGrid()+'</div></section>';
   if(PLATES[id]) h+='<section class="band band--tight"><div class="wrap">'+plate(id)+'</div></section>';
+  var CARDICONS={start:["test","cad","robot","dfm"],make:["dfm","print3d","pipe","data"],
+                 proto:["mech","elec","firmware","test"]};
   if(d.cards) h+='<section class="band band--grey"><div class="wrap">'
-    +(d.cardsh?'<h2 class="rv">'+esc(t(d.cardsh))+'</h2>':'')+'<div class="rv">'+cardRow(d.cards)+'</div></div></section>';
+    +(d.cardsh?'<h2 class="rv">'+esc(t(d.cardsh))+'</h2>':'')
+    +'<div class="rv">'+cardRow(d.cards,CARDICONS[id])+'</div></div></section>';
   h+='<section class="band"><div class="wrap">';
-  if(d.steps) h+='<h2>'+(lang==="nl"?"Hoe het gaat":"How it goes")+'</h2>'+stepList(d.steps);
+  var STEPICONS={proto:["test","cad","elec","firmware","dfm"],
+                 make:["dfm","cad","print3d","pipe","test"],
+                 start:["test","cad","robot","dfm","data"]};
+  if(d.steps) h+='<h2>'+(lang==="nl"?"Hoe het gaat":"How it goes")+'</h2>'
+    +stepList(d.steps,STEPICONS[id]);
   if(d.note) h+='<div class="marginnote"><h3>'+esc(t(d.noteh))+'</h3><p>'+esc(t(d.note))+'</p></div>';
   h+='</div></section>';
   h+='<section class="band band--tight"><div class="wrap">'+expBlock(true,id)
@@ -365,7 +425,7 @@ function renderArea(id){
 
 function renderWork(){
   var d=C.work;
-  var h='<section class="opener"><div class="narrow"><div class="lbl">Portfolio</div>'
+  var h='<section class="opener">'+watermark("work")+'<div class="narrow"><div class="lbl">Portfolio</div>'
     +'<h1>'+(lang==="nl"?"Werk":"Work")+'</h1><p class="deck">'+esc(t(d.lede))+'</p></div></section>';
   h+=flowSplit(6,"var(--paper)","var(--paper)",5);
   h+='<section class="band band--tight"><div class="wrap">';
@@ -396,7 +456,7 @@ function renderWork(){
 /* Prices. Ranges, with the reasons they are ranges — see C.price in content.js. */
 function renderPrice(){
   var d=C.price,h="";
-  h+='<section class="opener"><div class="narrow"><div class="lbl">'
+  h+='<section class="opener">'+watermark("price")+'<div class="narrow"><div class="lbl">'
     +(lang==="nl"?"Tarieven":"Pricing")+'</div><h1>'+esc(t(d.lede))+'</h1></div></section>';
   h+='<section class="band band--tight"><div class="narrow">'
     +'<p class="deck" style="max-width:none">'
@@ -421,8 +481,9 @@ function renderPrice(){
 
   h+=flowSplit(8,"var(--paper2)","var(--paper)",5);
   h+='<section class="band"><div class="wrap"><h2 class="rv">'+esc(t(d.whyh))+'</h2>'
-    +'<div class="rv">'+cardRow(d.why)+'</div>'
-    +'<h2 class="rv" style="margin-top:96px">'+esc(t(d.fixh))+'</h2>'+stepList(d.fix)
+    +'<div class="rv">'+cardRow(d.why,["cad","control","test","robot"])+'</div>'
+    +'<h2 class="rv" style="margin-top:96px">'+esc(t(d.fixh))+'</h2>'
+    +stepList(d.fix,["web","elec","data","dfm"])
     +'<div class="marginnote"><h3>'+esc(t(d.noteh))+'</h3><p>'+esc(t(d.note))+'</p></div>'
     +ctaBlock(lang==="nl"?"Stuur uw vraag in twee zinnen."
                         :"Send your question in two sentences.")+'</div></section>';
@@ -432,7 +493,7 @@ function renderPrice(){
 function renderContact(){
   var d=C.contact,opts=lang==="nl"?d.types.nl:d.types.en,o="";
   for(var i=0;i<opts.length;i++) o+='<option>'+esc(opts[i])+'</option>';
-  var h='<section class="opener"><div class="narrow"><div class="lbl">'
+  var h='<section class="opener">'+watermark("contact")+'<div class="narrow"><div class="lbl">'
     +(lang==="nl"?"Neem contact op":"Get in touch")+'</div><h1>Contact</h1>'
     +'<p class="deck">'+esc(t(d.lede))+'</p></div></section>';
   h+='<section class="band band--tight"><div class="narrow"><form id="cform" novalidate>'
@@ -457,7 +518,6 @@ function renderContact(){
   for(var j=0;j<d.details.length;j++)
     h+='<div><div class="k">'+esc(t(d.details[j].k))+'</div><div>'+esc(t(d.details[j].v))+'</div></div>';
   h+='</div></div></section>';
-  h+='<section class="band band--tight"><div class="wrap">'+expBlock(false)+'</div></section>';
   return h;
 }
 

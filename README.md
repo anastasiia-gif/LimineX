@@ -20,7 +20,7 @@ Almost everything you'll want to change is in **one file**:
 | **`src/content.js`** | **Every word on the site, Dutch and English side by side.** Start here. |
 | `src/styles.css` | Colours, spacing, type. The palette is the block of `--variables` at the top. |
 | `src/app.js` | Page layout and behaviour — which sections appear, in what order. |
-| `src/drawings.js` | The engineering line drawings (drone, valve, bracket, printer, laser, CNC). |
+| `src/drawings.js` | Two sets: **`DRAW`** — the big engineering line drawings (drone, valve, bracket, PCB, printer, laser, CNC, gears, antenna, bench, layout, dimensioned block), used for the drawing plates and the corner marks on each page opener. **`ICON`** — the small discipline marks used on service rows, cards and steps. |
 | `src/graphics.js` | The wave dividers and the ripples on the home page. |
 | `src/template.html` | The page shell: nav, footer. |
 | `build.py` | **`PAGES`** — the URL, title, description and pre-JavaScript text of every page. Edit here to add a page or change a slug. Also the structured data and the domain. |
@@ -48,6 +48,27 @@ placeholder if there isn't.
 4. `python3 build.py`. The build embeds it and prints the size.
 
 The cards and the Work page link out to the live sites either way.
+
+### Where the drawings appear
+
+- **Corner marks** on every page opener except the home page: two per page, top-left and
+  bottom-right, picked in `WMARKS` in `app.js`. Decorative, `aria-hidden`, and they never
+  overlap the heading.
+- **Drawing plates** — the framed sheets with a title block — on Prototyping and
+  Manufacturing, configured in `PLATES`.
+- **Discipline icons** on service rows, cards and process steps. Each render call passes a
+  list of `ICON` keys, so changing an icon is editing one array in `app.js`.
+
+### What proof shows where
+
+`expBlock(withNext, area)` decides it, and `SHOWFOLIO` in `app.js` is the switch:
+
+- **IT & Web** shows the two delivered websites, and no engineering work.
+- **Prototyping, Manufacturing, Start-ups** show the engineering work, and no websites.
+- **Project Yard and Contact** show neither — one is an idea being tested, the other is a form.
+- **About and Pricing** show both.
+
+Each engineering item lists the `areas` it belongs to, in `EXPERIENCE` in `content.js`.
 
 ### Two things worth knowing
 
