@@ -1,24 +1,29 @@
-<title>Liminex Site Build</title>
+__HEAD__
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,75..125,300..800;1,75..125,400&display=swap">
-<style>
-__STYLES__
-</style>
+<link rel="stylesheet" href="/assets/site.css">
 
-<a class="skip" href="#app" id="skiplink">Naar de inhoud</a>
+<a class="skip" href="#app" id="skiplink">__SKIP__</a>
 
-<nav class="bar" id="mainnav" aria-label="Hoofdnavigatie"><div class="wrap">
-  <button class="navmark" data-go="home" id="wordmark"><img id="navlogo" alt="" src=""><span>Liminex</span></button>
-  <div class="navlinks" id="navlinks"></div>
+<nav class="bar" id="mainnav" aria-label="__NAVLABEL__"><div class="wrap">
+  <a class="navmark" href="__HOME__" data-go="home" id="wordmark"><img id="navlogo" alt="" src=""><span>Liminex</span></a>
+  <div class="navlinks" id="navlinks">__STATICNAV__</div>
   <div class="langtog" role="group" id="langgroup" aria-label="Taal / Language">
-    <button id="btn-nl" data-lang="nl" aria-pressed="true" lang="nl" aria-label="Nederlands">NL</button>
+    <a id="btn-nl" href="__NL_URL__" hreflang="nl" lang="nl" aria-label="Nederlands">NL</a>
     <span class="sep" aria-hidden="true">/</span>
-    <button id="btn-en" data-lang="en" aria-pressed="false" lang="en" aria-label="English">EN</button>
+    <a id="btn-en" href="__EN_URL__" hreflang="en" lang="en" aria-label="English">EN</a>
   </div>
 </div></nav>
 
-<main id="app" tabindex="-1"></main>
+<main id="app" tabindex="-1">
+  <!-- Static copy so the page carries its own text before any JavaScript runs.
+       The app replaces this on load. -->
+  <section class="band band--tight"><div class="narrow">
+    <h1>__H1__</h1>
+    <p class="deck">__INTRO__</p>
+  </div></section>
+</main>
 
 <footer class="site"><div class="wrap">
   <div class="fcols">
@@ -31,19 +36,8 @@ __STYLES__
     <div><div class="fh" id="f-h3">Contact</div>
       <p style="margin-top:0">info@liminex.net<br>'s-Hertogenbosch<br>Noord-Brabant</p></div>
   </div>
-  <div class="fbase"><span>Liminex VOF · KvK 42104253</span><span id="f-legal"></span></div>
+  <div class="fbase"><span>Liminex VOF &middot; KvK 42104253</span><span id="f-legal"></span></div>
 </div></footer>
 
-<aside class="editnote" aria-label="Build note"><div class="wrap">
-  <strong>Build note, not part of the site:</strong> copy lives in the <code>C</code> object; the palette is taken
-  from the logo and set in <code>:root</code>. The logo is embedded as two base64 images at the top of the script.
-  Photo and client-logo placeholders are dashed and say what belongs in them.
-</div></aside>
-
-<script>
-__ASSETS__
-__CONTENT__
-__GRAPHICS__
-__DRAWINGS__
-__APP__
-</script>
+<script>var BOOT = __BOOT__;</script>
+<script src="/assets/site.js" defer></script>

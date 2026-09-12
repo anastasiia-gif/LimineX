@@ -1,30 +1,36 @@
 #!/usr/bin/env python3
 """
-Accessibility audit — WCAG 2.1 AA via axe-core.
+Accessibility audit — WCAG 2.1 AA via axe-core, across every real URL.
 
-    pip install playwright && playwright install chromium
     npm install axe-core
+    pip install playwright && playwright install chromium
+    python3 build.py
+    python3 -m http.server 8899 --directory dist &
     python3 tools/audit.py
 
-Walks every page in both languages at desktop and mobile widths, plus the nav
+Checks every page in both languages at desktop and mobile widths, plus the nav
 dropdown open, and reports violations, JavaScript errors and horizontal overflow.
-Run it before every deploy that touches colours or markup. It should print 0.
+Exits non-zero if anything is wrong.
 """
-import json, pathlib, sys
+import json, pathlib, re, sys, urllib.request
 from playwright.sync_api import sync_playwright
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 AXE  = ROOT / "node_modules/axe-core/axe.min.js"
-PAGE = ROOT / "dist/index.html"
-PAGES = ["home","web","proto","make","yard","start","work","about","contact"]
-VIEWPORTS = [{"width":1440,"height":900}, {"width":390,"height":844}]
-TAGS = ["wcag2a","wcag2aa","wcag21a","wcag21aa"]
+BASE = sys.argv[1] if len(sys.argv) > 1 else "http://localhost:8899"
+VIEWPORTS = [{"width": 1440, "height": 900}, {"width": 390, "height": 844}]
+TAGS = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"]
 
-if not AXE.exists(): sys.exit("axe-core not found — run: npm install axe-core")
-if not PAGE.exists(): sys.exit("dist/index.html not found — run: python3 build.py")
+if not AXE.exists():
+    sys.exit("axe-core not found — run: npm install axe-core")
+
+try:
+    sitemap = urllib.request.urlopen(BASE + "/sitemap.xml", timeout=5).read().decode()
+except Exception as e:
+    sys.exit("can't reach %s (%s) — is the server running?" % (BASE, e))
+urls = [re.sub(r"^https?://[^/]+", "", u) for u in re.findall(r"<loc>(.*?)</loc>", sitemap)]
 
 axe = AXE.read_text()
-url = PAGE.as_uri()
 total, scans, errors, overflow = 0, 0, [], []
 
 with sync_playwright() as p:
@@ -32,29 +38,37 @@ with sync_playwright() as p:
     for vp in VIEWPORTS:
         page = browser.new_page(viewport=vp)
         page.on("pageerror", lambda e: errors.append(str(e)))
-        page.goto(url)
-        for lang in ("nl","en"):
-            page.evaluate("l => document.querySelector('[data-lang='+l+']').click()", lang)
-            for name in PAGES:
-                page.evaluate("""id => {
-                    let b = document.querySelector('[data-go='+id+']');
-                    if (!b) { document.getElementById('ddbtn').click();
-                              b = document.querySelector('#ddmenu [data-go='+id+']'); }
-                    b.click();
-                }""", name)
-                page.wait_for_timeout(3000)          # let the reveal animation settle
-                page.evaluate(axe)
-                res = page.evaluate("axe.run(document,{runOnly:{type:'tag',values:%s}})" % json.dumps(TAGS))
-                scans += 1
-                if page.evaluate("document.documentElement.scrollWidth > document.documentElement.clientWidth"):
-                    overflow.append((name, lang, vp["width"]))
-                for v in res["violations"]:
-                    total += len(v["nodes"])
-                    print(f'{vp["width"]:>5}  {lang}  {name:<9} {v["id"]:<22} {v["impact"]:<8} '
-                          f'{len(v["nodes"])}x  {v["nodes"][0]["html"][:90]}')
+        # Don't wait on the webfont CDN — it makes a 20-page sweep take minutes and
+        # tells us nothing about accessibility.
+        page.route("**://fonts.googleapis.com/**", lambda r: r.abort())
+        page.route("**://fonts.gstatic.com/**", lambda r: r.abort())
+        for path in urls:
+            page.goto(BASE + path)
+            page.wait_for_timeout(2200)          # let the reveal animation settle
+            page.evaluate(axe)
+            res = page.evaluate("axe.run(document,{runOnly:{type:'tag',values:%s}})" % json.dumps(TAGS))
+            scans += 1
+            if page.evaluate("document.documentElement.scrollWidth > document.documentElement.clientWidth"):
+                overflow.append((path, vp["width"]))
+            for v in res["violations"]:
+                total += len(v["nodes"])
+                print("%5d  %-26s %-22s %-8s %dx  %s" % (
+                    vp["width"], path, v["id"], v["impact"], len(v["nodes"]),
+                    v["nodes"][0]["html"][:80]))
+        # dropdown open
+        page.goto(BASE + "/")
+        page.wait_for_timeout(2000)
+        page.evaluate("document.getElementById('ddbtn').click()")
+        page.wait_for_timeout(400)
+        page.evaluate(axe)
+        res = page.evaluate("axe.run(document,{runOnly:{type:'tag',values:%s}})" % json.dumps(TAGS))
+        scans += 1
+        for v in res["violations"]:
+            total += len(v["nodes"])
+            print("%5d  %-26s %-22s %-8s %dx" % (vp["width"], "(dropdown open)", v["id"], v["impact"], len(v["nodes"])))
         page.close()
     browser.close()
 
-print(json.dumps({"scans":scans, "violations":total,
-                  "js_errors":errors, "overflow":overflow}, indent=2))
+print(json.dumps({"pages": len(urls), "scans": scans, "violations": total,
+                  "js_errors": errors, "overflow": overflow}, indent=2))
 sys.exit(1 if (total or errors or overflow) else 0)

@@ -5,6 +5,10 @@ no build tools. If you can edit a text file you can edit this site.
 
 Live at **https://liminex.net** · deployed automatically from `main`.
 
+**20 pages**: every page has a real URL in both languages (`/prototyping/`,
+`/en/prototyping/`, …), its own title, description, canonical and `hreflang`. One
+JavaScript app serves all of them; `build.py` writes the shells.
+
 ---
 
 ## Editing
@@ -19,7 +23,7 @@ Almost everything you'll want to change is in **one file**:
 | `src/drawings.js` | The engineering line drawings (drone, valve, bracket, printer, laser, CNC). |
 | `src/graphics.js` | The wave dividers and the ripples on the home page. |
 | `src/template.html` | The page shell: nav, footer. |
-| `build.py` | Title, meta description, social preview, domain. |
+| `build.py` | **`PAGES`** — the URL, title, description and pre-JavaScript text of every page. Edit here to add a page or change a slug. Also the structured data and the domain. |
 | `assets/` | Logo files and the social preview image. |
 
 ### How the copy works
@@ -33,11 +37,28 @@ lede:{nl:"Van schets naar werkend prototype.",
 
 Change both, or the site will show the old wording to half its visitors.
 
+### Adding a project screenshot
+
+Portfolio cards show a real screenshot if there's a file for them, and a labelled
+placeholder if there isn't.
+
+1. Screenshot the site at **1440 x 900**, save as JPG (quality ~80, under ~300 KB).
+2. Name it after the case's `img` key in `src/content.js` — currently `hutko` and `maks`.
+3. Drop it in **`assets/work/`** → `assets/work/hutko.jpg`, `assets/work/maks.jpg`.
+4. `python3 build.py`. The build embeds it and prints the size.
+
+The cards and the Work page link out to the live sites either way.
+
 ### Two things worth knowing
 
 - **Prices.** There are none anywhere, deliberately. `svcList()` in `app.js` closes every
   service list with "we don't work from a price list". Don't reintroduce prices without
   deciding that on purpose.
+- **The opening.** The black panel on the home page is `position:fixed` and collapses as
+  you scroll — `setupOpening` logic lives in `onScroll()` in `app.js`, which writes a `--p`
+  variable (0 open, 1 closed) that `styles.css` uses for the panel height, the logo scale
+  and the fade. `.opening` is the spacer that gives it scroll distance. To change how fast
+  it closes, change `travel` in `onScroll()`.
 - **`LINES_ABOVE_LOGO`.** The home page used to have blue lines crossing above the logo.
   They were removed in `src/graphics.js` → `overtureCurves()`. The ripples that remain
   spread from the mark. Put the loop back if you want them again.
@@ -47,9 +68,22 @@ Change both, or the site will show the old wording to half its visitors.
 ## Building locally
 
 ```bash
-python3 build.py          # writes dist/
-open dist/index.html      # macOS   (Linux: xdg-open, Windows: start)
+python3 build.py                              # writes dist/
+python3 -m http.server 8899 --directory dist  # then open http://localhost:8899
 ```
+
+Open `dist/index.html` straight from disk and the shared CSS and JS won't load —
+they're referenced from the site root. Use the server, or:
+
+```bash
+python3 build.py --single     # dist/single.html, everything inlined, for emailing
+```
+
+### Adding or renaming a page
+
+Both live in `PAGES` in `build.py`: the `slug` sets the URL, and the `id` must match
+the page id the app uses. Changing a slug changes the URL — set up a redirect or
+accept the lost links.
 
 `dist/` is generated and **not** committed — GitHub rebuilds it on every push.
 
@@ -88,8 +122,8 @@ pass → tick **Enforce HTTPS** (can take up to 24 h to become available).
 
 ## Accessibility
 
-The site is tested against WCAG 2.1 AA with axe-core: 9 pages × 2 languages × desktop and
-mobile, plus the navigation dropdown open. Last run: **0 violations, 38 scans**.
+The site is tested against WCAG 2.1 AA with axe-core: every URL in the sitemap at
+desktop and mobile widths, plus the navigation dropdown open. Last run: **0 violations, 42 scans across 20 pages**.
 
 We sell accessibility audits. Keep it at zero.
 
@@ -104,7 +138,9 @@ accent does not.
 ```bash
 npm install axe-core
 pip install playwright && playwright install chromium
-python3 build.py && python3 tools/audit.py
+python3 build.py
+python3 -m http.server 8899 --directory dist &
+python3 tools/audit.py
 ```
 
 Exits non-zero if anything is wrong, so it drops straight into CI when you want it there.

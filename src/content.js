@@ -12,6 +12,52 @@ var FORMS = {
   en:"https://docs.google.com/forms/d/e/1FAIpQLScyRzXrcnD57-Fo27h5iNfAS59IsyiOmTJ825Avvrt87ieJWA/viewform"
 };
 
+
+/* ============================================================ EXPERIENCE
+   Engineering work behind the two public websites. Clients under NDA are described
+   by what was built, never by who paid for it. `areas` decides which activity pages
+   each item appears on.
+   ============================================================ */
+var EXPERIENCE = [
+  {id:"acoustic", areas:["proto","start"],
+   t:{nl:"Akoestische dronedetectie",en:"Acoustic drone detection"},
+   k:{nl:"Onderzoek + hardwarespec",en:"Research + hardware spec"},
+   p:{nl:"Een gesynchroniseerde microfoonarray die drones detecteert, classificeert en lokaliseert. Wij deden het onderzoek, de systeemarchitectuur, de hardwarespecificatie en de onderdelenlijst voor de eerste bouw in Nederland.",
+      en:"A synchronised microphone array that detects, classifies and locates drones. We did the research, the system architecture, the hardware specification and the bill of materials for the first build in the Netherlands."},
+   m:{nl:"Onder geheimhouding",en:"Under NDA"}},
+  {id:"rtk", areas:["proto","make"],
+   t:{nl:"RTK-positionering voor een drone",en:"RTK positioning for a drone"},
+   k:{nl:"Integratie + firmware",en:"Integration + firmware"},
+   p:{nl:"Centimeterpositionering aan boord: een dual-band RTK-ontvanger gekoppeld aan een vluchtcontroller, inclusief de correctiestroom en de brug ertussen. Van losse modules naar een werkend geheel.",
+      en:"Centimetre-level positioning on board: a dual-band RTK receiver tied to a flight controller, including the correction stream and the bridge between them. From loose modules to a working whole."},
+   m:{nl:"Vliegend getest",en:"Flight tested"}},
+  {id:"wearable", areas:["proto","start"],
+   t:{nl:"Draagbare alarmknop",en:"Wearable alarm device"},
+   k:{nl:"Haalbaarheid + fasering",en:"Feasibility + phasing"},
+   p:{nl:"Een start-up wilde een alarmarmband die zonder telefoon werkt — in sieraadformaat. De eerste vraag was niet hoe, maar of het past: radio, antenne en accu in die maat. We deden de haalbaarheid en stelden een goedkoper prototype voor eerst, zodat het dure deel pas betaald hoeft te worden als het idee klopt.",
+      en:"A start-up wanted an alarm bracelet that works without a phone — at jewellery scale. The first question wasn't how but whether it fits: radio, antenna and battery in that volume. We did the feasibility and proposed a cheaper prototype first, so the expensive part only gets paid for once the idea holds up."},
+   m:{nl:"Fase 1 gedefinieerd",en:"Phase 1 defined"}},
+  {id:"mech", areas:["make","proto"],
+   k:{nl:"Constructie + fabricage",en:"Structure + fabrication"},
+   t:{nl:"Draagconstructie op een voertuig",en:"Vehicle-mounted structure"},
+   p:{nl:"Een railsysteem op een autodak dat een zware, bewegende last moet dragen en bij snelheid stabiel moet blijven. Berekening, CAD, en onderdelen die met de machines hier gemaakt konden worden.",
+      en:"A rail system on a car roof carrying a heavy moving load that has to stay stable at speed. Calculation, CAD, and parts that could be made on the machines here."},
+   m:{nl:"Onder geheimhouding",en:"Under NDA"}},
+  {id:"inspect", areas:["proto","start"],
+   t:{nl:"Inspectiedrone voor leidingen",en:"Pipeline inspection drone"},
+   k:{nl:"Scope + planning",en:"Scope + planning"},
+   p:{nl:"Vóór er iets gebouwd wordt: wat moet het ding kunnen, in welke leidingen, bij welke druk, en wat kost dat aan tijd. Een plan waar een opdrachtgever een besluit op kan nemen in plaats van een offerte met aannames.",
+      en:"Before anything gets built: what the thing has to do, in which pipes, at what pressure, and what that costs in time. A plan a client can decide on, rather than a quote full of assumptions."},
+   m:{nl:"In uitvoering",en:"In progress"}}
+];
+
+var EXPH={
+  h:{nl:"Ervaring",en:"Experience"},
+  d:{nl:"Werk dat we op dit terrein gedaan hebben. Een deel valt onder geheimhouding — we beschrijven wat er gebouwd is, niet voor wie.",
+     en:"Work we've done in this area. Some of it is under NDA — we describe what was built, not who paid for it."},
+  none:{nl:"Wilt u de volgende zijn?",en:"Would you like to be next?"}
+};
+
 var C = {
 home:{
   tagline:{nl:"Make non-existent reality", en:"Make non-existent reality"},
@@ -230,18 +276,94 @@ start:{
   note:{nl:"MIT-Zuid vergoedt 35% van de kosten van een haalbaarheidsproject tot €20.000, en kosten van derden — dus onze factuur — tellen mee. De regeling loopt tot 2030. Wij helpen met de aanvraag, ook als u ons daarna niet inhuurt.",
         en:"MIT-Zuid covers 35% of the cost of a feasibility project up to €20,000, and third-party costs — our invoice — count. The scheme runs to 2030. We'll help you apply, even if you don't hire us afterwards."}
 },
+price:{
+  lede:{nl:"Wat dingen ongeveer kosten. Geen prijslijst — wel eerlijke bandbreedtes, zodat u weet waar u aan begint.",
+        en:"What things cost, roughly. Not a price list — honest ranges, so you know what you're getting into."},
+  intro:{nl:"De meeste bureaus zeggen \u201Cneem contact op\u201D en laten u raden. Dat is prettig voor hen en vervelend voor u: zonder enig idee van de orde van grootte kunt u niet beslissen of het gesprek de moeite waard is.\n\nHieronder staat wat vergelijkbaar werk bij ons meestal kost. Het zijn bandbreedtes, geen offertes: het echte getal hangt af van hoeveel er al ligt, hoe vaak er iets verandert en hoe streng de eisen zijn. Na \u00e9\u00e9n gesprek krijgt u een vaste prijs op \u00e9\u00e9n pagina.",
+         en:"Most agencies say \u201Cget in touch\u201D and leave you guessing. That is comfortable for them and annoying for you: without any sense of the order of magnitude you cannot decide whether the conversation is even worth having.\n\nBelow is what comparable work usually costs with us. These are ranges, not quotes: the real number depends on how much already exists, how often things change, and how strict the requirements are. After one conversation you get a fixed price on one page."},
+  tblh:{nl:"Richtprijzen",en:"Indicative prices"},
+  groups:[
+    {g:{nl:"Websites en webshops",en:"Websites and online shops"},
+     rows:[
+      {n:{nl:"E\u00e9n pagina, \u00e9\u00e9n doel",en:"One page, one purpose"},
+       d:{nl:"Een landingspagina die \u00e9\u00e9n ding moet doen: bellen, boeken of bestellen.",en:"A landing page that has to do one thing: call, book or order."},
+       v:"\u20ac800 \u2013 1.500"},
+      {n:{nl:"Bedrijfssite, meerdere pagina's",en:"Business site, several pages"},
+       d:{nl:"Vijf tot vijftien pagina's, zelf aanpasbaar, twee talen als dat nodig is. Dit is waar de meeste klanten uitkomen.",en:"Five to fifteen pages, editable by you, two languages when needed. This is where most clients land."},
+       v:"\u20ac2.500 \u2013 5.000"},
+      {n:{nl:"Webshop",en:"Online shop"},
+       d:{nl:"Producten, betalen, verzenden, voorraad. Prijs hangt vooral aan hoeveel uitzonderingen er in uw verzending zitten.",en:"Products, payments, shipping, stock. The price hangs mostly on how many exceptions live in your shipping rules."},
+       v:"\u20ac3.500 \u2013 8.000"},
+      {n:{nl:"Toegankelijkheidscheck + herstel",en:"Accessibility audit + fix"},
+       d:{nl:"Testen tegen WCAG 2.1 AA, rapport met wat er stuk is, en het repareren. Verplicht voor veel webshops sinds de European Accessibility Act.",en:"Tested against WCAG 2.1 AA, a report of what is broken, and the repair. Mandatory for many online shops since the European Accessibility Act."},
+       v:"\u20ac600 \u2013 1.800"},
+      {n:{nl:"Onderhoud en hosting",en:"Maintenance and hosting"},
+       d:{nl:"Updates, back-ups, kleine wijzigingen. Per maand, opzegbaar.",en:"Updates, backups, small changes. Per month, cancel any time."},
+       v:{nl:"\u20ac30 \u2013 90 / maand",en:"\u20ac30 \u2013 90 / month"}}
+     ]},
+    {g:{nl:"AI en automatisering",en:"AI and automation"},
+     rows:[
+      {n:{nl:"E\u00e9n proces automatiseren",en:"Automate one process"},
+       d:{nl:"E\u00e9n terugkerende handmatige stap wegnemen \u2014 offertes, facturen, e-mail sorteren, gegevens overtypen.",en:"Remove one recurring manual step — quotes, invoices, sorting email, retyping data."},
+       v:"\u20ac1.500 \u2013 4.000"},
+      {n:{nl:"Meerdere systemen koppelen",en:"Connect several systems"},
+       d:{nl:"Uw webshop, boekhouding en voorraad laten praten, met AI waar regels niet volstaan.",en:"Making your shop, bookkeeping and stock talk to each other, with AI where rules aren't enough."},
+       v:"\u20ac4.000 \u2013 12.000"},
+      {n:{nl:"Draaiend houden",en:"Keeping it running"},
+       d:{nl:"Monitoring, model- en API-kosten, en een klein wijzigingsbudget.",en:"Monitoring, model and API cost, and a small change budget."},
+       v:{nl:"\u20ac75 \u2013 250 / maand",en:"\u20ac75 \u2013 250 / month"}}
+     ]},
+    {g:{nl:"Prototyping en engineering",en:"Prototyping and engineering"},
+     rows:[
+      {n:{nl:"Haalbaarheid, \u00e9\u00e9n week",en:"Feasibility, one week"},
+       d:{nl:"Kan dit wat u wilt? Berekeningen, risico's, een grove kostenraming en een eerlijk advies om wel of niet door te gaan.",en:"Can this do what you want? Calculations, risks, a rough cost estimate and an honest recommendation on whether to continue."},
+       v:"\u20ac1.500 \u2013 3.000"},
+      {n:{nl:"Werkend prototype",en:"Working prototype"},
+       d:{nl:"Mechanica, elektronica, firmware en besturing tot iets dat doet wat het moet doen. Breed, omdat een drone iets anders is dan een testopstelling.",en:"Mechanics, electronics, firmware and control until something does what it should. A wide band, because a drone is not a test rig."},
+       v:"\u20ac6.000 \u2013 20.000"},
+      {n:{nl:"Onderdelen laten maken",en:"Parts made"},
+       d:{nl:"Losse onderdelen op de machines hier: 3D-print, lasersnijden of kleine CNC. Per onderdeel, meestal binnen een week.",en:"Individual parts on the machines here: 3D print, laser cutting or small CNC. Per part, usually within a week."},
+       v:{nl:"vanaf \u20ac45",en:"from \u20ac45"}},
+      {n:{nl:"Engineering-capaciteit",en:"Engineering capacity"},
+       d:{nl:"Vaste uren per maand voor bedrijven met structureel ontwikkelwerk en geen eigen engineer.",en:"Fixed hours per month for companies with ongoing development work and no engineer of their own."},
+       v:{nl:"\u20ac65 \u2013 95 / uur",en:"\u20ac65 \u2013 95 / hour"}}
+     ]}
+  ],
+  whyh:{nl:"Waarom bandbreedtes en geen vaste prijzen",en:"Why ranges and not fixed prices"},
+  why:[
+    {h:{nl:"Wat er al ligt",en:"What already exists"},
+     p:{nl:"Teksten, foto's en merk aanwezig? Dan zit u aan de onderkant. Moet dat er nog komen, aan de bovenkant.",en:"Copy, photos and brand ready? You're at the bottom of the range. If those still have to be made, the top."}},
+    {h:{nl:"Hoe vaak het verandert",en:"How often it changes"},
+     p:{nl:"Eén beslisser die knopen doorhakt is goedkoper dan een commissie. Dat is geen verwijt, het is planning.",en:"One decision-maker who decides is cheaper than a committee. That's not a complaint, it's planning."}},
+    {h:{nl:"Hoe streng de eisen zijn",en:"How strict the requirements are"},
+     p:{nl:"Een testopstelling mag stuk. Iets dat buiten hangt of dat mensen bedienen, mag dat niet — en dat kost tijd.",en:"A test rig is allowed to break. Something mounted outdoors or operated by people is not, and that costs time."}},
+    {h:{nl:"Wie het doet",en:"Who does it"},
+     p:{nl:"Waar het kan zetten we studenten in onder begeleiding. Dat scheelt u geld en leidt mensen op die deze regio nodig heeft.",en:"Where we can, we put students on it with supervision. That saves you money and trains the people this region needs."}}
+  ],
+  fixh:{nl:"Hoe u aan een vast bedrag komt",en:"How you get to a fixed number"},
+  fix:[
+    {h:{nl:"Twee zinnen",en:"Two sentences"},p:{nl:"U stuurt wat er moet gebeuren. Wij zeggen eerlijk of het bij ons past \u2014 soms is het antwoord nee.",en:"You send what needs to happen. We say honestly whether it suits us — sometimes the answer is no."}},
+    {h:{nl:"Een half uur",en:"Half an hour"},p:{nl:"Gratis, met de engineer die het werk zou doen. Geen accountmanager.",en:"Free, with the engineer who'd do the work. No account manager."}},
+    {h:{nl:"E\u00e9n pagina",en:"One page"},p:{nl:"Scope, vaste prijs en planning. Geen bijlagen van dertig pagina's.",en:"Scope, fixed price and timeline. No thirty-page appendix."}},
+    {h:{nl:"Daarna pas rekenen",en:"Only then the bill"},p:{nl:"Meerwerk gaat alleen door als u er vooraf ja op zegt. Geen verrassingen achteraf.",en:"Extra work only proceeds if you say yes to it in advance. No surprises afterwards."}}
+  ],
+  noteh:{nl:"Wat hier niet in staat",en:"What's not in here"},
+  note:{nl:"Serieproductie, inkoop en grotere engineeringtrajecten begroten we per geval \u2014 daar bepalen aantallen en materiaal de prijs, niet ons uurtarief. Voor Project Yard geldt hetzelfde: dat is nog in opbouw.",
+        en:"Series production, sourcing and larger engineering programmes are quoted case by case — there the volumes and materials set the price, not our hourly rate. The same goes for Project Yard: that one is still being built."}
+},
+
 work:{
   lede:{nl:"Opgeleverd werk, nog in gebruik. Wilt u met een klant spreken, dan regelen we dat.",
         en:"Delivered work, still in use. If you want to speak to a client, we'll arrange it."},
   cases:[
-    {t:"HUTKO Kitchen", tag:{nl:"Website & webshop",en:"Website & online shop"}, url:"hutko-kitchen.com",
-     short:{nl:"Oekraïense gerechten, vers ingevroren, bezorgd door heel Nederland.",en:"Ukrainian dishes, frozen fresh, delivered across the Netherlands."},
+    {t:"HUTKO Kitchen", img:"hutko", tag:{nl:"Website & webshop",en:"Website & online shop"}, url:"hutko-kitchen.com",
+     short:{nl:"Oekraïens diepvriesmerk in Nederland. Wij bouwen en onderhouden de site, de webshop en de orderafhandeling.",en:"Ukrainian frozen food brand in the Netherlands. We build and maintain the site, the shop and order handling."},
      p:{nl:"HUTKO Kitchen maakt Oekraïense gerechten, vriest ze vers in en bezorgt door heel Nederland. Wij bouwden de website en de webshop: losse gerechten en samengestelde pakketten, bestellen met bezorging op donderdag en zaterdag tussen 16.00 en 21.00 uur, en een verhaal dat uitlegt waarom bevroren hier juist een voordeel is.",
         en:"HUTKO Kitchen makes Ukrainian dishes, freezes them fresh and delivers across the Netherlands. We built the website and the shop: individual dishes and ready-made boxes, ordering with delivery on Thursdays and Saturdays between 16:00 and 21:00, and a story that explains why frozen is an advantage rather than a compromise."},
      dl:[{k:{nl:"Wat we deden",en:"What we did"},v:{nl:"Ontwerp, bouw, webshop",en:"Design, build, online shop"}},
          {k:{nl:"Bijzonder",en:"Notable"},v:{nl:"Bezorging in vaste vensters door heel NL",en:"Fixed delivery windows nationwide"}},
          {k:{nl:"Status",en:"Status"},v:{nl:"Live en in gebruik",en:"Live and in use"}}]},
-    {t:"МАКС Автосервіс", tag:{nl:"Website met online afspraken",en:"Website with online booking"}, url:"maksavtoservice.com",
+    {t:"МАКС Автосервіс", img:"maks", tag:{nl:"Website met online afspraken",en:"Website with online booking"}, url:"maksavtoservice.com",
      short:{nl:"Autoservice in Kyiv. Elke dienst met prijs én tijdsduur, en zelf een tijdslot kiezen.",en:"Car service in Kyiv. Every service with price and duration, and pick your own slot."},
      p:{nl:"Een autoservice in Kyiv die het anders wilde doen dan de rest van de branche: geen verrassingen op de rekening. Wij bouwden een tweetalige site (Oekraïens en Engels) waarop elke dienst met prijs én tijdsduur staat — olie verversen, computerdiagnose, banden, remmen, uitlijnen op 3D-apparatuur — plus een afsprakensysteem waarin de klant zelf een tijdslot kiest.",
         en:"A car service in Kyiv that wanted to work differently from the rest of the trade: no surprises on the bill. We built a bilingual site (Ukrainian and English) where every service is listed with its price and how long it takes — oil changes, computer diagnostics, tyres, brakes, 3D wheel alignment — plus a booking system where the customer picks their own time slot."},

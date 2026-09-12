@@ -10,21 +10,39 @@ var ACT=[{id:"web",nl:"IT & Web",en:"IT & Web"},
   {id:"proto",nl:"Prototyping",en:"Prototyping"},{id:"make",nl:"Productie",en:"Manufacturing"},
   {id:"yard",nl:"Project Yard",en:"Project Yard"},{id:"start",nl:"Start-ups",en:"Start-ups"},
   {id:"work",nl:"Ons werk",en:"Our work"}];
-var NAV=[{id:"about",nl:"Over ons",en:"About us"},{id:"contact",nl:"Contact",en:"Contact"}];
+var NAV=[{id:"price",nl:"Tarieven",en:"Pricing"},
+  {id:"about",nl:"Over ons",en:"About us"},{id:"contact",nl:"Contact",en:"Contact"}];
 var ACTL={nl:"Activiteiten",en:"Activities"};
 
+/* ---------------- URLs ----------------
+   ROUTES is written by build.py so the JS and the build always agree on slugs.
+   Every clickable destination is a real <a href> so crawlers can follow it;
+   clicks are intercepted and handled client-side. */
+function href(id, l){
+  var m = (typeof ROUTES!=="undefined") && ROUTES[l||lang];
+  return (m && m[id]) || "/";
+}
+function pageFromPath(path){
+  for(var l in ROUTES){ for(var id in ROUTES[l]){ if(ROUTES[l][id]===path) return {page:id, lang:l}; } }
+  return null;
+}
+function go(id, attrs){
+  return '<a href="'+href(id)+'" data-go="'+id+'"'+(attrs||"")+'>';
+}
 function renderNav(){
   var open=ACT.some(function(a){return a.id===page;});
   var m="";
   for(var i=0;i<ACT.length;i++)
-    m+='<button role="menuitem" data-go="'+ACT[i].id+'"'+(page===ACT[i].id?' aria-current="page"':'')+'>'
-      +esc(lang==="nl"?ACT[i].nl:ACT[i].en)+'</button>';
+    m+='<a role="menuitem" href="'+href(ACT[i].id)+'" data-go="'+ACT[i].id+'"'
+      +(page===ACT[i].id?' aria-current="page"':'')+'>'
+      +esc(lang==="nl"?ACT[i].nl:ACT[i].en)+'</a>';
   var h='<div class="dd"><button id="ddbtn" aria-expanded="false" aria-haspopup="true" aria-controls="ddmenu"'
     +(open?' aria-current="page"':'')+'>'+esc(t(ACTL))+'</button>'
     +'<div class="ddmenu" id="ddmenu" role="menu" aria-labelledby="ddbtn" hidden>'+m+'</div></div>';
   for(var j=0;j<NAV.length;j++)
-    h+='<button data-go="'+NAV[j].id+'"'+(page===NAV[j].id?' aria-current="page"':'')+'>'
-      +esc(lang==="nl"?NAV[j].nl:NAV[j].en)+'</button>';
+    h+='<a href="'+href(NAV[j].id)+'" data-go="'+NAV[j].id+'"'
+      +(page===NAV[j].id?' aria-current="page"':'')+'>'
+      +esc(lang==="nl"?NAV[j].nl:NAV[j].en)+'</a>';
   document.getElementById("navlinks").innerHTML=h;
 }
 function ddSet(open){
@@ -34,11 +52,12 @@ function ddSet(open){
 }
 function renderFooter(){
   var w="",m="";
-  w+='<button data-go="work">'+esc(t(C.foot.work))+'</button>';
-  for(var i=0;i<TOPROW;i++) w+='<button data-go="'+AREAS[i].id+'">'+esc(aName(AREAS[i]))+'</button>';
-  for(var j=TOPROW;j<AREAS.length;j++) m+='<button data-go="'+AREAS[j].id+'">'+esc(aName(AREAS[j]))+'</button>';
-  m+='<button data-go="about">'+esc(lang==="nl"?"Over ons":"About us")+'</button>';
-  m+='<button data-go="contact">'+esc(t(C.foot.contact))+'</button>';
+  w+=go("work")+esc(t(C.foot.work))+'</a>';
+  for(var i=0;i<TOPROW;i++) w+=go(AREAS[i].id)+esc(aName(AREAS[i]))+'</a>';
+  for(var j=TOPROW;j<AREAS.length;j++) m+=go(AREAS[j].id)+esc(aName(AREAS[j]))+'</a>';
+  m+=go("price")+esc(lang==="nl"?"Tarieven":"Pricing")+'</a>';
+  m+=go("about")+esc(lang==="nl"?"Over ons":"About us")+'</a>';
+  m+=go("contact")+esc(t(C.foot.contact))+'</a>';
   document.getElementById("f-work").innerHTML=w;
   document.getElementById("f-more").innerHTML=m;
   document.getElementById("f-h1").textContent=t(C.foot.work);
@@ -52,9 +71,11 @@ function svcList(list,heading){
   for(var i=0;i<list.length;i++)
     h+='<div class="svc"><h3>'+esc(t(list[i].n))+'</h3><p>'+esc(t(list[i].d))+'</p></div>';
   return h+'</div><p class="onreq">'
-    +(lang==="nl"?"Elk project is anders, dus we werken niet met een prijslijst. Vertel wat er moet gebeuren en u krijgt een voorstel op één pagina — scope, prijs en planning."
-                 :"Every project is different, so we don't work from a price list. Tell us what needs to happen and you get a proposal on one page — scope, price and timeline.")
-    +'</p>';
+    +(lang==="nl"?"Elk project is anders, dus dit is geen prijslijst. Wat vergelijkbaar werk ongeveer kost staat bij "
+                 :"Every project is different, so this isn't a price list. What comparable work roughly costs is on ")
+    +'<button class="inlink" data-go="price">'+(lang==="nl"?"tarieven":"pricing")+'</button>'
+    +(lang==="nl"?". Na één gesprek krijgt u een vaste prijs op één pagina."
+                 :". After one conversation you get a fixed price on one page.")+'</p>';
 }
 function stepList(list){
   var h='<div class="steps">';
@@ -79,15 +100,23 @@ function folioStrip(withNext){
   if(withNext) h+='<p class="deck rv" style="margin-top:20px">'+esc(t(f.nextp))+'</p>';
   return h+folioCards();
 }
+/* A card per delivered project. Drop a screenshot in assets/work/<img>.jpg|png|webp and
+   the build embeds it here; without one you get a labelled placeholder instead. */
+function shotFor(c){
+  var src = (typeof WORKSHOTS!=="undefined") && WORKSHOTS[c.img];
+  if(src) return '<span class="shot has-img"><img src="'+src+'" alt="'
+    +esc(c.t+(lang==="nl"?" — de site die wij bouwden":" — the site we built"))+'" loading="lazy"></span>';
+  return '<span class="shot"><span class="t">'+(lang==="nl"?"Screenshot":"Screenshot")+'</span>'
+    +'<span class="s">'+esc(c.url)+' &middot; 16:10</span></span>';
+}
 function folioCards(){
   var d=C.work,h='<div class="folio rv">';
   for(var i=0;i<d.cases.length;i++){
     var c=d.cases[i];
-    h+='<button class="fcard" data-go="work">'
-      +'<span class="shot"><span class="t">'+(lang==="nl"?"Screenshot":"Screenshot")+'</span>'
-      +'<span class="s">'+esc(c.url)+' · 16:10</span></span>'
+    h+=go("work",' class="fcard"')+shotFor(c)
       +'<span class="body"><span class="tag">'+esc(t(c.tag))+'</span>'
-      +'<h3>'+esc(c.t)+'</h3><p>'+esc(t(c.short))+'</p></span></button>';
+      +'<h3>'+esc(c.t)+'</h3><p>'+esc(t(c.short))+'</p>'
+      +'<span class="live">'+esc(c.url)+'</span></span></a>';
   }
   return h+'</div>';
 }
@@ -124,24 +153,47 @@ function plate(id){
 function watermark(kind){
   return '<div class="wmark" aria-hidden="true">'+DRAW[kind]+'</div>';
 }
-function expBlock(withNext){
-  var f=C.folio;
-  return '<div class="lbl lbl--q rv">'+esc(t(f.exph))+'</div>'
-    +'<h2 class="rv" style="margin-top:16px;max-width:18ch">'+esc(t(withNext?f.next:f.expd))+'</h2>'
-    +(withNext?'<p class="deck rv" style="margin-top:20px">'+esc(t(f.nextp))+'</p>':'')
-    +folioCards();
+/* The experience section every activity page ends on: engineering work for this area,
+   then the two public websites, then the ask. Pass an area id to filter. */
+function expItems(area){
+  var out=[];
+  for(var i=0;i<EXPERIENCE.length;i++){
+    var e=EXPERIENCE[i];
+    if(!area || e.areas.indexOf(area)>=0) out.push(e);
+  }
+  return out;
+}
+function expBlock(withNext, area){
+  var items=expItems(area);
+  var h='<div class="lbl lbl--q rv">'+esc(t(EXPH.h))+'</div>'
+    +'<h2 class="rv" style="margin-top:16px;max-width:20ch">'+esc(t(withNext?EXPH.none:C.folio.expd))+'</h2>'
+    +'<p class="deck rv" style="margin-top:18px">'+esc(t(EXPH.d))+'</p>';
+  if(items.length){
+    h+='<div class="exp rv">';
+    for(var i=0;i<items.length;i++){
+      var e=items[i];
+      h+='<div class="expitem"><div class="k">'+esc(t(e.k))+'</div>'
+        +'<div><h3>'+esc(t(e.t))+'</h3><p>'+esc(t(e.p))+'</p>'
+        +'<span class="st">'+esc(t(e.m))+'</span></div></div>';
+    }
+    h+='</div>';
+  }
+  h+='<h3 class="rv" style="margin-top:64px">'+(lang==="nl"?"Sites die live staan":"Sites that are live")+'</h3>';
+  h+=folioCards();
+  if(withNext) h+='<p class="deck rv" style="margin-top:30px">'+esc(t(C.folio.nextp))+'</p>';
+  return h;
 }
 function ctaBlock(head){
   return '<div class="cta"><h2>'+esc(head)+'</h2>'
-    +'<button class="btn" data-go="contact">'+esc(t(C.home.ctab))+'</button></div>';
+    +go("contact",' class="btn"')+esc(t(C.home.ctab))+'</a></div>';
 }
 
 function renderHome(){
   var d=C.home,h="";
-  h+='<section class="overture">'
+  h+='<div class="opening"><section class="overture">'
     +'<div class="curves" aria-hidden="true">'+overtureCurves()+'</div>'
     +'<h1 class="logo"><img src="'+LOGO_HERO+'" alt="Liminex — Make non-existent reality"></h1>'
-    +'<span class="scrollcue" aria-hidden="true">'+esc(t(d.scroll))+'</span></section>';
+    +'<span class="scrollcue" aria-hidden="true">'+esc(t(d.scroll))+'</span></section></div>';
 
   h+='<section class="band band--grey"><div class="wrap center">'
     +'<div class="lbl rv">'+esc(t(d.blocksh))+'</div>'
@@ -149,9 +201,9 @@ function renderHome(){
     +'<div class="wrap"><div class="blocks">';
   for(var i=0;i<AREAS.length;i++){
     var a=AREAS[i];
-    h+='<button class="block rv" data-go="'+a.id+'">'+GLYPH[a.glyph]
+    h+=go(a.id,' class="block rv"')+GLYPH[a.glyph]
       +'<span class="txt"><h3>'+esc(aName(a))+'</h3><p>'+esc(t(d.blurbs[a.id]))+'</p></span>'
-      +'<span class="more">'+esc(t(d.more))+' &rarr;</span></button>';
+      +'<span class="more">'+esc(t(d.more))+' &rarr;</span></a>';
   }
   h+='</div></div></section>';
 
@@ -238,12 +290,15 @@ function renderWeb(){
     +'<div class="wrap">'+folioCards()
     +'<div class="cta"><h2>'+esc(t(C.folio.next))+'</h2>'
     +'<p class="deck" style="margin:0 auto 28px">'+esc(t(C.folio.nextp))+'</p>'
-    +'<button class="btn" data-go="contact">'+esc(t(C.home.ctab))+'</button></div>'
+    +go("contact",' class="btn"')+esc(t(C.home.ctab))+'</a></div>'
     +'</div></section>';
 
-  /* 4. how a project runs */
+  /* 4. how a project runs, then experience last */
   h+='<section class="band"><div class="wrap">'
     +'<h2>'+(lang==="nl"?"Hoe het gaat":"How it goes")+'</h2>'+stepList(d.steps)
+    +'</div></section>';
+  h+='<section class="band band--tight"><div class="wrap">'+expBlock(true,"web")
+    +ctaBlock(lang==="nl"?"Zullen we hier een half uur over praten?":"Shall we spend half an hour on this?")
     +'</div></section>';
   return h;
 }
@@ -276,7 +331,9 @@ function renderYard(){
     +'<a href="'+FORMS.en+'" target="_blank" rel="noopener">'+esc(t(d.open))+' &rarr;</a></div>'
     +'</div><p class="muted rv" style="margin-top:34px;max-width:62ch">'+esc(t(d.status))+'</p>'
     +'</div></section>';
-  h+='<section class="band band--tight"><div class="wrap">'+expBlock(true)+'</div></section>';
+  h+='<section class="band band--tight"><div class="wrap">'+expBlock(true,"yard")
+    +ctaBlock(lang==="nl"?"Zullen we hier een half uur over praten?":"Shall we spend half an hour on this?")
+    +'</div></section>';
   return h;
 }
 
@@ -300,7 +357,7 @@ function renderArea(id){
   if(d.steps) h+='<h2>'+(lang==="nl"?"Hoe het gaat":"How it goes")+'</h2>'+stepList(d.steps);
   if(d.note) h+='<div class="marginnote"><h3>'+esc(t(d.noteh))+'</h3><p>'+esc(t(d.note))+'</p></div>';
   h+='</div></section>';
-  h+='<section class="band band--tight"><div class="wrap">'+expBlock(true)
+  h+='<section class="band band--tight"><div class="wrap">'+expBlock(true,id)
     +ctaBlock(lang==="nl"?"Zullen we hier een half uur over praten?":"Shall we spend half an hour on this?")
     +'</div></section>';
   return h;
@@ -318,15 +375,57 @@ function renderWork(){
       +'<div class="lbl">'+esc(t(c.tag))+' · '+esc(c.url)+'</div>'
       +'<h2 style="margin-top:14px">'+esc(c.t)+'</h2>'
       +'<div class="folio" style="margin-top:28px">'
-      +ph(lang==="nl"?"Screenshot van de site":"Screenshot of the site","16:10")
+      +((typeof WORKSHOTS!=="undefined" && WORKSHOTS[c.img])
+         ? '<a class="shotlink" href="https://'+c.url+'" target="_blank" rel="noopener">'
+           +'<img src="'+WORKSHOTS[c.img]+'" alt="'+esc(c.t+(lang==="nl"?" — de site die wij bouwden"
+                                                                      :" — the site we built"))+'"></a>'
+         : ph(lang==="nl"?"Screenshot van de site":"Screenshot of the site","16:10"))
       +'<div><p>'+esc(t(c.p))+'</p><dl style="display:grid;grid-template-columns:auto 1fr;gap:9px 22px;margin:0;font-size:15px">';
     for(var k=0;k<c.dl.length;k++)
       h+='<dt style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);padding-top:4px">'
         +esc(t(c.dl[k].k))+'</dt><dd style="margin:0">'+esc(t(c.dl[k].v))+'</dd>';
-    h+='</dl></div></div></div>';
+    h+='</dl><p style="margin-top:20px"><a class="livelink" href="https://'+c.url
+      +'" target="_blank" rel="noopener">'+(lang==="nl"?"Bekijk de site":"Visit the site")
+      +' &nearr;</a></p></div></div></div>';
   }
   h+='<div class="marginnote"><h3>'+esc(t(d.moreh))+'</h3><p>'+esc(t(d.morep))+'</p></div>'
     +ctaBlock(t(C.folio.next))+'</div></section>';
+  return h;
+}
+
+/* Prices. Ranges, with the reasons they are ranges — see C.price in content.js. */
+function renderPrice(){
+  var d=C.price,h="";
+  h+='<section class="opener"><div class="narrow"><div class="lbl">'
+    +(lang==="nl"?"Tarieven":"Pricing")+'</div><h1>'+esc(t(d.lede))+'</h1></div></section>';
+  h+='<section class="band band--tight"><div class="narrow">'
+    +'<p class="deck" style="max-width:none">'
+    +esc(t(d.intro)).split("\n\n").join('</p><p class="deck" style="max-width:none">')
+    +'</p></div></section>';
+
+  h+='<section class="band band--grey"><div class="wrap"><h2 class="rv">'+esc(t(d.tblh))+'</h2>';
+  for(var g=0;g<d.groups.length;g++){
+    var grp=d.groups[g];
+    h+='<div class="prices rv"><h3>'+esc(t(grp.g))+'</h3>';
+    for(var r=0;r<grp.rows.length;r++){
+      var row=grp.rows[r];
+      h+='<div class="prow"><div class="pn">'+esc(t(row.n))+'</div>'
+        +'<div class="pd">'+esc(t(row.d))+'</div>'
+        +'<div class="pv">'+esc(t(row.v))+'</div></div>';
+    }
+    h+='</div>';
+  }
+  h+='<p class="onreq rv">'+(lang==="nl"
+      ?"Alle bedragen zijn exclusief btw en zijn richtprijzen, geen offerte."
+      :"All amounts exclude VAT and are indicative, not a quote.")+'</p></div></section>';
+
+  h+=flowSplit(8,"var(--paper2)","var(--paper)",5);
+  h+='<section class="band"><div class="wrap"><h2 class="rv">'+esc(t(d.whyh))+'</h2>'
+    +'<div class="rv">'+cardRow(d.why)+'</div>'
+    +'<h2 class="rv" style="margin-top:96px">'+esc(t(d.fixh))+'</h2>'+stepList(d.fix)
+    +'<div class="marginnote"><h3>'+esc(t(d.noteh))+'</h3><p>'+esc(t(d.note))+'</p></div>'
+    +ctaBlock(lang==="nl"?"Stuur uw vraag in twee zinnen."
+                        :"Send your question in two sentences.")+'</div></section>';
   return h;
 }
 
@@ -374,6 +473,7 @@ function render(moveFocus){
   if(page==="home") h=renderHome();
   else if(page==="about") h=renderAbout();
   else if(page==="work") h=renderWork();
+  else if(page==="price") h=renderPrice();
   else if(page==="contact") h=renderContact();
   else h=renderArea(page);
   app.innerHTML=h;
@@ -383,7 +483,9 @@ function render(moveFocus){
   document.documentElement.lang=lang;
   document.getElementById("skiplink").textContent=t(UI.skip);
   document.getElementById("mainnav").setAttribute("aria-label",t(UI.nav));
-  document.getElementById("wordmark").setAttribute("aria-label",t(UI.home));
+  var wm=document.getElementById("wordmark");
+  wm.setAttribute("aria-label",t(UI.home));
+  wm.setAttribute("href",href("home"));
   document.body.classList.toggle("home",page==="home");
   if(page!=="home") document.body.classList.add("scrolled"); else onScroll();
   ddSet(false);
@@ -391,9 +493,16 @@ function render(moveFocus){
   window.scrollTo(0,0);
   setupReveal();
 }
+/* The opening collapses over the first ~85% of a screen height of scrolling.
+   p = 0 fully open, p = 1 fully closed. The nav slides in as it closes. */
 function onScroll(){
   if(page!=="home"){ document.body.classList.add("scrolled"); return; }
-  document.body.classList.toggle("scrolled", window.scrollY>90);
+  var el=app.querySelector(".overture");
+  if(!el){ document.body.classList.add("scrolled"); return; }
+  var travel=Math.max(240, window.innerHeight*0.85);
+  var p=Math.min(1, Math.max(0, window.scrollY/travel));
+  el.style.setProperty("--p", p.toFixed(4));
+  document.body.classList.toggle("scrolled", p>0.5);
 }
 window.addEventListener("scroll",onScroll,{passive:true});
 document.addEventListener("click",function(e){
@@ -401,12 +510,15 @@ document.addEventListener("click",function(e){
   if(dd){ ddSet(dd.getAttribute("aria-expanded")!=="true"); return; }
   if(!e.target.closest("#ddmenu")) ddSet(false);
   var b=e.target.closest("[data-go]");
-  if(b){ page=b.getAttribute("data-go"); render(true); return; }
-  var l=e.target.closest("[data-lang]");
-  if(l){ lang=l.getAttribute("data-lang");
-    document.getElementById("btn-nl").setAttribute("aria-pressed",String(lang==="nl"));
-    document.getElementById("btn-en").setAttribute("aria-pressed",String(lang==="en"));
-    render(false); l.focus(); }
+  if(b){
+    if(e.metaKey||e.ctrlKey||e.shiftKey||e.button!==0) return;   /* let new-tab work */
+    e.preventDefault();
+    page=b.getAttribute("data-go");
+    if(window.history&&history.pushState) history.pushState({page:page}, "", href(page));
+    render(true);
+    return;
+  }
+  /* language links navigate for real — each language has its own URL */
 });
 document.addEventListener("keydown",function(e){
   var m=document.getElementById("ddmenu"), b=document.getElementById("ddbtn");
@@ -429,4 +541,10 @@ document.addEventListener("focusout",function(){
     if(d&&!d.contains(document.activeElement)) ddSet(false);
   },0);
 });
+window.addEventListener("popstate",function(){
+  var hit=pageFromPath(location.pathname);
+  if(hit && hit.lang===lang){ page=hit.page; render(false); }
+  else location.reload();
+});
+if(typeof BOOT!=="undefined"){ page=BOOT.page; lang=BOOT.lang; }
 render(false);
