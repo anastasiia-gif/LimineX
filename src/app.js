@@ -65,11 +65,16 @@ function renderFooter(){
   document.getElementById("f-h3").textContent=t(C.foot.contact);
   document.getElementById("f-legal").textContent=t(C.foot.legal);
   document.getElementById("f-seo").textContent=t(C.foot.seo);
+  var fm=document.getElementById("f-mail");
+  if(fm){ fm.textContent=mailAddress(); fm.setAttribute("href","mailto:"+mailAddress()); }
   document.getElementById("f-formh").textContent=t(C.foot.formh);
   document.getElementById("f-formd").textContent=t(C.foot.formd);
   document.getElementById("foot-cta").hidden = (page==="contact");
-  /* A short form in the footer of every page except Contact, where the full one lives. */
-  document.getElementById("foot-form").innerHTML = (page==="contact") ? "" : contactForm("ff","short");
+  /* No form down here — just a clear way to the one on the Contact page. */
+  document.getElementById("foot-cta-action").innerHTML =
+    '<div class="footact">'
+    + go("contact",' class="btn"') + esc(t(C.home.ctab)) + '</a>'
+    + '<a class="mail" href="mailto:anastasiia@liminex.net">anastasiia@liminex.net</a></div>';
   document.getElementById("foot-tag").textContent=t(C.home.tagline);
 }
 function svcList(list,heading,icons){
@@ -233,9 +238,12 @@ function renderHome(){
     +'<div class="wrap"><div class="blocks">';
   for(var i=0;i<AREAS.length;i++){
     var ar=AREAS[i];
+    var cimg = (typeof RENDERS!=="undefined") && RENDERS["card-"+ar.id];
     h+=go(ar.id,' class="block rv"')
-      +'<span class="prev">'+GLYPH[ar.glyph]
-        +'<span class="cap">'+esc(t(d.shots[ar.id]))+'</span></span>'
+      +'<span class="prev'+(cimg?' has-img':'')+'">'
+        +(cimg ? '<img src="'+cimg+'" alt="" loading="lazy">'
+               : GLYPH[ar.glyph]+'<span class="cap">'+esc(t(d.shots[ar.id]))+'</span>')
+      +'</span>'
       +'<span class="body"><h3>'+esc(aName(ar))+'</h3>'
         +'<span class="intro">'+esc(t(d.blurbs[ar.id]))+'</span>'
         +'<span class="hook">'+esc(t(d.hooks[ar.id]))+'</span>'
@@ -549,6 +557,14 @@ function setupForm(){
   var forms=document.querySelectorAll("form[id$=form]");
   for(var i=0;i<forms.length;i++) wireForm(forms[i]);
 }
+function mailAddress(){
+  return (typeof CONTACT_EMAIL==="string" && CONTACT_EMAIL) || "anastasiia@liminex.net";
+}
+function mailtoLink(subject, body){
+  return "mailto:"+mailAddress()+"?subject="
+    +encodeURIComponent("Liminex \u2014 "+(subject||"website"))
+    +"&body="+encodeURIComponent(body);
+}
 function wireForm(f){
   var p=f.id.replace(/form$/,"");
   f.addEventListener("submit",function(e){
@@ -574,18 +590,24 @@ function wireForm(f){
     var body=lines.join("\n")+"\n\n"+msg;
 
     if(typeof FORM_ENDPOINT!=="string" || !FORM_ENDPOINT){
-      window.location.href="mailto:info@liminex.net?subject="
-        +encodeURIComponent("Liminex \u2014 "+(get("ty")||"website"))+"&body="+encodeURIComponent(body);
+      window.location.href=mailtoLink(get("ty"),body);
       return;
     }
     btn.disabled=true; stat.textContent=t(d.sending);
     var data=new FormData(f);
-    data.append("_subject","Liminex \u2014 "+(get("ty")||"website"));
+    if(typeof FORM_KEY==="string" && FORM_KEY) data.append("access_key",FORM_KEY);
+    data.append("subject","Liminex \u2014 "+(get("ty")||"website"));   /* Web3Forms */
+    data.append("_subject","Liminex \u2014 "+(get("ty")||"website"));  /* FormSubmit */
+    data.append("from_name","Liminex website");
     data.append("_language",lang);
     fetch(FORM_ENDPOINT,{method:"POST",body:data,headers:{"Accept":"application/json"}})
       .then(function(r){ if(!r.ok) throw new Error(r.status);
         f.reset(); stat.className="formstat is-ok"; stat.textContent=t(d.ok); })
-      .catch(function(){ stat.className="formstat is-bad"; stat.textContent=t(d.fail); })
+      .catch(function(){
+        stat.className="formstat is-bad";
+        stat.innerHTML = esc(t(d.fail))+' <a href="'+mailtoLink(get("ty"),body)+'">'
+          +(lang==="nl"?"Open mijn mailprogramma":"Open my mail app")+'</a>';
+      })
       .then(function(){ btn.disabled=false; });
   });
 }

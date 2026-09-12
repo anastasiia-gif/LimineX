@@ -20,8 +20,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
       - name: Build
@@ -37,9 +37,11 @@ jobs:
           BASE_PATH: ${{ vars.BASE_PATH || format('/{0}', github.event.repository.name) }}
           CUSTOM_DOMAIN: ${{ vars.CUSTOM_DOMAIN }}
           FORM_ENDPOINT: ${{ vars.FORM_ENDPOINT }}
+          FORM_KEY: ${{ vars.FORM_KEY }}
+          CONTACT_EMAIL: ${{ vars.CONTACT_EMAIL }}
         run: python3 build.py
       - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v4
         with:
           path: dist
 

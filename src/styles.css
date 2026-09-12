@@ -139,6 +139,8 @@ h3{font-size:20px;font-weight:600}
 .block .prev{display:flex;align-items:center;justify-content:center;position:relative;
   aspect-ratio:16/10;padding:22px;background:var(--paper2);border-bottom:1px solid var(--hair)}
 .block .prev .mk{width:58px;height:58px;color:var(--accent);opacity:.9}
+.block .prev.has-img{padding:0}
+.block .prev img{width:100%;height:100%;object-fit:cover}
 .block .prev .cap{position:absolute;left:0;right:0;bottom:14px;text-align:center;
   font-size:11.5px;line-height:1.4;color:var(--muted);padding:0 20px}
 .block .body{display:flex;flex-direction:column;gap:12px;flex:1;padding:26px 26px 24px}
@@ -383,6 +385,7 @@ textarea{min-height:96px;resize:vertical;line-height:1.6}
 .formstat{margin:0;font-size:15px;min-height:1px}
 .formstat.is-ok{color:var(--accent);font-weight:500}
 .formstat.is-bad{color:#B4232B}
+.formstat a{color:inherit;font-weight:600}
 :root:not([data-theme="light"]) .formstat.is-bad{color:#FF9A9F}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .formstat.is-bad{color:#FF9A9F}}
 :root[data-theme="dark"] .formstat.is-bad{color:#FF9A9F}
@@ -396,21 +399,15 @@ textarea{min-height:96px;resize:vertical;line-height:1.6}
 /* ---------------- footer ---------------- */
 footer.site{background:var(--paper2);border-top:1px solid var(--hair);padding:70px 0 46px;font-size:14.5px}
 /* the contact strip that sits above the footer columns */
-.footcta{display:grid;grid-template-columns:minmax(260px,34%) 1fr;gap:48px;align-items:start;
+.footcta{display:grid;grid-template-columns:minmax(260px,46%) 1fr;gap:48px;align-items:center;
   padding-bottom:56px;margin-bottom:52px;border-bottom:1px solid var(--hair)}
 @media (max-width:900px){.footcta{grid-template-columns:1fr;gap:30px}}
 .footcta .fct-text h2{font-size:clamp(24px,2.6vw,34px);margin:0 0 14px;max-width:14ch}
 .footcta .fct-text p{margin:0;color:var(--muted);font-size:15px;line-height:1.65;max-width:44ch}
-.footform{display:grid;gap:20px;max-width:none;margin:0}
-.footform .frow{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-@media (max-width:640px){.footform .frow{grid-template-columns:1fr}}
-.footform .field{border-bottom:1px solid var(--hair);padding-bottom:7px;gap:5px}
-.footform input,.footform textarea{font-size:15.5px}
-.footform textarea{min-height:76px}
-.fcols .footform .btn{display:inline-block;width:auto;background:var(--ink);color:var(--paper);
-  border-radius:999px;padding:12px 26px;font-size:14.5px;justify-self:start;text-align:center}
-.fcols .footform .btn:hover{opacity:.86;color:var(--paper)}
-.footform .fh{margin-top:26px}
+.footact{display:flex;align-items:center;gap:28px;flex-wrap:wrap}
+.footact .mail{color:var(--accent);font-weight:500;text-decoration:none;font-size:16px}
+.footact .mail:hover{text-decoration:underline}
+
 .footform .formstat{font-size:14px}
 .fcols{align-items:start}
 .fseo{border-top:1px solid var(--hair);margin-top:44px;padding-top:24px;color:var(--muted);

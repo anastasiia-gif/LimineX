@@ -37,6 +37,18 @@ lede:{nl:"Van schets naar werkend prototype.",
 
 Change both, or the site will show the old wording to half its visitors.
 
+### Adding an image to the home cards
+
+The five cards in *What we do* on the home page show a line icon until you supply an image.
+
+1. Export at **1600 x 1000** (16:10), JPG or WebP, 150–250 KB — the build embeds it into
+   every page, so weight matters.
+2. Name it `card-web`, `card-proto`, `card-make`, `card-yard` or `card-start`.
+3. Drop it in **`assets/renders/`** and run `python3 build.py`. It prints what it found.
+
+Partial sets are fine. Prompts for generating these are in the image brief in the project
+docs; the process steps and the engineering domains use icons, not images.
+
 ### Adding a project screenshot
 
 Portfolio cards show a real screenshot if there's a file for them, and a labelled
@@ -175,13 +187,21 @@ everything filled in. That works, but it loses people who use webmail, so set on
 
 | Service | Account needed | Notes |
 |---|---|---|
-| [FormSubmit](https://formsubmit.co) | no | endpoint is `https://formsubmit.co/info@liminex.net`; you confirm by email on the first send |
-| [Web3Forms](https://web3forms.com) | email only | endpoint `https://api.web3forms.com/submit`, add your key as a hidden field |
-| [Formspree](https://formspree.io) | yes | the most established; 50 submissions/month free; offers a DPA on paid plans |
+| [Web3Forms](https://web3forms.com) | email only | **Recommended.** Endpoint `https://api.web3forms.com/submit` plus an access key. A plain API host, so corporate DNS and ad blockers rarely touch it. |
+| [Formspree](https://formspree.io) | yes | The most established; 50 submissions/month free; offers a DPA on paid plans. |
+| [FormSubmit](https://formsubmit.co) | no | Quickest to set up, but the host is blocked on some corporate networks and by some ad blockers. |
 
-Then add a repository variable **`FORM_ENDPOINT`** with that URL
-(*Settings → Secrets and variables → Actions → Variables*) and push. Nothing in the
-code changes.
+Then set these repository variables (*Settings → Secrets and variables → Actions →
+Variables*) and push. Nothing in the code changes:
+
+| Variable | Value |
+|---|---|
+| `FORM_ENDPOINT` | `https://api.web3forms.com/submit` |
+| `FORM_KEY` | the access key from Web3Forms |
+| `CONTACT_EMAIL` | `anastasiia@liminex.net` (also used in the footer and structured data) |
+
+`FORM_KEY` is posted as `access_key`, which is what Web3Forms expects. Services that don't
+use a key simply ignore it — leave the variable unset.
 
 Two things already handled: a hidden honeypot field that catches most bots, and a
 status line that is announced to screen readers. One thing to decide: these services
@@ -205,7 +225,7 @@ replace the website records with these — and **leave every other record alone*
 Then repo **Settings → Pages → Custom domain** → `liminex.net` → wait for the check to
 pass → tick **Enforce HTTPS** (can take up to 24 h to become available).
 
-> **Do not delete the MX or TXT records.** They carry `info@liminex.net`, which is on every
+> **Do not delete the MX or TXT records.** They carry `anastasiia@liminex.net`, which is on every
 > invoice already sent. Screenshot the existing records before changing anything. Only the
 > A records and the `www` CNAME should change.
 

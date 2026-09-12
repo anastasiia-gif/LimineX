@@ -42,6 +42,11 @@ CUSTOM_DOMAIN = os.environ.get("CUSTOM_DOMAIN", "")   # writes dist/CNAME when s
 # form-to-email service — see the README for how to get one. Leave it empty and the
 # form falls back to opening the visitor's own mail client instead.
 FORM_ENDPOINT = os.environ.get("FORM_ENDPOINT", "")
+# Web3Forms and Formspree-style services want a key posted with the form. Set it as a
+# repository variable next to FORM_ENDPOINT; leave empty for services that don't use one.
+FORM_KEY = os.environ.get("FORM_KEY", "")
+# Where enquiries land. Used in the footer, the form fallback and the structured data.
+CONTACT_EMAIL = os.environ.get("CONTACT_EMAIL", "anastasiia@liminex.net")
 
 SITE_URL = SITE_ORIGIN + BASE_PATH        # no trailing slash
 OG_IMAGE = SITE_URL + "/og.png"
@@ -176,6 +181,22 @@ if os.path.isdir(work):
             mime, base64.b64encode(open(os.path.join(work, f), "rb").read()).decode())
         print("  screenshot:", f)
 
+# Renders and photos for the cascade sections. Name the file after the key the page
+# asks for — "how-1".."how-4" for the home process, "domain-<icon>" for each engineering
+# domain (domain-mech, domain-pcb, domain-drone, ...). Any of jpg/png/webp.
+# Without a file the section falls back to the line drawing, so partial sets are fine.
+renders = {}
+rdir = p("assets/renders")
+if os.path.isdir(rdir):
+    for f in sorted(os.listdir(rdir)):
+        key, ext = os.path.splitext(f)
+        if ext.lower() not in (".jpg", ".jpeg", ".png", ".webp"):
+            continue
+        mime = mimetypes.types_map.get(ext.lower(), "image/jpeg")
+        renders[key] = "data:%s;base64,%s" % (
+            mime, base64.b64encode(open(os.path.join(rdir, f), "rb").read()).decode())
+        print("  render:", f, "(%d KB)" % (os.path.getsize(os.path.join(rdir, f)) // 1024))
+
 favicon = "data:image/webp;base64," + base64.b64encode(
     open(p("assets/logo_mark.webp"), "rb").read()).decode()
 
@@ -183,7 +204,7 @@ LD = json.dumps({
     "@context": "https://schema.org", "@type": "ProfessionalService",
     "@id": SITE_URL + "/#liminex", "name": "Liminex",
     "description": PAGES[0]["en"]["desc"], "url": SITE_URL + "/",
-    "email": "info@liminex.net", "image": OG_IMAGE, "logo": OG_IMAGE,
+    "email": CONTACT_EMAIL, "image": OG_IMAGE, "logo": OG_IMAGE,
     "slogan": "Make non-existent reality", "foundingDate": "2026",
     "address": {"@type": "PostalAddress", "streetAddress": "Graafseweg 194b",
                 "addressLocality": "'s-Hertogenbosch", "addressRegion": "Noord-Brabant",
@@ -207,8 +228,11 @@ open(p("dist/assets/site.css"), "w", encoding="utf-8").write(read("src/styles.cs
 open(p("dist/assets/site.js"), "w", encoding="utf-8").write("\n".join([
     read("assets/logo_assets.js"),
     "var WORKSHOTS = " + json.dumps(shots) + ";",
+    "var RENDERS = " + json.dumps(renders) + ";",
     "var ROUTES = " + json.dumps(ROUTES, ensure_ascii=False) + ";",
     "var FORM_ENDPOINT = " + json.dumps(FORM_ENDPOINT) + ";",
+    "var FORM_KEY = " + json.dumps(FORM_KEY) + ";",
+    "var CONTACT_EMAIL = " + json.dumps(CONTACT_EMAIL) + ";",
     read("src/content.js"), read("src/graphics.js"),
     read("src/drawings.js"), read("src/app.js")]))
 
@@ -285,7 +309,7 @@ open(p("dist/robots.txt"), "w").write(
 llms = ["# Liminex", "",
         "> %s" % PAGES[0]["en"]["desc"], "",
         "Engineering firm in 's-Hertogenbosch, Noord-Brabant, the Netherlands.",
-        "Four engineers. Software and hardware in one team. Contact: info@liminex.net", "",
+        "Four engineers. Software and hardware in one team. Contact: " + CONTACT_EMAIL, "",
         "## Pages", ""]
 for pg in PAGES:
     llms.append("- [%s](%s%s): %s" % (pg["en"]["nav"], SITE_ORIGIN, url_for(pg, "en"), pg["en"]["desc"]))
