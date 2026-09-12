@@ -74,11 +74,13 @@ function svcList(list,heading,icons){
       +'<h3>'+esc(t(list[i].n))+'</h3><p>'+esc(t(list[i].d))+'</p></div>';
   }
   return h+'</div><p class="onreq">'
-    +(lang==="nl"?"Elk project is anders, dus dit is geen prijslijst. Wat vergelijkbaar werk ongeveer kost staat bij "
-                 :"Every project is different, so this isn't a price list. What comparable work roughly costs is on ")
-    +'<button class="inlink" data-go="price">'+(lang==="nl"?"tarieven":"pricing")+'</button>'
-    +(lang==="nl"?". Na één gesprek krijgt u een vaste prijs op één pagina."
-                 :". After one conversation you get a fixed price on one page.")+'</p>';
+    +(lang==="nl"
+        ? "Elk project is anders, dus dit is geen prijslijst. Wat vergelijkbaar werk ongeveer kost, staat op de pagina "
+        : "Every project is different, so this isn't a price list. What comparable work roughly costs is on the ")
+    +go("price",' class="inlink"')+(lang==="nl"?"tarieven":"pricing")+'</a>'
+    +(lang==="nl"
+        ? ". Na \u00e9\u00e9n gesprek krijgt u een vaste prijs op \u00e9\u00e9n pagina."
+        : " page. After one conversation you get a fixed price on one page.")+'</p>';
 }
 function stepList(list,icons){
   var h='<div class="steps">';
@@ -128,22 +130,8 @@ function folioCards(){
   }
   return h+'</div>';
 }
-/* a sheet of engineering drawings, used as the page's own machinery */
-var PLATES={
-  proto:{ h:{nl:"Wat er op de bank ligt",en:"What's on the bench"},
-    items:[
-      {k:"drone", t:{nl:"Drone-frame, bovenaanzicht",en:"Drone frame, top view"}, n:"LMX-PR-014"},
-      {k:"valve", t:{nl:"Klep, doorsnede",en:"Valve, section"}, n:"LMX-PR-031"},
-      {k:"part",  t:{nl:"Beugel, gefreesd",en:"Bracket, machined"}, n:"LMX-PR-047"}
-    ]},
-  make:{ h:{nl:"De machines die het werk doen",en:"The machines that do the work"},
-    items:[
-      {k:"printer",t:{nl:"FDM-printer",en:"FDM printer"}, n:"3D-PRINT"},
-      {k:"laser",  t:{nl:"Lasersnijder",en:"Laser cutter"}, n:"LASER"},
-      {k:"cnc",    t:{nl:"CNC-frees",en:"CNC mill"}, n:"CNC"}
-    ]}
-};
-/* The disciplines grid — what "engineering" means in practice. */
+/* The domains grid: what "engineering" means here, one card per domain, each with a
+   worked example. Content lives in DISCIPLINES in content.js. */
 function discGrid(){
   var D=DISCIPLINES;
   var h='<h2 class="rv">'+esc(t(D.h))+'</h2>'
@@ -152,28 +140,18 @@ function discGrid(){
   for(var i=0;i<D.items.length;i++){
     var it=D.items[i];
     h+='<div>'+(ICON[it.ic]||'')+'<h3>'+esc(t(it.t))+'</h3>'
-      +'<p>'+esc(t(it.p))+'</p><div class="tags">'+esc(it.k)+'</div></div>';
+      +'<p>'+esc(t(it.p))+'</p>'
+      +(it.ex?'<p class="eg"><span>'+(lang==="nl"?"Voorbeeld":"Example")+'</span>'+esc(t(it.ex))+'</p>':'')
+      +'<div class="tags">'+esc(it.k)+'</div></div>';
   }
   h+='</div><div class="discshots rv">';
   for(var j=0;j<D.shots.length;j++) h+=ph(t(D.shots[j].t),t(D.shots[j].s));
   return h+'</div>';
 }
-function plate(id){
-  var p=PLATES[id]; if(!p) return "";
-  var h='<h2 class="rv">'+esc(t(p.h))+'</h2><div class="plate rv"><div class="sheet">';
-  for(var i=0;i<p.items.length;i++){
-    var it=p.items[i];
-    h+='<div class="cell">'+DRAW[it.k]
-      +'<div class="cap"><span>'+esc(t(it.t))+'</span><span>'+esc(it.n)+'</span></div></div>';
-  }
-  h+='</div><div class="tb"><span>Liminex &middot; \'s-Hertogenbosch</span>'
-    +'<span>'+(lang==="nl"?"Schaal":"Scale")+' <b>'+(lang==="nl"?"niet op schaal":"not to scale")+'</b></span>'
-    +'<span>'+(lang==="nl"?"Aanzicht":"View")+' <b>'+(lang==="nl"?"Eerste hoek":"First angle")+'</b></span>'
-    +'<span>'+(lang==="nl"?"Illustratief \u2014 geen productietekening"
-                          :"Illustrative \u2014 not a production drawing")+'</span></div></div>';
-  return h;
-}
-/* Which drawings sit in the corners of each page's opener. */
+
+/* The engineering drawings appear as corner marks on each page opener. The framed
+   plate that used to sit mid-page was removed; DRAW still holds every drawing.
+   Two per page: the first goes top-left, the second bottom-right. */
 var WMARKS={
   web:   ["layout","pcb"],
   proto: ["part","drone"],
@@ -403,10 +381,9 @@ function renderArea(id){
     +svcList(d.svcs,lang==="nl"?"Wat we doen":"What we do",SVCICONS[id])+'</div>';
   h+='</section>';
   if(id==="proto") h+='<section class="band band--grey"><div class="wrap">'+discGrid()+'</div></section>';
-  if(PLATES[id]) h+='<section class="band band--tight"><div class="wrap">'+plate(id)+'</div></section>';
-  var CARDICONS={start:["test","cad","robot","dfm"],make:["dfm","print3d","pipe","data"],
-                 proto:["mech","elec","firmware","test"]};
-  if(d.cards) h+='<section class="band band--grey"><div class="wrap">'
+  var CARDICONS={start:["test","cad","robot","dfm"],make:["dfm","print3d","pipe","data"]};
+  /* Prototyping shows the domains grid instead of a generic card row. */
+  if(d.cards && id!=="proto") h+='<section class="band band--grey"><div class="wrap">'
     +(d.cardsh?'<h2 class="rv">'+esc(t(d.cardsh))+'</h2>':'')
     +'<div class="rv">'+cardRow(d.cards,CARDICONS[id])+'</div></div></section>';
   h+='<section class="band"><div class="wrap">';

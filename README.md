@@ -52,12 +52,19 @@ The cards and the Work page link out to the live sites either way.
 ### Where the drawings appear
 
 - **Corner marks** on every page opener except the home page: two per page, top-left and
-  bottom-right, picked in `WMARKS` in `app.js`. Decorative, `aria-hidden`, and they never
-  overlap the heading.
-- **Drawing plates** — the framed sheets with a title block — on Prototyping and
-  Manufacturing, configured in `PLATES`.
+  bottom-right, picked in `WMARKS` in `app.js`. Decorative, `aria-hidden`, positioned at
+  the edges so they never sit behind the heading, and the second one is hidden below 520px.
+  The framed drawing plate that used to sit mid-page was removed; `DRAW` still holds every
+  drawing, so putting one back is a one-line render call.
 - **Discipline icons** on service rows, cards and process steps. Each render call passes a
   list of `ICON` keys, so changing an icon is editing one array in `app.js`.
+
+### The domains grid
+
+`DISCIPLINES` in `content.js` — twelve engineering domains, each with an icon key, a
+two-sentence description, **a worked example from a real project**, and a tool line. It
+renders on the Prototyping page in place of a generic card row. Adding a domain is adding
+an entry; the example is the part that does the persuading, so don't leave it empty.
 
 ### What proof shows where
 
