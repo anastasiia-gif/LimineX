@@ -12,12 +12,15 @@ Checks every page in both languages at desktop and mobile widths, plus the nav
 dropdown open, and reports violations, JavaScript errors and horizontal overflow.
 Exits non-zero if anything is wrong.
 """
-import json, pathlib, re, sys, urllib.request
+import json, pathlib, re, sys, urllib.parse, urllib.request
 from playwright.sync_api import sync_playwright
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 AXE  = ROOT / "node_modules/axe-core/axe.min.js"
-BASE = sys.argv[1] if len(sys.argv) > 1 else "http://localhost:8899"
+# Pass the URL the site is actually served at, including any base path:
+#     python3 tools/audit.py http://localhost:8899/LimineX
+SITE = (sys.argv[1] if len(sys.argv) > 1 else "http://localhost:8899").rstrip("/")
+ORIGIN = "{0.scheme}://{0.netloc}".format(urllib.parse.urlparse(SITE))
 VIEWPORTS = [{"width": 1440, "height": 900}, {"width": 390, "height": 844}]
 TAGS = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"]
 
@@ -25,9 +28,9 @@ if not AXE.exists():
     sys.exit("axe-core not found — run: npm install axe-core")
 
 try:
-    sitemap = urllib.request.urlopen(BASE + "/sitemap.xml", timeout=5).read().decode()
+    sitemap = urllib.request.urlopen(SITE + "/sitemap.xml", timeout=5).read().decode()
 except Exception as e:
-    sys.exit("can't reach %s (%s) — is the server running?" % (BASE, e))
+    sys.exit("can't reach %s/sitemap.xml (%s) — is the server running?" % (SITE, e))
 urls = [re.sub(r"^https?://[^/]+", "", u) for u in re.findall(r"<loc>(.*?)</loc>", sitemap)]
 
 axe = AXE.read_text()
@@ -43,7 +46,7 @@ with sync_playwright() as p:
         page.route("**://fonts.googleapis.com/**", lambda r: r.abort())
         page.route("**://fonts.gstatic.com/**", lambda r: r.abort())
         for path in urls:
-            page.goto(BASE + path)
+            page.goto(ORIGIN + path)
             page.wait_for_timeout(2200)          # let the reveal animation settle
             page.evaluate(axe)
             res = page.evaluate("axe.run(document,{runOnly:{type:'tag',values:%s}})" % json.dumps(TAGS))
@@ -56,7 +59,7 @@ with sync_playwright() as p:
                     vp["width"], path, v["id"], v["impact"], len(v["nodes"]),
                     v["nodes"][0]["html"][:80]))
         # dropdown open
-        page.goto(BASE + "/")
+        page.goto(SITE + "/")
         page.wait_for_timeout(2000)
         page.evaluate("document.getElementById('ddbtn').click()")
         page.wait_for_timeout(400)

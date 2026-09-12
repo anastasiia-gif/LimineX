@@ -3,7 +3,7 @@
 One static page, built from plain files by one Python script. No framework, no npm,
 no build tools. If you can edit a text file you can edit this site.
 
-Live at **https://liminex.net** · deployed automatically from `main`.
+Deployed automatically from `main` to GitHub Pages.
 
 **20 pages**: every page has a real URL in both languages (`/prototyping/`,
 `/en/prototyping/`, …), its own title, description, canonical and `hreflang`. One
@@ -97,6 +97,29 @@ Push to `main`. That's it.
 Watch it under the repo's **Actions** tab; a red cross there means the site didn't update.
 
 **First-time setup:** repo **Settings → Pages → Source: GitHub Actions**.
+
+### Where the site is served from
+
+GitHub Pages serves a project repo at `https://<owner>.github.io/<repo>/`, not at the
+domain root, so every URL needs that prefix. Two settings control it, and the CI workflow
+sets them for you:
+
+| | Project page (now) | Custom domain (later) |
+|---|---|---|
+| `SITE_ORIGIN` | `https://<owner>.github.io` | `https://liminex.net` |
+| `BASE_PATH` | `/<repo>` | `/` (a bare slash means site root) |
+| `CUSTOM_DOMAIN` | unset | `liminex.net` |
+
+The workflow derives the first two from the repo automatically. **When the domain is
+live**, set all three as repository variables under *Settings → Secrets and variables →
+Actions → Variables* and push — nothing in the code changes.
+
+Locally, `python3 build.py` uses the defaults at the top of the file, or environment
+variables:
+
+```bash
+BASE_PATH=/ SITE_ORIGIN=https://liminex.net python3 build.py
+```
 
 ### DNS for liminex.net
 

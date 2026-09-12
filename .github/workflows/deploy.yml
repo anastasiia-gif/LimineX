@@ -25,6 +25,17 @@ jobs:
         with:
           python-version: "3.12"
       - name: Build
+        # Defaults are right for a GitHub Pages *project* page served at
+        # https://<owner>.github.io/<repo>/.
+        # When the custom domain is live, set these as repository variables
+        # (Settings -> Secrets and variables -> Actions -> Variables):
+        #     SITE_ORIGIN   = https://liminex.net
+        #     BASE_PATH     = /            (a bare slash means "site root")
+        #     CUSTOM_DOMAIN = liminex.net  (writes the CNAME file)
+        env:
+          SITE_ORIGIN: ${{ vars.SITE_ORIGIN || format('https://{0}.github.io', github.repository_owner) }}
+          BASE_PATH: ${{ vars.BASE_PATH || format('/{0}', github.event.repository.name) }}
+          CUSTOM_DOMAIN: ${{ vars.CUSTOM_DOMAIN }}
         run: python3 build.py
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
