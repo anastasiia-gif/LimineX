@@ -212,19 +212,31 @@ if os.path.isdir(work):
 # asked for. A JPG (or a flat PNG) gets the framed treatment instead. So the decision is
 # made by the file itself — knock the background out and the page changes with it.
 def has_alpha(path):
+    """Does this file carry transparency? Read from the file header, so it works on the
+    GitHub runner with no Pillow installed (that is exactly where it used to fail:
+    without Pillow everything was silently 'framed'). Pillow, when present, refines it
+    by checking that some pixels really are transparent."""
+    with open(path, "rb") as fh:
+        head = fh.read(64)
+    alpha = False
+    if head[:8] == b"\x89PNG\r\n\x1a\n":
+        alpha = head[25] in (4, 6)                   # colour type: grey+alpha / RGBA
+        if not alpha:
+            with open(path, "rb") as fh:             # or a palette with a tRNS chunk
+                alpha = b"tRNS" in fh.read(1 << 16)
+    elif head[:4] == b"RIFF" and head[8:12] == b"WEBP":
+        if head[12:16] == b"VP8X":
+            alpha = bool(head[20] & 0x10)            # extended header, alpha flag
+        elif head[12:16] == b"VP8L":
+            alpha = bool(head[24] & 0x10)            # lossless: alpha_is_used bit
+    if not alpha:
+        return False
     try:
         from PIL import Image
-    except ImportError:
-        return False
-    try:
-        im = Image.open(path)
-        if im.mode not in ("RGBA", "LA", "PA") and "transparency" not in im.info:
-            return False
-        a = im.convert("RGBA").split()[-1]
-        lo, hi = a.getextrema()
-        return lo < 250          # some genuinely transparent pixels, not just an alpha channel
+        a = Image.open(path).convert("RGBA").split()[-1]
+        return a.getextrema()[0] < 250               # some genuinely transparent pixels
     except Exception:
-        return False
+        return True
 
 cutouts = []
 renders = {}

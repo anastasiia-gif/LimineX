@@ -182,9 +182,9 @@ function discGrid(){
        a framed picture sits in a rounded box. No file, no picture. */
     var dsrc=renderSrc("domain-"+it.ic);
     var dcut=dsrc && typeof CUTOUT!=="undefined" && CUTOUT.indexOf("domain-"+it.ic)>=0;
-    h+='<div>'
+    h+='<div'+(dcut?' class="has-cut"':'')+'>'
       +(dsrc?'<span class="dpic'+(dcut?' dpic--cut':'')+'"><img src="'+dsrc+'" alt="" loading="lazy"></span>':'')
-      +(ICON[it.ic]||'')+'<h3>'+esc(t(it.t))+'</h3>'
+      +(dcut?'':(ICON[it.ic]||''))+'<h3>'+esc(t(it.t))+'</h3>'
       +'<p>'+esc(t(it.p))+'</p>'
       +(it.ex?'<p class="eg"><span>'+(lang==="nl"?"Voorbeeld":"Example")+'</span>'+esc(t(it.ex))+'</p>':'')
       +'<div class="tags">'+esc(it.k)+'</div></div>';
@@ -289,7 +289,7 @@ function renderHome(){
     var cimg = renderSrc("card-"+ar.id);
     /* a transparent PNG floats in the card's preview area, same rule as altRows */
     var ccut = cimg && typeof CUTOUT!=="undefined" && CUTOUT.indexOf("card-"+ar.id)>=0;
-    h+=go(ar.id,' class="block rv"')
+    h+=go(ar.id,' class="block rv'+(ccut?' has-cut':'')+'"')
       +'<span class="prev'+(cimg?(ccut?' has-cut':' has-img'):'')+'">'
         +(cimg ? '<img src="'+cimg+'" alt="" loading="lazy">'
                : GLYPH[ar.glyph]+'<span class="cap">'+esc(t(d.shots[ar.id]))+'</span>')
@@ -788,6 +788,31 @@ function setupReveal(){
   }
   setTimeout(function(){ for(var k=0;k<els.length;k++) els[k].classList.add("in"); },1600);
 }
+/* The row cut-outs drift with the scroll: --py runs from -1 (below the fold) to +1
+   (scrolled past), and the CSS turns that into a small vertical shift and a 3D turn. */
+var FLY=[];
+function setupFly(){
+  FLY=Array.prototype.slice.call(app.querySelectorAll(".altmedia--cut img"));
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches) FLY=[];
+  onFly();
+}
+var flyTick=false;
+function onFly(){
+  if(!FLY.length||flyTick) return;
+  flyTick=true;
+  requestAnimationFrame(function(){
+    flyTick=false;
+    var vh=window.innerHeight;
+    for(var i=0;i<FLY.length;i++){
+      var r=FLY[i].getBoundingClientRect();
+      var c=(r.top+r.height/2)/vh;              /* 0 top of screen … 1 bottom */
+      var py=Math.max(-1,Math.min(1,(0.5-c)*2));
+      FLY[i].style.setProperty("--py",py.toFixed(3));
+    }
+  });
+}
+window.addEventListener("scroll",onFly,{passive:true});
+window.addEventListener("resize",onFly);
 function render(moveFocus){
   var h;
   if(page==="home") h=renderHome();
@@ -813,6 +838,7 @@ function render(moveFocus){
   if(moveFocus) app.focus();
   window.scrollTo(0,0);
   setupReveal();
+  setupFly();
   setupForm();
   setupSoon();
 }
