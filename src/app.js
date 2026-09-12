@@ -136,13 +136,24 @@ function folioCards(){
   }
   return h+'</div>';
 }
+/* Where assets/ is, relative to this page — read off the stylesheet link build.py wrote,
+   so a render URL resolves at any base path. RENDERS holds "renders/<file>". */
+var ASSET_BASE=(function(){
+  var l=document.querySelector('link[rel="stylesheet"][href*="site."]');
+  var h=l?l.getAttribute("href"):"assets/site.css";
+  return h.slice(0, h.lastIndexOf("/")+1);
+})();
+function renderSrc(key){
+  var r=(typeof RENDERS!=="undefined") && RENDERS[key];
+  return r ? ASSET_BASE + r : "";
+}
 /* Alternating rows: picture then text, then text then picture. `key` names an image in
    assets/renders/; without one you get a labelled photo slot saying what belongs there. */
 function altRows(items){
   var h='<div class="alt">';
   for(var i=0;i<items.length;i++){
     var it=items[i];
-    var src=(typeof RENDERS!=="undefined") && RENDERS[it.key];
+    var src=renderSrc(it.key);
     /* A picture with a transparent background is drawn free on the page — no frame,
        no box — which is what build.py flags as a cut-out. Everything else gets a frame. */
     var cut=src && typeof CUTOUT!=="undefined" && CUTOUT.indexOf(it.key)>=0;
@@ -169,7 +180,7 @@ function discGrid(){
     var it=D.items[i];
     /* assets/renders/domain-<ic>.png — a cut-out floats above the card text;
        a framed picture sits in a rounded box. No file, no picture. */
-    var dsrc=(typeof RENDERS!=="undefined") && RENDERS["domain-"+it.ic];
+    var dsrc=renderSrc("domain-"+it.ic);
     var dcut=dsrc && typeof CUTOUT!=="undefined" && CUTOUT.indexOf("domain-"+it.ic)>=0;
     h+='<div>'
       +(dsrc?'<span class="dpic'+(dcut?' dpic--cut':'')+'"><img src="'+dsrc+'" alt="" loading="lazy"></span>':'')
@@ -275,7 +286,7 @@ function renderHome(){
     +'<div class="wrap"><div class="blocks">';
   for(var i=0;i<AREAS.length;i++){
     var ar=AREAS[i];
-    var cimg = (typeof RENDERS!=="undefined") && RENDERS["card-"+ar.id];
+    var cimg = renderSrc("card-"+ar.id);
     /* a transparent PNG floats in the card's preview area, same rule as altRows */
     var ccut = cimg && typeof CUTOUT!=="undefined" && CUTOUT.indexOf("card-"+ar.id)>=0;
     h+=go(ar.id,' class="block rv"')

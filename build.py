@@ -240,7 +240,10 @@ if os.path.isdir(rdir):
         # embedded: with twenty-odd pictures, base64 in the shared JS would put every
         # picture on every page. Root-relative so it resolves at any page depth.
         render_files.append(full)
-        renders[key] = "%s/assets/renders/%s" % (BASE_PATH, f)
+        # Stored as a path inside assets/; app.js resolves it relative to the page the
+        # same way the CSS and JS links are, so it works at any base path — GitHub
+        # Pages under /LimineX, a custom domain at /, or a local preview of dist/.
+        renders[key] = "renders/" + f
         cut = has_alpha(full)
         if cut:
             cutouts.append(key)
