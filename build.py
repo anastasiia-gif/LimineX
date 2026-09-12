@@ -38,6 +38,11 @@ SITE_ORIGIN   = os.environ.get("SITE_ORIGIN", "https://anastasiia-gif.github.io"
 BASE_PATH     = os.environ.get("BASE_PATH", "/LimineX").rstrip("/")
 CUSTOM_DOMAIN = os.environ.get("CUSTOM_DOMAIN", "")   # writes dist/CNAME when set
 
+# Where the contact form posts. A static site cannot send mail itself, so this is a
+# form-to-email service — see the README for how to get one. Leave it empty and the
+# form falls back to opening the visitor's own mail client instead.
+FORM_ENDPOINT = os.environ.get("FORM_ENDPOINT", "")
+
 SITE_URL = SITE_ORIGIN + BASE_PATH        # no trailing slash
 OG_IMAGE = SITE_URL + "/og.png"
 
@@ -203,6 +208,7 @@ open(p("dist/assets/site.js"), "w", encoding="utf-8").write("\n".join([
     read("assets/logo_assets.js"),
     "var WORKSHOTS = " + json.dumps(shots) + ";",
     "var ROUTES = " + json.dumps(ROUTES, ensure_ascii=False) + ";",
+    "var FORM_ENDPOINT = " + json.dumps(FORM_ENDPOINT) + ";",
     read("src/content.js"), read("src/graphics.js"),
     read("src/drawings.js"), read("src/app.js")]))
 

@@ -336,6 +336,14 @@ input,select,textarea{font-family:inherit;font-size:17px;padding:2px 0;border:0;
 input:focus,select:focus,textarea:focus{outline:none}
 .field:focus-within{border-bottom-color:var(--accent)}
 textarea{min-height:96px;resize:vertical;line-height:1.6}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.formstat{margin:0;font-size:15px;min-height:1px}
+.formstat.is-ok{color:var(--accent);font-weight:500}
+.formstat.is-bad{color:#B4232B}
+:root:not([data-theme="light"]) .formstat.is-bad{color:#FF9A9F}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .formstat.is-bad{color:#FF9A9F}}
+:root[data-theme="dark"] .formstat.is-bad{color:#FF9A9F}
+.btn[disabled]{opacity:.5;cursor:default}
 .formnote{font-size:13.5px;color:var(--muted);margin:0}
 .details{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:28px;margin-top:68px}
 .details .k{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}

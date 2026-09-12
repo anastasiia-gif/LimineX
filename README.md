@@ -121,6 +121,32 @@ variables:
 BASE_PATH=/ SITE_ORIGIN=https://liminex.net python3 build.py
 ```
 
+### The contact form
+
+A site on GitHub Pages is static files — there is no server, so the page cannot send
+mail by itself. It posts to a form-to-email service instead, set with `FORM_ENDPOINT`.
+
+**With no endpoint configured**, the form opens the visitor's own mail client with
+everything filled in. That works, but it loses people who use webmail, so set one up.
+
+**To set one up** (any of these, all have a free tier):
+
+| Service | Account needed | Notes |
+|---|---|---|
+| [FormSubmit](https://formsubmit.co) | no | endpoint is `https://formsubmit.co/info@liminex.net`; you confirm by email on the first send |
+| [Web3Forms](https://web3forms.com) | email only | endpoint `https://api.web3forms.com/submit`, add your key as a hidden field |
+| [Formspree](https://formspree.io) | yes | the most established; 50 submissions/month free; offers a DPA on paid plans |
+
+Then add a repository variable **`FORM_ENDPOINT`** with that URL
+(*Settings → Secrets and variables → Actions → Variables*) and push. Nothing in the
+code changes.
+
+Two things already handled: a hidden honeypot field that catches most bots, and a
+status line that is announced to screen readers. One thing to decide: these services
+process your visitors' messages on their servers, outside your control. For a company
+that sells accessibility and compliance work, it is worth reading the provider's terms
+and mentioning them if you ever publish a privacy statement.
+
 ### DNS for liminex.net
 
 At whoever holds the DNS for liminex.net (currently pointing at Squarespace),

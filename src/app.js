@@ -435,19 +435,71 @@ function renderContact(){
   var h='<section class="opener"><div class="narrow"><div class="lbl">'
     +(lang==="nl"?"Neem contact op":"Get in touch")+'</div><h1>Contact</h1>'
     +'<p class="deck">'+esc(t(d.lede))+'</p></div></section>';
-  h+='<section class="band band--tight"><div class="narrow"><form onsubmit="return false;">'
-    +'<div class="field"><label for="f-name">'+esc(t(d.fields.name))+'</label><input id="f-name" type="text" autocomplete="name"></div>'
-    +'<div class="field"><label for="f-co">'+esc(t(d.fields.company))+'</label><input id="f-co" type="text" autocomplete="organization"></div>'
-    +'<div class="field"><label for="f-em">'+esc(t(d.fields.email))+'</label><input id="f-em" type="email" autocomplete="email"></div>'
-    +'<div class="field"><label for="f-ty">'+esc(t(d.fields.type))+'</label><select id="f-ty">'+o+'</select></div>'
-    +'<div class="field"><label for="f-ms">'+esc(t(d.fields.msg))+'</label><textarea id="f-ms"></textarea></div>'
-    +'<button class="btn" type="submit" style="justify-self:start">'+esc(t(d.fields.send))+'</button>'
-    +'<p class="formnote">'+esc(t(d.formnote))+'</p></form><div class="details">';
+  h+='<section class="band band--tight"><div class="narrow"><form id="cform" novalidate>'
+    +'<div class="field"><label for="f-name">'+esc(t(d.fields.name))+'</label>'
+      +'<input id="f-name" name="name" type="text" autocomplete="name"></div>'
+    +'<div class="field"><label for="f-co">'+esc(t(d.fields.company))+'</label>'
+      +'<input id="f-co" name="company" type="text" autocomplete="organization"></div>'
+    +'<div class="field"><label for="f-em">'+esc(t(d.fields.email))+'</label>'
+      +'<input id="f-em" name="email" type="email" autocomplete="email" required></div>'
+    +'<div class="field"><label for="f-ty">'+esc(t(d.fields.type))+'</label>'
+      +'<select id="f-ty" name="subject">'+o+'</select></div>'
+    +'<div class="field"><label for="f-ms">'+esc(t(d.fields.msg))+'</label>'
+      +'<textarea id="f-ms" name="message" required></textarea></div>'
+    /* honeypot: a real person never fills this in, a bot usually does */
+    +'<div class="hp" aria-hidden="true"><label for="f-hp">'+esc(t(d.hp))+'</label>'
+      +'<input id="f-hp" name="_gotcha" type="text" tabindex="-1" autocomplete="off"></div>'
+    +'<button class="btn" type="submit" id="fsend" style="justify-self:start">'+esc(t(d.fields.send))+'</button>'
+    +'<p class="formstat" id="fstat" role="status" aria-live="polite"></p>'
+    +'<p class="formnote">'+esc(t(d.formnote))+'</p>'
+    +'<p class="formnote">'+esc(t(d.privacy))+'</p>'
+    +'</form><div class="details">';
   for(var j=0;j<d.details.length;j++)
     h+='<div><div class="k">'+esc(t(d.details[j].k))+'</div><div>'+esc(t(d.details[j].v))+'</div></div>';
   h+='</div></div></section>';
   h+='<section class="band band--tight"><div class="wrap">'+expBlock(false)+'</div></section>';
   return h;
+}
+
+/* The form posts to whatever endpoint build.py was given (FORM_ENDPOINT).
+   With no endpoint configured it falls back to opening the visitor's mail client,
+   so the page never has a button that silently does nothing. */
+function setupForm(){
+  var f=document.getElementById("cform");
+  if(!f) return;
+  f.addEventListener("submit",function(e){
+    e.preventDefault();
+    var d=C.contact, stat=document.getElementById("fstat"), btn=document.getElementById("fsend");
+    var get=function(id){ var el=document.getElementById(id); return el?el.value.trim():""; };
+    var email=get("f-em"), msg=get("f-ms");
+    stat.className="formstat";
+    if(!email||!msg){ stat.className="formstat is-bad"; stat.textContent=t(d.need);
+      (email?document.getElementById("f-ms"):document.getElementById("f-em")).focus(); return; }
+    if(get("f-hp")) return;                       /* bot */
+
+    var body=[t(d.fields.name)+": "+get("f-name"),
+              t(d.fields.company)+": "+get("f-co"),
+              t(d.fields.email)+": "+email,
+              t(d.fields.type)+": "+get("f-ty"),
+              "", msg].join("\n");
+
+    if(typeof FORM_ENDPOINT!=="string" || !FORM_ENDPOINT){
+      window.location.href="mailto:info@liminex.net?subject="
+        +encodeURIComponent("Liminex \u2014 "+get("f-ty"))+"&body="+encodeURIComponent(body);
+      return;
+    }
+    btn.disabled=true; stat.textContent=t(d.sending);
+    var data=new FormData(f);
+    data.append("_subject","Liminex \u2014 "+get("f-ty"));
+    data.append("_language",lang);
+    fetch(FORM_ENDPOINT,{method:"POST",body:data,headers:{"Accept":"application/json"}})
+      .then(function(r){
+        if(!r.ok) throw new Error(r.status);
+        f.reset(); stat.className="formstat is-ok"; stat.textContent=t(d.ok);
+      })
+      .catch(function(){ stat.className="formstat is-bad"; stat.textContent=t(d.fail); })
+      .then(function(){ btn.disabled=false; });
+  });
 }
 
 var UI={skip:{nl:"Naar de inhoud",en:"Skip to content"},nav:{nl:"Hoofdnavigatie",en:"Main navigation"},
@@ -492,6 +544,7 @@ function render(moveFocus){
   if(moveFocus) app.focus();
   window.scrollTo(0,0);
   setupReveal();
+  setupForm();
 }
 /* The opening collapses over the first ~85% of a screen height of scrolling.
    p = 0 fully open, p = 1 fully closed. The nav slides in as it closes. */
