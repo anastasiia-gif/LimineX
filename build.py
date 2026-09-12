@@ -262,6 +262,33 @@ if os.path.isdir(rdir):
         print("  render:", f, "(%d KB)%s" % (os.path.getsize(full) // 1024,
                                              "  cut-out" if cut else "  framed"))
 
+# One picture can stand in for several slots. A slot with its own file always wins;
+# the alias only fills a slot that has none. Slots: how-*, web-*, machine-*, card-*,
+# domain-<icon> for the Prototyping grid, and part-<icon> for every icon-led list on
+# the site (service rows, step lists, card grids) — one part per icon name.
+RENDER_ALIAS = {
+    "web-1":            "card-web",        # laptop
+    "web-2":            "how-1",           # phone in hand
+    "machine-print3d":  "card-proto",      # bracket off the printer
+    "machine-laser":    "card-make",       # laser-cut parts
+    "part-web":         "card-web",
+    "part-cad":         "how-3",           # drawing sheet and pen
+    "part-pcb":         "domain-pcb",
+    "part-elec":        "domain-elec",
+    "part-firmware":    "domain-pcb",
+    "part-print3d":     "domain-print3d",
+    "part-dfm":         "domain-dfm",
+    "part-laser":       "domain-dfm",
+    "part-robot":       "domain-robot",
+    "part-data":        "domain-pcb",
+    "part-mech":        "domain-print3d",
+}
+for slot, source in RENDER_ALIAS.items():
+    if slot not in renders and source in renders:
+        renders[slot] = renders[source]
+        if source in cutouts:
+            cutouts.append(slot)
+
 favicon = "data:image/webp;base64," + base64.b64encode(
     open(p("assets/logo_mark.webp"), "rb").read()).decode()
 

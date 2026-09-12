@@ -71,11 +71,25 @@ function renderFooter(){
      action, and a second one right underneath said the same thing twice. */
   document.getElementById("foot-tag").textContent=t(C.home.tagline);
 }
+/* A part for an icon name: assets/renders/part-<icon>.webp (or an alias in build.py).
+   Returns the floating cut-out markup, or "" when there is none — then the line icon
+   is used, as before. */
+function part(icon){
+  var src=icon && renderSrc("part-"+icon);
+  var cut=src && typeof CUTOUT!=="undefined" && CUTOUT.indexOf("part-"+icon)>=0;
+  if(!cut) return "";
+  return '<span class="fly" aria-hidden="true"><img src="'+src+'" alt="" loading="lazy"></span>';
+}
+function anyPart(icons){
+  if(!icons) return false;
+  for(var i=0;i<icons.length;i++) if(part(icons[i])) return true;
+  return false;
+}
 function svcList(list,heading,icons,noPrice){
-  var h=(heading?'<h2>'+esc(heading)+'</h2>':'')+'<div class="svcs">';
+  var h=(heading?'<h2>'+esc(heading)+'</h2>':'')+'<div class="svcs'+(anyPart(icons)?' svcs--fly':'')+'">';
   for(var i=0;i<list.length;i++){
-    var ic = icons && ICON[icons[i]];
-    h+='<div class="svc'+(ic?' svc--ic':'')+'">'+(ic||'')
+    var ic = icons && ICON[icons[i]], pt = icons && part(icons[i]);
+    h+='<div class="svc'+(ic||pt?' svc--ic':'')+(pt?' has-fly':'')+'">'+(pt||ic||'')
       +'<h3>'+esc(t(list[i].n))+'</h3><p>'+esc(t(list[i].d))+'</p></div>';
   }
   if(noPrice) return h+'</div>';
@@ -89,20 +103,20 @@ function svcList(list,heading,icons,noPrice){
         : " page. After one conversation you get a fixed price on one page.")+'</p>';
 }
 function stepList(list,icons){
-  var h='<div class="steps">';
+  var h='<div class="steps'+(anyPart(icons)?' steps--fly':'')+'">';
   for(var i=0;i<list.length;i++){
-    var ic = icons && ICON[icons[i]];
-    h+='<div class="step"><div class="no">'+(ic||no(i+1))+'</div>'
-      +'<div>'+(ic?'<span class="sn">'+no(i+1)+'</span>':'')
+    var ic = icons && ICON[icons[i]], pt = icons && part(icons[i]);
+    h+='<div class="step'+(pt?' has-fly':'')+'"><div class="no">'+(pt||ic||no(i+1))+'</div>'
+      +'<div>'+(ic||pt?'<span class="sn">'+no(i+1)+'</span>':'')
       +'<h3>'+esc(t(list[i].h))+'</h3><p>'+esc(t(list[i].p))+'</p></div></div>';
   }
   return h+'</div>';
 }
 function cardRow(list,icons){
-  var h='<div class="grid4">';
+  var h='<div class="grid4'+(anyPart(icons)?' grid4--fly':'')+'">';
   for(var i=0;i<list.length;i++){
-    var ic = icons && ICON[icons[i]];
-    h+='<div>'+(ic||'')+'<h3>'+esc(t(list[i].h))+'</h3><p>'+esc(t(list[i].p))+'</p></div>';
+    var ic = icons && ICON[icons[i]], pt = icons && part(icons[i]);
+    h+='<div'+(pt?' class="has-fly"':'')+'>'+(pt||ic||'')+'<h3>'+esc(t(list[i].h))+'</h3><p>'+esc(t(list[i].p))+'</p></div>';
   }
   return h+'</div>';
 }
