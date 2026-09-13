@@ -266,6 +266,25 @@ function expItems(area){
 /* Which proof belongs on which page. Websites are proof for web work, engineering
    items are proof for hardware work; showing both everywhere is noise. */
 var SHOWFOLIO={web:true, work:true, about:true, price:true};
+/* One engineering case as a card in the same shape as the website cases: a picture
+   (a cut-out floating on the grey ground, or a framed photo), a tag, a title, one
+   paragraph and the status line. Content lives in EXPERIENCE in content.js. */
+function expCard(e){
+  var src=e.img && renderSrc(e.img);
+  var cut=src && typeof CUTOUT!=="undefined" && CUTOUT.indexOf(e.img)>=0;
+  var shot = src
+    ? '<span class="shot'+(cut?' shot--cut':' has-img')+'"><img src="'+src+'" alt="" loading="lazy"></span>'
+    : '<span class="shot"><span class="t">'+(lang==="nl"?"Foto":"Photo")+'</span></span>';
+  return '<div class="fcard fcard--exp">'+shot
+    +'<span class="body"><span class="tag">'+esc(t(e.k))+'</span>'
+    +'<h3>'+esc(t(e.t))+'</h3><p>'+esc(t(e.p))+'</p>'
+    +'<span class="live live--plain">'+esc(t(e.m))+'</span></span></div>';
+}
+function expCards(items){
+  var h='<div class="folio folio--exp rv">';
+  for(var i=0;i<items.length;i++) h+=expCard(items[i]);
+  return h+'</div>';
+}
 function expBlock(withNext, area){
   var items=expItems(area);
   var folio=(area===undefined)||SHOWFOLIO[area]===true;
@@ -273,16 +292,7 @@ function expBlock(withNext, area){
   var h='<div class="lbl lbl--q rv">'+esc(t(EXPH.h))+'</div>'
     +'<h2 class="rv" style="margin-top:16px;max-width:20ch">'+esc(t(withNext?EXPH.none:C.folio.expd))+'</h2>'
     +'<p class="deck rv" style="margin-top:18px">'+esc(t(EXPH.d))+'</p>';
-  if(items.length){
-    h+='<div class="exp rv">';
-    for(var i=0;i<items.length;i++){
-      var e=items[i];
-      h+='<div class="expitem"><div class="k">'+esc(t(e.k))+'</div>'
-        +'<div><h3>'+esc(t(e.t))+'</h3><p>'+esc(t(e.p))+'</p>'
-        +'<span class="st">'+esc(t(e.m))+'</span></div></div>';
-    }
-    h+='</div>';
-  }
+  if(items.length) h+=expCards(items);
   if(folio){
     if(items.length)
       h+='<h3 class="rv" style="margin-top:64px">'
@@ -636,8 +646,14 @@ function renderWork(){
       +'" target="_blank" rel="noopener">'+(lang==="nl"?"Bekijk de site":"Visit the site")
       +' &nearr;</a></p></div></div></div>';
   }
-  h+='<div class="marginnote"><h3>'+esc(t(d.moreh))+'</h3><p>'+esc(t(d.morep))+'</p></div>'
-    +ctaBlock(t(C.folio.next))+'</div></section>';
+  h+='</div></section>';
+  h+='<section class="band band--grey"><div class="wrap">'
+    +'<div class="lbl lbl--q rv">'+esc(t(EXPH.engh))+'</div>'
+    +'<h2 class="rv" style="margin-top:16px;max-width:20ch">'+esc(t(EXPH.engd))+'</h2>'
+    +expCards(EXPERIENCE)
+    +'<div class="marginnote"><h3>'+esc(t(d.moreh))+'</h3><p>'+esc(t(d.morep))+'</p></div>'
+    +'</div></section>';
+  h+='<section class="band band--tight"><div class="wrap">'+ctaBlock(t(C.folio.next))+'</div></section>';
   return h;
 }
 

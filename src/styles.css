@@ -729,3 +729,20 @@ section.band--dark .formcard--preview .fp-btn{background:var(--ink);color:var(--
 @keyframes lpulse{0%,100%{transform:scale(.9);opacity:.75}50%{transform:scale(1.08);opacity:1}}
 body.loading{overflow:hidden}
 @media (prefers-reduced-motion:reduce){#loader img{animation:none}}
+
+/* ---------------- engineering cases, same shape as the website cases ---------------- */
+.folio--exp{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+@media (min-width:1080px){.folio--exp{grid-template-columns:repeat(3,1fr)}}
+.fcard--exp{cursor:default}
+.fcard--exp:hover{transform:none;border-color:var(--hair)}
+.fcard .shot--cut{padding:26px 28px;background:var(--paper2);position:relative;overflow:visible}
+.fcard .shot--cut img{width:auto;height:auto;max-width:92%;max-height:100%;object-fit:contain;
+  --tilt:-6deg;transform:rotate(var(--tilt));
+  filter:drop-shadow(0 22px 26px rgb(21 22 26/.20)) drop-shadow(0 4px 6px rgb(21 22 26/.10))}
+.fcard--exp:nth-child(even) .shot--cut img{--tilt:5deg}
+section.band--grey .fcard .shot--cut{background:var(--paper)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .fcard .shot--cut img{filter:drop-shadow(0 22px 30px rgb(0 0 0/.6))}}
+:root[data-theme="dark"] .fcard .shot--cut img{filter:drop-shadow(0 22px 30px rgb(0 0 0/.6))}
+.fcard .live--plain{color:var(--muted);font-weight:500}
+.fcard .live--plain::after{content:""}
+.fcard--exp p{font-size:14.5px}

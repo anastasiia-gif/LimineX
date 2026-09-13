@@ -47,7 +47,7 @@ CUSTOM_DOMAIN = env("CUSTOM_DOMAIN")          # writes dist/CNAME when set
 # Where the contact form posts. A static site cannot send mail itself, so this is a
 # form-to-email service — see the README for how to get one. Leave it empty and the
 # form falls back to opening the visitor's own mail client instead.
-FORM_ENDPOINT = env("FORM_ENDPOINT")
+FORM_ENDPOINT = env("FORM_ENDPOINT", "https://api.web3forms.com/submit")
 # Web3Forms and Formspree-style services want a key posted with the form. Set it as a
 # repository variable next to FORM_ENDPOINT; leave empty for services that don't use one.
 FORM_KEY = env("FORM_KEY")
