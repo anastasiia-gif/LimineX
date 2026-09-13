@@ -9,6 +9,18 @@ __HEAD__
 <div id="loader" aria-hidden="true"><img id="loaderlogo" alt="" src=""></div>
 <noscript><style>#loader{display:none}</style></noscript>
 
+<!-- Netlify Forms reads these at deploy time to know which fields to accept. The visible
+     forms are rendered by app.js and post to the same names. Not shown to anyone. -->
+<form name="contact" method="POST" data-netlify="true" netlify-honeypot="_gotcha" hidden>
+  <input type="text" name="name"><input type="text" name="company"><input type="email" name="email">
+  <input type="tel" name="phone"><input type="text" name="subject"><input type="text" name="budget">
+  <input type="text" name="timeline"><input type="text" name="source"><textarea name="message"></textarea>
+  <input type="text" name="_language"><input type="text" name="_gotcha">
+</form>
+<form name="interest" method="POST" data-netlify="true" hidden>
+  <input type="email" name="email"><textarea name="message"></textarea>
+</form>
+
 <nav class="bar" id="mainnav" aria-label="__NAVLABEL__"><div class="wrap">
   <a class="navmark" href="__HOME__" data-go="home" id="wordmark"><img id="navlogo" alt="" src=""><span>Liminex</span></a>
   <div class="navlinks" id="navlinks">__STATICNAV__</div>

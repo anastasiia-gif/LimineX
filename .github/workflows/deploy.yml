@@ -36,7 +36,8 @@ jobs:
           SITE_ORIGIN: ${{ vars.SITE_ORIGIN || format('https://{0}.github.io', github.repository_owner) }}
           BASE_PATH: ${{ vars.BASE_PATH || format('/{0}', github.event.repository.name) }}
           CUSTOM_DOMAIN: ${{ vars.CUSTOM_DOMAIN }}
-          FORM_ENDPOINT: ${{ vars.FORM_ENDPOINT }}
+          # GitHub Pages has no form handling; "none" makes the form open the mail client.
+          FORM_ENDPOINT: ${{ vars.FORM_ENDPOINT || 'none' }}
           FORM_KEY: ${{ vars.FORM_KEY }}
           CONTACT_EMAIL: ${{ vars.CONTACT_EMAIL }}
         run: python3 build.py

@@ -1,0 +1,5 @@
+# Only needed if the site is ever connected to a git repo on Netlify. For a
+# drag-and-drop deploy of dist/ this file is ignored.
+[build]
+  command = "python3 build.py"
+  publish = "dist"

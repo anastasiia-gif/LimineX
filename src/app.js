@@ -6,8 +6,8 @@ function area(id){ for(var i=0;i<AREAS.length;i++){ if(AREAS[i].id===id) return 
 function aName(a){ return lang==="nl"?a.nl:a.en; }
 function no(n){ return (n<10?"0":"")+n; }
 
-var ACT=[{id:"web",nl:"IT & Web",en:"IT & Web"},
-  {id:"proto",nl:"Prototyping",en:"Prototyping"},{id:"make",nl:"Productie",en:"Manufacturing"},
+var ACT=[{id:"web",nl:"Software & web",en:"Software & web"},
+  {id:"proto",nl:"Engineering",en:"Engineering"},{id:"make",nl:"Productie",en:"Manufacturing"},
   {id:"yard",nl:"Project Yard",en:"Project Yard"},{id:"start",nl:"Start-ups",en:"Start-ups"},
   {id:"work",nl:"Ons werk",en:"Our work"}];
 var NAV=[{id:"price",nl:"Tarieven",en:"Pricing"},
@@ -80,7 +80,7 @@ function part(icon){
   var src=renderSrc(key);
   var cut=src && typeof CUTOUT!=="undefined" && CUTOUT.indexOf(key)>=0;
   if(!cut) return "";
-  return '<span class="fly" aria-hidden="true"><img src="'+src+'" alt="" loading="lazy"></span>';
+  return '<span class="fly" aria-hidden="true"><img src="'+src+'" alt=""></span>';
 }
 function anyPart(icons){
   if(!icons) return false;
@@ -147,7 +147,7 @@ function folioStrip(withNext){
 function shotFor(c){
   var src = (typeof WORKSHOTS!=="undefined") && WORKSHOTS[c.img];
   if(src) return '<span class="shot has-img"><img src="'+src+'" alt="'
-    +esc(c.t+(lang==="nl"?" — de site die wij bouwden":" — the site we built"))+'" loading="lazy"></span>';
+    +esc(c.t+(lang==="nl"?" — de site die wij bouwden":" — the site we built"))+'"></span>';
   return '<span class="shot"><span class="t">'+(lang==="nl"?"Screenshot":"Screenshot")+'</span>'
     +'<span class="s">'+esc(c.url)+' &middot; 16:10</span></span>';
 }
@@ -167,7 +167,10 @@ function folioCards(){
 var ASSET_BASE=(function(){
   var l=document.querySelector('link[rel="stylesheet"][href*="site."]');
   var h=l?l.getAttribute("href"):"assets/site.css";
-  return h.slice(0, h.lastIndexOf("/")+1);
+  /* Resolved to an absolute URL once, here: the page URL changes on client-side
+     navigation, and a path relative to the old page would point at the wrong folder. */
+  var abs=new URL(h, location.href).href;
+  return abs.slice(0, abs.lastIndexOf("/")+1);
 })();
 function renderSrc(key){
   var r=(typeof RENDERS!=="undefined") && RENDERS[key];
@@ -185,7 +188,7 @@ function altRows(items,compact){
     var cut=src && typeof CUTOUT!=="undefined" && CUTOUT.indexOf(it.key)>=0;
     h+='<div class="altrow rv">'
       +'<div class="altmedia'+(cut?' altmedia--cut':'')+'">'
-      +(src ? '<img src="'+src+'" alt="" loading="lazy">'
+      +(src ? '<img src="'+src+'" alt="">'
             : ph(t(it.shot), lang==="nl"?"16:10":"16:10"))
       +'</div>'
       +'<div class="alttext">'
@@ -209,7 +212,7 @@ function discGrid(){
     var dsrc=renderSrc("domain-"+it.ic);
     var dcut=dsrc && typeof CUTOUT!=="undefined" && CUTOUT.indexOf("domain-"+it.ic)>=0;
     h+='<div'+(dcut?' class="has-cut"':'')+'>'
-      +(dsrc?'<span class="dpic'+(dcut?' dpic--cut':'')+'"><img src="'+dsrc+'" alt="" loading="lazy"></span>':'')
+      +(dsrc?'<span class="dpic'+(dcut?' dpic--cut':'')+'"><img src="'+dsrc+'" alt=""></span>':'')
       +(dcut?'':(ICON[it.ic]||''))+'<h3>'+esc(t(it.t))+'</h3>'
       +'<p>'+esc(t(it.p))+'</p>'
       +(it.ex?'<p class="eg"><span>'+(lang==="nl"?"Voorbeeld":"Example")+'</span>'+esc(t(it.ex))+'</p>':'')
@@ -273,7 +276,7 @@ function expCard(e){
   var src=e.img && renderSrc(e.img);
   var cut=src && typeof CUTOUT!=="undefined" && CUTOUT.indexOf(e.img)>=0;
   var shot = src
-    ? '<span class="shot'+(cut?' shot--cut':' has-img')+'"><img src="'+src+'" alt="" loading="lazy"></span>'
+    ? '<span class="shot'+(cut?' shot--cut':' has-img')+'"><img src="'+src+'" alt=""></span>'
     : '<span class="shot"><span class="t">'+(lang==="nl"?"Foto":"Photo")+'</span></span>';
   return '<div class="fcard fcard--exp">'+shot
     +'<span class="body"><span class="tag">'+esc(t(e.k))+'</span>'
@@ -327,7 +330,7 @@ function renderHome(){
     var ccut = cimg && typeof CUTOUT!=="undefined" && CUTOUT.indexOf("card-"+ar.id)>=0;
     h+=go(ar.id,' class="block rv'+(ccut?' has-cut':'')+'"')
       +'<span class="prev'+(cimg?(ccut?' has-cut':' has-img'):'')+'">'
-        +(cimg ? '<img src="'+cimg+'" alt="" loading="lazy">'
+        +(cimg ? '<img src="'+cimg+'" alt="">'
                : GLYPH[ar.glyph]+'<span class="cap">'+esc(t(d.shots[ar.id]))+'</span>')
       +'</span>'
       +'<span class="body"><h3>'+esc(aName(ar))+'</h3>'
@@ -414,7 +417,7 @@ function renderWeb(){
   var d=C.web,h="";
 
   /* 1. opener */
-  h+='<section class="opener">'+watermark("web")+'<div class="narrow"><div class="lbl">IT &amp; Web</div>'
+  h+='<section class="opener">'+watermark("web")+'<div class="narrow"><div class="lbl">Software &amp; web</div>'
     +'<h1>'+esc(t(d.lede))+'</h1></div></section>';
 
   /* 2. what we do — the main content, first on the page */
@@ -510,7 +513,7 @@ function indiaPanel(){
   var d=C.india;
   var pic=renderSrc("india");
   return '<section class="band band--india"><div class="wrap"><div class="soonrow'+(pic?' has-pic':'')+'">'
-    +(pic?'<div class="soonpic rv"><img src="'+pic+'" alt="" loading="lazy"></div>':'')
+    +(pic?'<div class="soonpic rv"><img src="'+pic+'" alt=""></div>':'')
     +'<div class="soon rv" id="soon">'
     +'<div class="lbl lbl--q">'+esc(t(d.lbl))+'</div>'
     +'<h2>'+esc(t(d.h))+'</h2>'
@@ -545,6 +548,13 @@ function setupSoon(){
         stat.textContent = ok ? (mail?t(d.ok):t(d.okq)) : t(d.fail);
       };
       if(typeof FORM_ENDPOINT!=="string" || !FORM_ENDPOINT){ finish(true); return; }
+      if(FORM_ENDPOINT==="netlify"){
+        var nb=new URLSearchParams({"form-name":"interest", email: mail||"no address given",
+          message:"Someone registered interest in series production in India."+(mail?"":" They did not leave an address.")});
+        fetch(location.pathname,{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:nb.toString()})
+          .then(function(r){ finish(r.ok); }).catch(function(){ finish(false); });
+        return;
+      }
       var fd=new FormData();
       if(typeof FORM_KEY==="string" && FORM_KEY) fd.append("access_key",FORM_KEY);
       fd.append("subject","Liminex \u2014 interest: production in India");
@@ -799,6 +809,20 @@ function wireForm(f){
       return;
     }
     btn.disabled=true; stat.textContent=t(d.sending);
+    if(FORM_ENDPOINT==="netlify"){
+      /* Netlify Forms: the hidden form in the page shell registers the fields at deploy;
+         submissions are urlencoded posts to any page on the site with form-name set. */
+      var nd=new FormData(f); nd.append("form-name","contact"); nd.append("_language",lang);
+      fetch(location.pathname,{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},
+            body:new URLSearchParams(nd).toString()})
+        .then(function(r){ if(!r.ok) throw new Error(r.status);
+          f.reset(); stat.className="formstat is-ok"; stat.textContent=t(d.ok); })
+        .catch(function(){ var link=mailtoLink(get("ty"),body);
+          stat.className="formstat is-bad";
+          stat.innerHTML=esc(t(d.fail))+' <a href="'+link+'">'+(lang==="nl"?"Open mijn mailprogramma":"Open my mail app")+'</a>'; })
+        .then(function(){ btn.disabled=false; });
+      return;
+    }
     var data=new FormData(f);
     if(typeof FORM_KEY==="string" && FORM_KEY) data.append("access_key",FORM_KEY);
     data.append("subject","Liminex \u2014 "+(get("ty")||"website"));   /* Web3Forms */
@@ -874,7 +898,8 @@ function render(moveFocus){
   else if(page==="contact") h=renderContact();
   else h=renderArea(page);
   app.innerHTML=h;
-  app.className="page-"+page;      /* lets one page carry its own palette — see Project Yard */
+  app.className="page-"+page;
+  waitForPictures();      /* lets one page carry its own palette — see Project Yard */
   renderNav(); renderFooter();
   document.getElementById("navlogo").src=LOGO_MARK;
   document.getElementById("footlogo").src=LOGO_MARK;
@@ -947,6 +972,16 @@ window.addEventListener("popstate",function(){
   if(hit && hit.lang===lang){ page=hit.page; render(false); }
   else location.reload();
 });
+/* After a client-side page switch the new pictures are usually cached already; if not,
+   hold the reveal until they have decoded (capped at 1.2 s) so nothing pops in late. */
+function waitForPictures(){
+  var imgs=app.querySelectorAll("img"), pending=[];
+  for(var i=0;i<imgs.length;i++) if(!imgs[i].complete && imgs[i].decode) pending.push(imgs[i].decode().catch(function(){}));
+  if(!pending.length) return;
+  app.classList.add("is-waiting");
+  var done=false, fin=function(){ if(done) return; done=true; app.classList.remove("is-waiting"); setupReveal(); };
+  Promise.all(pending).then(fin); setTimeout(fin,1200);
+}
 /* ---------------- loading screen ----------------
    Every render on the site is fetched before the page is shown, so nothing pops in
    while you read. Runs once per browser session; later pages find everything cached.

@@ -40,14 +40,19 @@ def read(f): return open(p(f), encoding="utf-8").read()
 def env(name, default=""):
     return (os.environ.get(name) or "").strip() or default
 
-SITE_ORIGIN   = env("SITE_ORIGIN", "https://anastasiia-gif.github.io")
-BASE_PATH     = env("BASE_PATH", "/LimineX").rstrip("/")
+# Defaults are the live site on Netlify at liminex.net. The GitHub Pages workflow
+# overrides all of these with its own values, so both keep working.
+SITE_ORIGIN   = env("SITE_ORIGIN", "https://liminex.net")
+BASE_PATH     = env("BASE_PATH", "/").rstrip("/")
 CUSTOM_DOMAIN = env("CUSTOM_DOMAIN")          # writes dist/CNAME when set
 
 # Where the contact form posts. A static site cannot send mail itself, so this is a
 # form-to-email service — see the README for how to get one. Leave it empty and the
 # form falls back to opening the visitor's own mail client instead.
-FORM_ENDPOINT = env("FORM_ENDPOINT", "https://api.web3forms.com/submit")
+# "netlify" means Netlify's built-in form handling (no key, no third party): the hidden
+# forms in template.html register the fields, submissions land in the Netlify dashboard
+# and are emailed to you. Any other value is a Web3Forms-style endpoint plus FORM_KEY.
+FORM_ENDPOINT = env("FORM_ENDPOINT", "netlify")
 # Web3Forms and Formspree-style services want a key posted with the form. Set it as a
 # repository variable next to FORM_ENDPOINT; leave empty for services that don't use one.
 FORM_KEY = env("FORM_KEY")
@@ -61,6 +66,10 @@ if FORM_ENDPOINT and "formsubmit.co" in FORM_ENDPOINT:
           "     never reaches you. Use https://api.web3forms.com/submit with FORM_KEY.\n"
           "     Dropping the endpoint for this build; the form will open the mail client.")
     FORM_ENDPOINT = ""
+if FORM_ENDPOINT == "none":          # explicit: no service, the form opens the mail client
+    FORM_ENDPOINT = ""
+if FORM_ENDPOINT == "netlify":
+    print("  form:            Netlify Forms (built in)")
 if FORM_ENDPOINT and "web3forms" in FORM_ENDPOINT and not FORM_KEY:
     print("  !! Web3Forms needs FORM_KEY. Without it every submission is rejected.\n"
           "     Dropping the endpoint for this build; the form will open the mail client.")
@@ -87,20 +96,20 @@ PAGES = [
    "h1":"Software and hardware in one team, for SMEs in Brabant.",
    "intro":"Websites and AI on one side, prototyping, electronics and control on the other. Four engineers in 's-Hertogenbosch."}},
 
- {"id":"web",   "nl":{"slug":"website-laten-maken", "nav":"IT & Web", "title":"Website laten maken in Den Bosch | Liminex",
+ {"id":"web",   "nl":{"slug":"website-laten-maken", "nav":"Software & web", "title":"Website laten maken in Den Bosch | Liminex",
    "desc":"Websites en webshops voor het mkb in Noord-Brabant, gebouwd op WCAG 2.1 AA. Plus AI die in uw proces zit in plaats van in een browsertab.",
    "h1":"Website laten maken in Den Bosch en Noord-Brabant",
    "intro":"Websites die klanten opleveren, webshops die op elk toestel werken, en AI die in uw proces zit in plaats van in een browsertab."},
-   "en":{"nav":"IT & Web", "slug":"web-and-ai", "title":"Web development and AI for SMEs | Liminex",
+   "en":{"nav":"Software & web", "slug":"web-and-ai", "title":"Web development and AI for SMEs | Liminex",
    "desc":"Websites and online shops for SMEs in Noord-Brabant, built to WCAG 2.1 AA, plus AI that sits inside your process instead of in a browser tab.",
    "h1":"Web development and AI for SMEs in Noord-Brabant",
    "intro":"Websites that bring in customers, online shops that work on every device, and AI that sits inside your process instead of in a browser tab."}},
 
- {"id":"proto", "nl":{"slug":"prototyping", "nav":"Prototyping", "title":"Prototype laten maken | Liminex, Noord-Brabant",
+ {"id":"proto", "nl":{"slug":"prototyping", "nav":"Engineering", "title":"Prototype laten maken | Liminex, Noord-Brabant",
    "desc":"Van schets naar werkend prototype: mechanica, elektronica, firmware en besturing in één team, op mkb-schaal. Eigen machines in huis.",
    "h1":"Prototype laten maken in Noord-Brabant",
    "intro":"Van schets naar werkend prototype: mechanica, elektronica, firmware en besturing in één team, en de machines om het te maken staan bij ons."},
-   "en":{"nav":"Prototyping", "slug":"prototyping", "title":"Prototyping and engineering | Liminex",
+   "en":{"nav":"Engineering", "slug":"prototyping", "title":"Prototyping and engineering | Liminex",
    "desc":"From sketch to working prototype: mechanics, electronics, firmware and control in one team, at SME scale, with the machines in house.",
    "h1":"Prototyping and engineering in Noord-Brabant",
    "intro":"From sketch to working prototype: mechanics, electronics, firmware and control in one team, and the machines to make it are ours."}},

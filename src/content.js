@@ -1,7 +1,7 @@
 /* ============================================================ COPY ============================================================ */
 var AREAS = [
-  {id:"web",   glyph:"wave",  nl:"IT & Web",         en:"IT & Web"},
-  {id:"proto", glyph:"frame", nl:"Prototyping",      en:"Prototyping"},
+  {id:"web",   glyph:"wave",  nl:"Software & web",   en:"Software & web"},
+  {id:"proto", glyph:"frame", nl:"Engineering & prototyping", en:"Engineering & prototyping"},
   {id:"make",  glyph:"turn",  nl:"Productie",        en:"Manufacturing"},
   {id:"yard",  glyph:"shed",  nl:"Project Yard",     en:"Project Yard"},
   {id:"start", glyph:"vector",nl:"Start-up support", en:"Start-up support"}
@@ -168,15 +168,15 @@ home:{
   tagline:{nl:"Make non-existent reality", en:"Make non-existent reality"},
   scroll:{nl:"Scroll", en:"Scroll"},
   blocksh:{nl:"Wat we doen", en:"What we do"},
-  blocksd:{nl:"Vijf richtingen, één team. Software en hardware onder hetzelfde dak, met de machines om het ook echt te maken.",
-           en:"Five directions, one team. Software and hardware under one roof, with the machines to actually make it."},
+  blocksd:{nl:"Meer vakgebieden dan u van vier mensen verwacht: software, web, mechanica, elektronica, besturing, drones, en de machines om het te maken. Alles onder één dak, dus nooit iets tussen de wal en het schip.",
+           en:"More fields than you'd expect from four people: software, web, mechanics, electronics, control, drones, and the machines to make it. All under one roof, so nothing falls between two suppliers."},
   blurbs:{
-    web:{nl:"Websites die klanten opleveren, en AI die in uw proces zit in plaats van in een browsertab.",
-         en:"Websites that bring in customers, and AI that sits inside your process instead of in a browser tab."},
-    proto:{nl:"Van schets naar werkend prototype. Mechanica, elektronica, firmware en besturing in één team.",
-           en:"From sketch to working prototype. Mechanics, electronics, firmware and control in one team."},
-    make:{nl:"Kleine series maken we hier, met eigen printers, lasersnijder en CNC. Grotere aantallen begeleiden we.",
-          en:"Small runs we make here, on our own printers, laser cutter and CNC. Larger volumes we manage for you."},
+    web:{nl:"Website, webshop, app, AI, SEO, automatisering. U beschrijft wat u wilt bereiken, wij kiezen samen de beste uitvoering.",
+         en:"Website, online shop, app, AI, SEO, automation. You describe what you want to achieve, we pick the best execution together."},
+    proto:{nl:"U heeft een idee; wij bouwen het. Mechanica, elektronica, firmware en besturing in één team, van schets tot werkend exemplaar.",
+           en:"You have an idea; we build it. Mechanics, electronics, firmware and control in one team, from sketch to working unit."},
+    make:{nl:"Het verlengstuk van prototyping: eigen printers, lasersnijder en CNC in huis, dus het ontwerp van vandaag is morgen een onderdeel. Grotere aantallen begeleiden we.",
+          en:"The extension of prototyping: our own printers, laser cutter and CNC in house, so today's design is tomorrow's part. Larger volumes we manage for you."},
     yard:{nl:"Een werkplaats voor de regio, waar bedrijven, studenten en makers samen bouwen. In opbouw.",
           en:"A workshop for the region, where companies, students and makers build together. In development."},
     start:{nl:"U heeft een idee en geen technisch team. Wij zijn dat team, tot u er zelf een heeft.",
@@ -209,8 +209,8 @@ home:{
   how:[
     {ic:"web", h:{nl:"U stuurt twee zinnen",en:"You send two sentences"},
      dw:"layout", note:{nl:"Foto — het formulier op een telefoon",en:"Photo — the form on a phone"},
-     p:{nl:"Via het formulier of per mail. Geen briefing, geen aanbestedingsdocument \u2014 wat er moet gebeuren en wanneer. Binnen \u00e9\u00e9n werkdag antwoord.",
-        en:"Through the form or by email. No briefing document, no tender \u2014 what needs to happen and by when. A reply within one working day."}},
+     p:{nl:"Via het formulier of per mail. Geen briefing, geen aanbestedingsdocument \u2014 wat er moet gebeuren en wanneer. Binnen drie werkdagen antwoord, en binnen een week een afspraak.",
+        en:"Through the form or by email. No briefing document, no tender \u2014 what needs to happen and by when. A reply within three working days, and a meeting within a week."}},
     {ic:"test", h:{nl:"Een half uur, gratis",en:"Half an hour, free"},
      dw:"bench", note:{nl:"Foto — een gesprek aan tafel",en:"Photo — a conversation at the table"},
      p:{nl:"Videocall of bij u op locatie, met de engineer die het werk zou doen. Wij stellen vragen, u krijgt een eerlijk oordeel \u2014 ook als dat \u2018hier zijn wij niet de juiste partij voor\u2019 is.",
@@ -238,10 +238,10 @@ home:{
   ],
   teamwork:{nl:"Bekijk ons werk", en:"See our work"},
   teamabout:{nl:"Over ons", en:"About us"},
-  whoq:{nl:"Vier engineers, eigen machines en een bank studenten. Klein genoeg om u de engineer te laten spreken die het werk doet.",
-        en:"Four engineers, our own machines and a bench of students. Small enough that you speak to the engineer doing the work."},
-  whop:{nl:"Liminex begon als een afstudeerproject en werd een bedrijf. We werken vanuit 's-Hertogenbosch voor het hele Brabantse mkb — websites en AI aan de ene kant, drones, besturing en elektronica aan de andere. Wat die twee bij elkaar houdt is dat de meeste bedrijven iets nodig hebben dat op beide raakt, en dat er bijna niemand is die het allebei doet.\n\nWe leiden studenten op terwijl ze aan echt werk werken. Dat is deels overtuiging en deels rekenkunde: Brabant heeft te weinig technische mensen, en er zijn maar twee manieren om daaraan iets te doen.",
-        en:"Liminex started as a graduation project and turned into a company. We work from 's-Hertogenbosch for SMEs across Brabant — websites and AI on one side, drones, control systems and electronics on the other. What holds those together is that most companies need something touching both, and almost nobody does both.\n\nWe train students on real work. That is part conviction and part arithmetic: Brabant is short of technical people, and there are only two ways to change that."},
+  whoq:{nl:"Vier engineers in 's-Hertogenbosch, met meer vakgebieden dan u van vier mensen verwacht.",
+        en:"Four engineers in 's-Hertogenbosch, with more fields between them than you'd expect from four people."},
+  whop:{nl:"We komen uit het Brabantse bedrijfsleven en van Fontys. Tussen ons vieren zitten software, web, mechanica, elektronica, besturing en drones \u2014 meerdere talenten onder \u00e9\u00e9n dak. Voor u betekent dat in feite \u00e9\u00e9n aanspreekpunt dat alles kan: u hoeft niet zelf uit te zoeken welke discipline uw vraag is, en niets valt tussen twee leveranciers in.\n\nWe leiden studenten op terwijl ze aan echt werk werken. Dat is deels overtuiging en deels rekenkunde: Brabant heeft te weinig technische mensen, en er zijn maar twee manieren om daaraan iets te doen.",
+        en:"We come from working in Noord-Brabant's industry and from Fontys. Between the four of us sit software, web, mechanics, electronics, control and drones \u2014 several talents under one roof. For you it works like one person who can do everything: you don't have to work out which discipline your question belongs to, and nothing falls between two suppliers.\n\nWe train students on real work. That is part conviction and part arithmetic: Brabant is short of technical people, and there are only two ways to change that."},
   stats:[
     {n:"4", k:{nl:"engineers, plus studenten die meebouwen",en:"engineers, plus students who build with us"}},
     {n:"3", k:{nl:"machines in huis: 3D-print, laser, CNC",en:"machines in the building: 3D print, laser, CNC"}},
@@ -262,13 +262,13 @@ foot:{
   seo:{nl:"Liminex is een engineeringbureau in 's-Hertogenbosch. Wij bouwen websites en webshops, doen AI-automatisering, en ontwikkelen prototypes: mechanica, elektronica, PCB-ontwerp, firmware, besturingstechniek, robotica, drones en CAD. Kleine series maken we zelf met 3D-printen, lasersnijden en CNC. Actief in Noord-Brabant \u2014 's-Hertogenbosch, Eindhoven, Tilburg, Breda \u2014 en de rest van Nederland.",
        en:"Liminex is an engineering firm in 's-Hertogenbosch, the Netherlands. We build websites and online shops, do AI automation, and develop prototypes: mechanics, electronics, PCB design, firmware, control engineering, robotics, drones and CAD. Short runs we make ourselves with 3D printing, laser cutting and CNC. Working across Noord-Brabant \u2014 's-Hertogenbosch, Eindhoven, Tilburg, Breda \u2014 and the rest of the Netherlands."},
   formh:{nl:"Stuur ons twee zinnen",en:"Send us two sentences"},
-  formd:{nl:"Vertel kort wat er moet gebeuren. U krijgt binnen \u00e9\u00e9n werkdag antwoord van de engineer die het zou doen \u2014 ook als dat antwoord \u2018dit past niet bij ons\u2019 is.",
-         en:"Tell us briefly what needs to happen. You'll hear back within one working day from the engineer who would do it \u2014 including if the answer is \u2018this isn't for us\u2019."},
+  formd:{nl:"Vertel kort wat er moet gebeuren. U krijgt binnen drie werkdagen antwoord van de engineer die het zou doen \u2014 ook als dat antwoord \u2018dit past niet bij ons\u2019 is \u2014 en binnen een week een afspraak.",
+         en:"Tell us briefly what needs to happen. You'll hear back within three working days from the engineer who would do it \u2014 including if the answer is \u2018this isn't for us\u2019 \u2014 and have a meeting within a week."},
   work:{nl:"Werk",en:"Work"}, more:{nl:"Meer",en:"More"}, contact:{nl:"Contact",en:"Contact"},
   legal:{nl:"Richtprijzen staan op de tarievenpagina",en:"Indicative prices are on the pricing page"}},
 about:{
-  lede:{nl:"Vier engineers uit 's-Hertogenbosch die software en hardware onder hetzelfde dak doen.",
-        en:"Four engineers from 's-Hertogenbosch doing software and hardware under one roof."},
+  lede:{nl:"Vier engineers uit 's-Hertogenbosch, meerdere talenten onder \u00e9\u00e9n dak.",
+        en:"Four engineers from 's-Hertogenbosch, several talents under one roof."},
   storyh:{nl:"Hoe het begon", en:"How it started"},
   wayh:{nl:"Hoe we werken", en:"How we work"},
   way:[
@@ -303,10 +303,10 @@ folio:{
          en:"Tell us in two sentences what needs to happen. We'll say honestly whether it suits us."}
 },
 web:{
-  lede:{nl:"Wat een klant ook in een browser moet kunnen — boeken, betalen, samenstellen — dat bouwen wij.",
-        en:"Whatever you want a customer to be able to do in a browser — book it, pay for it, configure it — we build it."},
-  intro:{nl:"De meeste mkb-websites zijn een folder: een paar pagina's, een telefoonnummer, klaar. De sites die wél iets opleveren laten de klant iets dóen — een tijdslot boeken, een aanbetaling doen, een product samenstellen, een order volgen. Dat is een ander soort bouwwerk, en dat is het soort dat wij maken. Zeven op de tien Nederlandse mkb-bedrijven heeft een website; bij bedrijven van twee tot tien medewerkers gebruikt maar 14% AI, en de grootste blokkade is niet geld maar ervaring — 73% van de bedrijven die het overwogen en afhaakten zegt dat zelf.",
-         en:"Most SME websites are a brochure: a few pages, a phone number, done. The ones that earn their keep let the customer do something — book a slot, pay a deposit, configure a product, follow an order. That is a different kind of build, and it is the kind we make. Seven in ten Dutch SMEs have a website; among firms of two to ten staff only 14% use AI at all, and the biggest blocker is not money but experience — 73% of the firms that considered it and stopped say so themselves."},
+  lede:{nl:"U stelt het zich voor, wij vinden samen de beste uitvoering. Website, webshop, app, AI, SEO of iets dat nog geen naam heeft.",
+        en:"You imagine it, we find the best execution together. Website, online shop, app, AI, SEO, or something that doesn't have a name yet."},
+  intro:{nl:"We beginnen niet bij de techniek maar bij uw klant: wat moet iemand bij u kunnen ervaren, boeken, bestellen of begrijpen? Daarna kiezen we samen wat daar het beste bij past \u2014 een website, een webshop, een app of webapp, een stuk AI in uw proces, betere vindbaarheid, of een combinatie. Vaak blijkt de eenvoudigste uitvoering de beste, en soms is het iets wat nog niemand voor u gebouwd heeft. Het is uw verbeelding en onze uitvoering.",
+         en:"We don't start from the technology but from your customer: what should someone be able to experience, book, order or understand with you? Then we choose together what fits that best \u2014 a website, an online shop, an app or web app, a piece of AI in your process, better findability, or a mix. Often the simplest execution turns out to be the best one, and sometimes it is something nobody has built for you before. It is your imagination and our execution."},
   exhibh:{nl:"De tentoonstelling", en:"The exhibition"},
   exhibd:{nl:"Dit is wat we tot nu toe hebben opgeleverd. Beide sites staan live en worden nog gebruikt.",
           en:"This is what we have delivered so far. Both sites are live and still in use."},
@@ -318,14 +318,14 @@ web:{
     d:{nl:"Afspraken, tijdsloten, aanbetalingen, iDEAL en kaart. Het komt in uw agenda en op uw rekening, niet in het dashboard van een derde partij dat u twee keer per dag moet controleren.",
        en:"Appointments, slots, deposits, iDEAL and card. It lands in your calendar and your bank account — not in a third party's dashboard you have to check twice a day."}},
    {n:{nl:"Het stuk dat nergens kant-en-klaar bestaat",en:"The part that comes in no box"},
-    d:{nl:"Een configurator, een klantportaal, een offertecalculator, een voorraadscherm aan de muur. Precies het ding dat een standaardplatform niet kan — en meestal ook precies het ding waarin u van uw concurrent verschilt.",
-       en:"A configurator, a customer portal, a quote calculator, a stock screen on the wall. Exactly the thing an off-the-shelf platform cannot do — and usually exactly the thing that makes you different from your competitor."}},
+    d:{nl:"Een app, een webapp, een configurator, een klantportaal, een offertecalculator, een voorraadscherm aan de muur. Precies het ding dat een standaardplatform niet kan — en meestal ook precies het ding waarin u van uw concurrent verschilt.",
+       en:"An app, a web app, a configurator, a customer portal, a quote calculator, a stock screen on the wall. Exactly the thing an off-the-shelf platform cannot do — and usually exactly the thing that makes you different from your competitor."}},
    {n:{nl:"Een ontwerp dat van u is",en:"A design that is actually yours"},
     d:{nl:"Geen sjabloon met uw logo in de hoek. Kleur, typografie en indeling gebouwd rond wat uw bedrijf werkelijk is, zodat een bezoeker u kan onderscheiden van de vier andere tabbladen die hij open heeft staan.",
        en:"Not a template with your logo dropped in the corner. Colour, type and layout built around what your company actually is, so a visitor can tell you apart from the four other tabs they have open."}},
-   {n:{nl:"AI-automatisering",en:"AI automation"},
-    d:{nl:"Één proces dat nu handwerk is en dat niet hoeft te zijn: offertes uit e-mail halen, facturen inlezen, post sorteren, rapportages die zichzelf maken. We beginnen met het proces dat u het meeste tijd kost.",
-       en:"One process that is manual today and doesn't need to be: pulling quotes out of email, reading invoices, triaging messages, reports that write themselves. We start with whatever costs you the most time."}},
+   {n:{nl:"AI, automatisering en vindbaarheid",en:"AI, automation and findability"},
+    d:{nl:"Één proces dat nu handwerk is en dat niet hoeft te zijn: offertes uit e-mail halen, facturen inlezen, post sorteren, rapportages die zichzelf maken. En SEO: gevonden worden door de mensen die u zoekt. We beginnen met wat u het meeste tijd of klanten kost.",
+       en:"One process that is manual today and doesn't need to be: pulling quotes out of email, reading invoices, triaging messages, reports that write themselves. And SEO: being found by the people looking for you. We start with whatever costs you the most time or customers."}},
    {n:{nl:"Onderhoud",en:"Care"},
     d:{nl:"Updates, back-ups, monitoring en kleine wijzigingen, zodat de site over twee jaar nog werkt. Voor automatisering: bijsturen als uw proces verandert.",
        en:"Updates, backups, monitoring and small changes, so the site still works in two years. For automation: adjusting when your process changes."}}
@@ -339,14 +339,14 @@ web:{
   ]
 },
 proto:{
-  lede:{nl:"Van schets naar werkend prototype: mechanica, elektronica, firmware en besturing — en de machines om het te maken staan bij ons.",
-        en:"From sketch to working prototype: mechanics, electronics, firmware and control — and the machines to make it are ours."},
-  intro:{nl:"De meeste Nederlandse ontwikkelbureaus doen óf elektronica, óf industrieel ontwerp, óf ze zijn geprijsd voor grote bedrijven. Wij doen mechanica, elektronica, firmware en besturing in één team, op mkb-schaal. Een ontwerpfout op dinsdag is woensdag opgelost.",
-         en:"Most Dutch development studios do either electronics, or industrial design, or are priced for corporates. We do mechanics, electronics, firmware and control in one team, at SME scale. A design mistake on Tuesday is fixed on Wednesday."},
+  lede:{nl:"U heeft een idee. Vertel het ons, en wij bouwen het \u2014 van schets naar werkend exemplaar, met de machines om het te maken in huis.",
+        en:"You have an idea. Tell us, and we build it \u2014 from sketch to working unit, with the machines to make it in house."},
+  intro:{nl:"Het begint bij uw idee, niet bij onze specialisatie. Een apparaat, een meetopstelling, een machine die iets moet doen wat nog niets doet \u2014 u beschrijft wat het moet kunnen, wij vertalen dat naar mechanica, elektronica, firmware en besturing, in \u00e9\u00e9n team. Omdat de machines hier staan, is een ontwerpfout op dinsdag woensdag opgelost. Hieronder wat we precies doen en op welke terreinen.",
+         en:"It starts with your idea, not with our specialism. A device, a measurement setup, a machine that has to do something nothing does yet \u2014 you describe what it must be able to do, we translate that into mechanics, electronics, firmware and control, in one team. Because the machines are here, a design mistake on Tuesday is fixed on Wednesday. Below: exactly what we do, and in which fields."},
   svcs:[
     {n:{nl:"Haalbaarheidssprint",en:"Feasibility sprint"},
-     d:{nl:"Twee weken: kan het, wat kost het, waar zit het risico. Technisch onderbouwd antwoord plus kostenraming. Bewust zo opgezet dat hij binnen MIT-Zuid past — 35% van de kosten vergoed tot €20.000, en kosten van derden zijn subsidiabel. Wij helpen met de aanvraag.",
-        en:"Two weeks: can it be done, what will it cost, where is the risk. A technically grounded answer plus a cost estimate. Deliberately sized to fit MIT-Zuid — 35% of costs covered up to €20,000, third-party costs eligible. We help you apply."}},
+     d:{nl:"Twee weken: kan het, wat kost het, waar zit het risico. Een technisch onderbouwd antwoord plus kostenraming, en een eerlijk advies om wel of niet door te gaan.",
+        en:"Two weeks: can it be done, what will it cost, where is the risk. A technically grounded answer plus a cost estimate, and an honest recommendation on whether to continue."}},
     {n:{nl:"Prototype",en:"Prototype build"},
      d:{nl:"Behuizing, print en firmware tot een werkend exemplaar dat u kunt laten zien, testen en in handen van een klant geven.",
         en:"Enclosure, PCB and firmware to one working unit you can show, test and put in a customer's hands."}},
@@ -460,8 +460,8 @@ start:{
   intro:{nl:"De meeste startende ondernemers met een technisch product lopen op hetzelfde punt vast: ze kunnen het niet zelf bouwen, en een engineeringbureau dat voor grote bedrijven werkt is onbetaalbaar. Wij zitten daartussen. We beginnen klein en eerlijk — vaak met de vraag of het idee überhaupt kan.",
          en:"Most founders with a technical product hit the same wall: they can't build it themselves, and an engineering firm that works for corporates is out of reach. We sit in between. We start small and honestly — often with the question of whether the idea works at all."},
   svch:{nl:"Hoe wij dit betaalbaar maken",en:"How we make this affordable"},
-  svcd:{nl:"Een startend bedrijf heeft zelden het budget van een bestaand bedrijf, en dat weten we. Drie dingen die we daarom anders doen dan bij onze andere klanten — alle drie op papier, voordat we beginnen.",
-        en:"A company at the start rarely has the budget of an established one, and we know it. Three things we therefore do differently here than for our other clients — all three on paper before we begin."},
+  svcd:{nl:"Een startend bedrijf heeft zelden het budget van een bestaand bedrijf, en dat weten we. Vier dingen die we daarom anders doen dan bij onze andere klanten — alle vier op papier, voordat we beginnen.",
+        en:"A company at the start rarely has the budget of an established one, and we know it. Four things we therefore do differently here than for our other clients — all four on paper before we begin."},
   svcs:[
    {n:{nl:"Betalen als het werkt",en:"Pay when it works"},
     d:{nl:"Een deel van het bedrag kan achter een mijlpaal: u betaalt wanneer er een werkend exemplaar staat, niet wanneer er een plan ligt. Het is geen gratis werk — we zetten de verdeling en de termijnen op één pagina — maar het betekent dat een goed idee niet strandt op de maand waarin u toevallig zit.",
@@ -469,9 +469,12 @@ start:{
    {n:{nl:"Partnerschap in plaats van een factuur",en:"Partnership instead of an invoice"},
     d:{nl:"Voor een klein aantal projecten per jaar nemen we een deel van de betaling als belang in wat er gebouwd wordt: een aandeel in de omzet, of in het bedrijf zodra er een bedrijf is. We doen dit alleen waar we het product zelf zouden gebruiken, en we zeggen veel vaker nee dan ja.",
        en:"For a small number of projects a year we take part of the payment as a stake in what gets built: a share of revenue, or of the company once there is one. We only do this where we would use the product ourselves, and we say no far more often than yes."}},
+   {n:{nl:"Uitgestelde betaling",en:"Postponed payment"},
+    d:{nl:"Een afgesproken deel van de factuur later betalen \u2014 als de eerste omzet er is, of op een vaste datum die we vooraf afspreken. Geen rente, wel een handtekening.",
+       en:"Pay an agreed part of the invoice later \u2014 once the first revenue is in, or on a fixed date we agree up front. No interest, but a signature."}},
    {n:{nl:"Steun die niet op de factuur staat",en:"Support that is not on the invoice"},
-    d:{nl:"Hulp bij een MIT-Zuid-aanvraag, een introductie bij een leverancier, een tweede mening over een offerte die u kreeg. Dat doen we voor de oprichters met wie we werken en het wordt niet gefactureerd — het kost ons een uur en het scheelt u een maand.",
-       en:"Help with a MIT-Zuid application, an introduction to a supplier, a second opinion on a quote you were sent. We do this for the founders we work with and it does not go on the bill — it costs us an hour and saves you a month."}}
+    d:{nl:"Een introductie bij een leverancier, een tweede mening over een offerte die u kreeg, een uur meedenken over uw pitch. Dat doen we voor de oprichters met wie we werken en het wordt niet gefactureerd — het kost ons een uur en het scheelt u een maand.",
+       en:"An introduction to a supplier, a second opinion on a quote you were sent, an hour thinking along on your pitch. We do this for the founders we work with and it does not go on the bill — it costs us an hour and saves you a month."}}
   ],
   steps:[
     {h:{nl:"Klopt het idee technisch?",en:"Does the idea hold up technically?"},p:{nl:"Een eerlijk antwoord voordat u geld uitgeeft. Soms is dat 'nee', en dan zeggen we dat.",en:"An honest answer before you spend money. Sometimes it's no, and we'll say so."}},
@@ -479,9 +482,6 @@ start:{
     {h:{nl:"Eén werkend exemplaar",en:"One working unit"},p:{nl:"Iets dat u kunt laten zien aan klanten en investeerders. Dat verandert gesprekken.",en:"Something you can show customers and investors. That changes conversations."}},
     {h:{nl:"En dan verder",en:"And then onward"},p:{nl:"Naar een kleine serie, of naar uw eigen team — wij dragen over en houden niets achter.",en:"To a small production run, or to your own team — we hand over and keep nothing back."}}
   ],
-  noteh:{nl:"Subsidie waar u recht op kunt hebben", en:"Funding you may be entitled to"},
-  note:{nl:"MIT-Zuid vergoedt 35% van de kosten van een haalbaarheidsproject tot €20.000, en kosten van derden — dus onze factuur — tellen mee. De regeling loopt tot 2030. Wij helpen met de aanvraag, ook als u ons daarna niet inhuurt.",
-        en:"MIT-Zuid covers 35% of the cost of a feasibility project up to €20,000, and third-party costs — our invoice — count. The scheme runs to 2030. We'll help you apply, even if you don't hire us afterwards."}
 },
 price:{
   lede:{nl:"Wat dingen ongeveer kosten. Geen prijslijst — wel eerlijke bandbreedtes, zodat u weet waar u aan begint.",
@@ -607,7 +607,7 @@ price:{
     {g:{nl:"Los werk",en:"Loose work"},
      rows:[
       {n:{nl:"Haalbaarheid, twee weken",en:"Feasibility, two weeks"},
-       d:{nl:"Kan dit wat u wilt? Berekeningen, risico's, een kostenraming en een eerlijk advies om wel of niet door te gaan. Past in MIT-Zuid.",en:"Can this do what you want? Calculations, risks, a cost estimate and an honest recommendation on whether to continue. Fits MIT-Zuid."},
+       d:{nl:"Kan dit wat u wilt? Berekeningen, risico's, een kostenraming en een eerlijk advies om wel of niet door te gaan.",en:"Can this do what you want? Calculations, risks, a cost estimate and an honest recommendation on whether to continue."},
        v:"\u20ac1.500 \u2013 3.000"},
       {n:{nl:"Engineering-capaciteit",en:"Engineering capacity"},
        d:{nl:"Vaste uren per maand voor bedrijven met structureel ontwikkelwerk en geen eigen engineer.",en:"Fixed hours per month for companies with ongoing development work and no engineer of their own."},
@@ -616,14 +616,14 @@ price:{
   ],
   whyh:{nl:"Waarom bandbreedtes en geen vaste prijzen",en:"Why ranges and not fixed prices"},
   why:[
-    {h:{nl:"Wat er al ligt",en:"What already exists"},
-     p:{nl:"Teksten, foto's en merk aanwezig? Dan zit u aan de onderkant. Moet dat er nog komen, aan de bovenkant.",en:"Copy, photos and brand ready? You're at the bottom of the range. If those still have to be made, the top."}},
-    {h:{nl:"Hoe vaak het verandert",en:"How often it changes"},
-     p:{nl:"Eén beslisser die knopen doorhakt is goedkoper dan een commissie. Dat is geen verwijt, het is planning.",en:"One decision-maker who decides is cheaper than a committee. That's not a complaint, it's planning."}},
-    {h:{nl:"Hoe streng de eisen zijn",en:"How strict the requirements are"},
-     p:{nl:"Een testopstelling mag stuk. Iets dat buiten hangt of dat mensen bedienen, mag dat niet — en dat kost tijd.",en:"A test rig is allowed to break. Something mounted outdoors or operated by people is not, and that costs time."}},
-    {h:{nl:"Wie het doet",en:"Who does it"},
-     p:{nl:"Waar het kan zetten we studenten in onder begeleiding. Dat scheelt u geld en leidt mensen op die deze regio nodig heeft.",en:"Where we can, we put students on it with supervision. That saves you money and trains the people this region needs."}}
+    {h:{nl:"De helft kan op meerdere manieren",en:"Half of it can be done several ways"},
+     p:{nl:"Een boekingssysteem, een behuizing, een meetopstelling: er zijn altijd drie manieren om het te maken. Welke bij u past hangt af van uw budget, uw tempo en wat u zelf kunt.",en:"A booking system, an enclosure, a test rig: there are always three ways to make it. Which one fits you depends on your budget, your pace and what you can do yourself."}},
+    {h:{nl:"Creatieve oplossingen veranderen de scope",en:"Creative solutions change the scope"},
+     p:{nl:"Regelmatig blijkt in het eerste gesprek dat de vraag kleiner kan, of juist anders moet. Dat verschuift de prijs, meestal omlaag. Daarom praten we eerst.",en:"Regularly the first conversation shows the question can be smaller, or has to be different. That moves the price, usually downwards. Which is why we talk first."}},
+    {h:{nl:"Kosten optimaliseren",en:"Optimising cost"},
+     p:{nl:"Een standaardonderdeel in plaats van een eigen ontwerp, een kant-en-klaar platform waar het kan, eigen werk waar het moet. De juiste uitvoering is vaak de goedkoopste.",en:"A standard part instead of a custom one, an off-the-shelf platform where it can be, our own work where it must be. The right execution is usually the cheapest."}},
+    {h:{nl:"Nieuwe techniek die nog niemand zag",en:"New technology nobody has seen yet"},
+     p:{nl:"Soms is er geen voorbeeld om op te prijzen omdat het nog niet bestaat. Dan begroten we in stappen, en betaalt u de volgende stap pas als de vorige klopt.",en:"Sometimes there is no precedent to price against because it doesn't exist yet. Then we budget in steps, and you pay for the next step only once the previous one holds."}}
   ],
   fixh:{nl:"Hoe u aan een vast bedrag komt",en:"How you get to a fixed number"},
   fix:[
@@ -661,8 +661,8 @@ work:{
          en:"Some of our work is under NDA — including detection and control engineering. In a conversation we can describe at a high level what we did."}
 },
 contact:{
-  lede:{nl:"Vertel in twee zinnen wat er moet gebeuren. U krijgt binnen één werkdag antwoord van de engineer die het zou doen.",
-        en:"Tell us in two sentences what needs to happen. You'll hear back within one working day, from the engineer who'd do it."},
+  lede:{nl:"Vertel in twee zinnen wat er moet gebeuren. U krijgt binnen drie werkdagen antwoord van de engineer die het zou doen, en binnen een week een afspraak.",
+        en:"Tell us in two sentences what needs to happen. You'll hear back within three working days from the engineer who'd do it, and have a meeting within a week."},
   fields:{name:{nl:"Naam",en:"Name"},company:{nl:"Bedrijf",en:"Company"},email:{nl:"E-mail",en:"Email"},
     phone:{nl:"Telefoon",en:"Phone"},
     type:{nl:"Waar gaat het over",en:"What is it about"},
@@ -682,8 +682,8 @@ contact:{
          en:["Website or online shop","AI / automation","Prototype or engineering","Machine control","Get a part made","Production / sourcing","Project Yard","Start-up: test an idea","Something else"]},
   hp:{nl:"Laat dit veld leeg",en:"Leave this field empty"},
   sending:{nl:"Versturen\u2026",en:"Sending\u2026"},
-  ok:{nl:"Verstuurd. U krijgt binnen \u00e9\u00e9n werkdag antwoord van de engineer die het zou doen.",
-      en:"Sent. You'll hear back within one working day, from the engineer who'd do it."},
+  ok:{nl:"Verstuurd. U krijgt binnen drie werkdagen antwoord van de engineer die het zou doen.",
+      en:"Sent. You'll hear back within three working days, from the engineer who'd do it."},
   fail:{nl:"Het versturen lukte niet \u2014 een adblocker of bedrijfsnetwerk blokkeert soms dit soort formulieren. Uw tekst is niet weg:",
         en:"That didn't send \u2014 an ad blocker or a corporate network sometimes blocks forms like this. Your text isn't lost:"},
   need:{nl:"Vul uw e-mailadres en uw bericht in.",en:"Please fill in your email address and your message."},
@@ -695,7 +695,7 @@ contact:{
     {k:{nl:"E-mail",en:"Email"},v:"anastasiia@liminex.net"},
     {k:{nl:"Werkgebied",en:"We work across"},v:{nl:"'s-Hertogenbosch en heel Noord-Brabant",en:"'s-Hertogenbosch and all of Noord-Brabant"}},
     {k:{nl:"KvK",en:"Chamber of Commerce"},v:"42104253"},
-    {k:{nl:"Talen",en:"Languages"},v:{nl:"Nederlands, Engels, Oekraïens",en:"Dutch, English, Ukrainian"}}
+    {k:{nl:"Talen",en:"Languages"},v:{nl:"Nederlands, Engels, Oekraïens, Russisch, Hindi, Punjabi, Indonesisch",en:"Dutch, English, Ukrainian, Russian, Hindi, Punjabi, Indonesian"}}
   ]
 }
 };
