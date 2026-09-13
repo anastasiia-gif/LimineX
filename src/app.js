@@ -329,7 +329,7 @@ function renderHome(){
 
   /* 3. how working with us actually goes */
   h+=flowSplit(1,"var(--paper2)","var(--paper)",5);
-  h+='<section class="band">'+bandMark("rule","gears")+'<div class="wrap">'
+  h+='<section class="band band--bub">'+bandMark("rule","gears")+'<div class="wrap">'
     +'<h2 class="rv">'+esc(t(d.howh))+'</h2>'
     +'<p class="deck rv" style="margin-top:18px">'+esc(t(d.howd))+'</p>'
     +altRows([
@@ -408,7 +408,7 @@ function renderWeb(){
     +'<h1>'+esc(t(d.lede))+'</h1></div></section>';
 
   /* 2. what we do — the main content, first on the page */
-  h+='<section class="band band--tight">'+bandMark("layout","pcb")+'<div class="narrow">'
+  h+='<section class="band band--tight band--bub">'+bandMark("layout","pcb")+'<div class="narrow">'
     +'<p class="deck" style="max-width:none">'+esc(t(d.intro))+'</p></div>'
     +'<div class="wrap"><h2 class="rv">'+(lang==="nl"?"Wat we doen":"What we do")+'</h2>'
     +altRows([
@@ -438,7 +438,7 @@ function renderWeb(){
     +'<div class="wrap">'+folioCards()+'</div></section>';
 
   /* 4. how a project runs, then experience last */
-  h+='<section class="band">'+bandMark("pcb","layout")+'<div class="wrap">'
+  h+='<section class="band band--bub">'+bandMark("pcb","layout")+'<div class="wrap">'
     +'<h2>'+(lang==="nl"?"Hoe het gaat":"How it goes")+'</h2>'
     +stepList(d.steps,null,"pics")
     +'</div></section>';
@@ -499,7 +499,7 @@ function formPreview(url,title,sub,open){
 function indiaPanel(){
   var d=C.india;
   var pic=renderSrc("india");
-  return '<section class="band"><div class="wrap"><div class="soonrow'+(pic?' has-pic':'')+'">'
+  return '<section class="band band--india"><div class="wrap"><div class="soonrow'+(pic?' has-pic':'')+'">'
     +(pic?'<div class="soonpic rv"><img src="'+pic+'" alt="" loading="lazy"></div>':'')
     +'<div class="soon rv" id="soon">'
     +'<div class="lbl lbl--q">'+esc(t(d.lbl))+'</div>'
@@ -586,7 +586,7 @@ function renderArea(id){
     h+='<section class="band band--grey">'+bandMark("signal","gears")+'<div class="wrap">'
       +'<h2 class="rv">'+esc(t(d.svch))+'</h2>'
       +'<p class="deck rv" style="margin-top:18px">'+esc(t(d.svcd))+'</p>'
-      +'<div class="rv">'+svcList(d.svcs,"",["ic:data","ic:gears","ic:signal"],true)+'</div>'
+      +'<div class="rv">'+svcList(d.svcs,"",["ic:data","ic:ai","ic:maintain"],true)+'</div>'
       +'</div></section>';
   }
   var CARDICONS={start:["ic:test","ic:cad","ic:robot","ic:dfm"],make:["ic:dfm","ic:print3d","ic:pipe","ic:data"]};
@@ -594,14 +594,14 @@ function renderArea(id){
   if(d.cards && id!=="proto") h+='<section class="band band--grey"><div class="wrap">'
     +(d.cardsh?'<h2 class="rv">'+esc(t(d.cardsh))+'</h2>':'')
     +'<div class="rv">'+cardRow(d.cards,CARDICONS[id])+'</div></div></section>';
-  h+='<section class="band">'+bandMark(WMARKS[id]?WMARKS[id][1]:"gears",WMARKS[id]?WMARKS[id][0]:"rule")
+  h+='<section class="band'+(d.steps?' band--bub':'')+'">'+bandMark(WMARKS[id]?WMARKS[id][1]:"gears",WMARKS[id]?WMARKS[id][0]:"rule")
     +'<div class="wrap">';
   var STEPICONS={proto:["test","cad","elec","firmware","dfm"],
                  make:["dfm","cad","print3d","pipe","test"],
                  start:["test","cad","robot","dfm","data"]};
   if(d.steps) h+='<h2>'+(lang==="nl"?"Hoe het gaat":"How it goes")+'</h2>'
     +stepList(d.steps,STEPICONS[id],"pics");
-  if(d.note) h+='<div class="marginnote"><h3>'+esc(t(d.noteh))+'</h3><p>'+esc(t(d.note))+'</p></div>';
+  if(d.note && id!=="start") h+='<div class="marginnote"><h3>'+esc(t(d.noteh))+'</h3><p>'+esc(t(d.note))+'</p></div>';
   h+='</div></section>';
   if(id==="make") h+=indiaPanel();
   h+='<section class="band band--tight"><div class="wrap">'
@@ -931,5 +931,40 @@ window.addEventListener("popstate",function(){
   if(hit && hit.lang===lang){ page=hit.page; render(false); }
   else location.reload();
 });
+/* ---------------- loading screen ----------------
+   Every render on the site is fetched before the page is shown, so nothing pops in
+   while you read. Runs once per browser session; later pages find everything cached.
+   The overlay is in the HTML shell so it is visible before this script runs. */
+function preloadAll(done){
+  var urls=[];
+  if(typeof RENDERS!=="undefined") for(var k in RENDERS) urls.push(renderSrc(k));
+  if(typeof WORKSHOTS!=="undefined") for(var w in WORKSHOTS) urls.push(WORKSHOTS[w]);
+  if(typeof LOGO_HERO!=="undefined") urls.push(LOGO_HERO);
+  var seen={}, list=[];
+  for(var i=0;i<urls.length;i++) if(urls[i] && !seen[urls[i]]){ seen[urls[i]]=1; list.push(urls[i]); }
+  var left=list.length, finished=false;
+  function one(){ if(--left<=0 && !finished){ finished=true; done(); } }
+  if(!left){ done(); return; }
+  for(var j=0;j<list.length;j++){ var im=new Image(); im.onload=one; im.onerror=one; im.src=list[j]; }
+  setTimeout(function(){ if(!finished){ finished=true; done(); } }, 9000);   /* never hang */
+}
+function liftCurtain(){
+  var l=document.getElementById("loader"); if(!l) return;
+  l.classList.add("is-done");
+  document.body.classList.remove("loading");
+  setTimeout(function(){ if(l.parentNode) l.parentNode.removeChild(l); }, 650);
+}
 if(typeof BOOT!=="undefined"){ page=BOOT.page; lang=BOOT.lang; }
 render(false);
+(function(){
+  var l=document.getElementById("loader"), first=true;
+  try{ first = !sessionStorage.getItem("liminex-loaded"); }catch(e){}
+  if(!l){ return; }
+  if(!first || matchMedia("(prefers-reduced-motion: reduce)").matches){ liftCurtain(); return; }
+  var lg=document.getElementById("loaderlogo"); if(lg && typeof LOGO_MARK!=="undefined") lg.src=LOGO_MARK;
+  document.body.classList.add("loading");
+  preloadAll(function(){
+    try{ sessionStorage.setItem("liminex-loaded","1"); }catch(e){}
+    setTimeout(liftCurtain, 350);      /* let one pulse finish */
+  });
+})();

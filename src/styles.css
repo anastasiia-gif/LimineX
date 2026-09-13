@@ -149,25 +149,28 @@ h3{font-size:20px;font-weight:600}
    than the box, tilted, breaking over the card's top edge, with a deep shadow that
    says it is in front of the page. It pops forward as the card scrolls into view. */
 .blocks{overflow:visible}
-.block.has-cut{overflow:visible;margin-top:34px}
-.block.has-cut .prev{border-radius:var(--r) var(--r) 0 0;overflow:visible;padding:0}
+.block.has-cut{overflow:visible;margin-top:24px;border:0;background:none}
+.block.has-cut .prev{border:0;background:none;border-radius:0;overflow:visible;padding:0;aspect-ratio:16/9}
+.block.has-cut .body{border:1px solid var(--hair);border-radius:var(--r);background:var(--paper);
+  transition:border-color .25s ease}
+.block.has-cut:hover .body{border-color:var(--accent)}
 .block .prev.has-cut img{position:absolute;left:50%;top:50%;width:auto;height:auto;
-  max-width:112%;max-height:118%;object-fit:contain;
+  max-width:94%;max-height:104%;object-fit:contain;
   --tilt:-7deg;
-  transform:translate(-50%,-58%) rotate(var(--tilt)) scale(.82);opacity:0;
+  transform:translate(-50%,-52%) rotate(var(--tilt)) scale(.82);opacity:0;
   filter:drop-shadow(0 30px 34px rgb(21 22 26/.22)) drop-shadow(0 6px 8px rgb(21 22 26/.10));
   transition:transform .9s cubic-bezier(.16,1.2,.3,1),opacity .5s ease,filter .35s ease}
 .block:nth-child(2n) .prev.has-cut img{--tilt:6deg}
 .block:nth-child(3n) .prev.has-cut img{--tilt:-4deg}
-.block.in .prev.has-cut img{opacity:1;transform:translate(-50%,-58%) rotate(var(--tilt)) scale(1.06)}
-.block.has-cut:hover .prev.has-cut img{transform:translate(-50%,-64%) rotate(0deg) scale(1.12);
+.block.in .prev.has-cut img{opacity:1;transform:translate(-50%,-52%) rotate(var(--tilt)) scale(1)}
+.block.has-cut:hover .prev.has-cut img{transform:translate(-50%,-58%) rotate(0deg) scale(1.05);
   filter:drop-shadow(0 44px 44px rgb(21 22 26/.26)) drop-shadow(0 8px 10px rgb(21 22 26/.10))}
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]) .block .prev.has-cut img{filter:drop-shadow(0 30px 40px rgb(0 0 0/.6))}
 }
 :root[data-theme="dark"] .block .prev.has-cut img{filter:drop-shadow(0 30px 40px rgb(0 0 0/.6))}
 @media (prefers-reduced-motion:reduce){
-  .block .prev.has-cut img{opacity:1;transform:translate(-50%,-58%) rotate(var(--tilt)) scale(1.06);transition:none}
+  .block .prev.has-cut img{opacity:1;transform:translate(-50%,-52%) rotate(var(--tilt)) scale(1);transition:none}
 }
 .block .prev .cap{position:absolute;left:0;right:0;bottom:14px;text-align:center;
   font-size:11.5px;line-height:1.4;color:var(--muted);padding:0 20px}
@@ -704,3 +707,25 @@ section.band--dark .formcard--preview{background:var(--paper);color:var(--ink)}
   padding:11px 20px;font-size:14px;font-weight:500}
 section.band--dark .formcard--preview .fp-btn{background:var(--ink);color:var(--paper)}
 .page-yard .formcard--preview .fp-btn{background:linear-gradient(140deg,#2440E0,#5C23B2);color:#fff}
+
+/* ---------------- the soft circles, on white sections too ---------------- */
+.band--bub{isolation:isolate;overflow:hidden}
+.band--bub::before{
+  content:"";position:absolute;inset:-10% 0 -10%;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(closest-side,rgb(var(--bub)/.14),rgb(var(--bub)/0)) 4% 18%/min(420px,52vw) min(420px,52vw) no-repeat,
+    radial-gradient(closest-side,rgb(var(--bub)/.10),rgb(var(--bub)/0)) 96% 12%/min(320px,40vw) min(320px,40vw) no-repeat,
+    radial-gradient(closest-side,rgb(var(--bub)/.09),rgb(var(--bub)/0)) 80% 92%/min(520px,64vw) min(520px,64vw) no-repeat,
+    radial-gradient(closest-side,rgb(var(--bub)/.08),rgb(var(--bub)/0)) 22% 98%/min(260px,34vw) min(260px,34vw) no-repeat;
+}
+.band--india{padding-top:0;margin-top:-56px}
+
+/* ---------------- loading screen: the mark, pulsing, until every picture is in ---------------- */
+#loader{position:fixed;inset:0;z-index:300;background:#08080B;display:flex;align-items:center;justify-content:center;
+  opacity:1;transition:opacity .6s ease}   /* visible from the first paint; JS lifts it */
+#loader.is-done{opacity:0!important;pointer-events:none}
+#loader img{width:clamp(72px,9vw,120px);height:auto;animation:lpulse 1.4s ease-in-out infinite;
+  filter:drop-shadow(0 0 28px rgb(112 185 248/.35))}
+@keyframes lpulse{0%,100%{transform:scale(.9);opacity:.75}50%{transform:scale(1.08);opacity:1}}
+body.loading{overflow:hidden}
+@media (prefers-reduced-motion:reduce){#loader img{animation:none}}
