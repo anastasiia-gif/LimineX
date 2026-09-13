@@ -29,6 +29,7 @@ function pageFromPath(path){
 function go(id, attrs){
   return '<a href="'+href(id)+'" data-go="'+id+'"'+(attrs||"")+'>';
 }
+function hidden(id){ return typeof HIDDEN!=="undefined" && HIDDEN.indexOf(id)>=0; }
 function renderNav(){
   var open=ACT.some(function(a){return a.id===page;});
   var m="";
@@ -39,10 +40,12 @@ function renderNav(){
   var h='<div class="dd"><button id="ddbtn" aria-expanded="false" aria-haspopup="true" aria-controls="ddmenu"'
     +(open?' aria-current="page"':'')+'>'+esc(t(ACTL))+'</button>'
     +'<div class="ddmenu" id="ddmenu" role="menu" aria-labelledby="ddbtn" hidden>'+m+'</div></div>';
-  for(var j=0;j<NAV.length;j++)
+  for(var j=0;j<NAV.length;j++){
+    if(hidden(NAV[j].id)) continue;
     h+='<a href="'+href(NAV[j].id)+'" data-go="'+NAV[j].id+'"'
       +(page===NAV[j].id?' aria-current="page"':'')+'>'
       +esc(lang==="nl"?NAV[j].nl:NAV[j].en)+'</a>';
+  }
   document.getElementById("navlinks").innerHTML=h;
 }
 function ddSet(open){
@@ -55,8 +58,8 @@ function renderFooter(){
   w+=go("work")+esc(t(C.foot.work))+'</a>';
   for(var i=0;i<TOPROW;i++) w+=go(AREAS[i].id)+esc(aName(AREAS[i]))+'</a>';
   for(var j=TOPROW;j<AREAS.length;j++) m+=go(AREAS[j].id)+esc(aName(AREAS[j]))+'</a>';
-  m+=go("price")+esc(lang==="nl"?"Tarieven":"Pricing")+'</a>';
-  m+=go("about")+esc(lang==="nl"?"Over ons":"About us")+'</a>';
+  if(!hidden("price")) m+=go("price")+esc(lang==="nl"?"Tarieven":"Pricing")+'</a>';
+  if(!hidden("about")) m+=go("about")+esc(lang==="nl"?"Over ons":"About us")+'</a>';
   m+=go("contact")+esc(t(C.foot.contact))+'</a>';
   document.getElementById("f-work").innerHTML=w;
   document.getElementById("f-more").innerHTML=m;
@@ -94,7 +97,7 @@ function svcList(list,heading,icons,noPrice){
     h+='<div class="svc'+(ic||pt?' svc--ic':'')+(pt?' has-fly':'')+'">'+(pt||ic||'')
       +'<h3>'+esc(t(list[i].n))+'</h3><p>'+esc(t(list[i].d))+'</p></div>';
   }
-  if(noPrice) return h+'</div>';
+  if(noPrice || hidden("price")) return h+'</div>';
   return h+'</div><p class="onreq">'
     +(lang==="nl"
         ? "Elk project is anders, dus dit is geen prijslijst. Wat vergelijkbaar werk ongeveer kost, staat op de pagina "
@@ -376,7 +379,7 @@ function renderHome(){
     +'<p>'+esc(t(d.ctasub))+'</p>'
     +go("contact",' class="btn"')+esc(t(d.ctab))+'</a>'
     +'<div class="twolinks" style="justify-content:center;margin-top:28px">'
-    +go("about",' class="btn btn--ghost"')+esc(t(d.teamabout))+'</a>'
+    +(hidden("about")?'':go("about",' class="btn btn--ghost"')+esc(t(d.teamabout))+'</a>')
     +go("work",' class="btn btn--ghost"')+esc(t(d.teamwork))+'</a></div></div>';
   h+='</div></section>';
   return h;
@@ -433,7 +436,7 @@ function renderWeb(){
     ], true)
     +'<div class="rv" style="margin-top:64px">'
     +svcList(d.svcs.slice(3), t(d.moreh), null, true)+'</div>'
-    +'<p class="onreq rv" style="margin-top:44px">'
+    +(hidden("price")?'':'<p class="onreq rv" style="margin-top:44px">'
     +(lang==="nl"
         ? "Elk project is anders, dus dit is geen prijslijst. Wat vergelijkbaar werk ongeveer kost, staat op de pagina "
         : "Every project is different, so this isn't a price list. What comparable work roughly costs is on the ")
@@ -441,7 +444,7 @@ function renderWeb(){
     +(lang==="nl"
         ? ". Na \u00e9\u00e9n gesprek krijgt u een vaste prijs op \u00e9\u00e9n pagina."
         : " page. After one conversation you get a fixed price on one page.")
-    +'</p></div></section>';
+    +'</p>')+'</div></section>';
 
   /* 3. the exhibition of delivered work, ending on the ask */
   h+=flowSplit(3,"var(--paper)","var(--paper2)",5);

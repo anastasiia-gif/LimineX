@@ -77,6 +77,12 @@ if FORM_ENDPOINT and "web3forms" in FORM_ENDPOINT and not FORM_KEY:
 print("  contact address:", CONTACT_EMAIL)
 print("  form endpoint:  ", FORM_ENDPOINT or "(none - form opens the mail client)")
 
+# Pages that are built and reachable by their URL but not linked anywhere, not in the
+# sitemap and marked noindex — for pages the team still has to review. Comma-separated
+# page ids; set HIDDEN_PAGES="" to publish everything.
+HIDDEN = [x.strip() for x in env("HIDDEN_PAGES", "price,about").split(",") if x.strip()]
+print("  hidden pages:   ", ", ".join(HIDDEN) or "(none)")
+
 SITE_URL = SITE_ORIGIN + BASE_PATH        # no trailing slash
 OG_IMAGE = SITE_URL + "/og.png"
 
@@ -360,6 +366,7 @@ _js_body = "\n".join([
     "var FORM_ENDPOINT = " + json.dumps(FORM_ENDPOINT) + ";",
     "var FORM_KEY = " + json.dumps(FORM_KEY) + ";",
     "var CONTACT_EMAIL = " + json.dumps(CONTACT_EMAIL) + ";",
+    "var HIDDEN = " + json.dumps(HIDDEN) + ";",
     read("src/content.js"), read("src/graphics.js"),
     read("src/drawings.js"), _app_src])
 
@@ -399,12 +406,13 @@ for pg in PAGES:
             '<meta property="og:locale" content="%s">' % ("nl_NL" if lang == "nl" else "en_GB"),
             '<meta name="twitter:card" content="summary_large_image">',
             '<meta name="theme-color" content="#08080B">',
+            ('<meta name="robots" content="noindex,nofollow">' if pg["id"] in HIDDEN else ''),
             '<script type="application/ld+json">%s</script>' % LD])
         # A plain list of links in the markup, so a crawler that never runs the
         # JavaScript still sees the whole site. The app replaces it on load.
         staticnav = "".join(
             '<a href="%s">%s</a>' % (url_for(o, lang), o[lang]["nav"])
-            for o in PAGES if o["id"] != pg["id"])
+            for o in PAGES if o["id"] != pg["id"] and o["id"] not in HIDDEN)
         body = (tpl.replace("__HEAD__", head)
                    .replace("__STATICNAV__", staticnav)
                    .replace("__SKIP__", UI[lang]["skip"])
@@ -448,6 +456,7 @@ llms = ["# Liminex", "",
         "Four engineers. Software and hardware in one team. Contact: " + CONTACT_EMAIL, "",
         "## Pages", ""]
 for pg in PAGES:
+    if pg["id"] in HIDDEN: continue
     llms.append("- [%s](%s%s): %s" % (pg["en"]["nav"], SITE_ORIGIN, url_for(pg, "en"), pg["en"]["desc"]))
 llms += ["", "## What we do", "",
          "- Websites and online shops, built to WCAG 2.1 AA",
@@ -455,15 +464,16 @@ llms += ["", "## What we do", "",
          "- Prototyping: mechanics, electronics, PCB design, firmware, control engineering",
          "- Robotics, drones and UAV systems, CAD and design for manufacturing",
          "- Short-run manufacturing in house: 3D printing, laser cutting, small CNC", "",
-         "## Pricing", "",
+         ] + ([] if "price" in HIDDEN else ["## Pricing", "",
          "Indicative ranges are published at %s%s — no price list; a fixed price follows one "
-         "conversation." % (SITE_ORIGIN, url_for([x for x in PAGES if x["id"]=="price"][0], "en")), ""]
+         "conversation." % (SITE_ORIGIN, url_for([x for x in PAGES if x["id"]=="price"][0], "en")), ""])
 open(p("dist/llms.txt"), "w", encoding="utf-8").write("\n".join(llms))
 
 sm = ['<?xml version="1.0" encoding="UTF-8"?>',
       '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
       'xmlns:xhtml="http://www.w3.org/1999/xhtml">']
 for pg in PAGES:
+    if pg["id"] in HIDDEN: continue
     for lang in ("nl", "en"):
         sm.append("  <url><loc>%s%s</loc>" % (SITE_ORIGIN, url_for(pg, lang)))
         for alt in ("nl", "en"):
