@@ -75,8 +75,10 @@ function renderFooter(){
    Returns the floating cut-out markup, or "" when there is none — then the line icon
    is used, as before. */
 function part(icon){
-  var src=icon && renderSrc("part-"+icon);
-  var cut=src && typeof CUTOUT!=="undefined" && CUTOUT.indexOf("part-"+icon)>=0;
+  if(!icon || icon.indexOf("ic:")===0) return "";
+  var key = icon.indexOf("img:")===0 ? icon.slice(4) : "part-"+icon;
+  var src=renderSrc(key);
+  var cut=src && typeof CUTOUT!=="undefined" && CUTOUT.indexOf(key)>=0;
   if(!cut) return "";
   return '<span class="fly" aria-hidden="true"><img src="'+src+'" alt="" loading="lazy"></span>';
 }
@@ -88,7 +90,7 @@ function anyPart(icons){
 function svcList(list,heading,icons,noPrice){
   var h=(heading?'<h2>'+esc(heading)+'</h2>':'')+'<div class="svcs'+(anyPart(icons)?' svcs--fly':'')+'">';
   for(var i=0;i<list.length;i++){
-    var ic = icons && ICON[icons[i]], pt = icons && part(icons[i]);
+    var ic = icons && ICON[String(icons[i]).replace(/^ic:/,"")], pt = icons && part(icons[i]);
     h+='<div class="svc'+(ic||pt?' svc--ic':'')+(pt?' has-fly':'')+'">'+(pt||ic||'')
       +'<h3>'+esc(t(list[i].n))+'</h3><p>'+esc(t(list[i].d))+'</p></div>';
   }
@@ -102,10 +104,20 @@ function svcList(list,heading,icons,noPrice){
         ? ". Na \u00e9\u00e9n gesprek krijgt u een vaste prijs op \u00e9\u00e9n pagina."
         : " page. After one conversation you get a fixed price on one page.")+'</p>';
 }
-function stepList(list,icons){
+function stepList(list,icons,mode){
+  /* mode "pics": the same four-up picture grid as the home page's "How it works",
+     using the how-1 … how-N renders. Anything else: the numbered list with icons. */
+  if(mode==="pics"){
+    /* The inner pages start at the conversation (the home page's step 2) and end on
+       the handover, so their pictures run how-2 … how-5. */
+    var rows=[];
+    for(var k=0;k<list.length;k++)
+      rows.push({key:"how-"+(k+2), n:no(k+1), t:list[k].h, p:list[k].p, shot:{nl:"Foto",en:"Photo"}});
+    return altRows(rows,true);
+  }
   var h='<div class="steps'+(anyPart(icons)?' steps--fly':'')+'">';
   for(var i=0;i<list.length;i++){
-    var ic = icons && ICON[icons[i]], pt = icons && part(icons[i]);
+    var ic = icons && ICON[String(icons[i]).replace(/^ic:/,"")], pt = icons && part(icons[i]);
     h+='<div class="step'+(pt?' has-fly':'')+'"><div class="no">'+(pt||ic||no(i+1))+'</div>'
       +'<div>'+(ic||pt?'<span class="sn">'+no(i+1)+'</span>':'')
       +'<h3>'+esc(t(list[i].h))+'</h3><p>'+esc(t(list[i].p))+'</p></div></div>';
@@ -115,7 +127,7 @@ function stepList(list,icons){
 function cardRow(list,icons){
   var h='<div class="grid4'+(anyPart(icons)?' grid4--fly':'')+'">';
   for(var i=0;i<list.length;i++){
-    var ic = icons && ICON[icons[i]], pt = icons && part(icons[i]);
+    var ic = icons && ICON[String(icons[i]).replace(/^ic:/,"")], pt = icons && part(icons[i]);
     h+='<div'+(pt?' class="has-fly"':'')+'>'+(pt||ic||'')+'<h3>'+esc(t(list[i].h))+'</h3><p>'+esc(t(list[i].p))+'</p></div>';
   }
   return h+'</div>';
@@ -423,16 +435,12 @@ function renderWeb(){
   h+='<section class="band band--grey"><div class="wrap center">'
     +'<div class="lbl lbl--q rv">'+esc(t(d.exhibh))+'</div>'
     +'<p class="deck rv" style="margin-top:16px">'+esc(t(d.exhibd))+'</p></div>'
-    +'<div class="wrap">'+folioCards()
-    +'<div class="cta"><h2>'+esc(t(C.folio.next))+'</h2>'
-    +'<p class="deck" style="margin:0 auto 28px">'+esc(t(C.folio.nextp))+'</p>'
-    +go("contact",' class="btn"')+esc(t(C.home.ctab))+'</a></div>'
-    +'</div></section>';
+    +'<div class="wrap">'+folioCards()+'</div></section>';
 
   /* 4. how a project runs, then experience last */
   h+='<section class="band">'+bandMark("pcb","layout")+'<div class="wrap">'
     +'<h2>'+(lang==="nl"?"Hoe het gaat":"How it goes")+'</h2>'
-    +stepList(d.steps,["web","layout","access","data"])
+    +stepList(d.steps,null,"pics")
     +'</div></section>';
   h+='<section class="band band--tight"><div class="wrap">'
     +ctaBlock(lang==="nl"?"Zullen we hier een half uur over praten?":"Shall we spend half an hour on this?")
@@ -457,16 +465,14 @@ function renderYard(){
   h+='<section class="band band--tight">'+bandMark("bench","laser")+'<div class="narrow">'
     +'<h2>'+esc(t(d.introh))+'</h2><p class="deck" style="max-width:none;margin-top:24px">'
     +esc(t(d.intro))+'</p></div><div class="wrap">'
-    +cardRow(d.cards,["print3d","robot","test","cad"])+'</div></section>';
+    +cardRow(d.cards,["img:yard-companies","img:yard-students","img:yard-makers"])+'</div></section>';
   h+='<section class="band band--dark"><div class="wrap">'
     +'<div class="lbl rv">'+esc(t(d.formh))+'</div>'
     +'<h2 class="rv" style="margin-top:18px;max-width:18ch">'+esc(t(d.statush))+'</h2>'
     +'<p class="deck muted rv" style="margin-top:22px">'+esc(t(d.formd))+'</p>'
     +'<div class="formrow rv">'
-    +'<div class="formcard"><h3>'+esc(t(d.formnl))+'</h3><p>'+esc(t(d.formnls))+'</p>'
-    +'<a href="'+FORMS.nl+'" target="_blank" rel="noopener">'+esc(t(d.open))+' &rarr;</a></div>'
-    +'<div class="formcard"><h3>'+esc(t(d.formen))+'</h3><p>'+esc(t(d.formens))+'</p>'
-    +'<a href="'+FORMS.en+'" target="_blank" rel="noopener">'+esc(t(d.open))+' &rarr;</a></div>'
+    +formPreview(FORMS.nl, t(d.formnl), t(d.formnls), t(d.open))
+    +formPreview(FORMS.en, t(d.formen), t(d.formens), t(d.open))
     +'</div><p class="muted rv" style="margin-top:34px;max-width:62ch">'+esc(t(d.status))+'</p>'
     +'</div></section>';
   h+='<section class="band band--tight">'+bandMark("rule","signal")+'<div class="wrap">'
@@ -479,9 +485,23 @@ function renderYard(){
    click posts to the same form endpoint the contact page uses — which is better than a
    counter anyway: an interested person leaves an address we can reply to. The browser
    remembers it locally so the panel doesn't ask twice. */
+/* The survey card drawn as the form itself — a header bar, the title, two questions
+   with choice rows and a button — so it reads as "a form to fill in", not a link. */
+function formPreview(url,title,sub,open){
+  return '<a class="formcard formcard--preview" href="'+url+'" target="_blank" rel="noopener">'
+    +'<span class="fp"><span class="fp-bar"></span>'
+    +'<span class="fp-title">'+esc(title)+'</span><span class="fp-sub">'+esc(sub)+'</span>'
+    +'<span class="fp-q"><span class="fp-l"></span><span class="fp-l fp-l--s"></span></span>'
+    +'<span class="fp-opts"><span class="fp-o"></span><span class="fp-o"></span><span class="fp-o"></span></span>'
+    +'<span class="fp-q"><span class="fp-l"></span><span class="fp-l fp-l--s"></span></span>'
+    +'<span class="fp-btn">'+esc(open)+' &rarr;</span></span></a>';
+}
 function indiaPanel(){
   var d=C.india;
-  return '<section class="band band--grey"><div class="wrap"><div class="soon rv" id="soon">'
+  var pic=renderSrc("india");
+  return '<section class="band"><div class="wrap"><div class="soonrow'+(pic?' has-pic':'')+'">'
+    +(pic?'<div class="soonpic rv"><img src="'+pic+'" alt="" loading="lazy"></div>':'')
+    +'<div class="soon rv" id="soon">'
     +'<div class="lbl lbl--q">'+esc(t(d.lbl))+'</div>'
     +'<h2>'+esc(t(d.h))+'</h2>'
     +'<p class="deck">'+esc(t(d.p)).split("\n\n").join('</p><p class="deck">')+'</p>'
@@ -489,7 +509,7 @@ function indiaPanel(){
       +'<button class="btn" id="soonbtn" type="button">'+esc(t(d.btn))+'</button>'
     +'</div>'
     +'<p class="formstat" id="soonstat" role="status" aria-live="polite"></p>'
-    +'</div></div></section>';
+    +'</div></div></div></section>';
 }
 function setupSoon(){
   var box=document.getElementById("soonbox");
@@ -539,9 +559,11 @@ function renderArea(id){
   h+=flowSplit(5,"var(--paper)","var(--paper)",5);
   h+='<section class="band band--tight">'+bandMark("printer","cnc")+'<div class="narrow">'
     +'<p class="deck" style="max-width:none">'+esc(t(d.intro))+'</p></div>';
-  var SVCICONS={proto:["test","cad","elec","firmware","mech"],
-                make:["print3d","laser","cnc","dfm","pipe"],
-                start:["test","cad","elec","data","robot"]};
+  /* One list per page carries renders; the others keep line icons so no picture
+     repeats on a page. "img:<key>" names a render, "ic:<name>" forces the icon. */
+  var SVCICONS={proto:["img:svc-feasibility","img:svc-build","img:svc-capacity"],
+                make:["img:make-design","img:make-series","img:svc-sourcing"],
+                start:["ic:test","ic:cad","ic:elec","ic:data","ic:robot"]};
   if(d.svcs) h+='<div class="wrap">'
     +svcList(d.svcs,
              id==="make" ? t(d.aroundh) : (id==="start" ? "" : (lang==="nl"?"Wat we doen":"What we do")),
@@ -556,7 +578,7 @@ function renderArea(id){
       +'<p class="deck rv" style="margin-top:18px">'+esc(t(d.machd))+'</p>'
       +altRows(d.machines.map(function(m,i){
          return {key:m.key, n:no(i+1), t:m.n, p:m.d, shot:m.shot};
-       }), true)
+       }), true).replace('class="alt alt--compact"','class="alt alt--compact alt--level"')
       +'</div></section>';
   }
   if(id==="proto") h+='<section class="band band--grey"><div class="wrap">'+discGrid()+'</div></section>';
@@ -564,10 +586,10 @@ function renderArea(id){
     h+='<section class="band band--grey">'+bandMark("signal","gears")+'<div class="wrap">'
       +'<h2 class="rv">'+esc(t(d.svch))+'</h2>'
       +'<p class="deck rv" style="margin-top:18px">'+esc(t(d.svcd))+'</p>'
-      +'<div class="rv">'+svcList(d.svcs,"",["data","gears","signal"],true)+'</div>'
+      +'<div class="rv">'+svcList(d.svcs,"",["ic:data","ic:gears","ic:signal"],true)+'</div>'
       +'</div></section>';
   }
-  var CARDICONS={start:["test","cad","robot","dfm"],make:["dfm","print3d","pipe","data"]};
+  var CARDICONS={start:["ic:test","ic:cad","ic:robot","ic:dfm"],make:["ic:dfm","ic:print3d","ic:pipe","ic:data"]};
   /* Prototyping shows the domains grid instead of a generic card row. */
   if(d.cards && id!=="proto") h+='<section class="band band--grey"><div class="wrap">'
     +(d.cardsh?'<h2 class="rv">'+esc(t(d.cardsh))+'</h2>':'')
@@ -578,7 +600,7 @@ function renderArea(id){
                  make:["dfm","cad","print3d","pipe","test"],
                  start:["test","cad","robot","dfm","data"]};
   if(d.steps) h+='<h2>'+(lang==="nl"?"Hoe het gaat":"How it goes")+'</h2>'
-    +stepList(d.steps,STEPICONS[id]);
+    +stepList(d.steps,STEPICONS[id],"pics");
   if(d.note) h+='<div class="marginnote"><h3>'+esc(t(d.noteh))+'</h3><p>'+esc(t(d.note))+'</p></div>';
   h+='</div></section>';
   if(id==="make") h+=indiaPanel();

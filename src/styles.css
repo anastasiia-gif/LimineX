@@ -667,3 +667,40 @@ img,svg{display:block;max-width:100%}
 @media (max-width:520px){.alt--compact{grid-template-columns:1fr}
   .alt--compact .altmedia--cut{height:120px;min-height:120px}
   .alt--compact .altmedia--cut img{max-height:110px}}
+
+/* machines: level with the horizon, no tilt */
+.alt--level .altmedia--cut img{--tilt:0deg}
+.alt--level .altmedia--cut{justify-content:center;padding-left:0}
+
+/* ---------------- production in India: picture in a thin dark frame beside the text ---------------- */
+.soonrow{display:grid;grid-template-columns:1fr;gap:clamp(28px,5vw,64px);align-items:center}
+.soonrow.has-pic{grid-template-columns:minmax(0,1.05fr) minmax(0,1fr)}
+.soonpic{border:1.5px solid #2C2E36;border-radius:6px;padding:10px;background:var(--paper);
+  box-shadow:0 30px 60px rgb(21 22 26/.14)}
+.soonpic img{width:100%;height:auto;display:block;border-radius:2px}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .soonpic{border-color:#D8DAE2}}
+:root[data-theme="dark"] .soonpic{border-color:#D8DAE2}
+@media (max-width:860px){.soonrow.has-pic{grid-template-columns:1fr}.soonpic{order:-1}}
+
+/* ---------------- the survey cards, drawn as the form itself ---------------- */
+.formcard--preview{text-decoration:none;color:inherit;padding:0;overflow:hidden;background:var(--paper);
+  transition:transform .3s ease,border-color .3s ease,box-shadow .3s ease}
+.formcard--preview:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:0 24px 44px rgb(21 22 26/.16)}
+section.band--dark .formcard--preview{background:var(--paper);color:var(--ink)}
+.fp{display:block;padding:0 0 22px}
+.fp-bar{display:block;height:12px;background:linear-gradient(90deg,#2349B2,#5C23B2)}
+.fp-title{display:block;font-size:19px;font-weight:600;letter-spacing:-.02em;padding:22px 26px 4px;line-height:1.2}
+.fp-sub{display:block;font-size:14px;color:var(--muted);padding:0 26px 18px}
+.fp-q{display:block;padding:12px 26px 6px;border-top:1px solid var(--hair)}
+.fp-l{display:block;height:10px;border-radius:5px;background:var(--hair);width:78%;margin:6px 0}
+.fp-l--s{width:46%;height:8px;opacity:.7}
+.fp-opts{display:block;padding:2px 26px 12px}
+.fp-o{display:block;position:relative;height:9px;margin:10px 0 10px 26px;border-radius:5px;background:var(--hair);width:55%}
+.fp-o::before{content:"";position:absolute;left:-26px;top:-4px;width:16px;height:16px;border-radius:50%;
+  border:2px solid var(--muted);opacity:.7}
+.fp-o:first-child{background:rgb(var(--bub)/.35)}
+.fp-o:first-child::before{border-color:var(--accent);background:radial-gradient(circle,var(--accent) 40%,transparent 44%)}
+.fp-btn{display:inline-block;margin:14px 26px 0;background:var(--ink);color:var(--paper);border-radius:999px;
+  padding:11px 20px;font-size:14px;font-weight:500}
+section.band--dark .formcard--preview .fp-btn{background:var(--ink);color:var(--paper)}
+.page-yard .formcard--preview .fp-btn{background:linear-gradient(140deg,#2440E0,#5C23B2);color:#fff}
