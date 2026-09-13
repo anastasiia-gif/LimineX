@@ -163,8 +163,8 @@ function renderSrc(key){
 }
 /* Alternating rows: picture then text, then text then picture. `key` names an image in
    assets/renders/; without one you get a labelled photo slot saying what belongs there. */
-function altRows(items){
-  var h='<div class="alt">';
+function altRows(items,compact){
+  var h='<div class="alt'+(compact?' alt--compact':'')+'">';
   for(var i=0;i<items.length;i++){
     var it=items[i];
     var src=renderSrc(it.key);
@@ -325,7 +325,7 @@ function renderHome(){
       {key:"how-2", n:"02", t:d.how[1].h, p:d.how[1].p, shot:d.how[1].note},
       {key:"how-3", n:"03", t:d.how[2].h, p:d.how[2].p, shot:d.how[2].note},
       {key:"how-4", n:"04", t:d.how[3].h, p:d.how[3].p, shot:d.how[3].note}
-    ])
+    ], true)
     +'</div></section>';
 
   /* 4. who we are, the team, and the ask — one dark block */
@@ -405,7 +405,7 @@ function renderWeb(){
                                                         en:"Photo \u2014 checkout and booking on a phone"}},
       {key:"web-3", t:d.svcs[2].n, p:d.svcs[2].d, shot:{nl:"Foto \u2014 een configurator op het scherm",
                                                         en:"Photo \u2014 a configurator on screen"}}
-    ])
+    ], true)
     +'<div class="rv" style="margin-top:64px">'
     +svcList(d.svcs.slice(3), t(d.moreh), null, true)+'</div>'
     +'<p class="onreq rv" style="margin-top:44px">'
@@ -556,7 +556,7 @@ function renderArea(id){
       +'<p class="deck rv" style="margin-top:18px">'+esc(t(d.machd))+'</p>'
       +altRows(d.machines.map(function(m,i){
          return {key:m.key, n:no(i+1), t:m.n, p:m.d, shot:m.shot};
-       }))
+       }), true)
       +'</div></section>';
   }
   if(id==="proto") h+='<section class="band band--grey"><div class="wrap">'+discGrid()+'</div></section>';

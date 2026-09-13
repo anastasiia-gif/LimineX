@@ -269,19 +269,24 @@ if os.path.isdir(rdir):
 RENDER_ALIAS = {
     "web-1":            "card-web",        # laptop
     "web-2":            "how-1",           # phone in hand
-    "machine-print3d":  "card-proto",      # bracket off the printer
-    "machine-laser":    "card-make",       # laser-cut parts
+    "machine-print3d":  "domain-print3d",
     "part-web":         "card-web",
-    "part-cad":         "how-3",           # drawing sheet and pen
+    "part-layout":      "part-layout",
+    "part-cad":         "domain-cad",
     "part-pcb":         "domain-pcb",
     "part-elec":        "domain-elec",
-    "part-firmware":    "domain-pcb",
-    "part-print3d":     "domain-print3d",
-    "part-dfm":         "domain-dfm",
-    "part-laser":       "domain-dfm",
+    "part-firmware":    "domain-firmware",
+    "part-control":     "domain-control",
     "part-robot":       "domain-robot",
-    "part-data":        "domain-pcb",
-    "part-mech":        "domain-print3d",
+    "part-drone":       "domain-drone",
+    "part-data":        "domain-data",
+    "part-dfm":         "domain-dfm",
+    "part-test":        "domain-test",
+    "part-print3d":     "domain-print3d",
+    "part-mech":        "domain-mech",
+    "part-cnc":         "machine-cnc",
+    "part-laser":       "machine-laser",
+    "part-maintain":    "part-gears",
 }
 for slot, source in RENDER_ALIAS.items():
     if slot not in renders and source in renders:
