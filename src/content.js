@@ -53,12 +53,12 @@ var EXPERIENCE = [
 
 var EXPH={
   h:{nl:"Ervaring",en:"Experience"},
-  d:{nl:"Werk dat we op dit terrein gedaan hebben. Een deel valt onder geheimhouding — we beschrijven wat er gebouwd is, niet voor wie.",
-     en:"Work we've done in this area. Some of it is under NDA — we describe what was built, not who paid for it."},
+  d:{nl:"Werk dat we op dit terrein gedaan hebben.",
+     en:"Work we've done in this area."},
   none:{nl:"Wilt u de volgende zijn?",en:"Would you like to be next?"},
   engh:{nl:"Engineering",en:"Engineering"},
-  engd:{nl:"Wat er gebouwd is, niet voor wie \u2014 een deel valt onder geheimhouding.",
-        en:"What was built, not who paid for it \u2014 some of this is under NDA."}
+  engd:{nl:"Wat er gebouwd is, niet voor wie.",
+        en:"What was built, not who paid for it."}
 };
 
 
@@ -151,8 +151,8 @@ var DISCIPLINES = {
     {ic:"print3d", t:{nl:"Maken in huis",en:"Making it here"},
      p:{nl:"3D-print, lasersnijden en kleine CNC staan bij ons. Een ontwerpfout op dinsdag is woensdag een nieuw onderdeel.",
         en:"3D printing, laser cutting and small CNC are ours. A design mistake on Tuesday is a new part on Wednesday."},
-     ex:{nl:"Een jig om honderd identieke onderdelen uit te lijnen \u2014 ontworpen op dinsdag, geprint en in gebruik op woensdag.",
-         en:"A jig to align a hundred identical parts \u2014 designed on Tuesday, printed and in use on Wednesday."},
+     ex:{nl:"Een jig om honderd identieke onderdelen uit te lijnen \u2014 getekend, geprint en gebruikt zonder dat er een leverancier aan te pas kwam.",
+         en:"A jig to align a hundred identical parts \u2014 drawn, printed and in use without a supplier in the loop."},
      dw:"printer", note:{nl:"Foto — een onderdeel halverwege de printer",en:"Photo — a part halfway through the printer"},
      k:"FDM · laser · CNC"}
   ],
@@ -168,15 +168,15 @@ home:{
   tagline:{nl:"Make non-existent reality", en:"Make non-existent reality"},
   scroll:{nl:"Scroll", en:"Scroll"},
   blocksh:{nl:"Wat we doen", en:"What we do"},
-  blocksd:{nl:"Meer vakgebieden dan u van vier mensen verwacht: software, web, mechanica, elektronica, besturing, drones, en de machines om het te maken. Alles onder één dak, dus nooit iets tussen de wal en het schip.",
-           en:"More fields than you'd expect from four people: software, web, mechanics, electronics, control, drones, and the machines to make it. All under one roof, so nothing falls between two suppliers."},
+  blocksd:{nl:"Vijf richtingen, één team. Software aan de ene kant, hardware aan de andere, en dezelfde mensen aan allebei.",
+           en:"Five directions, one team. Software on one side, hardware on the other, and the same people across both."},
   blurbs:{
     web:{nl:"Website, webshop, app, AI, SEO, automatisering. U beschrijft wat u wilt bereiken, wij kiezen samen de beste uitvoering.",
          en:"Website, online shop, app, AI, SEO, automation. You describe what you want to achieve, we pick the best execution together."},
     proto:{nl:"U heeft een idee; wij bouwen het. Mechanica, elektronica, firmware en besturing in één team, van schets tot werkend exemplaar.",
            en:"You have an idea; we build it. Mechanics, electronics, firmware and control in one team, from sketch to working unit."},
-    make:{nl:"Het verlengstuk van prototyping: eigen printers, lasersnijder en CNC in huis, dus het ontwerp van vandaag is morgen een onderdeel. Grotere aantallen begeleiden we.",
-          en:"The extension of prototyping: our own printers, laser cutter and CNC in house, so today's design is tomorrow's part. Larger volumes we manage for you."},
+    make:{nl:"Het verlengstuk van prototyping: kleine series per stuk, zonder minimale afname. Grotere aantallen begeleiden we naar een producent.",
+          en:"The extension of prototyping: small runs priced per part, with no minimum order. Larger volumes we manage for you, through a manufacturer."},
     yard:{nl:"Een werkplaats voor de regio, waar bedrijven, studenten en makers samen bouwen. In opbouw.",
           en:"A workshop for the region, where companies, students and makers build together. In development."},
     start:{nl:"U heeft een idee en geen technisch team. Wij zijn dat team, tot u er zelf een heeft.",
@@ -187,8 +187,8 @@ home:{
   hooks:{
     web:{nl:"Zeven op de tien mkb-bedrijven heeft een website, maar bij veel bedrijven is die jaren oud en levert hij niets op.",
          en:"Seven in ten SMEs have a website, but for many it is years old and brings in nothing."},
-    proto:{nl:"Een ontwerpfout op dinsdag is woensdag een nieuw onderdeel \u2014 omdat de machines hier staan.",
-           en:"A design mistake on Tuesday is a new part on Wednesday \u2014 because the machines are here."},
+    proto:{nl:"De meeste bureaus doen \u00f3f elektronica, \u00f3f mechanica, \u00f3f industrieel ontwerp. Wij doen het in \u00e9\u00e9n team, op mkb-schaal.",
+           en:"Most studios do either electronics, or mechanics, or industrial design. We do all of it in one team, at SME scale."},
     make:{nl:"Onder een paar honderd stuks wint Nederland bijna altijd van India. Wij rekenen het voor en zeggen het eerlijk.",
           en:"Below a few hundred units the Netherlands almost always beats India. We do the maths and say so."},
     yard:{nl:"Brabant telt 22.805 bedrijven met twee of meer medewerkers in onze sectoren, en ruim 30.000 technische studenten. Die groepen komen elkaar nauwelijks tegen.",
@@ -228,23 +228,25 @@ home:{
           en:"No briefing needed. Two sentences is enough to start."},
   whoh:{nl:"Wie we zijn", en:"Who we are"},
   teamh:{nl:"Het team", en:"The team"},
-  teamd:{nl:"Vier engineers, elk met een eigen hoek van het werk. U spreekt degene die het doet.",
-         en:"Four engineers, each with their own corner of the work. You speak to the one doing it."},
+  teamd:{nl:"We zijn alle vier mechatronicus — dit zijn alleen de specialismen. U spreekt degene die uw werk doet.",
+         en:"All four of us are mechatronics engineers — these are just the specialisms. You speak to the one doing your work."},
+  /* `img` names a file in assets/renders/. Swap the four filenames around to change who
+     sits under which role — nothing else has to move. Portraits are 4:5. */
   team:[
-    {n:{nl:"Naam",en:"Name"}, r:{nl:"Mechanica & CAD — constructie, 3D-print, CNC",en:"Mechanics & CAD — structures, 3D print, CNC"}},
-    {n:{nl:"Naam",en:"Name"}, r:{nl:"Elektronica & besturing — PCB, sensoren, firmware",en:"Electronics & control — PCB, sensors, firmware"}},
-    {n:{nl:"Naam",en:"Name"}, r:{nl:"Software & AI — Python, C/C++, data",en:"Software & AI — Python, C/C++, data"}},
-    {n:{nl:"Naam",en:"Name"}, r:{nl:"Web & oplevering — sites, toegankelijkheid, hosting",en:"Web & delivery — sites, accessibility, hosting"}}
+    {img:"team-1", n:{nl:"Naam",en:"Name"}, r:{nl:"Software & web — automatisering, AI, en uw eerste aanspreekpunt",en:"Software & web — automation, AI, and your first point of contact"}},
+    {img:"team-2", n:{nl:"Naam",en:"Name"}, r:{nl:"Leiding & hardware — planning, inkoop, bouw",en:"Operations & hardware — planning, sourcing, build"}},
+    {img:"team-3", n:{nl:"Naam",en:"Name"}, r:{nl:"Besturingstechniek — machinebesturing, sensoren, meten",en:"Control engineering — machine control, sensors, measurement"}},
+    {img:"team-4", n:{nl:"Naam",en:"Name"}, r:{nl:"CAD & elektronica — mechanica, PCB, 3D-print",en:"CAD & electronics — mechanics, PCB, 3D print"}}
   ],
   teamwork:{nl:"Bekijk ons werk", en:"See our work"},
   teamabout:{nl:"Over ons", en:"About us"},
-  whoq:{nl:"Vier engineers in 's-Hertogenbosch, met meer vakgebieden dan u van vier mensen verwacht.",
-        en:"Four engineers in 's-Hertogenbosch, with more fields between them than you'd expect from four people."},
-  whop:{nl:"We komen uit het Brabantse bedrijfsleven en van Fontys. Tussen ons vieren zitten software, web, mechanica, elektronica, besturing en drones \u2014 meerdere talenten onder \u00e9\u00e9n dak. Voor u betekent dat in feite \u00e9\u00e9n aanspreekpunt dat alles kan: u hoeft niet zelf uit te zoeken welke discipline uw vraag is, en niets valt tussen twee leveranciers in.\n\nWe leiden studenten op terwijl ze aan echt werk werken. Dat is deels overtuiging en deels rekenkunde: Brabant heeft te weinig technische mensen, en er zijn maar twee manieren om daaraan iets te doen.",
-        en:"We come from working in Noord-Brabant's industry and from Fontys. Between the four of us sit software, web, mechanics, electronics, control and drones \u2014 several talents under one roof. For you it works like one person who can do everything: you don't have to work out which discipline your question belongs to, and nothing falls between two suppliers.\n\nWe train students on real work. That is part conviction and part arithmetic: Brabant is short of technical people, and there are only two ways to change that."},
+  whoq:{nl:"Vier engineers, zes vakgebieden. U legt het probleem één keer uit, aan de mensen die het bouwen.",
+        en:"Four engineers, six disciplines. You explain the problem once, to the people who will build it."},
+  whop:{nl:"We komen uit het Brabantse bedrijfsleven en van Fontys: software, web, mechanica, elektronica, besturing en drones. Voor u betekent dat in feite \u00e9\u00e9n aanspreekpunt dat alles kan \u2014 u hoeft niet zelf uit te zoeken welke discipline uw vraag is, en niets valt tussen twee leveranciers in.\n\nWe leiden studenten op terwijl ze aan echt werk werken. Dat is deels overtuiging en deels rekenkunde: Brabant heeft te weinig technische mensen, en er zijn maar twee manieren om daaraan iets te doen.",
+        en:"We come from working in Noord-Brabant's industry and from Fontys: software, web, mechanics, electronics, control and drones. For you it works like one person who can do everything \u2014 you don't have to work out which discipline your question belongs to, and nothing falls between two suppliers.\n\nWe train students on real work. That is part conviction and part arithmetic: Brabant is short of technical people, and there are only two ways to change that."},
   stats:[
     {n:"4", k:{nl:"engineers, plus studenten die meebouwen",en:"engineers, plus students who build with us"}},
-    {n:"3", k:{nl:"machines in huis: 3D-print, laser, CNC",en:"machines in the building: 3D print, laser, CNC"}},
+    {n:"1", k:{nl:"werkdag tot antwoord van de engineer zelf",en:"working day to a reply from the engineer"}},
     {n:"2026", k:{nl:"opgericht in 's-Hertogenbosch",en:"founded in 's-Hertogenbosch"}}
   ],
   photo1:{nl:"Foto — het team aan het werk",en:"Photo — the team at work"},
@@ -267,8 +269,8 @@ foot:{
   work:{nl:"Werk",en:"Work"}, more:{nl:"Meer",en:"More"}, contact:{nl:"Contact",en:"Contact"},
   legal:{nl:"Richtprijzen staan op de tarievenpagina",en:"Indicative prices are on the pricing page"}},
 about:{
-  lede:{nl:"Vier engineers uit 's-Hertogenbosch, meerdere talenten onder \u00e9\u00e9n dak.",
-        en:"Four engineers from 's-Hertogenbosch, several talents under one roof."},
+  lede:{nl:"Software \u00e9n hardware in \u00e9\u00e9n team in 's-Hertogenbosch \u2014 zodat uw project niet opgeknipt wordt.",
+        en:"Software and hardware in one team in 's-Hertogenbosch \u2014 so your project never gets split up."},
   storyh:{nl:"Hoe het begon", en:"How it started"},
   wayh:{nl:"Hoe we werken", en:"How we work"},
   way:[
@@ -339,10 +341,10 @@ web:{
   ]
 },
 proto:{
-  lede:{nl:"U heeft een idee. Vertel het ons, en wij bouwen het \u2014 van schets naar werkend exemplaar, met de machines om het te maken in huis.",
-        en:"You have an idea. Tell us, and we build it \u2014 from sketch to working unit, with the machines to make it in house."},
-  intro:{nl:"Het begint bij uw idee, niet bij onze specialisatie. Een apparaat, een meetopstelling, een machine die iets moet doen wat nog niets doet \u2014 u beschrijft wat het moet kunnen, wij vertalen dat naar mechanica, elektronica, firmware en besturing, in \u00e9\u00e9n team. Omdat de machines hier staan, is een ontwerpfout op dinsdag woensdag opgelost. Hieronder wat we precies doen en op welke terreinen.",
-         en:"It starts with your idea, not with our specialism. A device, a measurement setup, a machine that has to do something nothing does yet \u2014 you describe what it must be able to do, we translate that into mechanics, electronics, firmware and control, in one team. Because the machines are here, a design mistake on Tuesday is fixed on Wednesday. Below: exactly what we do, and in which fields."},
+  lede:{nl:"U heeft een idee. Vertel het ons, en wij bouwen het \u2014 van schets naar een werkend exemplaar dat u aan iemand kunt laten zien.",
+        en:"You have an idea. Tell us, and we build it \u2014 from sketch to a working unit you can put in front of someone."},
+  intro:{nl:"Het begint bij uw idee, niet bij onze specialisatie. Een apparaat, een meetopstelling, een machine die iets moet doen wat nog niets doet \u2014 u beschrijft wat het moet kunnen, wij vertalen dat naar mechanica, elektronica, firmware en besturing, in \u00e9\u00e9n team. Hieronder wat we precies doen en op welke terreinen.",
+         en:"It starts with your idea, not with our specialism. A device, a measurement setup, a machine that has to do something nothing does yet \u2014 you describe what it must be able to do, we translate that into mechanics, electronics, firmware and control, in one team. Below: exactly what we do, and in which fields."},
   svcs:[
     {n:{nl:"Haalbaarheidssprint",en:"Feasibility sprint"},
      d:{nl:"Twee weken: kan het, wat kost het, waar zit het risico. Een technisch onderbouwd antwoord plus kostenraming, en een eerlijk advies om wel of niet door te gaan.",

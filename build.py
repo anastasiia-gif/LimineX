@@ -17,6 +17,11 @@ plus shared CSS and JS. No dependencies.
 """
 import base64, hashlib, json, mimetypes, os, re, shutil, sys
 
+# Python's table does not always carry WebP, and a portfolio screenshot saved as .webp
+# would then be embedded as a data: URI claiming to be a JPEG. Browsers mostly sniff
+# past that; some do not. Register it once so the data URI is honest.
+mimetypes.add_type("image/webp", ".webp")
+
 ROOT = os.path.dirname(os.path.abspath(__file__))
 def p(*a): return os.path.join(ROOT, *a)
 def read(f): return open(p(f), encoding="utf-8").read()

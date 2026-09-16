@@ -134,7 +134,16 @@ h3{font-size:20px;font-weight:600}
 
 /* ---------------- what we do: one card per area ---------------- */
 .blocks{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px;margin-top:60px}
-@media (min-width:1080px){.blocks{grid-template-columns:repeat(3,1fr)}}
+@media (min-width:1080px){
+  /* Six tracks rather than three, so five cards read as a deliberate 3 + 2 instead of
+     three cards and a hole: the first three take two tracks each, the last two take
+     three each and fill the row. The :nth-last-child pair scopes this to exactly five
+     cards — with any other count the grid falls back to plain thirds. */
+  .blocks{grid-template-columns:repeat(6,1fr)}
+  .blocks>*{grid-column:span 2}
+  .blocks>:nth-child(4):nth-last-child(2),
+  .blocks>:nth-child(5):nth-last-child(1){grid-column:span 3}
+}
 .block{display:flex;flex-direction:column;text-decoration:none;color:inherit;cursor:pointer;
   border:1px solid var(--hair);border-radius:var(--r);overflow:hidden;background:var(--paper);
   transition:border-color .25s ease,transform .25s ease}
@@ -356,8 +365,11 @@ section.band--dark .svc p{color:var(--dark-muted)}
 .page-yard .band--dark .lbl{color:#C9D6FF}
 .page-yard .grid4 svg,.page-yard .svc svg{color:#5C23B2}
 .page-yard .btn{background:linear-gradient(140deg,#2440E0,#5C23B2);color:#FFFFFF}
-.page-yard .inlink,.page-yard a:not(.btn):not(.fcard){color:#5C23B2}
-.page-yard .band--dark a:not(.btn){color:#C9D6FF}
+/* The survey preview is a light card that keeps its own ink colour wherever it sits;
+   without the :not(.formcard) it inherited the pale link blue of a dark band and the
+   title dropped below AA on the card's own near-white ground. */
+.page-yard .inlink,.page-yard a:not(.btn):not(.fcard):not(.formcard){color:#5C23B2}
+.page-yard .band--dark a:not(.btn):not(.formcard){color:#C9D6FF}
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]) .page-yard .band--grey{background:linear-gradient(180deg,#15131F,#100F17)}
   :root:not([data-theme="light"]) .page-yard .lbl{color:#C3A9FF}
@@ -513,6 +525,10 @@ section.band--dark .ph{background:transparent;border-color:var(--dark-hair);colo
 .team{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px;margin-top:52px}
 .team .p{display:flex;flex-direction:column;gap:12px}
 .team .p .ph{aspect-ratio:4/5}
+/* A real portrait replaces the dashed slot: no border, no padding, the photo fills it. */
+.ph.has-img{padding:0;border:0;overflow:hidden;background:none}
+.ph.has-img img{width:100%;height:100%;object-fit:cover;object-position:center 32%;display:block}
+section.band--dark .ph.has-img{background:none;border:0}
 .team .p .nm{font-weight:600;font-size:16.5px}
 .team .p .ro{font-size:14px;color:var(--muted)}
 section.band--dark .team .p .ro{color:var(--dark-muted)}
@@ -728,12 +744,31 @@ section.band--dark .formcard--preview .fp-btn{background:var(--ink);color:var(--
 #loader img{width:clamp(72px,9vw,120px);height:auto;animation:lpulse 1.4s ease-in-out infinite;
   filter:drop-shadow(0 0 28px rgb(112 185 248/.35))}
 @keyframes lpulse{0%,100%{transform:scale(.9);opacity:.75}50%{transform:scale(1.08);opacity:1}}
+/* On a phone the tilted cut-outs overhang their row by a couple of pixels, which is
+   enough to give the whole page a horizontal scrollbar. Clip each section sideways —
+   overflow-x:clip leaves the vertical pop intact, unlike hidden, and sections are not
+   ancestors of the fixed nav, so nothing that has to escape the page is caught by it. */
+@media (max-width:860px){section{overflow-x:clip}}
 body.loading{overflow:hidden}
 @media (prefers-reduced-motion:reduce){#loader img{animation:none}}
 
 /* ---------------- engineering cases, same shape as the website cases ---------------- */
 .folio--exp{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
-@media (min-width:1080px){.folio--exp{grid-template-columns:repeat(3,1fr)}}
+@media (min-width:1080px){
+  /* Six tracks instead of three so a short last row fills the width instead of
+     leaving a hole. The card count varies per page — 2 on Manufacturing, 3 on
+     Start-ups, 4 on Prototyping, 5 on Work — so each count gets its own rule,
+     scoped by :first-child:nth-last-child(n) / :nth-child(n):nth-last-child(m). */
+  .folio--exp{grid-template-columns:repeat(6,1fr)}
+  .folio--exp>*{grid-column:span 2}
+  .folio--exp>:first-child:nth-last-child(1){grid-column:span 6}
+  .folio--exp>:first-child:nth-last-child(2),
+  .folio--exp>:first-child:nth-last-child(2)~*{grid-column:span 3}
+  .folio--exp>:first-child:nth-last-child(4),
+  .folio--exp>:first-child:nth-last-child(4)~*{grid-column:span 3}
+  .folio--exp>:nth-child(4):nth-last-child(2),
+  .folio--exp>:nth-child(5):nth-last-child(1){grid-column:span 3}
+}
 .fcard--exp{cursor:default}
 .fcard--exp:hover{transform:none;border-color:var(--hair)}
 .fcard .shot--cut{padding:26px 28px;background:var(--paper2);position:relative;overflow:visible}

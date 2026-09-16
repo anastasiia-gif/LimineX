@@ -138,6 +138,15 @@ function cardRow(list,icons){
 function ph(title,sub){
   return '<div class="ph"><span class="t">'+esc(title)+'</span><span class="s">'+esc(sub)+'</span></div>';
 }
+/* A team portrait. Uses assets/renders/<p.img> when that file exists and falls back to
+   the labelled 4:5 slot when it doesn't, so the strip still works with a partial set.
+   alt is empty on purpose — the name sits in the .nm line directly beneath it, and a
+   screen reader reading it twice is worse than not reading the picture at all. */
+function portrait(p){
+  var src = p.img && renderSrc(p.img);
+  return src ? '<div class="ph has-img"><img src="'+src+'" alt=""></div>'
+             : ph(t(p.n), lang==="nl"?"Portret · 4:5":"Portrait · 4:5");
+}
 /* the portfolio strip that appears on every page */
 function folioStrip(withNext){
   var f=C.folio,d=C.work,h='<div class="lbl lbl--q rv">'+esc(t(f.h))+'</div>'
@@ -369,9 +378,10 @@ function renderHome(){
   for(var s=0;s<d.stats.length;s++)
     h+='<div><div class="n">'+esc(d.stats[s].n)+'</div><div class="k">'+esc(t(d.stats[s].k))+'</div></div>';
   h+='</div></div>';
-  h+='<div class="team rv" style="margin-top:76px">';
+  h+='<p class="muted rv" style="margin-top:70px;max-width:58ch">'+esc(t(d.teamd))+'</p>';
+  h+='<div class="team rv" style="margin-top:26px">';
   for(var m=0;m<d.team.length;m++)
-    h+='<div class="p">'+ph(t(d.team[m].n),lang==="nl"?"Portret \u00b7 4:5":"Portrait \u00b7 4:5")
+    h+='<div class="p">'+portrait(d.team[m])
       +'<div class="nm">'+esc(t(d.team[m].n))+'</div>'
       +'<div class="ro">'+esc(t(d.team[m].r))+'</div></div>';
   h+='</div>';
@@ -393,9 +403,11 @@ function renderAbout(){
     +'<h1>'+esc(t(d.lede))+'</h1></div></section>';
 
   /* the team */
-  h+='<section class="band band--tight">'+bandMark("gears","bench")+'<div class="wrap"><div class="team rv">';
+  h+='<section class="band band--tight">'+bandMark("gears","bench")+'<div class="wrap">'
+    +'<p class="deck rv" style="max-width:58ch">'+esc(t(hm.teamd))+'</p>'
+    +'<div class="team rv">';
   for(var m=0;m<hm.team.length;m++)
-    h+='<div class="p">'+ph(t(hm.team[m].n),lang==="nl"?"Portret \u00b7 4:5":"Portrait \u00b7 4:5")
+    h+='<div class="p">'+portrait(hm.team[m])
       +'<div class="nm">'+esc(t(hm.team[m].n))+'</div>'
       +'<div class="ro">'+esc(t(hm.team[m].r))+'</div></div>';
   h+='</div></div></section>';

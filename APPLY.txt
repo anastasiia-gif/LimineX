@@ -1,0 +1,27 @@
+Liminex — feedback round 3 + team photos + HUTKO screenshot
+===========================================================
+
+COPY these over the repo, same paths:
+
+  build.py
+  src/app.js
+  src/content.js
+  src/styles.css
+  assets/renders/card-yard.webp      (new)
+  assets/renders/team-1.webp         (new)  blonde, campus steps
+  assets/renders/team-2.webp         (new)  headphones
+  assets/renders/team-3.webp         (new)  purple hi-vis
+  assets/renders/team-4.webp         (new)  black hoodie
+  assets/work/hutko.webp             (new)
+  assets/work/maks.webp              (new, replaces maks.jpg)
+
+DELETE these two:
+
+  assets/renders/card-yard.jpg
+  assets/work/maks.jpg
+
+This zip replaces liminex_feedback_round3.zip — it contains everything
+that one did plus the photos.
+
+To swap who sits under which role, just rename the four team-*.webp files.
+The names still read "Name" in src/content.js — team[].n.
