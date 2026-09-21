@@ -97,15 +97,7 @@ function svcList(list,heading,icons,noPrice){
     h+='<div class="svc'+(ic||pt?' svc--ic':'')+(pt?' has-fly':'')+'">'+(pt||ic||'')
       +'<h3>'+esc(t(list[i].n))+'</h3><p>'+esc(t(list[i].d))+'</p></div>';
   }
-  if(noPrice || hidden("price")) return h+'</div>';
-  return h+'</div><p class="onreq">'
-    +(lang==="nl"
-        ? "Elk project is anders, dus dit is geen prijslijst. Wat vergelijkbaar werk ongeveer kost, staat op de pagina "
-        : "Every project is different, so this isn't a price list. What comparable work roughly costs is on the ")
-    +go("price",' class="inlink"')+(lang==="nl"?"tarieven":"pricing")+'</a>'
-    +(lang==="nl"
-        ? ". Na \u00e9\u00e9n gesprek krijgt u een vaste prijs op \u00e9\u00e9n pagina."
-        : " page. After one conversation you get a fixed price on one page.")+'</p>';
+  return h+'</div>';
 }
 function stepList(list,icons,mode){
   /* mode "pics": the same four-up picture grid as the home page's "How it works",
@@ -448,15 +440,7 @@ function renderWeb(){
     ], true)
     +'<div class="rv" style="margin-top:64px">'
     +svcList(d.svcs.slice(3), t(d.moreh), null, true)+'</div>'
-    +(hidden("price")?'':'<p class="onreq rv" style="margin-top:44px">'
-    +(lang==="nl"
-        ? "Elk project is anders, dus dit is geen prijslijst. Wat vergelijkbaar werk ongeveer kost, staat op de pagina "
-        : "Every project is different, so this isn't a price list. What comparable work roughly costs is on the ")
-    +go("price",' class="inlink"')+(lang==="nl"?"tarieven":"pricing")+'</a>'
-    +(lang==="nl"
-        ? ". Na \u00e9\u00e9n gesprek krijgt u een vaste prijs op \u00e9\u00e9n pagina."
-        : " page. After one conversation you get a fixed price on one page.")
-    +'</p>')+'</div></section>';
+    +pricePreview()+'</div></section>';
 
   /* 3. the exhibition of delivered work, ending on the ask */
   h+=flowSplit(3,"var(--paper)","var(--paper2)",5);
@@ -683,35 +667,96 @@ function renderWork(){
 }
 
 /* Prices. Ranges, with the reasons they are ranges — see C.price in content.js. */
+/* ---- web pricing ----------------------------------------------------------------
+   Fixed packages, add-ons and Care plans, from C.price. The launch discount is computed
+   here, not written into the copy, so changing pct or until in content.js is the only edit
+   needed — and after `until` the page quietly goes back to list prices. */
+function promoOn(){
+  var p=C.price.promo; if(!p||!p.pct) return false;
+  /* end of that day in the Netherlands; +01:00 is right for any date after late October */
+  return new Date() < new Date(new Date(p.until+"T23:59:59+01:00").getTime()+1000);
+}
+function money(n){
+  var s=String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, lang==="nl"?".":",");
+  return "€"+s;
+}
+function disc(n){ return Math.round(n*(100-C.price.promo.pct)/100); }
+function priceTag(v,from,discountable){
+  var fromTxt = from ? '<span class="pfrom">'+(lang==="nl"?"vanaf ":"from ")+'</span>' : '';
+  if(discountable && promoOn())
+    return fromTxt+'<s><span class="sr">'+(lang==="nl"?"normaal ":"normally ")+'</span>'+money(v)+'</s> '
+      +'<b><span class="sr">'+(lang==="nl"?"nu ":"now ")+'</span>'+money(disc(v))+'</b>';
+  return fromTxt+'<b>'+money(v)+'</b>';
+}
+function promoBadge(){
+  return promoOn() ? '<p class="promo rv">'+esc(t(C.price.promo.label))+'</p>' : '';
+}
+function pkgCards(){
+  var d=C.price,h='<div class="pkgs rv">';
+  for(var i=0;i<d.pkgs.length;i++){
+    var k=d.pkgs[i], items=lang==="nl"?k.d.nl:k.d.en, li="";
+    for(var j=0;j<items.length;j++) li+='<li>'+esc(items[j])+'</li>';
+    h+='<div class="pkg"><h3>'+esc(k.n)+'</h3><ul>'+li+'</ul>'
+      +'<div class="pkg-p">'+priceTag(k.v,k.from,true)+'</div></div>';
+  }
+  return h+'</div>';
+}
+/* The preview that sits on the Software & web page: the three packages and a way through
+   to the full page. Nothing if the pricing page is switched off. */
+function pricePreview(){
+  if(hidden("price")) return "";
+  var d=C.price;
+  return '<div class="pricepre"><h2 class="rv">'+esc(t(d.pkgh))+'</h2>'+promoBadge()+pkgCards()
+    +'<p class="onreq rv" style="margin-top:22px">'+go("price",' class="inlink"')
+    +esc(t(d.previewmore))+' &rarr;</a></p></div>';
+}
+function careTable(){
+  var c=C.price.care, h='<div class="tblwrap rv"><table class="care"><thead><tr><th scope="col"><span class="sr">'
+    +(lang==="nl"?"Onderdeel":"Item")+'</span></th>';
+  for(var i=0;i<c.tiers.length;i++) h+='<th scope="col">'+esc(c.tiers[i])+'</th>';
+  h+='</tr></thead><tbody>';
+  for(var r=0;r<c.rows.length;r++){
+    var row=c.rows[r]; h+='<tr><th scope="row">'+esc(t(row.k))+'</th>';
+    for(var j=0;j<row.v.length;j++){
+      var v=row.v[j], cell;
+      if(v===true) cell='<span aria-hidden="true">✓</span><span class="sr">'+(lang==="nl"?"ja":"yes")+'</span>';
+      else if(v===false) cell='<span aria-hidden="true">—</span><span class="sr">'+(lang==="nl"?"nee":"no")+'</span>';
+      else if(row.money) cell='<b>'+money(v)+'</b>';
+      else cell=esc(t(v));
+      h+='<td data-t="'+esc(c.tiers[j])+'">'+cell+'</td>';
+    }
+    h+='</tr>';
+  }
+  return h+'</tbody></table></div>';
+}
+function addRows(){
+  var d=C.price,h='<div class="prices rv">';
+  for(var i=0;i<d.adds.length;i++){
+    var a=d.adds[i], parts=[];
+    for(var j=0;j<a.v.length;j++)
+      parts.push(priceTag(a.v[j],false,a.disc)+(a.of?' <span class="pfrom">('+esc((lang==="nl"?a.of.nl:a.of.en)[j])+')</span>':''));
+    h+='<div class="prow"><div class="pn">'+esc(t(a.n))+'</div><div class="pd"></div>'
+      +'<div class="pv">'+parts.join('<br>')+(a.unit?' <span class="pfrom">'+esc(t(a.unit))+'</span>':'')+'</div></div>';
+  }
+  return h+'</div>';
+}
 function renderPrice(){
   var d=C.price,h="";
   h+='<section class="opener">'+watermark("price")+'<div class="narrow"><div class="lbl">'
     +(lang==="nl"?"Tarieven":"Pricing")+'</div><h1>'+esc(t(d.lede))+'</h1></div></section>';
   h+='<section class="band band--tight"><div class="narrow">'
-    +'<p class="deck" style="max-width:none">'
-    +esc(t(d.intro)).split("\n\n").join('</p><p class="deck" style="max-width:none">')
-    +'</p></div></section>';
+    +'<p class="deck" style="max-width:none">'+esc(t(d.intro))+'</p></div></section>';
 
-  h+='<section class="band band--grey"><div class="wrap"><h2 class="rv">'+esc(t(d.tblh))+'</h2>';
-  for(var g=0;g<d.groups.length;g++){
-    var grp=d.groups[g];
-    h+='<div class="prices rv"><h3>'+esc(t(grp.g))+'</h3>';
-    for(var r=0;r<grp.rows.length;r++){
-      var row=grp.rows[r];
-      h+='<div class="prow"><div class="pn">'+esc(t(row.n))+'</div>'
-        +'<div class="pd">'+esc(t(row.d))+'</div>'
-        +'<div class="pv">'+esc(t(row.v))+'</div></div>';
-    }
-    h+='</div>';
-  }
-  h+='<p class="onreq rv">'+(lang==="nl"
-      ?"Alle bedragen zijn exclusief btw en zijn richtprijzen, geen offerte."
-      :"All amounts exclude VAT and are indicative, not a quote.")+'</p></div></section>';
+  h+='<section class="band band--grey"><div class="wrap">'
+    +'<h2 class="rv">'+esc(t(d.pkgh))+'</h2>'+promoBadge()+pkgCards()
+    +'<h2 class="rv" style="margin-top:84px">'+esc(t(d.addh))+'</h2>'+addRows()
+    +'<h2 class="rv" style="margin-top:84px">'+esc(t(d.careh))+'</h2>'
+    +'<p class="deck rv" style="margin-top:14px">'+esc(t(d.cared))+'</p>'+careTable()
+    +'<p class="onreq rv">'+esc(t(d.vat))+'</p></div></section>';
 
   h+=flowSplit(8,"var(--paper2)","var(--paper)",5);
-  h+='<section class="band">'+bandMark("valve","rule")+'<div class="wrap"><h2 class="rv">'+esc(t(d.whyh))+'</h2>'
-    +'<div class="rv">'+cardRow(d.why,["cad","control","test","robot"])+'</div>'
-    +'<h2 class="rv" style="margin-top:96px">'+esc(t(d.fixh))+'</h2>'
+  h+='<section class="band">'+bandMark("valve","rule")+'<div class="wrap">'
+    +'<h2 class="rv">'+esc(t(d.fixh))+'</h2>'
     +stepList(d.fix,["web","elec","data","dfm"])
     +'<div class="marginnote"><h3>'+esc(t(d.noteh))+'</h3><p>'+esc(t(d.note))+'</p></div>'
     +ctaBlock(lang==="nl"?"Stuur uw vraag in twee zinnen."

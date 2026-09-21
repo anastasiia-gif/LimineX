@@ -85,7 +85,7 @@ print("  form endpoint:  ", FORM_ENDPOINT or "(none - form opens the mail client
 # Pages that are built and reachable by their URL but not linked anywhere, not in the
 # sitemap and marked noindex — for pages the team still has to review. Comma-separated
 # page ids; set HIDDEN_PAGES="" to publish everything.
-HIDDEN = [x.strip() for x in env("HIDDEN_PAGES", "price,about").split(",") if x.strip()]
+HIDDEN = [x.strip() for x in env("HIDDEN_PAGES", "about").split(",") if x.strip()]
 print("  hidden pages:   ", ", ".join(HIDDEN) or "(none)")
 
 SITE_URL = SITE_ORIGIN + BASE_PATH        # no trailing slash
@@ -117,13 +117,13 @@ PAGES = [
    "intro":"Websites that bring in customers, online shops that work on every device, and AI that sits inside your process instead of in a browser tab."}},
 
  {"id":"proto", "nl":{"slug":"prototyping", "nav":"Engineering", "title":"Prototype laten maken | Liminex, Noord-Brabant",
-   "desc":"Van schets naar werkend prototype: mechanica, elektronica, firmware en besturing in één team, op mkb-schaal. Eigen machines in huis.",
+   "desc":"Van schets naar werkend prototype: mechanica, elektronica, firmware en besturing in één team, op mkb-schaal.",
    "h1":"Prototype laten maken in Noord-Brabant",
-   "intro":"Van schets naar werkend prototype: mechanica, elektronica, firmware en besturing in één team, en de machines om het te maken staan bij ons."},
+   "intro":"Van schets naar werkend prototype: mechanica, elektronica, firmware en besturing in één team, op mkb-schaal."},
    "en":{"nav":"Engineering", "slug":"prototyping", "title":"Prototyping and engineering | Liminex",
-   "desc":"From sketch to working prototype: mechanics, electronics, firmware and control in one team, at SME scale, with the machines in house.",
+   "desc":"From sketch to working prototype: mechanics, electronics, firmware and control in one team, at SME scale.",
    "h1":"Prototyping and engineering in Noord-Brabant",
-   "intro":"From sketch to working prototype: mechanics, electronics, firmware and control in one team, and the machines to make it are ours."}},
+   "intro":"From sketch to working prototype: mechanics, electronics, firmware and control in one team, at SME scale."}},
 
  {"id":"make",  "nl":{"slug":"onderdelen-en-productie", "nav":"Productie", "title":"Onderdelen laten maken en serieproductie | Liminex",
    "desc":"Kleine series maken we zelf op eigen machines; grotere aantallen begeleiden we, lokaal of in het buitenland. Inclusief eerlijke rekensom.",
@@ -152,14 +152,14 @@ PAGES = [
    "h1":"A technical team for start-ups",
    "intro":"You have an idea and no technical team. We are that team until you have your own: feasibility first, then a prototype an investor can react to."}},
 
- {"id":"price", "nl":{"slug":"tarieven", "nav":"Tarieven", "title":"Wat kost het? Richtprijzen | Liminex",
-   "desc":"Eerlijke bandbreedtes voor websites, webshops, AI-automatisering en prototyping. Geen prijslijst, wel een idee van de orde van grootte.",
-   "h1":"Wat dingen ongeveer kosten",
-   "intro":"Richtprijzen voor websites, webshops, automatisering en prototyping — zodat u weet waar u aan begint voordat u belt."},
-   "en":{"nav":"Pricing", "slug":"pricing", "title":"What it costs — indicative prices | Liminex",
-   "desc":"Honest ranges for websites, online shops, AI automation and prototyping. Not a price list, but a sense of the order of magnitude.",
-   "h1":"What things cost, roughly",
-   "intro":"Indicative prices for websites, shops, automation and prototyping — so you know what you're getting into before you call."}},
+ {"id":"price", "nl":{"slug":"tarieven", "nav":"Tarieven", "title":"Website laten maken: vaste prijzen | Liminex",
+   "desc":"Vaste prijzen voor een website of webshop in 's-Hertogenbosch en Brabant: one-pager vanaf €950, MKB-site vanaf €2.500, webshop vanaf €4.500. Plus Care-abonnementen vanaf €35 per maand.",
+   "h1":"Vaste prijzen voor websites en webshops",
+   "intro":"Drie pakketten, uitbreidingen en Care-abonnementen — zodat u weet wat het kost voordat u belt."},
+   "en":{"nav":"Pricing", "slug":"pricing", "title":"Website pricing: fixed packages | Liminex",
+   "desc":"Fixed prices for a website or online shop: one-pager from €950, SME site from €2,500, online shop from €4,500. Care plans from €35 a month.",
+   "h1":"Fixed prices for websites and online shops",
+   "intro":"Three packages, add-ons and Care plans — so you know what it costs before you call."}},
 
  {"id":"work",  "nl":{"slug":"werk", "nav":"Werk", "title":"Ons werk — opgeleverde projecten | Liminex",
    "desc":"Websites die live staan en engineeringwerk dat we opgeleverd hebben. Een deel valt onder geheimhouding.",
@@ -470,8 +470,8 @@ llms += ["", "## What we do", "",
          "- Robotics, drones and UAV systems, CAD and design for manufacturing",
          "- Short-run manufacturing in house: 3D printing, laser cutting, small CNC", "",
          ] + ([] if "price" in HIDDEN else ["## Pricing", "",
-         "Indicative ranges are published at %s%s — no price list; a fixed price follows one "
-         "conversation." % (SITE_ORIGIN, url_for([x for x in PAGES if x["id"]=="price"][0], "en")), ""])
+         "Fixed website packages, add-ons and Care plans are published at %s%s. Other "
+         "engineering work is priced per project after one conversation." % (SITE_ORIGIN, url_for([x for x in PAGES if x["id"]=="price"][0], "en")), ""])
 open(p("dist/llms.txt"), "w", encoding="utf-8").write("\n".join(llms))
 
 sm = ['<?xml version="1.0" encoding="UTF-8"?>',

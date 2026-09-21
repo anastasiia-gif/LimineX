@@ -785,3 +785,40 @@ section.band--grey .fcard .shot--cut{background:var(--paper)}
 
 /* while a switched-to page waits for its pictures, keep the reveal items hidden */
 #app.is-waiting .rv{opacity:0;transform:translateY(20px);transition:none}
+
+/* ---------------- web pricing: packages, add-ons, Care ---------------- */
+.promo{display:inline-block;margin:18px 0 0;padding:8px 16px;border-radius:999px;
+  background:rgb(var(--bub)/.12);color:var(--accent);font-size:14px;font-weight:600}
+.pkgs{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:30px}
+@media (max-width:900px){.pkgs{grid-template-columns:1fr}}
+.pkg{display:flex;flex-direction:column;border:1px solid var(--hair);border-radius:var(--r);
+  background:var(--paper);padding:28px 28px 26px}
+.pkg h3{margin:0 0 14px;font-size:24px;letter-spacing:-.02em}
+.pkg ul{margin:0 0 22px;padding:0;list-style:none;color:var(--muted);font-size:15.5px;line-height:1.55}
+.pkg li{padding:6px 0;border-top:1px solid var(--hair)}
+.pkg li:first-child{border-top:0}
+.pkg-p{margin-top:auto;padding-top:16px;border-top:1px solid var(--hair);font-size:15px;color:var(--muted)}
+.pkg-p b{font-size:28px;letter-spacing:-.03em;color:var(--ink);font-weight:650}
+.pkg-p s, .pv s{color:var(--muted);margin-right:4px}
+.pfrom{color:var(--muted);font-size:14px;font-weight:400}
+.pricepre{margin-top:84px}
+.prices .prow .pd:empty{display:block}
+.tblwrap{margin-top:26px;overflow:hidden;border:1px solid var(--hair);border-radius:var(--r);background:var(--paper)}
+table.care{width:100%;border-collapse:collapse;font-size:15px}
+
+table.care th, table.care td{padding:14px 18px;text-align:left;border-top:1px solid var(--hair);vertical-align:top}
+table.care thead th{border-top:0;font-size:13px;letter-spacing:.16em;color:var(--accent);background:var(--paper2)}
+table.care tbody th{font-weight:500;color:var(--ink);width:44%}
+table.care td{color:var(--muted)}
+table.care td b{color:var(--ink);font-size:17px}
+/* On a phone the four columns don't fit, so each row becomes its label on top and the
+   three tiers side by side underneath, each tagged S / M / L from data-t. */
+@media (max-width:640px){
+  table.care, table.care tbody{display:block}
+  table.care thead{position:absolute;left:-9999px}
+  table.care tr{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--hair);padding:12px 14px}
+  table.care tbody tr:first-child{border-top:0}
+  table.care th, table.care td{border:0;padding:0}
+  table.care tbody th{grid-column:1/-1;width:auto;margin-bottom:6px}
+  table.care td::before{content:attr(data-t);display:block;font-size:11px;letter-spacing:.16em;color:var(--accent);font-weight:600}
+}

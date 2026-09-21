@@ -486,157 +486,61 @@ start:{
   ],
 },
 price:{
-  lede:{nl:"Wat dingen ongeveer kosten. Geen prijslijst — wel eerlijke bandbreedtes, zodat u weet waar u aan begint.",
-        en:"What things cost, roughly. Not a price list — honest ranges, so you know what you're getting into."},
-  intro:{nl:"De meeste bureaus zeggen \u201Cneem contact op\u201D en laten u raden. Dat is prettig voor hen en vervelend voor u: zonder enig idee van de orde van grootte kunt u niet beslissen of het gesprek de moeite waard is.\n\nHieronder staat wat vergelijkbaar werk bij ons meestal kost. Het zijn bandbreedtes, geen offertes: het echte getal hangt af van hoeveel er al ligt, hoe vaak er iets verandert en hoe streng de eisen zijn. Na \u00e9\u00e9n gesprek krijgt u een vaste prijs op \u00e9\u00e9n pagina.",
-         en:"Most agencies say \u201Cget in touch\u201D and leave you guessing. That is comfortable for them and annoying for you: without any sense of the order of magnitude you cannot decide whether the conversation is even worth having.\n\nBelow is what comparable work usually costs with us. These are ranges, not quotes: the real number depends on how much already exists, how often things change, and how strict the requirements are. After one conversation you get a fixed price on one page."},
-  tblh:{nl:"Richtprijzen",en:"Indicative prices"},
-  groups:[
-    {g:{nl:"Websites en webshops",en:"Websites and online shops"},
-     rows:[
-      {n:{nl:"E\u00e9n pagina, \u00e9\u00e9n doel",en:"One page, one purpose"},
-       d:{nl:"Een landingspagina die \u00e9\u00e9n ding moet doen: bellen, boeken of bestellen.",en:"A landing page that has to do one thing: call, book or order."},
-       v:"\u20ac800 \u2013 1.500"},
-      {n:{nl:"Bedrijfssite, meerdere pagina's",en:"Business site, several pages"},
-       d:{nl:"Vijf tot vijftien pagina's, zelf aanpasbaar, twee talen als dat nodig is. Dit is waar de meeste klanten uitkomen.",en:"Five to fifteen pages, editable by you, two languages when needed. This is where most clients land."},
-       v:"\u20ac2.500 \u2013 5.000"},
-      {n:{nl:"Webshop",en:"Online shop"},
-       d:{nl:"Producten, betalen, verzenden, voorraad. Prijs hangt vooral aan hoeveel uitzonderingen er in uw verzending zitten.",en:"Products, payments, shipping, stock. The price hangs mostly on how many exceptions live in your shipping rules."},
-       v:"\u20ac3.500 \u2013 8.000"},
-      {n:{nl:"Onderhoud en hosting",en:"Maintenance and hosting"},
-       d:{nl:"Updates, back-ups, kleine wijzigingen. Per maand, opzegbaar.",en:"Updates, backups, small changes. Per month, cancel any time."},
-       v:{nl:"\u20ac30 \u2013 90 / maand",en:"\u20ac30 \u2013 90 / month"}}
-     ]},
-    {g:{nl:"AI en automatisering",en:"AI and automation"},
-     rows:[
-      {n:{nl:"E\u00e9n proces automatiseren",en:"Automate one process"},
-       d:{nl:"E\u00e9n terugkerende handmatige stap wegnemen \u2014 offertes, facturen, e-mail sorteren, gegevens overtypen.",en:"Remove one recurring manual step — quotes, invoices, sorting email, retyping data."},
-       v:"\u20ac1.500 \u2013 4.000"},
-      {n:{nl:"Meerdere systemen koppelen",en:"Connect several systems"},
-       d:{nl:"Uw webshop, boekhouding en voorraad laten praten, met AI waar regels niet volstaan.",en:"Making your shop, bookkeeping and stock talk to each other, with AI where rules aren't enough."},
-       v:"\u20ac4.000 \u2013 12.000"},
-      {n:{nl:"Draaiend houden",en:"Keeping it running"},
-       d:{nl:"Monitoring, model- en API-kosten, en een klein wijzigingsbudget.",en:"Monitoring, model and API cost, and a small change budget."},
-       v:{nl:"\u20ac75 \u2013 250 / maand",en:"\u20ac75 \u2013 250 / month"}}
-     ]},
-    {g:{nl:"Werktuigbouw en CAD",en:"Mechanical engineering and CAD"},
-     rows:[
-      {n:{nl:"E\u00e9n onderdeel, tekening erbij",en:"One part, with a drawing"},
-       d:{nl:"Een beugel, behuizing of adapter in CAD, met een maattekening waar een verspaner direct mee aan de slag kan.",en:"A bracket, housing or adapter in CAD, with a dimensioned drawing a machinist can work from straight away."},
-       v:"\u20ac350 \u2013 900"},
-      {n:{nl:"Samenstel of mechanisme",en:"Assembly or mechanism"},
-       d:{nl:"Meerdere onderdelen die samen moeten werken: passingen, toleranties, bevestiging, stuklijst. Van schets tot maakbaar ontwerp.",en:"Several parts that have to work together: fits, tolerances, fastening, bill of materials. From sketch to a design that can be made."},
-       v:"\u20ac1.500 \u2013 6.000"},
-      {n:{nl:"Sterkteberekening of FEM",en:"Strength check or FEM"},
-       d:{nl:"Houdt het? Handberekening of eindige-elementenanalyse op een bestaand of nieuw ontwerp, met een verslag dat u kunt bewaren.",en:"Will it hold? Hand calculation or finite-element analysis on an existing or new design, with a report you can keep."},
-       v:"\u20ac600 \u2013 1.800"}
-     ]},
-    {g:{nl:"Elektronica en PCB",en:"Electronics and PCB"},
-     rows:[
-      {n:{nl:"Eenvoudige print, twee lagen",en:"Simple board, two layers"},
-       d:{nl:"Schema en layout voor een sensor-, voedings- of interfaceprint. Productiebestanden inbegrepen.",en:"Schematic and layout for a sensor, power or interface board. Production files included."},
-       v:"\u20ac1.200 \u2013 3.000"},
-      {n:{nl:"Print met microcontroller, vier lagen",en:"Microcontroller board, four layers"},
-       d:{nl:"MCU, sensoren, communicatie, voeding en bescherming op \u00e9\u00e9n print. Ontworpen op maakbaarheid en op geluid dat er niet in hoort.",en:"MCU, sensors, communication, power and protection on one board. Designed for manufacture and for noise that shouldn't be there."},
-       v:"\u20ac3.000 \u2013 8.000"},
-      {n:{nl:"Prototypeprints, vijf stuks",en:"Prototype boards, five pieces"},
-       d:{nl:"Bestellen, bestukken, opstarten en meten. Exclusief componenten.",en:"Ordering, assembly, bring-up and measurement. Components not included."},
-       v:"\u20ac400 \u2013 1.200"}
-     ]},
-    {g:{nl:"Firmware en embedded",en:"Firmware and embedded"},
-     rows:[
-      {n:{nl:"Opstarten en drivers",en:"Bring-up and drivers"},
-       d:{nl:"Een nieuwe print aan de praat: bootloader, drivers voor de sensoren en interfaces, en een testprogramma dat elke functie aantikt.",en:"A new board brought to life: bootloader, drivers for the sensors and interfaces, and a test program that exercises every function."},
-       v:"\u20ac1.000 \u2013 3.000"},
-      {n:{nl:"Volledige firmware",en:"Complete firmware"},
-       d:{nl:"Toestanden, communicatie, foutafhandeling, updates op afstand. C of C++, netjes gedocumenteerd, zodat een ander het later kan overnemen.",en:"State machine, communication, error handling, remote updates. C or C++, properly documented, so someone else can take it over later."},
-       v:"\u20ac4.000 \u2013 15.000"}
-     ]},
-    {g:{nl:"Besturing en automatisering",en:"Control and automation"},
-     rows:[
-      {n:{nl:"PLC-programma voor \u00e9\u00e9n machine of cel",en:"PLC program for one machine or cell"},
-       d:{nl:"Siemens TIA Portal of vergelijkbaar, inclusief HMI, veiligheidsketen en inbedrijfstelling op locatie.",en:"Siemens TIA Portal or similar, including HMI, safety chain and commissioning on site."},
-       v:"\u20ac2.500 \u2013 9.000"},
-      {n:{nl:"Regeling afstellen",en:"Loop tuning"},
-       d:{nl:"Een motor, verwarming of positionering die niet stabiel is: meten, modelleren, afstellen, aantonen.",en:"A motor, heater or positioning that isn't stable: measure, model, tune, prove."},
-       v:"\u20ac800 \u2013 2.500"},
-      {n:{nl:"Oude machine, nieuwe besturing",en:"Old machine, new controls"},
-       d:{nl:"Een werkende machine met versleten elektronica opnieuw aansturen, met behoud van de mechanica.",en:"Re-controlling a machine that works mechanically but whose electronics have worn out."},
-       v:"\u20ac3.000 \u2013 12.000"}
-     ]},
-    {g:{nl:"Drones en UAV",en:"Drones and UAV"},
-     rows:[
-      {n:{nl:"Frame en vluchtcontroller integreren",en:"Airframe and flight-controller integration"},
-       d:{nl:"Frame, motoren, controller, GPS of RTK en telemetrie tot een toestel dat vliegt en gelogd is. Inclusief vliegtesten.",en:"Frame, motors, controller, GPS or RTK and telemetry into an aircraft that flies and is logged. Flight tests included."},
-       v:"\u20ac4.000 \u2013 12.000"},
-      {n:{nl:"Sensor of payload aan boord",en:"Sensor or payload on board"},
-       d:{nl:"Camera, LiDAR, meetsensor of eigen elektronica mechanisch, elektrisch en in de software aansluiten.",en:"Camera, LiDAR, measurement sensor or your own electronics fitted mechanically, electrically and in software."},
-       v:"\u20ac2.000 \u2013 6.000"}
-     ]},
-    {g:{nl:"Maken in huis",en:"Making it here"},
-     rows:[
-      {n:{nl:"3D-printen (FDM)",en:"3D printing (FDM)"},
-       d:{nl:"PLA, PETG, ASA, TPU. Prijs per onderdeel naar printtijd en materiaal; meestal binnen twee werkdagen.",en:"PLA, PETG, ASA, TPU. Priced per part by print time and material; usually within two working days."},
-       v:{nl:"vanaf \u20ac12 per onderdeel",en:"from \u20ac12 per part"}},
-      {n:{nl:"Lasersnijden",en:"Laser cutting"},
-       d:{nl:"Plaat tot 6 mm hout en acryl, dun aluminium via partner. Uit uw DXF of uit onze tekening.",en:"Sheet up to 6 mm wood and acrylic, thin aluminium via a partner. From your DXF or from our drawing."},
-       v:{nl:"vanaf \u20ac25 per onderdeel",en:"from \u20ac25 per part"}},
-      {n:{nl:"CNC-frezen, klein",en:"CNC milling, small"},
-       d:{nl:"Aluminium en kunststof tot ongeveer 300 \u00d7 200 mm. Beugels, behuizingen, adapters.",en:"Aluminium and plastic up to about 300 \u00d7 200 mm. Brackets, housings, adapters."},
-       v:{nl:"vanaf \u20ac80 per onderdeel",en:"from \u20ac80 per part"}},
-      {n:{nl:"Kleine serie, 10 tot 100",en:"Short run, 10 to 100"},
-       d:{nl:"Dezelfde machines, een vaste prijs per stuk, geleverd in \u00e9\u00e9n keer.",en:"The same machines, a fixed price per piece, delivered in one batch."},
-       v:{nl:"per offerte",en:"quoted per batch"}}
-     ]},
-    {g:{nl:"Testen en validatie",en:"Testing and validation"},
-     rows:[
-      {n:{nl:"Testopstelling en meetcampagne",en:"Test rig and measurement campaign"},
-       d:{nl:"Een opstelling die \u00e9\u00e9n vraag beantwoordt \u2014 hoeveel, hoe lang, bij welke temperatuur \u2014 met gelogde data en een verslag.",en:"A rig that answers one question — how much, how long, at what temperature — with logged data and a report."},
-       v:"\u20ac1.500 \u2013 5.000"},
-      {n:{nl:"Storing vinden",en:"Finding a fault"},
-       d:{nl:"Iets doet het niet en niemand weet waarom. Meten tot de oorzaak boven tafel ligt; u betaalt de uren, niet het raden.",en:"Something doesn't work and nobody knows why. Measuring until the cause is on the table; you pay for hours, not for guessing."},
-       v:{nl:"\u20ac85 / uur",en:"\u20ac85 / hour"}}
-     ]},
-    {g:{nl:"Serieproductie en inkoop",en:"Series production and sourcing"},
-     rows:[
-      {n:{nl:"Ontwerp klaarmaken voor productie",en:"Design for manufacturing review"},
-       d:{nl:"Een prototype-ontwerp geschikt maken voor spuitgieten, plaatwerk of verspanen: lossing, wanddikte, toleranties, kosten per stuk.",en:"Making a prototype design fit for moulding, sheet metal or machining: draft, wall thickness, tolerances, cost per piece."},
-       v:"\u20ac900 \u2013 2.500"},
-      {n:{nl:"Leverancier vinden en begeleiden",en:"Finding and managing a supplier"},
-       d:{nl:"Offertes, monsters, kwaliteitscontrole en levering, in Nederland of India. Vast bedrag of percentage van de order.",en:"Quotes, samples, quality control and delivery, in the Netherlands or India. Fixed fee or a percentage of the order."},
-       v:{nl:"vanaf \u20ac750, of 8 \u2013 12%",en:"from \u20ac750, or 8 \u2013 12%"}}
-     ]},
-    {g:{nl:"Los werk",en:"Loose work"},
-     rows:[
-      {n:{nl:"Haalbaarheid, twee weken",en:"Feasibility, two weeks"},
-       d:{nl:"Kan dit wat u wilt? Berekeningen, risico's, een kostenraming en een eerlijk advies om wel of niet door te gaan.",en:"Can this do what you want? Calculations, risks, a cost estimate and an honest recommendation on whether to continue."},
-       v:"\u20ac1.500 \u2013 3.000"},
-      {n:{nl:"Engineering-capaciteit",en:"Engineering capacity"},
-       d:{nl:"Vaste uren per maand voor bedrijven met structureel ontwikkelwerk en geen eigen engineer.",en:"Fixed hours per month for companies with ongoing development work and no engineer of their own."},
-       v:{nl:"\u20ac65 \u2013 95 / uur",en:"\u20ac65 \u2013 95 / hour"}}
-     ]}
+  lede:{nl:"Vaste prijzen voor websites en webshops. U weet wat het kost voordat u belt.",
+        en:"Fixed prices for websites and online shops. You know what it costs before you call."},
+  intro:{nl:"De meeste bureaus zeggen “neem contact op” en laten u raden. Wij zetten de prijs erbij. Past uw vraag niet in een pakket, dan krijgt u na één gesprek een vaste prijs op één pagina.",
+         en:"Most agencies say “get in touch” and leave you guessing. We put the price on the page. If your question doesn't fit a package, you get a fixed price on one page after one conversation."},
+  /* Launch discount. It switches itself off after `until` (end of that day, Dutch time),
+     so the site never shows an expired offer. To end it early, set pct to 0. */
+  promo:{pct:20, until:"2026-10-31",
+         label:{nl:"Introductieprijs: 20% korting t/m 31 oktober 2026",en:"Launch price: 20% off until 31 October 2026"}},
+  pkgh:{nl:"Websites en webshops",en:"Websites and online shops"},
+  pkgs:[
+    {n:"Start", v:950, from:false,
+     d:{nl:["One-pager","Nederlands","Contactformulier","Mobiel-klaar","SEO-basis"],
+        en:["One-pager","Dutch","Contact form","Mobile-ready","SEO basics"]}},
+    {n:"MKB", v:2500, from:true,
+     d:{nl:["Tot 5 pagina's","CMS — u past teksten zelf aan","SEO-basis","Nederlands"],
+        en:["Up to 5 pages","CMS — you edit texts yourself","SEO basics","Dutch"]}},
+    {n:"Webshop", v:4500, from:true,
+     d:{nl:["WooCommerce of Shopify, op basis van een template","Betalingen","Producten ingericht"],
+        en:["WooCommerce or Shopify, template-based","Payments","Product setup"]}}
   ],
-  whyh:{nl:"Waarom bandbreedtes en geen vaste prijzen",en:"Why ranges and not fixed prices"},
-  why:[
-    {h:{nl:"De helft kan op meerdere manieren",en:"Half of it can be done several ways"},
-     p:{nl:"Een boekingssysteem, een behuizing, een meetopstelling: er zijn altijd drie manieren om het te maken. Welke bij u past hangt af van uw budget, uw tempo en wat u zelf kunt.",en:"A booking system, an enclosure, a test rig: there are always three ways to make it. Which one fits you depends on your budget, your pace and what you can do yourself."}},
-    {h:{nl:"Creatieve oplossingen veranderen de scope",en:"Creative solutions change the scope"},
-     p:{nl:"Regelmatig blijkt in het eerste gesprek dat de vraag kleiner kan, of juist anders moet. Dat verschuift de prijs, meestal omlaag. Daarom praten we eerst.",en:"Regularly the first conversation shows the question can be smaller, or has to be different. That moves the price, usually downwards. Which is why we talk first."}},
-    {h:{nl:"Kosten optimaliseren",en:"Optimising cost"},
-     p:{nl:"Een standaardonderdeel in plaats van een eigen ontwerp, een kant-en-klaar platform waar het kan, eigen werk waar het moet. De juiste uitvoering is vaak de goedkoopste.",en:"A standard part instead of a custom one, an off-the-shelf platform where it can be, our own work where it must be. The right execution is usually the cheapest."}},
-    {h:{nl:"Nieuwe techniek die nog niemand zag",en:"New technology nobody has seen yet"},
-     p:{nl:"Soms is er geen voorbeeld om op te prijzen omdat het nog niet bestaat. Dan begroten we in stappen, en betaalt u de volgende stap pas als de vorige klopt.",en:"Sometimes there is no precedent to price against because it doesn't exist yet. Then we budget in steps, and you pay for the next step only once the previous one holds."}}
+  addh:{nl:"Uitbreidingen",en:"Add-ons"},
+  adds:[
+    {n:{nl:"Engelse versie",en:"English version"}, v:[200,400], of:{nl:["Start","MKB"],en:["Start","MKB"]}, disc:true},
+    {n:{nl:"Extra pagina",en:"Extra page"}, v:[150], disc:true},
+    {n:{nl:"Werk buiten de scope",en:"Out-of-scope work"}, v:[75], unit:{nl:"/ uur",en:"/ hour"}, disc:false}
   ],
-  fixh:{nl:"Hoe u aan een vast bedrag komt",en:"How you get to a fixed number"},
+  careh:{nl:"Care — hosting en onderhoud",en:"Care — hosting and upkeep"},
+  cared:{nl:"Na oplevering houden wij de site draaiend. Per maand of per jaar, en bij een jaar is één maand gratis.",
+         en:"After launch we keep the site running. Monthly or yearly, and a year gets you one month free."},
+  care:{
+    tiers:["S","M","L"],
+    rows:[
+      {k:{nl:"Per maand",en:"Monthly"}, v:[35,75,149], money:true},
+      {k:{nl:"Per jaar (1 maand gratis)",en:"Yearly (1 month free)"}, v:[385,825,1639], money:true},
+      {k:{nl:"Hosting, domein, SSL, back-ups, updates, uptime-bewaking",en:"Hosting, domain, SSL, backups, updates, uptime monitoring"}, v:[true,true,true]},
+      {k:{nl:"Kleine wijzigingen inbegrepen",en:"Small edits included"},
+       v:[{nl:"— (€75/uur)",en:"— (€75/h)"},{nl:"30 min/maand",en:"30 min/month"},{nl:"1 uur/maand",en:"1 h/month"}]},
+      {k:{nl:"Reactietijd",en:"Response time"},
+       v:[{nl:"3 werkdagen",en:"3 working days"},{nl:"2 werkdagen",en:"2 working days"},{nl:"1 werkdag",en:"1 working day"}]},
+      {k:{nl:"Google Bedrijfsprofiel bijhouden",en:"Google Business Profile upkeep"}, v:[false,true,true]},
+      {k:{nl:"Snelheids- en SEO-check per kwartaal + kort rapport",en:"Quarterly speed/SEO check + short report"}, v:[false,false,true]}
+    ]},
+  vat:{nl:"Alle bedragen zijn exclusief btw. De introductiekorting geldt voor de pakketten en uitbreidingen, niet voor Care of uurwerk.",
+       en:"All amounts exclude VAT. The launch discount applies to packages and add-ons, not to Care or hourly work."},
+  previewmore:{nl:"Uitbreidingen, Care-abonnementen en alle details",en:"Add-ons, Care plans and all the details"},
+  fixh:{nl:"Van pakket naar live site",en:"From package to live site"},
   fix:[
-    {h:{nl:"Twee zinnen",en:"Two sentences"},p:{nl:"U stuurt wat er moet gebeuren. Wij zeggen eerlijk of het bij ons past \u2014 soms is het antwoord nee.",en:"You send what needs to happen. We say honestly whether it suits us — sometimes the answer is no."}},
+    {h:{nl:"Twee zinnen",en:"Two sentences"},p:{nl:"U stuurt wat er moet gebeuren. Wij zeggen eerlijk of het bij ons past — soms is het antwoord nee.",en:"You send what needs to happen. We say honestly whether it suits us — sometimes the answer is no."}},
     {h:{nl:"Een half uur",en:"Half an hour"},p:{nl:"Gratis, met de engineer die het werk zou doen. Geen accountmanager.",en:"Free, with the engineer who'd do the work. No account manager."}},
-    {h:{nl:"E\u00e9n pagina",en:"One page"},p:{nl:"Scope, vaste prijs en planning. Geen bijlagen van dertig pagina's.",en:"Scope, fixed price and timeline. No thirty-page appendix."}},
+    {h:{nl:"Eén pagina",en:"One page"},p:{nl:"Pakket, eventuele uitbreidingen en planning. Geen bijlagen van dertig pagina's.",en:"Package, any add-ons and timeline. No thirty-page appendix."}},
     {h:{nl:"Daarna pas rekenen",en:"Only then the bill"},p:{nl:"Meerwerk gaat alleen door als u er vooraf ja op zegt. Geen verrassingen achteraf.",en:"Extra work only proceeds if you say yes to it in advance. No surprises afterwards."}}
   ],
-  noteh:{nl:"Wat hier niet in staat",en:"What's not in here"},
-  note:{nl:"Serieproductie, inkoop en grotere engineeringtrajecten begroten we per geval \u2014 daar bepalen aantallen en materiaal de prijs, niet ons uurtarief. Voor Project Yard geldt hetzelfde: dat is nog in opbouw.",
-        en:"Series production, sourcing and larger engineering programmes are quoted case by case — there the volumes and materials set the price, not our hourly rate. The same goes for Project Yard: that one is still being built."}
+  noteh:{nl:"Iets anders dan een website?",en:"Something other than a website?"},
+  note:{nl:"Prototypes, elektronica, automatisering en ander engineeringwerk begroten we per project — na één gesprek krijgt u een vaste prijs op één pagina.",
+        en:"Prototypes, electronics, automation and other engineering work are priced per project — after one conversation you get a fixed price on one page."}
 },
 
 work:{
