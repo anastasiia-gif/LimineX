@@ -497,6 +497,19 @@ for pg in PAGES:
         open(out, "w", encoding="utf-8").write(doc)
         written.append(url)
 
+# Anything in static/ is copied to the root of the site as-is. That is where ownership
+# files go — Google Search Console's googleXXXX.html, Bing's BingSiteAuth.xml — and any
+# other file that has to live at a fixed URL. Subfolders are kept.
+_static = p("static")
+if os.path.isdir(_static):
+    for _root, _dirs, _files in os.walk(_static):
+        for _f in _files:
+            _src = os.path.join(_root, _f)
+            _dst = p("dist", os.path.relpath(_src, _static))
+            os.makedirs(os.path.dirname(_dst), exist_ok=True)
+            shutil.copy(_src, _dst)
+            print("  static:", os.path.relpath(_dst, p("dist")))
+
 shutil.copy(p("assets/og.png"), p("dist/og.png"))
 # AI crawlers are allowed on purpose. For a services firm, being quoted in an AI answer
 # is distribution, not theft — the buyer still has to contact a human to get the work done.
