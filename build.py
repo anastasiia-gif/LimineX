@@ -88,17 +88,18 @@ print("  form endpoint:  ", FORM_ENDPOINT or "(none - form opens the mail client
 # UMAMI_SRC only needs changing if the dashboard hands you a different script URL.
 UMAMI_ID  = env("UMAMI_ID")
 UMAMI_SRC = env("UMAMI_SRC", "https://cloud.umami.is/script.js")
-# The dashboard hands you a whole <script> tag, and pasting that in as the ID produces a
-# broken tag whose website-id is the start of another tag — the site then reports nothing
-# and looks fine. Pull the id out of whatever was pasted.
-if UMAMI_ID and "<" in UMAMI_ID:
-    _m = re.search(r'data-website-id=["\']?([0-9a-fA-F-]{36})', UMAMI_ID)
+# The dashboard hands you a whole <script> tag. Pasting any part of that in as the ID
+# produces a tag whose website-id is a fragment of another tag: the page looks fine and
+# nothing is ever recorded. Anything that is not a bare id is searched for one.
+_UUID = r"[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"
+if UMAMI_ID and not re.fullmatch(_UUID, UMAMI_ID):
+    _m = re.search(_UUID, UMAMI_ID)
     if _m:
-        UMAMI_ID = _m.group(1)
-        print("  !! UMAMI_ID held a whole <script> tag; using the id inside it. Set the\n"
-              "     repository variable to just the id to silence this.")
+        UMAMI_ID = _m.group(0)
+        print("  !! UMAMI_ID held more than the website id; using the id found inside it.\n"
+              "     Set the repository variable to just %s to silence this." % UMAMI_ID)
     else:
-        print("  !! UMAMI_ID is not a website id and no id could be found in it.\n"
+        print("  !! UMAMI_ID does not contain a website id (expected 8-4-4-4-12 hex).\n"
               "     Dropping it for this build; no statistics script is added.")
         UMAMI_ID = ""
 # Google Search Console ownership check: the content="…" value of the HTML-tag method.

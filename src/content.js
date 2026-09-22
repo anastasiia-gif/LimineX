@@ -459,10 +459,10 @@ start:{
   ],
 },
 price:{
-  lede:{nl:"Vaste prijzen voor websites en webshops. U weet wat het kost voordat u belt.",
-        en:"Fixed prices for websites and online shops. You know what it costs before you call."},
-  intro:{nl:"De meeste bureaus zeggen “neem contact op” en laten u raden. Wij zetten de prijs erbij. Past uw vraag niet in een pakket, dan krijgt u na één gesprek een vaste prijs op één pagina.",
-         en:"Most agencies say “get in touch” and leave you guessing. We put the price on the page. If your question doesn't fit a package, you get a fixed price on one page after one conversation."},
+  lede:{nl:"Vaste prijzen voor websites, en vaste startprijzen voor AI in productie.",
+        en:"Fixed prices for websites, and fixed starting prices for AI in production."},
+  intro:{nl:"De meeste bureaus zeggen \u201Cneem contact op\u201D en laten u raden. Wij zetten de prijs erbij. Websites hebben vaste pakketprijzen; industrieel werk begint met een vast onderzoek, en pas daarna volgt een prijs voor de bouw. Past uw vraag nergens in, dan krijgt u na \u00e9\u00e9n gesprek een vaste prijs op \u00e9\u00e9n pagina.",
+         en:"Most agencies say \u201Cget in touch\u201D and leave you guessing. We put the price on the page. Websites have fixed package prices; industrial work starts with a fixed study, and only then comes a price for building. If your question fits nowhere, you get a fixed price on one page after one conversation."},
   /* Launch discount. It switches itself off after `until` (end of that day, Dutch time),
      so the site never shows an expired offer. To end it early, set pct to 0. */
   promo:{pct:20, until:"2026-10-31",
@@ -485,7 +485,7 @@ price:{
     {n:{nl:"Extra pagina",en:"Extra page"}, v:[150], disc:true},
     {n:{nl:"Werk buiten de scope",en:"Out-of-scope work"}, v:[75], unit:{nl:"/ uur",en:"/ hour"}, disc:false}
   ],
-  careh:{nl:"Care — hosting en onderhoud",en:"Care — hosting and upkeep"},
+  careh:{nl:"Website Care — hosting en onderhoud",en:"Website Care — hosting and upkeep"},
   cared:{nl:"Na oplevering houden wij de site draaiend. Per maand of per jaar, en bij een jaar is één maand gratis.",
          en:"After launch we keep the site running. Monthly or yearly, and a year gets you one month free."},
   care:{
@@ -501,9 +501,60 @@ price:{
       {k:{nl:"Google Bedrijfsprofiel bijhouden",en:"Google Business Profile upkeep"}, v:[false,true,true]},
       {k:{nl:"Snelheids- en SEO-check per kwartaal + kort rapport",en:"Quarterly speed/SEO check + short report"}, v:[false,false,true]}
     ]},
-  vat:{nl:"Alle bedragen zijn exclusief btw. De introductiekorting geldt voor de pakketten en uitbreidingen, niet voor Care of uurwerk.",
-       en:"All amounts exclude VAT. The launch discount applies to packages and add-ons, not to Care or hourly work."},
+  vat:{nl:"Alle bedragen zijn exclusief btw. De introductiekorting geldt alleen voor de websitepakketten en uitbreidingen \u2014 niet voor Website Care, Model Care, industrieel werk of uurwerk.",
+       en:"All amounts exclude VAT. The launch discount applies only to the website packages and add-ons \u2014 not to Website Care, Model Care, industrial work or hourly rates."},
   previewmore:{nl:"Uitbreidingen, Care-abonnementen en alle details",en:"Add-ons, Care plans and all the details"},
+  /* ---- Industry: AI in production. The two studies are published because they are the
+     front door; the pilot carries a "from"; anything whose price depends on the plant
+     stays on quote. Prices are numbers so money() formats them per language. ---- */
+  indh:{nl:"Industrie — AI in productie",en:"Industry — AI in production"},
+  indd:{nl:"Voor maakbedrijven die al data hebben en er nog niets mee doen. We beginnen altijd klein: eerst een vast onderzoek op uw eigen data, met een eerlijk advies om wel of niet door te gaan. Pas daarna bouwen we iets.",
+        en:"For manufacturers who already have data and do nothing with it yet. We always start small: a fixed study on your own data first, with an honest recommendation on whether to continue. Only then do we build anything."},
+  ind:[
+    {n:{nl:"Productiedata-onderzoek",en:"Production data study"},
+     d:{nl:"Bestaande exports uit SCADA, PLC of uw onderhoudssysteem. Haalbaarheid, een eerste model op uw eigen data, en een go/no-go rapport.",
+        en:"Existing exports from SCADA, PLC or your maintenance system. Feasibility, a first model on your own data, and a go/no-go report."},
+     v:2950},
+    {n:{nl:"Proces- en OEE-onderzoek",en:"Process and OEE study"},
+     d:{nl:"Waar het verlies zit: stilstand, omstellen, uitval. Meten, analyseren, en een lijst verbeteringen met wat ze naar verwachting opleveren.",
+        en:"Where the loss sits: downtime, changeovers, scrap. Measuring, analysing, and a list of improvements with what each one is expected to return."},
+     v:2950},
+    {n:{nl:"Pilot voorspellend onderhoud, één machine of lijn",en:"Predictive maintenance pilot, one asset or line"},
+     d:{nl:"Ongeveer drie maanden: model, validatie op echte storingen uit het verleden, alarmering, en een dashboard dat uw eigen mensen kunnen lezen.",
+        en:"Around three months: model, validation against real past failures, alerting, and a dashboard your own people can read."},
+     v:9500, from:true}
+  ],
+  indqh:{nl:"Op offerte, omdat de fabriek de prijs bepaalt",en:"On quote, because the plant sets the price"},
+  indq:[
+    {n:{nl:"Sensoren bijplaatsen als de data er niet is",en:"Adding sensors when the data isn't there"},
+     v:{nl:"hardware tegen kostprijs + €85/uur",en:"hardware at cost + €85/h"}},
+    {n:{nl:"Uitrol naar elke volgende machine van hetzelfde type",en:"Rollout to each further asset of the same type"},
+     v:{nl:"€4.500 – 9.000",en:"€4,500 – 9,000"}},
+    {n:{nl:"Kwaliteitsinspectie met machine vision",en:"Machine-vision quality inspection"},
+     v:{nl:"vanaf €6.500",en:"from €6,500"}},
+    {n:{nl:"Digital twin of simulatiemodel",en:"Digital twin or simulation model"},
+     v:{nl:"vanaf €6.500",en:"from €6,500"}}
+  ],
+  mcareh:{nl:"Model Care — een model werkend houden",en:"Model Care — keeping a model working"},
+  mcared:{nl:"Een model dat niemand bijhoudt wordt stilletjes slechter, omdat de fabriek verandert en het model niet. Dit is het bijhouden.",
+          en:"A model nobody maintains quietly gets worse, because the plant changes and the model does not. This is that maintenance."},
+  mcare:{
+    tiers:["S","M","L"],
+    rows:[
+      {k:{nl:"Per maand",en:"Monthly"}, v:[295,595,995], money:true},
+      {k:{nl:"Bewaking en drift-controle",en:"Monitoring and drift checks"}, v:[true,true,true]},
+      {k:{nl:"Hertraining op nieuwe data",en:"Retraining on new data"},
+       v:[{nl:"op verzoek",en:"on request"},{nl:"2× per jaar",en:"twice a year"},{nl:"elk kwartaal",en:"every quarter"}]},
+      {k:{nl:"Reactietijd als er iets stukgaat",en:"Response time when something breaks"},
+       v:[{nl:"3 werkdagen",en:"3 working days"},{nl:"2 werkdagen",en:"2 working days"},{nl:"1 werkdag",en:"1 working day"}]}
+    ]},
+  rateh:{nl:"Uurtarieven",en:"Hourly rates"},
+  rated:{nl:"Voor werk dat niet in een pakket of onderzoek past.",en:"For work that fits neither a package nor a study."},
+  rates:[
+    {n:{nl:"Industriële AI en data-engineering",en:"Industrial AI and data engineering"}, v:105},
+    {n:{nl:"Integratie, besturing en werk op locatie",en:"Integration, control and work on site"}, v:85},
+    {n:{nl:"Webwerk buiten de scope",en:"Web work outside the scope"}, v:75}
+  ],
   fixh:{nl:"Van pakket naar live site",en:"From package to live site"},
   fix:[
     {h:{nl:"Twee zinnen",en:"Two sentences"},p:{nl:"U stuurt wat er moet gebeuren. Wij zeggen eerlijk of het bij ons past — soms is het antwoord nee.",en:"You send what needs to happen. We say honestly whether it suits us — sometimes the answer is no."}},

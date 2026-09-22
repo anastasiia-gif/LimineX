@@ -703,8 +703,8 @@ function pricePreview(){
     +'<p class="onreq rv" style="margin-top:22px">'+go("price",' class="inlink" data-umami-event="price-preview-click"')
     +esc(t(d.previewmore))+' &rarr;</a></p></div>';
 }
-function careTable(){
-  var c=C.price.care, h='<div class="tblwrap rv"><table class="care"><thead><tr><th scope="col"><span class="sr">'
+function careTable(c){
+  var  h='<div class="tblwrap rv"><table class="care"><thead><tr><th scope="col"><span class="sr">'
     +(lang==="nl"?"Onderdeel":"Item")+'</span></th>';
   for(var i=0;i<c.tiers.length;i++) h+='<th scope="col">'+esc(c.tiers[i])+'</th>';
   h+='</tr></thead><tbody>';
@@ -733,6 +733,28 @@ function addRows(){
   }
   return h+'</div>';
 }
+/* Name, one line of description, one price. `money` when the row carries a number,
+   otherwise whatever string the row gives (ranges, "hardware at cost + …"). */
+function priceRows(rows){
+  var h='<div class="prices rv">';
+  for(var i=0;i<rows.length;i++){
+    var r=rows[i], v=(typeof r.v==="number")
+      ? (r.from?'<span class="pfrom">'+(lang==="nl"?"vanaf ":"from ")+'</span>':'')+'<b>'+money(r.v)+'</b>'
+      : '<b>'+esc(t(r.v))+'</b>';
+    h+='<div class="prow"><div class="pn">'+esc(t(r.n))+'</div>'
+      +'<div class="pd">'+(r.d?esc(t(r.d)):'')+'</div>'
+      +'<div class="pv">'+v+'</div></div>';
+  }
+  return h+'</div>';
+}
+function hourRows(rows){
+  var h='<div class="prices rv">';
+  for(var i=0;i<rows.length;i++)
+    h+='<div class="prow"><div class="pn">'+esc(t(rows[i].n))+'</div><div class="pd"></div>'
+      +'<div class="pv"><b>'+money(rows[i].v)+'</b> <span class="pfrom">'
+      +(lang==="nl"?"/ uur":"/ hour")+'</span></div></div>';
+  return h+'</div>';
+}
 function renderPrice(){
   var d=C.price,h="";
   h+='<section class="opener">'+watermark("price")+'<div class="narrow"><div class="lbl">'
@@ -744,11 +766,24 @@ function renderPrice(){
     +'<h2 class="rv">'+esc(t(d.pkgh))+'</h2>'+promoBadge()+pkgCards()
     +'<h2 class="rv" style="margin-top:84px">'+esc(t(d.addh))+'</h2>'+addRows()
     +'<h2 class="rv" style="margin-top:84px">'+esc(t(d.careh))+'</h2>'
-    +'<p class="deck rv" style="margin-top:14px">'+esc(t(d.cared))+'</p>'+careTable()
+    +'<p class="deck rv" style="margin-top:14px">'+esc(t(d.cared))+'</p>'+careTable(d.care)
     +'<p class="onreq rv">'+esc(t(d.vat))+'</p></div></section>';
 
   h+=flowSplit(8,"var(--paper2)","var(--paper)",5);
-  h+='<section class="band">'+bandMark("valve","rule")+'<div class="wrap">'
+  h+='<section class="band">'+bandMark("signal","gears")+'<div class="wrap">'
+    +'<div class="lbl lbl--q rv">'+(lang==="nl"?"Industrie":"Industry")+'</div>'
+    +'<h2 class="rv" style="margin-top:16px">'+esc(t(d.indh))+'</h2>'
+    +'<p class="deck rv" style="margin-top:18px">'+esc(t(d.indd))+'</p>'
+    +priceRows(d.ind)
+    +'<h3 class="rv" style="margin-top:66px;font-size:20px">'+esc(t(d.indqh))+'</h3>'
+    +priceRows(d.indq)
+    +'<h2 class="rv" style="margin-top:84px">'+esc(t(d.mcareh))+'</h2>'
+    +'<p class="deck rv" style="margin-top:14px">'+esc(t(d.mcared))+'</p>'+careTable(d.mcare)
+    +'<h2 class="rv" style="margin-top:84px">'+esc(t(d.rateh))+'</h2>'
+    +'<p class="deck rv" style="margin-top:14px">'+esc(t(d.rated))+'</p>'+hourRows(d.rates)
+    +'</div></section>';
+  h+=flowSplit(4,"var(--paper)","var(--paper2)",5);
+  h+='<section class="band band--grey">'+bandMark("valve","rule")+'<div class="wrap">'
     +'<h2 class="rv">'+esc(t(d.fixh))+'</h2>'
     +stepList(d.fix,["web","elec","data","dfm"])
     +'<div class="marginnote"><h3>'+esc(t(d.noteh))+'</h3><p>'+esc(t(d.note))+'</p></div>'
