@@ -40,6 +40,11 @@ jobs:
           FORM_ENDPOINT: ${{ vars.FORM_ENDPOINT || 'none' }}
           FORM_KEY: ${{ vars.FORM_KEY }}
           CONTACT_EMAIL: ${{ vars.CONTACT_EMAIL }}
+          # Statistics (Umami website ID) and the Google Search Console ownership tag.
+          # Both optional: empty means nothing is added to the pages.
+          UMAMI_ID: ${{ vars.UMAMI_ID }}
+          GOOGLE_SITE_VERIFICATION: ${{ vars.GOOGLE_SITE_VERIFICATION }}
+          HIDDEN_PAGES: ${{ vars.HIDDEN_PAGES }}
         run: python3 build.py
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4

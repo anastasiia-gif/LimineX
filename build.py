@@ -82,6 +82,16 @@ if FORM_ENDPOINT and "web3forms" in FORM_ENDPOINT and not FORM_KEY:
 print("  contact address:", CONTACT_EMAIL)
 print("  form endpoint:  ", FORM_ENDPOINT or "(none - form opens the mail client)")
 
+# Statistics. Umami (umami.is) is cookieless, so it needs no cookie banner under the
+# Dutch rules for analytics that "solely count visitors". Paste the website ID from the
+# Umami dashboard into UMAMI_ID; leave it empty and no tracking script is added at all.
+# UMAMI_SRC only needs changing if the dashboard hands you a different script URL.
+UMAMI_ID  = env("UMAMI_ID")
+UMAMI_SRC = env("UMAMI_SRC", "https://cloud.umami.is/script.js")
+# Google Search Console ownership check: the content="…" value of the HTML-tag method.
+GOOGLE_SITE_VERIFICATION = env("GOOGLE_SITE_VERIFICATION")
+print("  statistics:      ", ("Umami " + UMAMI_ID) if UMAMI_ID else "(off - set UMAMI_ID)")
+
 # Pages that are built and reachable by their URL but not linked anywhere, not in the
 # sitemap and marked noindex — for pages the team still has to review. Comma-separated
 # page ids; set HIDDEN_PAGES="" to publish everything.
@@ -126,13 +136,13 @@ PAGES = [
    "intro":"From sketch to working prototype: mechanics, electronics, firmware and control in one team, at SME scale."}},
 
  {"id":"make",  "nl":{"slug":"onderdelen-en-productie", "nav":"Productie", "title":"Onderdelen laten maken en serieproductie | Liminex",
-   "desc":"Kleine series maken we zelf op eigen machines; grotere aantallen begeleiden we, lokaal of in het buitenland. Inclusief eerlijke rekensom.",
+   "desc":"Onderdelen en kleine series laten maken: wij kiezen proces en werkplaats, bewaken de kwaliteit en begeleiden grotere aantallen.",
    "h1":"Onderdelen laten maken en productie begeleiden",
-   "intro":"Kleine series maken we hier op eigen machines. Grotere aantallen begeleiden we — lokaal of in het buitenland — en we rekenen voor wanneer dat níet loont."},
+   "intro":"Wij maken uw ontwerp maakbaar en laten het maken bij de werkplaats die erbij past. Grotere aantallen begeleiden we — lokaal of in het buitenland."},
    "en":{"nav":"Manufacturing", "slug":"parts-and-production", "title":"Custom parts and production support | Liminex",
-   "desc":"Short runs made on our own machines; larger volumes managed for you, locally or abroad, with an honest calculation of when that isn't worth it.",
+   "desc":"Parts and short runs made for you: we pick the process and the workshop, check the quality, and manage larger volumes.",
    "h1":"Custom parts and production support",
-   "intro":"Short runs we make here on our own machines. Larger volumes we manage for you, locally or abroad, and we do the maths on when that is not worth it."}},
+   "intro":"We make your design manufacturable and have it made by the workshop that fits it. Larger volumes we manage for you, locally or abroad."}},
 
  {"id":"yard",  "nl":{"slug":"project-yard", "nav":"Project Yard", "title":"Project Yard — werkplaats voor Brabant | Liminex",
    "desc":"Een werkplaats waar bedrijven, studenten en makers dezelfde machines gebruiken. In opbouw — we toetsen eerst of er vraag is.",
@@ -153,7 +163,7 @@ PAGES = [
    "intro":"You have an idea and no technical team. We are that team until you have your own: feasibility first, then a prototype an investor can react to."}},
 
  {"id":"price", "nl":{"slug":"tarieven", "nav":"Tarieven", "title":"Website laten maken: vaste prijzen | Liminex",
-   "desc":"Vaste prijzen voor een website of webshop in 's-Hertogenbosch en Brabant: one-pager vanaf €950, MKB-site vanaf €2.500, webshop vanaf €4.500. Plus Care-abonnementen vanaf €35 per maand.",
+   "desc":"Website laten maken tegen een vaste prijs: one-pager €950, MKB-site vanaf €2.500, webshop vanaf €4.500. Onderhoud vanaf €35 per maand.",
    "h1":"Vaste prijzen voor websites en webshops",
    "intro":"Drie pakketten, uitbreidingen en Care-abonnementen — zodat u weet wat het kost voordat u belt."},
    "en":{"nav":"Pricing", "slug":"pricing", "title":"Website pricing: fixed packages | Liminex",
@@ -178,6 +188,15 @@ PAGES = [
    "desc":"Four engineers in 's-Hertogenbosch doing software and hardware in one team. You speak to the engineer doing the work.",
    "h1":"Four engineers in 's-Hertogenbosch",
    "intro":"Software and hardware in one team. You speak to the engineer doing the work — no account manager in between."}},
+
+ {"id":"privacy", "nl":{"slug":"privacy", "nav":"Privacyverklaring", "title":"Privacyverklaring | Liminex",
+   "desc":"Wat Liminex met uw gegevens doet: alleen wat u zelf stuurt, alleen om te antwoorden, geen volgcookies en geen doorverkoop.",
+   "h1":"Privacyverklaring",
+   "intro":"Wat we met uw gegevens doen, in gewone taal: alleen wat u zelf stuurt, alleen om u te antwoorden."},
+   "en":{"nav":"Privacy statement", "slug":"privacy", "title":"Privacy statement | Liminex",
+   "desc":"What Liminex does with your data: only what you send us, only to reply to you, no tracking cookies and nothing sold on.",
+   "h1":"Privacy statement",
+   "intro":"What we do with your data, in plain language: only what you send us, only to answer you."}},
 
  {"id":"contact","nl":{"slug":"contact", "nav":"Contact", "title":"Contact | Liminex, 's-Hertogenbosch",
    "desc":"Vertel in twee zinnen wat er moet gebeuren. Antwoord binnen één werkdag, van de engineer die het zou doen.",
@@ -330,8 +349,7 @@ LD = json.dumps({
                    {"@type": "Country", "name": "Netherlands"}],
     "knowsLanguage": ["nl", "en"],
     "sameAs": ["https://www.linkedin.com/company/liminex"],
-    "knowsAbout": ["prototyping", "3D printing", "laser cutting", "CNC machining",
-                   "electronics", "PCB design", "firmware", "embedded systems",
+    "knowsAbout": ["prototyping", "electronics", "PCB design", "firmware", "embedded systems",
                    "control systems", "drone systems", "CAD design",
                    "web development", "AI for SMEs"],
 }, ensure_ascii=False)
@@ -388,6 +406,32 @@ tpl = read("src/template.html")
 UI = {"nl": {"skip": "Naar de inhoud", "nav": "Hoofdnavigatie"},
       "en": {"skip": "Skip to content", "nav": "Main navigation"}}
 
+# Prerender: run app.js in Node for every page and put the resulting HTML in the file,
+# so crawlers that don't execute JavaScript see the whole page rather than a heading and
+# one sentence. The app re-renders over it on load. Needs Node (present on GitHub Actions
+# and Netlify); without it the build carries on with the short static copy.
+import subprocess, tempfile
+PRE = {}
+if env("PRERENDER", "1") != "0" and shutil.which("node"):
+    _jobs = [{"page": pg["id"], "lang": lg, "assetBase": asset(url_for(pg, lg), "")}
+             for pg in PAGES for lg in ("nl", "en")]
+    with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False) as _f:
+        json.dump(_jobs, _f); _jobs_path = _f.name
+    try:
+        _r = subprocess.run(["node", p("tools/prerender.js"), p("dist/assets/" + JS_NAME), _jobs_path],
+                            capture_output=True, text=True, timeout=120)
+        if _r.returncode == 0:
+            PRE = json.loads(_r.stdout)
+            print("  prerendered:      %d pages" % len(PRE))
+        else:
+            print("  !! prerender failed, shipping the short static copy instead:\n" + _r.stderr[-800:])
+    finally:
+        os.unlink(_jobs_path)
+else:
+    print("  prerender:        skipped (PRERENDER=0, or no Node on this machine)")
+
+_STATIC_MAIN = re.compile(r'(<main id="app" tabindex="-1">).*?(</main>)', re.S)
+
 written = []
 for pg in PAGES:
     for lang in ("nl", "en"):
@@ -412,7 +456,14 @@ for pg in PAGES:
             '<meta name="twitter:card" content="summary_large_image">',
             '<meta name="theme-color" content="#08080B">',
             ('<meta name="robots" content="noindex,nofollow">' if pg["id"] in HIDDEN else ''),
-            '<script type="application/ld+json">%s</script>' % LD])
+            '<script type="application/ld+json">%s</script>' % LD,
+            ('<meta name="google-site-verification" content="%s">' % GOOGLE_SITE_VERIFICATION
+             if GOOGLE_SITE_VERIFICATION else ''),
+            # data-domains: visits to a local preview or the old github.io address are
+            # not counted, only the real site.
+            ('<script defer src="%s" data-website-id="%s" data-domains="%s"></script>'
+             % (UMAMI_SRC, UMAMI_ID, re.sub(r"^https?://", "", SITE_ORIGIN))
+             if UMAMI_ID and pg["id"] not in HIDDEN else '')])
         # A plain list of links in the markup, so a crawler that never runs the
         # JavaScript still sees the whole site. The app replaces it on load.
         staticnav = "".join(
@@ -430,6 +481,13 @@ for pg in PAGES:
                    .replace("__CSS__", asset(url, CSS_NAME))
                    .replace("__JS__", asset(url, JS_NAME))
                    .replace("__BOOT__", json.dumps({"page": pg["id"], "lang": lang})))
+        pre = PRE.get(pg["id"] + "|" + lang)
+        if pre:
+            body = _STATIC_MAIN.sub(lambda m: m.group(1) + pre["main"] + m.group(2), body, 1)
+            for _id, _html in pre["foot"].items():
+                if _html is None: continue
+                body = re.sub(r'(id="%s"[^>]*>).*?(</(?:div|p|span)>)' % re.escape(_id),
+                              lambda m: m.group(1) + _html + m.group(2), body, 1, re.S)
         doc = ('<!doctype html>\n<html lang="%s">\n<head>\n<meta charset="utf-8">\n'
                '<meta name="viewport" content="width=device-width,initial-scale=1">\n' % lang
                + body.replace('<a class="skip"', '</head>\n<body>\n<a class="skip"', 1)
@@ -468,7 +526,7 @@ llms += ["", "## What we do", "",
          "- AI and workflow automation for small and medium businesses",
          "- Prototyping: mechanics, electronics, PCB design, firmware, control engineering",
          "- Robotics, drones and UAV systems, CAD and design for manufacturing",
-         "- Short-run manufacturing in house: 3D printing, laser cutting, small CNC", "",
+         "- Parts and short runs made through partner workshops; larger volumes managed in NL and abroad", "",
          ] + ([] if "price" in HIDDEN else ["## Pricing", "",
          "Fixed website packages, add-ons and Care plans are published at %s%s. Other "
          "engineering work is priced per project after one conversation." % (SITE_ORIGIN, url_for([x for x in PAGES if x["id"]=="price"][0], "en")), ""])

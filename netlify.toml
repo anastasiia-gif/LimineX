@@ -7,4 +7,4 @@
   PYTHON_VERSION = "3.11"
   # Pages the team still has to review: built, reachable by URL, but unlinked and
   # noindex. Set to "" to publish everything.
-  HIDDEN_PAGES = "price,about"
+  HIDDEN_PAGES = "about"

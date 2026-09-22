@@ -40,8 +40,8 @@ var EXPERIENCE = [
   {id:"mech", img:"domain-mech", areas:["make","proto"],
    k:{nl:"Constructie + fabricage",en:"Structure + fabrication"},
    t:{nl:"Draagconstructie op een voertuig",en:"Vehicle-mounted structure"},
-   p:{nl:"Een railsysteem op een autodak dat een zware, bewegende last moet dragen en bij snelheid stabiel moet blijven. Berekening, CAD, en onderdelen die met de machines hier gemaakt konden worden.",
-      en:"A rail system on a car roof carrying a heavy moving load that has to stay stable at speed. Calculation, CAD, and parts that could be made on the machines here."},
+   p:{nl:"Een railsysteem op een autodak dat een zware, bewegende last moet dragen en bij snelheid stabiel moet blijven. Berekening, CAD, en onderdelen die we buiten de deur hebben laten maken.",
+      en:"A rail system on a car roof carrying a heavy moving load that has to stay stable at speed. Calculation, CAD, and parts we had made outside."},
    m:{nl:"Onder geheimhouding",en:"Under NDA"}},
   {id:"inspect", img:"exp-inspect", areas:["proto","start"],
    t:{nl:"Inspectiedrone voor leidingen",en:"Pipeline inspection drone"},
@@ -148,11 +148,11 @@ var DISCIPLINES = {
          en:"A measurement plan for an inspection drone: which pipes, what pressure, and what has to be measured to conclude anything."},
      dw:"valve", note:{nl:"Foto — de testopstelling",en:"Photo — the test rig"},
      k:"rigs · meetplan · rapport"},
-    {ic:"print3d", t:{nl:"Maken in huis",en:"Making it here"},
-     p:{nl:"3D-print, lasersnijden en kleine CNC staan bij ons. Een ontwerpfout op dinsdag is woensdag een nieuw onderdeel.",
-        en:"3D printing, laser cutting and small CNC are ours. A design mistake on Tuesday is a new part on Wednesday."},
-     ex:{nl:"Een jig om honderd identieke onderdelen uit te lijnen \u2014 getekend, geprint en gebruikt zonder dat er een leverancier aan te pas kwam.",
-         en:"A jig to align a hundred identical parts \u2014 drawn, printed and in use without a supplier in the loop."},
+    {ic:"print3d", t:{nl:"Van tekening naar onderdeel",en:"From drawing to part"},
+     p:{nl:"3D-printen, lasersnijden en frezen besteden we uit aan werkplaatsen waar we mee werken. Wij tekenen het maakbaar, kiezen het proces en controleren wat er terugkomt.",
+        en:"3D printing, laser cutting and milling go to workshops we work with. We draw it so it can be made, pick the process, and check what comes back."},
+     ex:{nl:"Een jig om honderd identieke onderdelen uit te lijnen \u2014 getekend, uitbesteed en dezelfde week in gebruik.",
+         en:"A jig to align a hundred identical parts \u2014 drawn, ordered out and in use the same week."},
      dw:"printer", note:{nl:"Foto — een onderdeel halverwege de printer",en:"Photo — a part halfway through the printer"},
      k:"FDM · laser · CNC"}
   ],
@@ -261,8 +261,8 @@ home:{
   ctab:{nl:"Neem contact op", en:"Get in touch"}
 },
 foot:{
-  seo:{nl:"Liminex is een engineeringbureau in 's-Hertogenbosch. Wij bouwen websites en webshops, doen AI-automatisering, en ontwikkelen prototypes: mechanica, elektronica, PCB-ontwerp, firmware, besturingstechniek, robotica, drones en CAD. Kleine series maken we zelf met 3D-printen, lasersnijden en CNC. Actief in Noord-Brabant \u2014 's-Hertogenbosch, Eindhoven, Tilburg, Breda \u2014 en de rest van Nederland.",
-       en:"Liminex is an engineering firm in 's-Hertogenbosch, the Netherlands. We build websites and online shops, do AI automation, and develop prototypes: mechanics, electronics, PCB design, firmware, control engineering, robotics, drones and CAD. Short runs we make ourselves with 3D printing, laser cutting and CNC. Working across Noord-Brabant \u2014 's-Hertogenbosch, Eindhoven, Tilburg, Breda \u2014 and the rest of the Netherlands."},
+  seo:{nl:"Liminex is een engineeringbureau in 's-Hertogenbosch. Wij bouwen websites en webshops, doen AI-automatisering, en ontwikkelen prototypes: mechanica, elektronica, PCB-ontwerp, firmware, besturingstechniek, robotica, drones en CAD. Onderdelen en kleine series laten we maken bij werkplaatsen waar we mee werken. Actief in Noord-Brabant \u2014 's-Hertogenbosch, Eindhoven, Tilburg, Breda \u2014 en de rest van Nederland.",
+       en:"Liminex is an engineering firm in 's-Hertogenbosch, the Netherlands. We build websites and online shops, do AI automation, and develop prototypes: mechanics, electronics, PCB design, firmware, control engineering, robotics, drones and CAD. Parts and short runs are made by workshops we work with. Working across Noord-Brabant \u2014 's-Hertogenbosch, Eindhoven, Tilburg, Breda \u2014 and the rest of the Netherlands."},
   formh:{nl:"Stuur ons twee zinnen",en:"Send us two sentences"},
   formd:{nl:"Vertel kort wat er moet gebeuren. U krijgt binnen drie werkdagen antwoord van de engineer die het zou doen \u2014 ook als dat antwoord \u2018dit past niet bij ons\u2019 is \u2014 en binnen een week een afspraak.",
          en:"Tell us briefly what needs to happen. You'll hear back within three working days from the engineer who would do it \u2014 including if the answer is \u2018this isn't for us\u2019 \u2014 and have a meeting within a week."},
@@ -286,13 +286,6 @@ about:{
     {h:{nl:"Studenten bouwen mee",en:"Students build with us"},
      p:{nl:"Onder begeleiding, op echt werk. Dat houdt onze tarieven redelijk en leidt mensen op die Brabant nodig heeft.",
         en:"Supervised, on real work. It keeps our rates reasonable and trains the people Brabant needs."}}
-  ],
-  kith:{nl:"Wat er in huis staat", en:"What is in the building"},
-  kit:[
-    {h:{nl:"3D-printers",en:"3D printers"},p:{nl:"Functionele onderdelen, jigs en behuizingen in kunststof.",en:"Functional parts, jigs and enclosures in plastic."}},
-    {h:{nl:"Lasersnijder",en:"Laser cutter"},p:{nl:"Plaatwerk, panelen en frontplaten, snel van tekening naar deel.",en:"Sheet parts, panels and front plates, quickly from drawing to part."}},
-    {h:{nl:"CNC (klein)",en:"CNC (small)"},p:{nl:"Aluminium en kunststof onderdelen waar print te zwak is.",en:"Aluminium and plastic parts where printing is too weak."}},
-    {h:{nl:"Elektronicabank",en:"Electronics bench"},p:{nl:"Solderen, meten en testen van besturing en sensoren.",en:"Soldering, measuring and testing control and sensors."}}
   ]
 },
 folio:{
@@ -356,7 +349,7 @@ proto:{
      d:{nl:"Vaste uren per maand, voor bedrijven met structureel ontwikkelwerk en geen engineer. Of losse dagen als u alleen even handen nodig heeft.",
         en:"Fixed hours per month, for companies with steady development work and nobody to hire. Or single days when you just need hands."}}
   ],
-  cardsh:{nl:"Wat we in huis doen", en:"What we do in-house"},
+  cardsh:{nl:"Wat we zelf doen", en:"What we do ourselves"},
   cards:[
     {h:{nl:"Mechanica & CAD",en:"Mechanics & CAD"},p:{nl:"Constructie, behuizingen, jigs. Ontworpen om gemaakt te worden.",en:"Structures, enclosures, jigs. Designed to be manufacturable."}},
     {h:{nl:"Elektronica & firmware",en:"Electronics & firmware"},p:{nl:"Schema, printontwerp, embedded software in C en C++.",en:"Schematics, PCB layout, embedded software in C and C++."}},
@@ -381,31 +374,11 @@ india:{
   already:{nl:"U heeft hier al interesse in doorgegeven. Dank.",en:"You've already registered interest. Thank you."}
 },
 make:{
-  lede:{nl:"Eerst hier maken, dan pas opschalen. Wij zijn eerlijk over waar dat omslagpunt ligt.",
-        en:"Make it here first, scale it later. We're honest about where that tipping point is."},
-  intro:{nl:"Met een 3D-printer, lasersnijder en CNC in huis maken we kleine series direct hier — geen minimale afname, geen wachttijd, en u kunt tussentijds nog wijzigen. Voor grotere aantallen brengen we u in contact met producenten in Nederland en India, en begeleiden we het traject.",
-         en:"With a 3D printer, laser cutter and CNC in the building we make small runs here — no minimum order, no lead time, and you can still change something halfway. For larger volumes we connect you with manufacturers in the Netherlands and India, and manage the process."},
-  machh:{nl:"De machines in huis",en:"The machines in the building"},
-  machd:{nl:"Alle drie staan in 's-Hertogenbosch. Geen minimale afname, geen wachtrij bij een externe partij, en u kunt halverwege nog iets veranderen.",
-         en:"All three are here in 's-Hertogenbosch. No minimum order, no queue at an outside supplier, and you can still change something halfway."},
-  machines:[
-    {key:"machine-print3d",
-     n:{nl:"3D-printen",en:"3D printing"},
-     d:{nl:"Uw bestand erin, en het onderdeel groeit laag voor laag, meestal 's nachts. Behuizingen, mallen, beugels en vormen waar een frees fysiek niet bij kan. Geen matrijskosten, dus \u00e9\u00e9n stuk kost wat \u00e9\u00e9n stuk kost \u2014 en een wijziging morgen is een nieuwe print, geen nieuwe mal.",
-        en:"Your file goes in and the part grows layer by layer, usually overnight. Housings, jigs, brackets, and shapes a mill physically cannot reach. No tooling, so one part costs what one part costs \u2014 and a change tomorrow is a new print, not a new mould."},
-     shot:{nl:"Foto \u2014 de 3D-printer aan het werk",en:"Photo \u2014 the 3D printer running"}},
-    {key:"machine-laser",
-     n:{nl:"Lasersnijden",en:"Laser cutting"},
-     d:{nl:"Plaatmateriaal, in minuten op tekening gesneden. Panelen, pakkingen, frontplaten, beugels en behuizingsdelen die daarna gezet worden. De snelste weg van tekening naar iets dat u vast kunt houden \u2014 daarom begint het meeste werk hier.",
-        en:"Flat sheet, cut to the drawing in minutes. Panels, gaskets, front plates, brackets and enclosure parts that get folded afterwards. The fastest route from a drawing to something you can hold, which is why most work starts here."},
-     shot:{nl:"Foto \u2014 de lasersnijder in bedrijf",en:"Photo \u2014 the laser cutter at work"}},
-    {key:"machine-cnc",
-     n:{nl:"CNC-frezen",en:"CNC milling"},
-     d:{nl:"Als een geprint onderdeel niet stijf of nauwkeurig genoeg is: dezelfde geometrie uit massief aluminium of kunststof. Opnames die kracht dragen, delen die om een lager moeten passen, alles dat gebruikt wordt in plaats van getoond.",
-        en:"For when a printed part is not stiff or accurate enough: the same geometry cut from solid aluminium or plastic. Mounts that carry load, parts that have to fit a bearing, anything that has to survive being used rather than shown."},
-     shot:{nl:"Foto \u2014 de CNC-frees met een opspanning",en:"Photo \u2014 the CNC mill with a part clamped"}}
-  ],
-  aroundh:{nl:"En daaromheen",en:"And around them"},
+  lede:{nl:"Uw ontwerp maakbaar maken, laten maken en de kwaliteit bewaken.",
+        en:"Getting your design made: manufacturable, ordered, and checked when it comes back."},
+  intro:{nl:"Wij hebben geen eigen machinepark, en dat is precies waarom we vrij kunnen kiezen. Voor \u00e9\u00e9n onderdeel of een kleine serie zoeken we het proces en de werkplaats die er het best bij passen \u2014 3D-printen, lasersnijden, frezen, plaatwerk. U krijgt \u00e9\u00e9n prijs en \u00e9\u00e9n aanspreekpunt, wij regelen de rest. Voor grotere aantallen begeleiden we productie in Nederland of in het buitenland, en rekenen we voor wanneer dat n\u00edet loont.",
+         en:"We own no machines of our own, which is exactly why we can choose freely. For a single part or a short run we pick the process and the workshop that suit it best \u2014 3D printing, laser cutting, milling, sheet metal. You get one price and one point of contact; we arrange the rest. For larger volumes we manage production in the Netherlands or abroad, and we do the maths on when that is not worth it."},
+  aroundh:{nl:"Wat we doen",en:"What we do"},
   svcs:[
     {n:{nl:"Ontwerp + maken",en:"Design + make"},
      d:{nl:"U heeft een probleem, wij leveren het onderdeel. Een schets of foto is genoeg om te beginnen.",en:"You have a problem, we deliver the part. A sketch or a photo is enough to start."}},
@@ -543,6 +516,36 @@ price:{
         en:"Prototypes, electronics, automation and other engineering work are priced per project — after one conversation you get a fixed price on one page."}
 },
 
+privacy:{
+  lede:{nl:"Wat we met uw gegevens doen, in gewone taal.",
+        en:"What we do with your data, in plain language."},
+  updated:{nl:"Laatst bijgewerkt: 22 september 2026",en:"Last updated: 22 September 2026"},
+  intro:{nl:"Kort samengevat: we verzamelen alleen wat u ons zelf stuurt, we gebruiken het alleen om u te antwoorden, en we verkopen het aan niemand.",
+         en:"The short version: we only collect what you send us yourself, we only use it to reply to you, and we sell it to nobody."},
+  secs:[
+    {h:{nl:"Wie wij zijn",en:"Who we are"},
+     p:{nl:"Liminex VOF, 's-Hertogenbosch, Nederland. KvK 42104253. Voor alles wat met uw gegevens te maken heeft: anastasiia@liminex.net.",
+        en:"Liminex VOF, 's-Hertogenbosch, the Netherlands. Chamber of Commerce 42104253. For anything to do with your data: anastasiia@liminex.net."}},
+    {h:{nl:"Wat we bewaren en waarom",en:"What we keep, and why"},
+     p:{nl:"Vult u het contactformulier in of mailt u ons, dan krijgen we uw naam, e-mailadres, telefoonnummer, eventueel uw bedrijfsnaam, en wat u zelf schrijft. We gebruiken dat om uw vraag te beantwoorden en, als het een opdracht wordt, om die uit te voeren. Grondslag: uitvoering van een overeenkomst, of ons gerechtvaardigd belang om te reageren op wie contact met ons opneemt.",
+        en:"If you fill in the contact form or email us, we receive your name, email address, phone number, your company name if you give one, and whatever you write. We use it to answer your question and, if it becomes a project, to carry that out. Legal basis: performance of a contract, or our legitimate interest in replying to people who contact us."}},
+    {h:{nl:"Hoe lang",en:"How long"},
+     p:{nl:"Wordt het geen opdracht, dan verwijderen we de correspondentie binnen twee jaar. Wordt het wel een opdracht, dan bewaren we de bijbehorende administratie zeven jaar, omdat de Belastingdienst dat van ons vraagt.",
+        en:"If it does not become a project, we delete the correspondence within two years. If it does, we keep the associated records for seven years, because Dutch tax law requires it."}},
+    {h:{nl:"Wie het verder ziet",en:"Who else sees it"},
+     p:{nl:"Ons formulier en onze e-mail lopen via gewone dienstverleners die het bericht doorzetten en opslaan, en onze hostingpartij houdt technische logs bij van bezoeken aan de site. Verder geven we niets door, en we verkopen of verhuren nooit gegevens.",
+        en:"Our form and our email run through ordinary service providers that pass the message on and store it, and our hosting provider keeps technical logs of visits to the site. Beyond that we pass nothing on, and we never sell or rent data."}},
+    {h:{nl:"Cookies",en:"Cookies"},
+     p:{nl:"Deze site plaatst geen volgcookies en gebruikt geen advertentienetwerken. Uw browser onthoudt \u00e9\u00e9n technische waarde, zodat de openingsanimatie niet bij elke pagina opnieuw speelt. Die waarde blijft in uw browser en bereikt ons niet.",
+        en:"This site sets no tracking cookies and uses no advertising networks. Your browser remembers one technical value so the opening animation does not replay on every page. That value stays in your browser and never reaches us."}},
+    {h:{nl:"Uw rechten",en:"Your rights"},
+     p:{nl:"U mag opvragen wat we van u hebben, het laten corrigeren of verwijderen, en bezwaar maken tegen het gebruik ervan. Mail ons; we reageren binnen een maand. Bent u het oneens met hoe wij het aanpakken, dan kunt u klagen bij de Autoriteit Persoonsgegevens.",
+        en:"You may ask what we hold about you, have it corrected or deleted, and object to its use. Email us; we answer within a month. If you disagree with how we handle it, you can complain to the Dutch data protection authority, the Autoriteit Persoonsgegevens."}},
+    {h:{nl:"Beveiliging en wijzigingen",en:"Security and changes"},
+     p:{nl:"De site gaat volledig over https en toegang tot de mailbox is beperkt tot ons. Verandert deze verklaring, dan passen we de datum bovenaan aan.",
+        en:"The site runs entirely over https and access to the mailbox is limited to us. If this statement changes, we update the date at the top."}}
+  ]
+},
 work:{
   lede:{nl:"Opgeleverd werk, nog in gebruik. Wilt u met een klant spreken, dan regelen we dat.",
         en:"Delivered work, still in use. If you want to speak to a client, we'll arrange it."},

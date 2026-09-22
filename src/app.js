@@ -61,6 +61,7 @@ function renderFooter(){
   if(!hidden("price")) m+=go("price")+esc(lang==="nl"?"Tarieven":"Pricing")+'</a>';
   if(!hidden("about")) m+=go("about")+esc(lang==="nl"?"Over ons":"About us")+'</a>';
   m+=go("contact")+esc(t(C.foot.contact))+'</a>';
+  if(!hidden("privacy")) m+=go("privacy")+esc(lang==="nl"?"Privacyverklaring":"Privacy statement")+'</a>';
   document.getElementById("f-work").innerHTML=w;
   document.getElementById("f-more").innerHTML=m;
   document.getElementById("f-h1").textContent=t(C.foot.work);
@@ -134,6 +135,9 @@ function ph(title,sub){
    the labelled 4:5 slot when it doesn't, so the strip still works with a partial set.
    alt is empty on purpose — the name sits in the .nm line directly beneath it, and a
    screen reader reading it twice is worse than not reading the picture at all. */
+/* Statistics events. Umami counts page views on its own; these mark the few actions that
+   mean someone is interested. Silent when the tracker is off or blocked. */
+function track(name,data){ try{ if(window.umami&&umami.track) umami.track(name,data); }catch(e){} }
 function portrait(p){
   var src = p.img && renderSrc(p.img);
   return src ? '<div class="ph has-img"><img src="'+src+'" alt=""></div>'
@@ -311,7 +315,7 @@ function expBlock(withNext, area){
 }
 function ctaBlock(head){
   return '<div class="cta"><h2>'+esc(head)+'</h2>'
-    +go("contact",' class="btn"')+esc(t(C.home.ctab))+'</a></div>';
+    +go("contact",' class="btn" data-umami-event="cta-contact"')+esc(t(C.home.ctab))+'</a></div>';
 }
 
 function renderHome(){
@@ -379,7 +383,7 @@ function renderHome(){
   h+='</div>';
   h+='<div class="teamcta rv"><h2>'+esc(t(d.ctah))+'</h2>'
     +'<p>'+esc(t(d.ctasub))+'</p>'
-    +go("contact",' class="btn"')+esc(t(d.ctab))+'</a>'
+    +go("contact",' class="btn" data-umami-event="cta-contact"')+esc(t(d.ctab))+'</a>'
     +'<div class="twolinks" style="justify-content:center;margin-top:28px">'
     +(hidden("about")?'':go("about",' class="btn btn--ghost"')+esc(t(d.teamabout))+'</a>')
     +go("work",' class="btn btn--ghost"')+esc(t(d.teamwork))+'</a></div></div>';
@@ -589,17 +593,6 @@ function renderArea(id){
              SVCICONS[id], id==="make")+'</div>';
   h+='</section>';
 
-  /* Manufacturing leads on the three machines that are physically here — a picture and
-     what the process is actually good for, alternating sides like the home page. */
-  if(id==="make" && d.machines){
-    h+='<section class="band band--grey">'+bandMark("cnc","printer")+'<div class="wrap">'
-      +'<h2 class="rv">'+esc(t(d.machh))+'</h2>'
-      +'<p class="deck rv" style="margin-top:18px">'+esc(t(d.machd))+'</p>'
-      +altRows(d.machines.map(function(m,i){
-         return {key:m.key, n:no(i+1), t:m.n, p:m.d, shot:m.shot};
-       }), true).replace('class="alt alt--compact"','class="alt alt--compact alt--level"')
-      +'</div></section>';
-  }
   if(id==="proto") h+='<section class="band band--grey"><div class="wrap">'+discGrid()+'</div></section>';
   if(id==="start" && d.svch){
     h+='<section class="band band--grey">'+bandMark("signal","gears")+'<div class="wrap">'
@@ -651,7 +644,7 @@ function renderWork(){
     for(var k=0;k<c.dl.length;k++)
       h+='<dt style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);padding-top:4px">'
         +esc(t(c.dl[k].k))+'</dt><dd style="margin:0">'+esc(t(c.dl[k].v))+'</dd>';
-    h+='</dl><p style="margin-top:20px"><a class="livelink" href="https://'+c.url
+    h+='</dl><p style="margin-top:20px"><a class="livelink" data-umami-event="portfolio-visit" data-umami-event-site="'+esc(c.url)+'" href="https://'+c.url
       +'" target="_blank" rel="noopener">'+(lang==="nl"?"Bekijk de site":"Visit the site")
       +' &nearr;</a></p></div></div></div>';
   }
@@ -707,7 +700,7 @@ function pricePreview(){
   if(hidden("price")) return "";
   var d=C.price;
   return '<div class="pricepre"><h2 class="rv">'+esc(t(d.pkgh))+'</h2>'+promoBadge()+pkgCards()
-    +'<p class="onreq rv" style="margin-top:22px">'+go("price",' class="inlink"')
+    +'<p class="onreq rv" style="margin-top:22px">'+go("price",' class="inlink" data-umami-event="price-preview-click"')
     +esc(t(d.previewmore))+' &rarr;</a></p></div>';
 }
 function careTable(){
@@ -764,6 +757,19 @@ function renderPrice(){
   return h;
 }
 
+function renderPrivacy(){
+  var d=C.privacy,h="";
+  h+='<section class="opener">'+watermark("contact")+'<div class="narrow"><div class="lbl">'
+    +(lang==="nl"?"Privacyverklaring":"Privacy statement")+'</div><h1>'+esc(t(d.lede))+'</h1>'
+    +'<p class="deck">'+esc(t(d.intro))+'</p></div></section>';
+  h+='<section class="band band--tight"><div class="narrow">';
+  for(var i=0;i<d.secs.length;i++)
+    h+='<h2 style="font-size:clamp(22px,2.6vw,30px);margin-top:'+(i?"54px":"0")+'">'
+      +esc(t(d.secs[i].h))+'</h2><p class="deck" style="max-width:none;margin-top:14px">'
+      +esc(t(d.secs[i].p))+'</p>';
+  h+='<p class="onreq">'+esc(t(d.updated))+'</p></div></section>';
+  return h;
+}
 function renderContact(){
   var d=C.contact,h="";
   h+='<section class="opener">'+watermark("contact")+'<div class="narrow"><div class="lbl">'
@@ -876,7 +882,7 @@ function wireForm(f){
       fetch(location.pathname,{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},
             body:new URLSearchParams(nd).toString()})
         .then(function(r){ if(!r.ok) throw new Error(r.status);
-          f.reset(); stat.className="formstat is-ok"; stat.textContent=t(d.ok); })
+          f.reset(); stat.className="formstat is-ok"; stat.textContent=t(d.ok); track("contact-form-sent",{page:page,lang:lang}); })
         .catch(function(){ var link=mailtoLink(get("ty"),body);
           stat.className="formstat is-bad";
           stat.innerHTML=esc(t(d.fail))+' <a href="'+link+'">'+(lang==="nl"?"Open mijn mailprogramma":"Open my mail app")+'</a>'; })
@@ -891,7 +897,7 @@ function wireForm(f){
     data.append("_language",lang);
     fetch(FORM_ENDPOINT,{method:"POST",body:data,headers:{"Accept":"application/json"}})
       .then(function(r){ if(!r.ok) throw new Error(r.status);
-        f.reset(); stat.className="formstat is-ok"; stat.textContent=t(d.ok); })
+        f.reset(); stat.className="formstat is-ok"; stat.textContent=t(d.ok); track("contact-form-sent",{page:page,lang:lang}); })
       .catch(function(err){
         var link=mailtoLink(get("ty"),body);
         stat.className="formstat is-bad";
@@ -956,6 +962,7 @@ function render(moveFocus){
   else if(page==="work") h=renderWork();
   else if(page==="price") h=renderPrice();
   else if(page==="contact") h=renderContact();
+  else if(page==="privacy") h=renderPrivacy();
   else h=renderArea(page);
   app.innerHTML=h;
   app.className="page-"+page;
