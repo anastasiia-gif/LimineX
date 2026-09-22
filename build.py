@@ -88,6 +88,19 @@ print("  form endpoint:  ", FORM_ENDPOINT or "(none - form opens the mail client
 # UMAMI_SRC only needs changing if the dashboard hands you a different script URL.
 UMAMI_ID  = env("UMAMI_ID")
 UMAMI_SRC = env("UMAMI_SRC", "https://cloud.umami.is/script.js")
+# The dashboard hands you a whole <script> tag, and pasting that in as the ID produces a
+# broken tag whose website-id is the start of another tag — the site then reports nothing
+# and looks fine. Pull the id out of whatever was pasted.
+if UMAMI_ID and "<" in UMAMI_ID:
+    _m = re.search(r'data-website-id=["\']?([0-9a-fA-F-]{36})', UMAMI_ID)
+    if _m:
+        UMAMI_ID = _m.group(1)
+        print("  !! UMAMI_ID held a whole <script> tag; using the id inside it. Set the\n"
+              "     repository variable to just the id to silence this.")
+    else:
+        print("  !! UMAMI_ID is not a website id and no id could be found in it.\n"
+              "     Dropping it for this build; no statistics script is added.")
+        UMAMI_ID = ""
 # Google Search Console ownership check: the content="…" value of the HTML-tag method.
 GOOGLE_SITE_VERIFICATION = env("GOOGLE_SITE_VERIFICATION")
 print("  statistics:      ", ("Umami " + UMAMI_ID) if UMAMI_ID else "(off - set UMAMI_ID)")
@@ -462,7 +475,7 @@ for pg in PAGES:
             # data-domains: visits to a local preview or the old github.io address are
             # not counted, only the real site.
             ('<script defer src="%s" data-website-id="%s" data-domains="%s"></script>'
-             % (UMAMI_SRC, UMAMI_ID, re.sub(r"^https?://", "", SITE_ORIGIN))
+             % (UMAMI_SRC, UMAMI_ID.replace('"', "&quot;"), re.sub(r"^https?://", "", SITE_ORIGIN))
              if UMAMI_ID and pg["id"] not in HIDDEN else '')])
         # A plain list of links in the markup, so a crawler that never runs the
         # JavaScript still sees the whole site. The app replaces it on load.
