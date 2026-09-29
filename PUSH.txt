@@ -1,0 +1,40 @@
+Liminex — website update, 29 September 2026
+===========================================
+
+COPY over the repo, same paths, then commit and push:
+
+  build.py
+  src/app.js
+  src/content.js
+  src/styles.css
+  static/favicon.ico            (new)
+  static/icon-192.png           (new)
+  static/icon-512.png           (new)
+  static/apple-touch-icon.png   (new)
+
+Nothing to delete. static/google65eaec6e727ff020.html stays where it is.
+
+WHAT CHANGED
+  1. Browser icon: real files instead of a data: URI, so Google can crawl it.
+  2. Every price on the site is now computed from hours x rate.
+  3. Prototyping page: each domain card has a "Prices" fold with three examples.
+  4. Tarieven: a full table, one block per domain.
+
+THE ONLY PLACE PRICES LIVE
+  src/content.js  ->  C.price.rate
+
+      rate:{concept:35, exec:20, hoursPerDay:8, learn:2.5}
+
+  concept  EUR/hour for working it out, calculating, choosing an approach
+  exec     EUR/hour for building, testing, delivering
+  learn    the "we are still getting fast at this" factor. Every estimate is
+           multiplied by it. Lower it toward 1 as the team speeds up and the
+           whole site reprices itself, including the days shown per project.
+
+  Change one of those three numbers and all 36 engineering projects, the three
+  website packages, the add-ons and the three industrial studies move together.
+
+CHECK AFTER DEPLOY
+  curl -s https://liminex.net/favicon.ico -o /dev/null -w "%{http_code}\n"     -> 200
+  curl -s https://liminex.net/ | grep -o 'rel="icon"[^>]*'                     -> favicon.ico
+  curl -s https://liminex.net/tarieven/ | grep -c "Wat kost een project"       -> 1

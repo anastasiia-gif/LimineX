@@ -224,7 +224,7 @@ function discGrid(){
       +(dcut?'':(ICON[it.ic]||''))+'<h3>'+esc(t(it.t))+'</h3>'
       +'<p>'+esc(t(it.p))+'</p>'
       +(it.ex?'<p class="eg"><span>'+(lang==="nl"?"Voorbeeld":"Example")+'</span>'+esc(t(it.ex))+'</p>':'')
-      +'<div class="tags">'+esc(it.k)+'</div></div>';
+      +'<div class="tags">'+esc(it.k)+'</div>'+domFold(it.ic)+'</div>';
   }
   h+='</div>';
   /* The three photo placeholders under the grid only matter while the cards have no
@@ -690,7 +690,7 @@ function pkgCards(){
     var k=d.pkgs[i], items=lang==="nl"?k.d.nl:k.d.en, li="";
     for(var j=0;j<items.length;j++) li+='<li>'+esc(items[j])+'</li>';
     h+='<div class="pkg"><h3>'+esc(k.n)+'</h3><ul>'+li+'</ul>'
-      +'<div class="pkg-p">'+priceTag(k.v,k.from,true)+'</div></div>';
+      +'<div class="pkg-p">'+priceTag(price(k.c,k.x),k.from,true)+'</div></div>';
   }
   return h+'</div>';
 }
@@ -726,8 +726,11 @@ function addRows(){
   var d=C.price,h='<div class="prices rv">';
   for(var i=0;i<d.adds.length;i++){
     var a=d.adds[i], parts=[];
-    for(var j=0;j<a.v.length;j++)
-      parts.push(priceTag(a.v[j],false,a.disc)+(a.of?' <span class="pfrom">('+esc((lang==="nl"?a.of.nl:a.of.en)[j])+')</span>':''));
+    if(a.rate){
+      parts.push('<b>'+money(C.price.rate[a.rate])+'</b>');
+    } else for(var j=0;j<a.hrs.length;j++)
+      parts.push(priceTag(price(a.hrs[j][0],a.hrs[j][1]),false,a.disc)
+        +(a.of?' <span class="pfrom">('+esc((lang==="nl"?a.of.nl:a.of.en)[j])+')</span>':''));
     h+='<div class="prow"><div class="pn">'+esc(t(a.n))+'</div><div class="pd"></div>'
       +'<div class="pv">'+parts.join('<br>')+(a.unit?' <span class="pfrom">'+esc(t(a.unit))+'</span>':'')+'</div></div>';
   }
@@ -738,8 +741,8 @@ function addRows(){
 function priceRows(rows){
   var h='<div class="prices rv">';
   for(var i=0;i<rows.length;i++){
-    var r=rows[i], v=(typeof r.v==="number")
-      ? (r.from?'<span class="pfrom">'+(lang==="nl"?"vanaf ":"from ")+'</span>':'')+'<b>'+money(r.v)+'</b>'
+    var r=rows[i], v=(r.c!==undefined)
+      ? (r.from?'<span class="pfrom">'+(lang==="nl"?"vanaf ":"from ")+'</span>':'')+'<b>'+money(price(r.c,r.x))+'</b>'
       : '<b>'+esc(t(r.v))+'</b>';
     h+='<div class="prow"><div class="pn">'+esc(t(r.n))+'</div>'
       +'<div class="pd">'+(r.d?esc(t(r.d)):'')+'</div>'
@@ -751,9 +754,62 @@ function hourRows(rows){
   var h='<div class="prices rv">';
   for(var i=0;i<rows.length;i++)
     h+='<div class="prow"><div class="pn">'+esc(t(rows[i].n))+'</div><div class="pd"></div>'
-      +'<div class="pv"><b>'+money(rows[i].v)+'</b> <span class="pfrom">'
+      +'<div class="pv"><b>'+money(C.price.rate[rows[i].rate])+'</b> <span class="pfrom">'
       +(lang==="nl"?"/ uur":"/ hour")+'</span></div></div>';
   return h+'</div>';
+}
+/* Example projects per domain. The price is computed from the hours and the two rates in
+   C.price.rate, never typed into the copy, so changing what an hour costs re-prices the
+   whole catalogue at once. Rounded to ten euros. */
+function price(c,x){
+  var R=C.price.rate, h=R.hoursPerDay, f=R.learn||1;
+  return Math.round(((c||0)*h*R.concept + (x||0)*h*R.exec)*f/10)*10;
+}
+function domPrice(it){ return price(it.c,it.x); }
+function days(n){
+  n=Math.round(n*(C.price.rate.learn||1)*4)/4;
+  var one=(lang==="nl"?"dag":"day"), many=(lang==="nl"?"dagen":"days");
+  var s=(n%1===0)?String(n):String(n).replace(".",lang==="nl"?",":".");
+  return s+" "+(n===1?one:many);
+}
+function domRows(items){
+  var h="";
+  for(var i=0;i<items.length;i++){
+    var it=items[i];
+    h+='<div class="prow prow--dom"><div class="pn">'+esc(t(it.n))+'</div>'
+      +'<div class="pd">'+esc(days(it.c))+' + '+esc(days(it.x))+'</div>'
+      +'<div class="pv"><b>'+money(domPrice(it))+'</b>'
+      +(it.parts?' <span class="pfrom">'+(lang==="nl"?"+ materiaal":"+ parts")+'</span>':'')
+      +'</div></div>';
+  }
+  return h;
+}
+/* The fold on the Prototyping page: a native <details>, so it works without JavaScript
+   and a keyboard reaches it for free. */
+function domFold(key){
+  var d=C.price, dom=null;
+  if(hidden("price")) return "";
+  for(var i=0;i<d.domains.length;i++) if(d.domains[i].key===key) dom=d.domains[i];
+  if(!dom) return "";
+  return '<details class="fold"><summary>'+(lang==="nl"?"Prijzen":"Prices")+'</summary>'
+    +'<div class="prices prices--fold">'+domRows(dom.items)+'</div></details>';
+}
+/* One table, one block per domain, headed by the domain's own name from DISCIPLINES so
+   the two pages cannot drift apart. */
+function domTable(){
+  var d=C.price, cols=(lang==="nl"?d.domcols.nl:d.domcols.en), h="";
+  for(var i=0;i<d.domains.length;i++){
+    var dom=d.domains[i], title=dom.key;
+    for(var j=0;j<DISCIPLINES.items.length;j++)
+      if(DISCIPLINES.items[j].ic===dom.key) title=t(DISCIPLINES.items[j].t);
+    h+='<div class="prices rv"><h3>'+esc(title)+'</h3>'
+      +'<div class="prow prow--dom prow--head" aria-hidden="true">'
+      +'<div class="pn">'+esc(cols[0])+'</div>'
+      +'<div class="pd">'+esc(cols[1])+' + '+esc(cols[2])+'</div>'
+      +'<div class="pv">'+esc(cols[3])+'</div></div>'
+      + domRows(dom.items)+'</div>';
+  }
+  return h;
 }
 function renderPrice(){
   var d=C.price,h="";
@@ -783,7 +839,15 @@ function renderPrice(){
     +'<p class="deck rv" style="margin-top:14px">'+esc(t(d.rated))+'</p>'+hourRows(d.rates)
     +'</div></section>';
   h+=flowSplit(4,"var(--paper)","var(--paper2)",5);
-  h+='<section class="band band--grey">'+bandMark("valve","rule")+'<div class="wrap">'
+  h+='<section class="band band--grey">'+bandMark("gears","part")+'<div class="wrap">'
+    +'<div class="lbl lbl--q rv">'+(lang==="nl"?"Engineering":"Engineering")+'</div>'
+    +'<h2 class="rv" style="margin-top:16px">'+esc(t(d.domh))+'</h2>'
+    +'<p class="deck rv" style="margin-top:18px">'+esc(t(d.domd))+'</p>'
+    +domTable()
+    +'<p class="onreq rv">'+esc(t(d.domnote))+'</p>'
+    +'</div></section>';
+  h+=flowSplit(6,"var(--paper2)","var(--paper)",5);
+  h+='<section class="band">'+bandMark("valve","rule")+'<div class="wrap">'
     +'<h2 class="rv">'+esc(t(d.fixh))+'</h2>'
     +stepList(d.fix,["web","elec","data","dfm"])
     +'<div class="marginnote"><h3>'+esc(t(d.noteh))+'</h3><p>'+esc(t(d.note))+'</p></div>'

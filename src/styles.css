@@ -822,3 +822,32 @@ table.care td b{color:var(--ink);font-size:17px}
   table.care tbody th{grid-column:1/-1;width:auto;margin-bottom:6px}
   table.care td::before{content:attr(data-t);display:block;font-size:11px;letter-spacing:.16em;color:var(--accent);font-weight:600}
 }
+
+/* ---------------- example projects per domain ---------------- */
+/* The price column is its own track so the three numbers line up down the page. */
+.prow--dom{grid-template-columns:minmax(220px,1fr) minmax(120px,auto) minmax(90px,auto);gap:0 28px}
+.prow--dom .pd{max-width:none;white-space:nowrap;font-size:14.5px}
+.prow--head{border-bottom:1px solid var(--hair);padding-bottom:8px}
+.prow--head .pn,.prow--head .pd,.prow--head .pv{font-size:11px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--muted);font-weight:500}
+@media (max-width:640px){
+  .prow--dom{grid-template-columns:1fr auto;gap:4px 16px}
+  .prow--dom .pd{grid-column:1/3;order:3;white-space:normal}
+  .prow--head{display:none}
+}
+/* The fold inside a domain card. A native <details>, styled so the marker is ours. */
+.fold{margin-top:16px;border-top:1px solid var(--hair)}
+.fold>summary{list-style:none;cursor:pointer;padding:12px 0 2px;font-size:13px;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--accent);display:flex;
+  align-items:center;gap:9px}
+.fold>summary::-webkit-details-marker{display:none}
+.fold>summary::after{content:"";width:6px;height:6px;border-right:1.5px solid currentColor;
+  border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-2px);
+  transition:transform .2s ease}
+.fold[open]>summary::after{transform:rotate(-135deg) translateY(-1px)}
+.fold>summary:hover{color:var(--ink)}
+.prices--fold{margin-top:6px}
+.prices--fold .prow{padding:12px 0;grid-template-columns:1fr auto;gap:2px 14px}
+.prices--fold .pn{font-size:15px;font-weight:500}
+.prices--fold .pd{grid-column:1/3;order:3;font-size:13.5px;max-width:none}
+.prices--fold .pv{font-size:16px}

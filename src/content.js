@@ -469,21 +469,21 @@ price:{
          label:{nl:"Introductieprijs: 20% korting t/m 31 oktober 2026",en:"Launch price: 20% off until 31 October 2026"}},
   pkgh:{nl:"Websites en webshops",en:"Websites and online shops"},
   pkgs:[
-    {n:"Start", v:950, from:false,
+    {n:"Start", c:0.5, x:1.5, from:false,
      d:{nl:["One-pager","Nederlands","Contactformulier","Mobiel-klaar","SEO-basis"],
         en:["One-pager","Dutch","Contact form","Mobile-ready","SEO basics"]}},
-    {n:"MKB", v:2500, from:true,
+    {n:"MKB", c:1, x:4, from:true,
      d:{nl:["Tot 5 pagina's","CMS — u past teksten zelf aan","SEO-basis","Nederlands"],
         en:["Up to 5 pages","CMS — you edit texts yourself","SEO basics","Dutch"]}},
-    {n:"Webshop", v:4500, from:true,
+    {n:"Webshop", c:1.5, x:6, from:true,
      d:{nl:["WooCommerce of Shopify, op basis van een template","Betalingen","Producten ingericht"],
         en:["WooCommerce or Shopify, template-based","Payments","Product setup"]}}
   ],
   addh:{nl:"Uitbreidingen",en:"Add-ons"},
   adds:[
-    {n:{nl:"Engelse versie",en:"English version"}, v:[200,400], of:{nl:["Start","MKB"],en:["Start","MKB"]}, disc:true},
-    {n:{nl:"Extra pagina",en:"Extra page"}, v:[150], disc:true},
-    {n:{nl:"Werk buiten de scope",en:"Out-of-scope work"}, v:[75], unit:{nl:"/ uur",en:"/ hour"}, disc:false}
+    {n:{nl:"Engelse versie",en:"English version"}, hrs:[[0,0.4],[0,0.8]], of:{nl:["Start","MKB"],en:["Start","MKB"]}, disc:true},
+    {n:{nl:"Extra pagina",en:"Extra page"}, hrs:[[0,0.4]], disc:true},
+    {n:{nl:"Werk buiten de scope",en:"Out-of-scope work"}, rate:"exec", unit:{nl:"/ uur",en:"/ hour"}, disc:false}
   ],
   careh:{nl:"Website Care — hosting en onderhoud",en:"Website Care — hosting and upkeep"},
   cared:{nl:"Na oplevering houden wij de site draaiend. Per maand of per jaar, en bij een jaar is één maand gratis.",
@@ -495,7 +495,7 @@ price:{
       {k:{nl:"Per jaar (1 maand gratis)",en:"Yearly (1 month free)"}, v:[385,825,1639], money:true},
       {k:{nl:"Hosting, domein, SSL, back-ups, updates, uptime-bewaking",en:"Hosting, domain, SSL, backups, updates, uptime monitoring"}, v:[true,true,true]},
       {k:{nl:"Kleine wijzigingen inbegrepen",en:"Small edits included"},
-       v:[{nl:"— (€75/uur)",en:"— (€75/h)"},{nl:"30 min/maand",en:"30 min/month"},{nl:"1 uur/maand",en:"1 h/month"}]},
+       v:[{nl:"— (€20/uur)",en:"— (€20/h)"},{nl:"30 min/maand",en:"30 min/month"},{nl:"1 uur/maand",en:"1 h/month"}]},
       {k:{nl:"Reactietijd",en:"Response time"},
        v:[{nl:"3 werkdagen",en:"3 working days"},{nl:"2 werkdagen",en:"2 working days"},{nl:"1 werkdag",en:"1 working day"}]},
       {k:{nl:"Google Bedrijfsprofiel bijhouden",en:"Google Business Profile upkeep"}, v:[false,true,true]},
@@ -514,26 +514,26 @@ price:{
     {n:{nl:"Productiedata-onderzoek",en:"Production data study"},
      d:{nl:"Bestaande exports uit SCADA, PLC of uw onderhoudssysteem. Haalbaarheid, een eerste model op uw eigen data, en een go/no-go rapport.",
         en:"Existing exports from SCADA, PLC or your maintenance system. Feasibility, a first model on your own data, and a go/no-go report."},
-     v:2950},
+     c:1, x:2},
     {n:{nl:"Proces- en OEE-onderzoek",en:"Process and OEE study"},
      d:{nl:"Waar het verlies zit: stilstand, omstellen, uitval. Meten, analyseren, en een lijst verbeteringen met wat ze naar verwachting opleveren.",
         en:"Where the loss sits: downtime, changeovers, scrap. Measuring, analysing, and a list of improvements with what each one is expected to return."},
-     v:2950},
+     c:1, x:2},
     {n:{nl:"Pilot voorspellend onderhoud, één machine of lijn",en:"Predictive maintenance pilot, one asset or line"},
      d:{nl:"Ongeveer drie maanden: model, validatie op echte storingen uit het verleden, alarmering, en een dashboard dat uw eigen mensen kunnen lezen.",
         en:"Around three months: model, validation against real past failures, alerting, and a dashboard your own people can read."},
-     v:9500, from:true}
+     c:2, x:10, from:true}
   ],
   indqh:{nl:"Op offerte, omdat de fabriek de prijs bepaalt",en:"On quote, because the plant sets the price"},
   indq:[
     {n:{nl:"Sensoren bijplaatsen als de data er niet is",en:"Adding sensors when the data isn't there"},
-     v:{nl:"hardware tegen kostprijs + €85/uur",en:"hardware at cost + €85/h"}},
+     v:{nl:"hardware tegen kostprijs + €20/uur",en:"hardware at cost + €20/h"}},
     {n:{nl:"Uitrol naar elke volgende machine van hetzelfde type",en:"Rollout to each further asset of the same type"},
-     v:{nl:"€4.500 – 9.000",en:"€4,500 – 9,000"}},
+     c:0.5, x:3, from:true},
     {n:{nl:"Kwaliteitsinspectie met machine vision",en:"Machine-vision quality inspection"},
-     v:{nl:"vanaf €6.500",en:"from €6,500"}},
+     c:1.5, x:6, from:true},
     {n:{nl:"Digital twin of simulatiemodel",en:"Digital twin or simulation model"},
-     v:{nl:"vanaf €6.500",en:"from €6,500"}}
+     c:1.5, x:6, from:true}
   ],
   mcareh:{nl:"Model Care — een model werkend houden",en:"Model Care — keeping a model working"},
   mcared:{nl:"Een model dat niemand bijhoudt wordt stilletjes slechter, omdat de fabriek verandert en het model niet. Dit is het bijhouden.",
@@ -549,12 +549,79 @@ price:{
        v:[{nl:"3 werkdagen",en:"3 working days"},{nl:"2 werkdagen",en:"2 working days"},{nl:"1 werkdag",en:"1 working day"}]}
     ]},
   rateh:{nl:"Uurtarieven",en:"Hourly rates"},
-  rated:{nl:"Voor werk dat niet in een pakket of onderzoek past.",en:"For work that fits neither a package nor a study."},
+  rated:{nl:"Elke prijs op deze pagina is met deze twee tarieven uitgerekend, dus u kunt het narekenen.",
+         en:"Every price on this page is built from these two rates, so you can check the arithmetic yourself."},
   rates:[
-    {n:{nl:"Industriële AI en data-engineering",en:"Industrial AI and data engineering"}, v:105},
-    {n:{nl:"Integratie, besturing en werk op locatie",en:"Integration, control and work on site"}, v:85},
-    {n:{nl:"Webwerk buiten de scope",en:"Web work outside the scope"}, v:75}
+    {n:{nl:"Concept: uitzoeken, rekenen, een aanpak kiezen",en:"Concept: working it out, calculating, choosing an approach"}, rate:"concept"},
+    {n:{nl:"Uitvoering: bouwen, testen, opleveren",en:"Execution: building, testing, delivering"}, rate:"exec"}
   ],
+  /* ---- Example projects per engineering domain -------------------------------------
+     Hours, not prices: app.js multiplies by RATE below and rounds to ten euros, so
+     re-pricing the whole catalogue is two numbers, not thirty-six edits.
+       c = concept days (understand, calculate, choose an approach, quote)
+       x = execution days (build it) · 1 day = 8 hours
+       parts:true adds "+ materiaal" — the workshop invoice passes through at cost.
+     `key` matches a DISCIPLINES item so the Prototyping page can fold them into it. ---- */
+  /* One place for every price on the site. `learn` is the factor for a team doing a thing
+     for the first time — a starting team needs more hours for the same job. Drop it toward
+     1 as the work gets faster and the whole site reprices itself. */
+  rate:{concept:35, exec:20, hoursPerDay:8, learn:2.5},
+  domh:{nl:"Wat kost een project?",en:"What does a project cost?"},
+  domd:{nl:"Drie voorbeelden per vakgebied, met de tijd die erin gaat. Uw project is niet één van deze drie, maar het lijkt er waarschijnlijk genoeg op om de orde van grootte te zien.",
+        en:"Three examples per field, with the time that goes into each. Your project is not one of these three, but it probably resembles one closely enough to show the order of magnitude."},
+  domcols:{nl:["Project","Concept","Uitvoering","Prijs"],en:["Project","Concept","Execution","Price"]},
+  domains:[
+    {key:"mech", items:[
+      {n:{nl:"Een beugel of opname die blijft scheuren, opnieuw ontworpen",en:"A bracket or mount that keeps cracking, redesigned"},c:0.5,x:1.5},
+      {n:{nl:"Een scharnier of mechanisme dat nauwkeurig en herhaalbaar moet bewegen",en:"A hinge or linkage that has to move precisely and repeatably"},c:1,x:3},
+      {n:{nl:"Een machineframe dat niet mag trillen: berekening plus ontwerp",en:"A machine frame that must not vibrate: calculation plus design"},c:1.5,x:5}]},
+    {key:"cad", items:[
+      {n:{nl:"Een oud onderdeel zonder tekening: opgemeten en gemodelleerd",en:"A legacy part with no drawing: measured and modelled"},c:0.5,x:1},
+      {n:{nl:"Een behuizing ontworpen om elektronica die u al heeft",en:"An enclosure designed around electronics you already have"},c:1,x:3},
+      {n:{nl:"Één parametrisch model voor een hele productfamilie",en:"One parametric model that covers a whole product family"},c:1.5,x:4.5}]},
+    {key:"elec", items:[
+      {n:{nl:"Een storing die soms optreedt, gevonden door te meten in plaats van te gokken",en:"An intermittent fault found by measuring instead of guessing"},c:0.5,x:1.5},
+      {n:{nl:"Voeding en beveiliging voor een natte of stoffige omgeving",en:"Power supply and protection for a wet or dusty environment"},c:1,x:3},
+      {n:{nl:"Sensorsignalen die over afstand verkeerd uitlezen, geconditioneerd",en:"Sensor signals that read wrong over distance, conditioned"},c:1,x:2}]},
+    {key:"pcb", items:[
+      {n:{nl:"Een tweelaagse interfaceprint, inclusief productiebestanden",en:"A two-layer interface board, production files included"},c:0.5,x:2.5},
+      {n:{nl:"Een vierlaagse print: microcontroller, communicatie, voeding, bescherming",en:"A four-layer board: microcontroller, communication, power, protection"},c:2,x:6},
+      {n:{nl:"Herontwerp omdat een component niet meer leverbaar is",en:"A redesign because a component went end-of-life"},c:1,x:2}]},
+    {key:"firmware", items:[
+      {n:{nl:"Een nieuwe print aan de praat: bootloader, drivers, functietest",en:"A board brought to life: bootloader, drivers, function test"},c:0.5,x:2.5},
+      {n:{nl:"Volledige firmware: toestanden, communicatie, foutafhandeling, updates op afstand",en:"Complete firmware: states, communication, error handling, updates over the air"},c:2,x:10},
+      {n:{nl:"Firmware die niemand meer begrijpt, gedocumenteerd en weer bouwbaar",en:"Firmware nobody understands any more, documented and buildable again"},c:1,x:4}]},
+    {key:"control", items:[
+      {n:{nl:"Een regeling die slingert of doorschiet, afgesteld tot het stopt",en:"A loop that oscillates or overshoots, tuned until it stops"},c:0.5,x:1},
+      {n:{nl:"Besturing voor één machine of cel, met HMI en veiligheidsketen, in bedrijf gesteld",en:"Control for one machine or cell, with HMI and safety chain, commissioned on site"},c:2,x:8},
+      {n:{nl:"Receptbesturing: één machine, veel producten, zonder omb (te bouwen)",en:"Recipe control: one machine, many products, no rewiring in between"},c:1.5,x:5}]},
+    {key:"robot", items:[
+      {n:{nl:"Reikwijdte, gewicht en cyclustijd uitgerekend vóór u een robot koopt",en:"Reach, payload and cycle time worked out before you buy a robot"},c:1,x:2},
+      {n:{nl:"Een cobot op een bestaande lijn, inclusief grijper en veiligheidsbeoordeling",en:"A cobot on an existing line, gripper and safety assessment included"},c:2,x:8},
+      {n:{nl:"Een grijper voor een product dat lastig vast te pakken is",en:"A gripper for a product that is awkward to hold"},c:1,x:3}]},
+    {key:"drone", items:[
+      {n:{nl:"Kan een drone dit hier, en mag het? Haalbaarheid inclusief EASA-categorie",en:"Can a drone do this here, and is it allowed? Feasibility including the EASA category"},c:1.5,x:1.5},
+      {n:{nl:"Een payload op een bestaand toestel: opname, voeding, telemetrie, vliegend getest",en:"A payload on an existing airframe: mount, power, telemetry, flight-tested"},c:1.5,x:4.5},
+      {n:{nl:"Centimeterpositionering (RTK) geïntegreerd en vliegend bewezen",en:"Centimetre positioning (RTK) integrated and proven in flight"},c:2,x:6}]},
+    {key:"data", items:[
+      {n:{nl:"Één dataset, één vraag: zit het signaal er werkelijk in?",en:"One dataset, one question: is the signal really in there?"},c:0.5,x:1.5},
+      {n:{nl:"Een meetketen: inlezen, filteren, kenmerken, en een dashboard dat gelezen wordt",en:"A measurement pipeline: acquisition, filtering, features, and a dashboard someone reads"},c:1,x:5},
+      {n:{nl:"Een detector getraind op uw eigen data en getoetst aan echte gebeurtenissen",en:"A detector trained on your own data and validated against real events"},c:2,x:8}]},
+    {key:"dfm", items:[
+      {n:{nl:"Kostprijs per stuk voor één onderdeel, bij drie verschillende aantallen",en:"Cost per piece for one part, at three different volumes"},c:0.5,x:1},
+      {n:{nl:"Een prototype geschikt gemaakt voor spuitgieten of plaatwerk",en:"A prototype made fit for injection moulding or sheet metal"},c:1,x:3},
+      {n:{nl:"Leverancier gezocht en beoordeeld, monster gemaakt, kwaliteit gecontroleerd",en:"A supplier found and vetted, a sample run made, the quality checked"},c:1,x:4}]},
+    {key:"test", items:[
+      {n:{nl:"Een meetplan, geschreven vóórdat de opstelling gebouwd wordt",en:"A measurement plan, written before the rig gets built"},c:0.5,x:0.5},
+      {n:{nl:"Een duurtestopstelling die één specifieke vraag beantwoordt",en:"An endurance rig that answers one specific question"},c:1,x:4},
+      {n:{nl:"Een validatietraject en een rapport voor uw eigen klant",en:"A validation campaign and a report for your own customer"},c:1,x:5}]},
+    {key:"print3d", items:[
+      {n:{nl:"Één onderdeel getekend en gemaakt",en:"One part drawn and made"},c:0.25,x:0.75,parts:true},
+      {n:{nl:"Een mal of jig zodat honderd samenstellingen gelijk uitvallen",en:"A jig so a hundred assemblies come out the same"},c:0.5,x:1.5,parts:true},
+      {n:{nl:"Een kleine serie van 25 tot 100, met een controle op wat er binnenkomt",en:"A small series of 25 to 100, with a check on what arrives"},c:1,x:3,parts:true}]}
+  ],
+  domnote:{nl:"Dit is de prijs bij de hierboven beschreven omvang, vastgelegd na een gratis half uur. Wat daarbuiten valt gaat tegen het uurtarief. We rekenen ruim: we zijn een jong bureau en doen sommige dingen voor het eerst \u2014 die uren staan er gewoon in, in plaats van op uw rekening.",
+           en:"This is the price at the scope described above, fixed after a free half hour. Anything outside it goes at the hourly rate. We budget generously: we are a young firm and some of this we do for the first time \u2014 those hours are in the estimate rather than on your invoice."},
   fixh:{nl:"Van pakket naar live site",en:"From package to live site"},
   fix:[
     {h:{nl:"Twee zinnen",en:"Two sentences"},p:{nl:"U stuurt wat er moet gebeuren. Wij zeggen eerlijk of het bij ons past — soms is het antwoord nee.",en:"You send what needs to happen. We say honestly whether it suits us — sometimes the answer is no."}},

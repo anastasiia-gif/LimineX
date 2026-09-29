@@ -177,11 +177,11 @@ PAGES = [
    "intro":"You have an idea and no technical team. We are that team until you have your own: feasibility first, then a prototype an investor can react to."}},
 
  {"id":"price", "nl":{"slug":"tarieven", "nav":"Tarieven", "title":"Website laten maken: vaste prijzen | Liminex",
-   "desc":"Website laten maken tegen een vaste prijs: one-pager €950, MKB-site vanaf €2.500, webshop vanaf €4.500. Onderhoud vanaf €35 per maand.",
+   "desc":"Website laten maken tegen een vaste prijs: one-pager €950, MKB-site vanaf €2.300, webshop vanaf €3.450. Onderhoud vanaf €35 per maand.",
    "h1":"Vaste prijzen voor websites en webshops",
    "intro":"Drie pakketten, uitbreidingen en Care-abonnementen — zodat u weet wat het kost voordat u belt."},
    "en":{"nav":"Pricing", "slug":"pricing", "title":"Website pricing: fixed packages | Liminex",
-   "desc":"Fixed prices for a website or online shop: one-pager from €950, SME site from €2,500, online shop from €4,500. Care plans from €35 a month.",
+   "desc":"Fixed prices for a website or online shop: one-pager €950, SME site from €2,300, online shop from €3,450. Care plans from €35 a month.",
    "h1":"Fixed prices for websites and online shops",
    "intro":"Three packages, add-ons and Care plans — so you know what it costs before you call."}},
 
@@ -347,8 +347,11 @@ for slot, source in RENDER_ALIAS.items():
         if source in cutouts:
             cutouts.append(slot)
 
-favicon = "data:image/webp;base64," + base64.b64encode(
-    open(p("assets/logo_mark.webp"), "rb").read()).decode()
+# The browser icon has to be a real file at a real URL. It used to be a data: URI, which
+# browsers accept but Google's favicon crawler ignores — which is why the search result
+# showed a generic placeholder instead of the mark. The files live in static/ and are
+# copied to the site root by the passthrough further down.
+ICONS = BASE_PATH + "/"
 
 LD = json.dumps({
     "@context": "https://schema.org", "@type": "ProfessionalService",
@@ -457,7 +460,9 @@ for pg in PAGES:
             '<link rel="alternate" hreflang="nl" href="%s%s">' % (SITE_ORIGIN, url_for(pg, "nl")),
             '<link rel="alternate" hreflang="en" href="%s%s">' % (SITE_ORIGIN, url_for(pg, "en")),
             '<link rel="alternate" hreflang="x-default" href="%s%s">' % (SITE_ORIGIN, url_for(pg, "nl")),
-            '<link rel="icon" href="%s">' % favicon,
+            '<link rel="icon" href="%sfavicon.ico" sizes="32x32">' % ICONS,
+            '<link rel="icon" type="image/png" sizes="192x192" href="%sicon-192.png">' % ICONS,
+            '<link rel="apple-touch-icon" href="%sapple-touch-icon.png">' % ICONS,
             '<meta property="og:type" content="website">',
             '<meta property="og:site_name" content="Liminex">',
             '<meta property="og:title" content="%s">' % meta["title"],
