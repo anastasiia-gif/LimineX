@@ -766,50 +766,53 @@ function price(c,x){
   return Math.round(((c||0)*h*R.concept + (x||0)*h*R.exec)*f/10)*10;
 }
 function domPrice(it){ return price(it.c,it.x); }
-function days(n){
-  n=Math.round(n*(C.price.rate.learn||1)*4)/4;
-  var one=(lang==="nl"?"dag":"day"), many=(lang==="nl"?"dagen":"days");
-  var s=(n%1===0)?String(n):String(n).replace(".",lang==="nl"?",":".");
-  return s+" "+(n===1?one:many);
+/* What a client needs is a date, not our estimating arithmetic: concept and execution days
+   exist to compute the price and stay off the page. This turns the total into a calendar
+   band that runs from the first conversation to the finished part. */
+function leadOf(it){
+  var tot=((it.c||0)+(it.x||0))*(C.price.rate.learn||1), b=C.price.lead;
+  for(var i=0;i<b.length;i++) if(tot<=b[i].d) return t(b[i]);
+  return t(b[b.length-1]);
 }
-function domRows(items){
-  var h="";
+function domRows(items,showLead){
+  var cols=(lang==="nl"?C.price.domcols.nl:C.price.domcols.en), h="";
   for(var i=0;i<items.length;i++){
     var it=items[i];
     h+='<div class="prow prow--dom"><div class="pn">'+esc(t(it.n))+'</div>'
-      +'<div class="pd">'+esc(days(it.c))+' + '+esc(days(it.x))+'</div>'
+      +(showLead?'<div class="pd">'+esc(cols[1])+': '+esc(leadOf(it))+'</div>':'')
       +'<div class="pv"><b>'+money(domPrice(it))+'</b>'
       +(it.parts?' <span class="pfrom">'+(lang==="nl"?"+ materiaal":"+ parts")+'</span>':'')
       +'</div></div>';
   }
   return h;
 }
+function domTitle(key){
+  for(var j=0;j<DISCIPLINES.items.length;j++)
+    if(DISCIPLINES.items[j].ic===key) return t(DISCIPLINES.items[j].t);
+  return key;
+}
 /* The fold on the Prototyping page: a native <details>, so it works without JavaScript
-   and a keyboard reaches it for free. */
+   and a keyboard reaches it for free. Open, the panel is positioned over whatever sits
+   below it rather than growing the card, so the grid never reflows. */
 function domFold(key){
   var d=C.price, dom=null;
   if(hidden("price")) return "";
   for(var i=0;i<d.domains.length;i++) if(d.domains[i].key===key) dom=d.domains[i];
   if(!dom) return "";
   return '<details class="fold"><summary>'+(lang==="nl"?"Prijzen":"Prices")+'</summary>'
-    +'<div class="prices prices--fold">'+domRows(dom.items)+'</div></details>';
+    +'<div class="prices prices--fold">'+domRows(dom.items,false)+'</div></details>';
 }
-/* One table, one block per domain, headed by the domain's own name from DISCIPLINES so
-   the two pages cannot drift apart. */
+/* Tarieven: twelve fields as a collapsible menu instead of twelve stacked tables. Closed
+   it is one screen; opened, the panel floats over the block beneath it, so the section
+   keeps its height whatever is open. */
 function domTable(){
-  var d=C.price, cols=(lang==="nl"?d.domcols.nl:d.domcols.en), h="";
+  var d=C.price, h='<div class="domgrid rv">';
   for(var i=0;i<d.domains.length;i++){
-    var dom=d.domains[i], title=dom.key;
-    for(var j=0;j<DISCIPLINES.items.length;j++)
-      if(DISCIPLINES.items[j].ic===dom.key) title=t(DISCIPLINES.items[j].t);
-    h+='<div class="prices rv"><h3>'+esc(title)+'</h3>'
-      +'<div class="prow prow--dom prow--head" aria-hidden="true">'
-      +'<div class="pn">'+esc(cols[0])+'</div>'
-      +'<div class="pd">'+esc(cols[1])+' + '+esc(cols[2])+'</div>'
-      +'<div class="pv">'+esc(cols[3])+'</div></div>'
-      + domRows(dom.items)+'</div>';
+    var dom=d.domains[i];
+    h+='<details class="fold fold--dom"><summary>'+esc(domTitle(dom.key))+'</summary>'
+      +'<div class="prices prices--fold">'+domRows(dom.items,true)+'</div></details>';
   }
-  return h;
+  return h+'</div>';
 }
 function renderPrice(){
   var d=C.price,h="";
@@ -1112,6 +1115,21 @@ document.addEventListener("click",function(e){
   }
   /* language links navigate for real — each language has its own URL */
 });
+/* The price panels float over what sits beneath them instead of stretching the page, so
+   only one may be open at a time and the card it escapes needs to win the stacking order.
+   `toggle` does not bubble — hence the capture phase. */
+document.addEventListener("toggle",function(e){
+  var d=e.target;
+  if(!d||!d.classList||!d.classList.contains("fold")) return;
+  if(d.open){
+    var all=document.querySelectorAll("details.fold[open]");
+    for(var i=0;i<all.length;i++) if(all[i]!==d) all[i].open=false;
+  }
+  if(!d.classList.contains("fold--dom")){
+    var host=d.parentNode;
+    if(host&&host.classList) host.classList.toggle("fold-open", d.open);
+  }
+},true);
 document.addEventListener("keydown",function(e){
   var m=document.getElementById("ddmenu"), b=document.getElementById("ddbtn");
   if(!m||!b) return;

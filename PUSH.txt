@@ -1,40 +1,39 @@
-Liminex — website update, 29 September 2026
-===========================================
+Liminex — lead time + collapsible Tarieven (29 Sep 2026)
 
-COPY over the repo, same paths, then commit and push:
+Three files change. Nothing else.
 
-  build.py
-  src/app.js
-  src/content.js
-  src/styles.css
-  static/favicon.ico            (new)
-  static/icon-192.png           (new)
-  static/icon-512.png           (new)
-  static/apple-touch-icon.png   (new)
+  src/content.js   src/app.js   src/styles.css
 
-Nothing to delete. static/google65eaec6e727ff020.html stays where it is.
+Copy them over the same paths in your repo, commit, push to main.
+GitHub Actions rebuilds and deploys liminex.net as usual.
 
 WHAT CHANGED
-  1. Browser icon: real files instead of a data: URI, so Google can crawl it.
-  2. Every price on the site is now computed from hours x rate.
-  3. Prototyping page: each domain card has a "Prices" fold with three examples.
-  4. Tarieven: a full table, one block per domain.
 
-THE ONLY PLACE PRICES LIVE
-  src/content.js  ->  C.price.rate
+1. Time is now a lead time, not our estimating arithmetic.
+   Concept and execution days stay in content.js because they compute the
+   price, but they are no longer printed anywhere. A new C.price.lead turns
+   the total into a calendar band: "about a week", "one to two weeks", up to
+   "two to three months". It runs from the first conversation to the finished
+   part, and the note under the table says so.
+   To move a band, edit C.price.lead in src/content.js — nothing else.
 
-      rate:{concept:35, exec:20, hoursPerDay:8, learn:2.5}
+2. Prototyping page: the Prices fold shows project and price only.
+   The day split is gone from the card.
 
-  concept  EUR/hour for working it out, calculating, choosing an approach
-  exec     EUR/hour for building, testing, delivering
-  learn    the "we are still getting fast at this" factor. Every estimate is
-           multiplied by it. Lower it toward 1 as the team speeds up and the
-           whole site reprices itself, including the days shown per project.
+3. Tarieven: the twelve engineering fields are a collapsible menu.
+   Twelve stacked tables became twelve buttons in a grid, one screen high.
 
-  Change one of those three numbers and all 36 engineering projects, the three
-  website packages, the add-ons and the three industrial studies move together.
+4. Open prices float, they do not stretch.
+   On desktop the open panel is positioned over whatever sits below it, so the
+   card keeps its height and the section keeps its length. Measured: the
+   Tarieven engineering section is 879px closed and 879px open; the domain grid
+   on Prototyping is 1714px either way. Only one panel opens at a time.
+   Under 861px the panel sits in normal flow — a phone is one column anyway.
 
-CHECK AFTER DEPLOY
-  curl -s https://liminex.net/favicon.ico -o /dev/null -w "%{http_code}\n"     -> 200
-  curl -s https://liminex.net/ | grep -o 'rel="icon"[^>]*'                     -> favicon.ico
-  curl -s https://liminex.net/tarieven/ | grep -c "Wat kost een project"       -> 1
+CHECKED
+  build: 22 pages prerendered, no errors
+  axe-core: 20 pages, 42 scans, 0 violations, 0 JS errors, 0 overflow
+  NL and EN both render the new strings
+  the folds are native <details>: they work with JavaScript off and from the keyboard
+
+PRICES ARE UNCHANGED. Same 36 projects, same €35/€20 with learn 2.5.

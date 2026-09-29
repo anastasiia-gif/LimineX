@@ -567,9 +567,18 @@ price:{
      1 as the work gets faster and the whole site reprices itself. */
   rate:{concept:35, exec:20, hoursPerDay:8, learn:2.5},
   domh:{nl:"Wat kost een project?",en:"What does a project cost?"},
-  domd:{nl:"Drie voorbeelden per vakgebied, met de tijd die erin gaat. Uw project is niet één van deze drie, maar het lijkt er waarschijnlijk genoeg op om de orde van grootte te zien.",
-        en:"Three examples per field, with the time that goes into each. Your project is not one of these three, but it probably resembles one closely enough to show the order of magnitude."},
-  domcols:{nl:["Project","Concept","Uitvoering","Prijs"],en:["Project","Concept","Execution","Price"]},
+  domd:{nl:"Drie voorbeelden per vakgebied, met de doorlooptijd van eerste gesprek tot opgeleverd onderdeel. Uw project is niet één van deze drie, maar het lijkt er waarschijnlijk genoeg op om de orde van grootte te zien.",
+        en:"Three examples per field, with the time from the first conversation to the finished part. Your project is not one of these three, but it probably resembles one closely enough to show the order of magnitude."},
+  domcols:{nl:["Project","Doorlooptijd","Prijs"],en:["Project","Lead time","Price"]},
+  /* Concept and execution days below are a pricing instrument, not client-facing content.
+     What a client wants to know is when the thing is on their bench, so the site shows a
+     calendar band derived from the total. Bands are on total estimated days x learn. */
+  lead:[{d:3,  nl:"ongeveer een week",     en:"about a week"},
+        {d:6,  nl:"\u00e9\u00e9n tot twee weken", en:"one to two weeks"},
+        {d:11, nl:"twee tot drie weken",   en:"two to three weeks"},
+        {d:17, nl:"drie tot vier weken",   en:"three to four weeks"},
+        {d:26, nl:"vijf tot zes weken",    en:"five to six weeks"},
+        {d:1e9,nl:"twee tot drie maanden", en:"two to three months"}],
   domains:[
     {key:"mech", items:[
       {n:{nl:"Een beugel of opname die blijft scheuren, opnieuw ontworpen",en:"A bracket or mount that keeps cracking, redesigned"},c:0.5,x:1.5},
@@ -620,8 +629,8 @@ price:{
       {n:{nl:"Een mal of jig zodat honderd samenstellingen gelijk uitvallen",en:"A jig so a hundred assemblies come out the same"},c:0.5,x:1.5,parts:true},
       {n:{nl:"Een kleine serie van 25 tot 100, met een controle op wat er binnenkomt",en:"A small series of 25 to 100, with a check on what arrives"},c:1,x:3,parts:true}]}
   ],
-  domnote:{nl:"Dit is de prijs bij de hierboven beschreven omvang, vastgelegd na een gratis half uur. Wat daarbuiten valt gaat tegen het uurtarief. We rekenen ruim: we zijn een jong bureau en doen sommige dingen voor het eerst \u2014 die uren staan er gewoon in, in plaats van op uw rekening.",
-           en:"This is the price at the scope described above, fixed after a free half hour. Anything outside it goes at the hourly rate. We budget generously: we are a young firm and some of this we do for the first time \u2014 those hours are in the estimate rather than on your invoice."},
+  domnote:{nl:"Dit is de prijs bij de hierboven beschreven omvang, vastgelegd na een gratis half uur. Wat daarbuiten valt gaat tegen het uurtarief. We rekenen ruim: we zijn een jong bureau en doen sommige dingen voor het eerst \u2014 die uren staan er gewoon in, in plaats van op uw rekening. De doorlooptijd loopt van het eerste gesprek tot oplevering \u2014 niet het aantal uren dat we eraan werken.",
+           en:"This is the price at the scope described above, fixed after a free half hour. Anything outside it goes at the hourly rate. We budget generously: we are a young firm and some of this we do for the first time \u2014 those hours are in the estimate rather than on your invoice. Lead time runs from the first conversation to delivery, not the hours spent working on it."},
   fixh:{nl:"Van pakket naar live site",en:"From package to live site"},
   fix:[
     {h:{nl:"Twee zinnen",en:"Two sentences"},p:{nl:"U stuurt wat er moet gebeuren. Wij zeggen eerlijk of het bij ons past — soms is het antwoord nee.",en:"You send what needs to happen. We say honestly whether it suits us — sometimes the answer is no."}},
