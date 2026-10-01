@@ -1,39 +1,48 @@
-Liminex — lead time + collapsible Tarieven (29 Sep 2026)
+Liminex — engineering cases off the whole site (1 Oct 2026)
 
 Three files change. Nothing else.
 
   src/content.js   src/app.js   src/styles.css
 
 Copy them over the same paths in your repo, commit, push to main.
-GitHub Actions rebuilds and deploys liminex.net as usual.
+This package also carries the Tarieven work of 29–30 Sep, in case that is
+not pushed yet.
 
 WHAT CHANGED
 
-1. Time is now a lead time, not our estimating arithmetic.
-   Concept and execution days stay in content.js because they compute the
-   price, but they are no longer printed anywhere. A new C.price.lead turns
-   the total into a calendar band: "about a week", "one to two weeks", up to
-   "two to three months". It runs from the first conversation to the finished
-   part, and the note under the table says so.
-   To move a band, edit C.price.lead in src/content.js — nothing else.
+No engineering case is published anywhere on the site any more. Checked
+across all 20 pages, NL and EN: zero case cards, and none of these strings
+left anywhere —
 
-2. Prototyping page: the Prices fold shows project and price only.
-   The day split is gone from the card.
+  "Under NDA" / "Onder geheimhouding"
+  "Acoustic drone detection", "RTK positioning", "Vehicle-mounted structure",
+  "Wearable alarm device", "Pipeline inspection drone"
+  "What was built, not who paid for it"
 
-3. Tarieven: the twelve engineering fields are a collapsible menu.
-   Twelve stacked tables became twelve buttons in a grid, one screen high.
+Page by page:
+  Engineering & prototyping   nothing (was 5 cases, removed yesterday)
+  Manufacturing               the whole Experience block is gone
+  Project Yard                never had any
+  Work                        the five cards are gone
+  Software & web              unchanged — the two live sites still there
 
-4. Open prices float, they do not stretch.
-   On desktop the open panel is positioned over whatever sits below it, so the
-   card keeps its height and the section keeps its length. Measured: the
-   Tarieven engineering section is 879px closed and 879px open; the domain grid
-   on Prototyping is 1714px either way. Only one panel opens at a time.
-   Under 861px the panel sits in normal flow — a phone is one column anyway.
+WHAT IS LEFT AS PROOF
+  The software portfolio: HUTKO and maksavtoservice, in full on Work, as two
+  cards on Software & web. Nothing else changed about them.
+
+ONE PARAGRAPH I KEPT ON /work/ — tell me if it should also go
+  Under the heading "Engineering":
+    "Also delivered, not yet public — Some of our work is under NDA,
+     including detection and control engineering. In a conversation we can
+     describe at a high level what we did."
+  It names no client and no project, and without it the portfolio looks like
+  websites only. But if the NDA is strict about naming even the fields, say
+  so and it goes too.
+
+NOTHING WAS DELETED FROM CONTENT
+  The five cases are still in content.js with a comment saying they are not
+  rendered. If a client ever allows one, it goes back without rewriting it.
 
 CHECKED
   build: 22 pages prerendered, no errors
   axe-core: 20 pages, 42 scans, 0 violations, 0 JS errors, 0 overflow
-  NL and EN both render the new strings
-  the folds are native <details>: they work with JavaScript off and from the keyboard
-
-PRICES ARE UNCHANGED. Same 36 projects, same €35/€20 with learn 2.5.

@@ -14,9 +14,11 @@ var FORMS = {
 
 
 /* ============================================================ EXPERIENCE
-   Engineering work behind the two public websites. Clients under NDA are described
-   by what was built, never by who paid for it. `areas` decides which activity pages
-   each item appears on.
+   NOT RENDERED ANYWHERE since 1 Oct 2026: every one of these is under NDA, so none of
+   them is published. The data is kept so a case can go back on the site the moment a
+   client allows it — put expCard()/expCards() back in app.js and call it. What the site
+   does show as proof is the software portfolio in C.work.cases, the sites that are live.
+   `areas` decided which activity page each item appeared on.
    ============================================================ */
 var EXPERIENCE = [
   {id:"acoustic", img:"domain-data", areas:["proto","start"],
@@ -57,6 +59,7 @@ var EXPH={
      en:"Work we've done in this area."},
   none:{nl:"Wilt u de volgende zijn?",en:"Would you like to be next?"},
   engh:{nl:"Engineering",en:"Engineering"},
+  /* engd is unused while the cases are off the site; kept with them. */
   engd:{nl:"Wat er gebouwd is, niet voor wie.",
         en:"What was built, not who paid for it."}
 };
@@ -485,6 +488,9 @@ price:{
     {n:{nl:"Extra pagina",en:"Extra page"}, hrs:[[0,0.4]], disc:true},
     {n:{nl:"Werk buiten de scope",en:"Out-of-scope work"}, rate:"exec", unit:{nl:"/ uur",en:"/ hour"}, disc:false}
   ],
+  careseh:{nl:"Care \u2014 draaiend houden wat we opleveren",en:"Care \u2014 keeping what we deliver running"},
+  caresed:{nl:"Twee abonnementen: \u00e9\u00e9n voor websites, \u00e9\u00e9n voor modellen die in de fabriek draaien.",
+           en:"Two plans: one for websites, one for models running in a plant."},
   careh:{nl:"Website Care — hosting en onderhoud",en:"Website Care — hosting and upkeep"},
   cared:{nl:"Na oplevering houden wij de site draaiend. Per maand of per jaar, en bij een jaar is één maand gratis.",
          en:"After launch we keep the site running. Monthly or yearly, and a year gets you one month free."},
@@ -501,8 +507,8 @@ price:{
       {k:{nl:"Google Bedrijfsprofiel bijhouden",en:"Google Business Profile upkeep"}, v:[false,true,true]},
       {k:{nl:"Snelheids- en SEO-check per kwartaal + kort rapport",en:"Quarterly speed/SEO check + short report"}, v:[false,false,true]}
     ]},
-  vat:{nl:"Alle bedragen zijn exclusief btw. De introductiekorting geldt alleen voor de websitepakketten en uitbreidingen \u2014 niet voor Website Care, Model Care, industrieel werk of uurwerk.",
-       en:"All amounts exclude VAT. The launch discount applies only to the website packages and add-ons \u2014 not to Website Care, Model Care, industrial work or hourly rates."},
+  vat:{nl:"Alle bedragen zijn exclusief btw. De introductiekorting geldt alleen voor de websitepakketten en uitbreidingen \u2014 niet voor Website Care, Model Care, industrieel werk of werk tegen uurtarief.",
+       en:"All amounts exclude VAT. The launch discount applies only to the website packages and add-ons \u2014 not to Website Care, Model Care, industrial work or work at the hourly rate."},
   previewmore:{nl:"Uitbreidingen, Care-abonnementen en alle details",en:"Add-ons, Care plans and all the details"},
   /* ---- Industry: AI in production. The two studies are published because they are the
      front door; the pilot carries a "from"; anything whose price depends on the plant
@@ -548,6 +554,9 @@ price:{
       {k:{nl:"Reactietijd als er iets stukgaat",en:"Response time when something breaks"},
        v:[{nl:"3 werkdagen",en:"3 working days"},{nl:"2 werkdagen",en:"2 working days"},{nl:"1 werkdag",en:"1 working day"}]}
     ]},
+  /* Not rendered any more: the hourly-rate block was taken off Tarieven on 29 Sep 2026.
+     The copy stays here so putting it back is one line in renderPrice(). The two rates
+     themselves live in `rate` above and still drive every price on the site. */
   rateh:{nl:"Uurtarieven",en:"Hourly rates"},
   rated:{nl:"Elke prijs op deze pagina is met deze twee tarieven uitgerekend, dus u kunt het narekenen.",
          en:"Every price on this page is built from these two rates, so you can check the arithmetic yourself."},
@@ -567,8 +576,8 @@ price:{
      1 as the work gets faster and the whole site reprices itself. */
   rate:{concept:35, exec:20, hoursPerDay:8, learn:2.5},
   domh:{nl:"Wat kost een project?",en:"What does a project cost?"},
-  domd:{nl:"Drie voorbeelden per vakgebied, met de doorlooptijd van eerste gesprek tot opgeleverd onderdeel. Uw project is niet één van deze drie, maar het lijkt er waarschijnlijk genoeg op om de orde van grootte te zien.",
-        en:"Three examples per field, with the time from the first conversation to the finished part. Your project is not one of these three, but it probably resembles one closely enough to show the order of magnitude."},
+  domd:{nl:"Kies een vakgebied en u ziet voorbeelden met hun prijs en doorlooptijd \u2014 van eerste gesprek tot opgeleverd. Uw project staat er niet letterlijk tussen, maar het lijkt waarschijnlijk genoeg op \u00e9\u00e9n ervan om de orde van grootte te zien.",
+        en:"Pick a field and you see examples with their price and lead time \u2014 from the first conversation to delivery. Your project is not literally in the list, but it probably resembles one closely enough to show the order of magnitude."},
   domcols:{nl:["Project","Doorlooptijd","Prijs"],en:["Project","Lead time","Price"]},
   /* Concept and execution days below are a pricing instrument, not client-facing content.
      What a client wants to know is when the thing is on their bench, so the site shows a

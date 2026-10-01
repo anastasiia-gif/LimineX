@@ -266,50 +266,19 @@ function bandMark(a,b){
 }
 /* The experience section every activity page ends on: engineering work for this area,
    then the two public websites, then the ask. Pass an area id to filter. */
-function expItems(area){
-  var out=[];
-  for(var i=0;i<EXPERIENCE.length;i++){
-    var e=EXPERIENCE[i];
-    if(!area || e.areas.indexOf(area)>=0) out.push(e);
-  }
-  return out;
-}
+/* The engineering cases are not published any more — every one of them is under NDA.
+   EXPERIENCE stays in content.js so they can come back, but nothing renders them; what
+   is left on the site is the software portfolio, the websites that are live. */
 /* Which proof belongs on which page. Websites are proof for web work, engineering
    items are proof for hardware work; showing both everywhere is noise. */
 var SHOWFOLIO={web:true, work:true, about:true, price:true};
-/* One engineering case as a card in the same shape as the website cases: a picture
-   (a cut-out floating on the grey ground, or a framed photo), a tag, a title, one
-   paragraph and the status line. Content lives in EXPERIENCE in content.js. */
-function expCard(e){
-  var src=e.img && renderSrc(e.img);
-  var cut=src && typeof CUTOUT!=="undefined" && CUTOUT.indexOf(e.img)>=0;
-  var shot = src
-    ? '<span class="shot'+(cut?' shot--cut':' has-img')+'"><img src="'+src+'" alt=""></span>'
-    : '<span class="shot"><span class="t">'+(lang==="nl"?"Foto":"Photo")+'</span></span>';
-  return '<div class="fcard fcard--exp">'+shot
-    +'<span class="body"><span class="tag">'+esc(t(e.k))+'</span>'
-    +'<h3>'+esc(t(e.t))+'</h3><p>'+esc(t(e.p))+'</p>'
-    +'<span class="live live--plain">'+esc(t(e.m))+'</span></span></div>';
-}
-function expCards(items){
-  var h='<div class="folio folio--exp rv">';
-  for(var i=0;i<items.length;i++) h+=expCard(items[i]);
-  return h+'</div>';
-}
+/* Proof on an activity page: the sites that are live, nothing else. */
 function expBlock(withNext, area){
-  var items=expItems(area);
-  var folio=(area===undefined)||SHOWFOLIO[area]===true;
-  if(!items.length && !folio) return "";
+  if(!((area===undefined)||SHOWFOLIO[area]===true)) return "";
   var h='<div class="lbl lbl--q rv">'+esc(t(EXPH.h))+'</div>'
     +'<h2 class="rv" style="margin-top:16px;max-width:20ch">'+esc(t(withNext?EXPH.none:C.folio.expd))+'</h2>'
-    +'<p class="deck rv" style="margin-top:18px">'+esc(t(EXPH.d))+'</p>';
-  if(items.length) h+=expCards(items);
-  if(folio){
-    if(items.length)
-      h+='<h3 class="rv" style="margin-top:64px">'
-        +(lang==="nl"?"Sites die live staan":"Sites that are live")+'</h3>';
-    h+=folioCards();
-  }
+    +'<p class="deck rv" style="margin-top:18px">'+esc(t(EXPH.d))+'</p>'
+    +folioCards();
   if(withNext) h+='<p class="deck rv" style="margin-top:30px">'+esc(t(C.folio.nextp))+'</p>';
   return h;
 }
@@ -649,11 +618,11 @@ function renderWork(){
       +' &nearr;</a></p></div></div></div>';
   }
   h+='</div></section>';
+  /* No engineering cases: they are all under NDA. One paragraph says they exist. */
   h+='<section class="band band--grey"><div class="wrap">'
     +'<div class="lbl lbl--q rv">'+esc(t(EXPH.engh))+'</div>'
-    +'<h2 class="rv" style="margin-top:16px;max-width:20ch">'+esc(t(EXPH.engd))+'</h2>'
-    +expCards(EXPERIENCE)
-    +'<div class="marginnote"><h3>'+esc(t(d.moreh))+'</h3><p>'+esc(t(d.morep))+'</p></div>'
+    +'<div class="marginnote" style="margin-top:26px"><h3>'+esc(t(d.moreh))+'</h3>'
+    +'<p>'+esc(t(d.morep))+'</p></div>'
     +'</div></section>';
   h+='<section class="band band--tight"><div class="wrap">'+ctaBlock(t(C.folio.next))+'</div></section>';
   return h;
@@ -750,14 +719,6 @@ function priceRows(rows){
   }
   return h+'</div>';
 }
-function hourRows(rows){
-  var h='<div class="prices rv">';
-  for(var i=0;i<rows.length;i++)
-    h+='<div class="prow"><div class="pn">'+esc(t(rows[i].n))+'</div><div class="pd"></div>'
-      +'<div class="pv"><b>'+money(C.price.rate[rows[i].rate])+'</b> <span class="pfrom">'
-      +(lang==="nl"?"/ uur":"/ hour")+'</span></div></div>';
-  return h+'</div>';
-}
 /* Example projects per domain. The price is computed from the hours and the two rates in
    C.price.rate, never typed into the copy, so changing what an hour costs re-prices the
    whole catalogue at once. Rounded to ten euros. */
@@ -786,6 +747,78 @@ function domRows(items,showLead){
   }
   return h;
 }
+/* ---- Tarieven as one menu -------------------------------------------------------------
+   Every block on the page is a labelled button that opens a panel over what sits below it,
+   so the page stays one screen long whatever is open. A price in the button means the
+   entry is one product; no price means the panel holds a table or a list of rows. */
+/* The reveal animation only fires for elements an observer has seen, and a closed panel is
+   never seen — inside a panel the markup has to be visible from the start. */
+function bare(h){ return h.replace(/ rv(?=")/g,""); }
+function menuItem(label,priceHtml,body,wide){
+  return '<details class="fold fold--dom'+(wide?" fold--full":"")+'">'
+    +'<summary><span class="mn">'+esc(label)+'</span>'
+    +(priceHtml?'<span class="mp">'+priceHtml+'</span>':'')+'</summary>'
+    +'<div class="prices--fold">'+bare(body)+'</div></details>';
+}
+function menuGrid(items){ return '<div class="domgrid rv">'+items.join("")+'</div>'; }
+/* One row inside a panel: what it is, one grey line under it, the price on the right. The
+   same three parts whether the row is a website package or a machine frame. */
+function rowLine(name,sub,priceHtml){
+  return '<div class="prow prow--dom"><div class="pn">'+esc(name)+'</div>'
+    +(sub?'<div class="pd">'+esc(sub)+'</div>':'')
+    +'<div class="pv">'+priceHtml+'</div></div>';
+}
+function fromTag(v){
+  return '<span class="pfrom">'+(lang==="nl"?"vanaf ":"from ")+'</span><b>'+money(v)+'</b>';
+}
+/* Websites: the three packages, then the add-ons under a divider. */
+function webPanel(){
+  var d=C.price,h="";
+  for(var i=0;i<d.pkgs.length;i++){
+    var k=d.pkgs[i], items=(lang==="nl"?k.d.nl:k.d.en);
+    h+=rowLine(k.n, items.join(" \u00b7 "), priceTag(price(k.c,k.x),k.from,true));
+  }
+  return h+'<div class="psub">'+esc(t(d.addh))+'</div>'+bare(addRows());
+}
+/* Industry: the fixed studies, then what the plant prices itself. */
+function indPanel(){
+  var d=C.price,h="";
+  for(var i=0;i<d.ind.length;i++){
+    var r=d.ind[i];
+    h+=rowLine(t(r.n), t(r.d), (r.from?fromTag(price(r.c,r.x)):'<b>'+money(price(r.c,r.x))+'</b>'));
+  }
+  return h+'<div class="psub">'+esc(t(d.indqh))+'</div>'+bare(priceRows(d.indq));
+}
+/* Cheapest thing behind a button, so the menu answers the page's own question without
+   anything being opened. */
+function domMin(items){
+  var m=0;
+  for(var i=0;i<items.length;i++){ var v=domPrice(items[i]); if(!m||v<m) m=v; }
+  return m;
+}
+/* The page is one menu: websites, industry, and every engineering field, all the same
+   kind of button. */
+function mainMenu(){
+  var d=C.price, out=[], i;
+  var webMin=0;
+  for(i=0;i<d.pkgs.length;i++){ var v=price(d.pkgs[i].c,d.pkgs[i].x); if(!webMin||v<webMin) webMin=v; }
+  out.push(menuItem(t(d.pkgh), fromTag(promoOn()?disc(webMin):webMin), webPanel()));
+  var indMin=0;
+  for(i=0;i<d.ind.length;i++){ var w=price(d.ind[i].c,d.ind[i].x); if(!indMin||w<indMin) indMin=w; }
+  out.push(menuItem(t(d.indh), fromTag(indMin), indPanel()));
+  for(i=0;i<d.domains.length;i++)
+    out.push(menuItem(domTitle(d.domains[i].key), fromTag(domMin(d.domains[i].items)),
+             domRows(d.domains[i].items,true)));
+  return menuGrid(out);
+}
+/* Both Care plans, listed under the menu. Full width: S/M/L needs the room. */
+function careMenu(){
+  var d=C.price;
+  return menuGrid([
+    menuItem(t(d.careh), "", '<p class="pnote">'+esc(t(d.cared))+'</p>'+careTable(d.care), true),
+    menuItem(t(d.mcareh), "", '<p class="pnote">'+esc(t(d.mcared))+'</p>'+careTable(d.mcare), true)
+  ]);
+}
 function domTitle(key){
   for(var j=0;j<DISCIPLINES.items.length;j++)
     if(DISCIPLINES.items[j].ic===key) return t(DISCIPLINES.items[j].t);
@@ -805,15 +838,6 @@ function domFold(key){
 /* Tarieven: twelve fields as a collapsible menu instead of twelve stacked tables. Closed
    it is one screen; opened, the panel floats over the block beneath it, so the section
    keeps its height whatever is open. */
-function domTable(){
-  var d=C.price, h='<div class="domgrid rv">';
-  for(var i=0;i<d.domains.length;i++){
-    var dom=d.domains[i];
-    h+='<details class="fold fold--dom"><summary>'+esc(domTitle(dom.key))+'</summary>'
-      +'<div class="prices prices--fold">'+domRows(dom.items,true)+'</div></details>';
-  }
-  return h+'</div>';
-}
 function renderPrice(){
   var d=C.price,h="";
   h+='<section class="opener">'+watermark("price")+'<div class="narrow"><div class="lbl">'
@@ -821,33 +845,15 @@ function renderPrice(){
   h+='<section class="band band--tight"><div class="narrow">'
     +'<p class="deck" style="max-width:none">'+esc(t(d.intro))+'</p></div></section>';
 
-  h+='<section class="band band--grey"><div class="wrap">'
-    +'<h2 class="rv">'+esc(t(d.pkgh))+'</h2>'+promoBadge()+pkgCards()
-    +'<h2 class="rv" style="margin-top:84px">'+esc(t(d.addh))+'</h2>'+addRows()
-    +'<h2 class="rv" style="margin-top:84px">'+esc(t(d.careh))+'</h2>'
-    +'<p class="deck rv" style="margin-top:14px">'+esc(t(d.cared))+'</p>'+careTable(d.care)
-    +'<p class="onreq rv">'+esc(t(d.vat))+'</p></div></section>';
-
-  h+=flowSplit(8,"var(--paper2)","var(--paper)",5);
-  h+='<section class="band">'+bandMark("signal","gears")+'<div class="wrap">'
-    +'<div class="lbl lbl--q rv">'+(lang==="nl"?"Industrie":"Industry")+'</div>'
-    +'<h2 class="rv" style="margin-top:16px">'+esc(t(d.indh))+'</h2>'
-    +'<p class="deck rv" style="margin-top:18px">'+esc(t(d.indd))+'</p>'
-    +priceRows(d.ind)
-    +'<h3 class="rv" style="margin-top:66px;font-size:20px">'+esc(t(d.indqh))+'</h3>'
-    +priceRows(d.indq)
-    +'<h2 class="rv" style="margin-top:84px">'+esc(t(d.mcareh))+'</h2>'
-    +'<p class="deck rv" style="margin-top:14px">'+esc(t(d.mcared))+'</p>'+careTable(d.mcare)
-    +'<h2 class="rv" style="margin-top:84px">'+esc(t(d.rateh))+'</h2>'
-    +'<p class="deck rv" style="margin-top:14px">'+esc(t(d.rated))+'</p>'+hourRows(d.rates)
-    +'</div></section>';
-  h+=flowSplit(4,"var(--paper)","var(--paper2)",5);
   h+='<section class="band band--grey">'+bandMark("gears","part")+'<div class="wrap">'
-    +'<div class="lbl lbl--q rv">'+(lang==="nl"?"Engineering":"Engineering")+'</div>'
-    +'<h2 class="rv" style="margin-top:16px">'+esc(t(d.domh))+'</h2>'
+    +'<h2 class="rv">'+esc(t(d.domh))+'</h2>'
     +'<p class="deck rv" style="margin-top:18px">'+esc(t(d.domd))+'</p>'
-    +domTable()
+    +promoBadge()+mainMenu()
     +'<p class="onreq rv">'+esc(t(d.domnote))+'</p>'
+    +'<h2 class="rv" style="margin-top:78px">'+esc(t(d.careseh))+'</h2>'
+    +'<p class="deck rv" style="margin-top:14px">'+esc(t(d.caresed))+'</p>'
+    +careMenu()
+    +'<p class="onreq rv">'+esc(t(d.vat))+'</p>'
     +'</div></section>';
   h+=flowSplit(6,"var(--paper2)","var(--paper)",5);
   h+='<section class="band">'+bandMark("valve","rule")+'<div class="wrap">'
