@@ -236,10 +236,10 @@ home:{
   /* `img` names a file in assets/renders/. Swap the four filenames around to change who
      sits under which role — nothing else has to move. Portraits are 4:5. */
   team:[
-    {img:"team-1", n:{nl:"Naam",en:"Name"}, r:{nl:"Software & web — automatisering, AI, en uw eerste aanspreekpunt",en:"Software & web — automation, AI, and your first point of contact"}},
-    {img:"team-2", n:{nl:"Naam",en:"Name"}, r:{nl:"Leiding & hardware — planning, inkoop, bouw",en:"Operations & hardware — planning, sourcing, build"}},
-    {img:"team-3", n:{nl:"Naam",en:"Name"}, r:{nl:"Besturingstechniek — machinebesturing, sensoren, meten",en:"Control engineering — machine control, sensors, measurement"}},
-    {img:"team-4", n:{nl:"Naam",en:"Name"}, r:{nl:"CAD & elektronica — mechanica, PCB, 3D-print",en:"CAD & electronics — mechanics, PCB, 3D print"}}
+    {img:"team-1", n:"Anastasiia Polimasheva", r:{nl:"Software & web — automatisering, AI, en uw eerste aanspreekpunt",en:"Software & web — automation, AI, and your first point of contact"}},
+    {img:"team-2", n:"Krish Yadav", r:{nl:"Leiding & hardware — planning, inkoop, bouw",en:"Operations & hardware — planning, sourcing, build"}},
+    {img:"team-3", n:"Clara Handoyo", r:{nl:"Besturingstechniek — machinebesturing, sensoren, meten",en:"Control engineering — machine control, sensors, measurement"}},
+    {img:"team-4", n:"Yash Yadav", r:{nl:"CAD & elektronica — mechanica, PCB, 3D-print",en:"CAD & electronics — mechanics, PCB, 3D print"}}
   ],
   teamwork:{nl:"Bekijk ons werk", en:"See our work"},
   teamabout:{nl:"Over ons", en:"About us"},
