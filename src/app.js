@@ -8,7 +8,7 @@ function no(n){ return (n<10?"0":"")+n; }
 
 var ACT=[{id:"web",nl:"Software & web",en:"Software & web"},
   {id:"proto",nl:"Engineering",en:"Engineering"},{id:"make",nl:"Productie",en:"Manufacturing"},
-  {id:"yard",nl:"Project Yard",en:"Project Yard"},{id:"start",nl:"Start-ups",en:"Start-ups"},
+  {id:"start",nl:"Start-ups",en:"Start-ups"},
   {id:"work",nl:"Ons werk",en:"Our work"},
   {id:"dev",nl:"In ontwikkeling",en:"In development"}];
 var NAV=[{id:"price",nl:"Tarieven",en:"Pricing"},
@@ -248,7 +248,6 @@ var WMARKS={
   web:   ["layout","pcb"],
   proto: ["part","drone"],
   make:  ["cnc","printer"],
-  yard:  ["bench","laser"],
   start: ["signal","gears"],
   price: ["rule","valve"],
   work:  ["layout","gears"],
@@ -447,45 +446,6 @@ function renderWeb(){
   return h;
 }
 
-/* Project Yard reads as a set of posters */
-function renderYard(){
-  var d=C.yard,h="";
-  h+='<section class="opener">'+watermark("yard")+'<div class="narrow"><div class="lbl">Project Yard</div>'
-    +'<h1>'+esc(t(d.lede))+'</h1></div></section>';
-  h+='<section class="band band--tight">'+bandMark("pcb","gears")+'<div class="wrap">'
-    +'<div class="lbl lbl--q rv">'+esc(t(d.postersh))+'</div><div class="posters">';
-  for(var i=0;i<d.posters.length;i++){
-    var p=d.posters[i];
-    h+='<div class="poster '+p.c+' rv"><div class="fig">'+esc(p.fig)+'</div>'
-      +'<div><p class="say">'+esc(t(p.say))+'</p><p class="src">'+esc(t(p.src))+'</p></div></div>';
-  }
-  h+='</div></div></section>';
-  h+=flowSplit(4,"var(--paper)","var(--paper)",5);
-  h+='<section class="band band--tight">'+bandMark("bench","laser")+'<div class="narrow">'
-    +'<h2>'+esc(t(d.introh))+'</h2><p class="deck" style="max-width:none;margin-top:24px">'
-    +esc(t(d.intro))+'</p></div><div class="wrap">'
-    +cardRow(d.cards,["img:yard-companies","img:yard-students","img:yard-makers"])+'</div></section>';
-  h+='<section class="band band--dark"><div class="wrap">'
-    +'<div class="lbl rv">'+esc(t(d.formh))+'</div>'
-    +'<h2 class="rv" style="margin-top:18px;max-width:18ch">'+esc(t(d.statush))+'</h2>'
-    +'<p class="deck muted rv" style="margin-top:22px">'+esc(t(d.formd))+'</p>'
-    +'<div class="formrow rv">'
-    +formPreview(FORMS.nl, t(d.formnl), t(d.formnls), t(d.open))
-    +formPreview(FORMS.en, t(d.formen), t(d.formens), t(d.open))
-    +'</div><p class="muted rv" style="margin-top:34px;max-width:62ch">'+esc(t(d.status))+'</p>'
-    +'</div></section>';
-  h+='<section class="band band--tight">'+bandMark("rule","signal")+'<div class="wrap">'
-    +ctaBlock(lang==="nl"?"Zullen we hier een half uur over praten?":"Shall we spend half an hour on this?")
-    +'</div></section>';
-  return h;
-}
-
-/* "Coming soon" with a one-click interest register. A static site has no database, so a
-   click posts to the same form endpoint the contact page uses — which is better than a
-   counter anyway: an interested person leaves an address we can reply to. The browser
-   remembers it locally so the panel doesn't ask twice. */
-/* The survey card drawn as the form itself — a header bar, the title, two questions
-   with choice rows and a button — so it reads as "a form to fill in", not a link. */
 function formPreview(url,title,sub,open){
   return '<a class="formcard formcard--preview" href="'+url+'" target="_blank" rel="noopener">'
     +'<span class="fp"><span class="fp-bar"></span>'
@@ -498,7 +458,6 @@ function formPreview(url,title,sub,open){
 
 function renderArea(id){
   if(id==="web") return renderWeb();
-  if(id==="yard") return renderYard();
   if(id==="dev") return renderDev();
   if(id.indexOf("dev-")===0) return renderDevProject(id.slice(4));
   var a=area(id),d=C[id],h="";
@@ -563,8 +522,7 @@ function devCards(){
       +'<span class="prev'+(src?(cut?' has-cut':' has-img'):'')+'">'
       +(src?'<img src="'+src+'" alt="">':GLYPH.frame+'<span class="cap">'+esc(t(it.t))+'</span>')
       +'</span>'
-      +'<span class="body"><span class="status">'+esc(t(it.status))+'</span>'
-      +'<h3>'+esc(t(it.t))+'</h3>'
+      +'<span class="body"><h3>'+esc(t(it.t))+'</h3>'
       +'<span class="intro">'+esc(t(it.one))+'</span>'
       +'<span class="more">'+esc(t(DEV.more))+' &rarr;</span></span></a>';
   }
@@ -585,28 +543,39 @@ function renderDevProject(id){
   var it=devItem(id); if(!it) return renderDev();
   var src=renderSrc(it.img);
   var cut=src && typeof CUTOUT!=="undefined" && CUTOUT.indexOf(it.img)>=0;
-  /* 1. why the problem is real: lede, status, and an intro that argues it */
+  /* 1. what it is and why: lede, status, the problem in a few lines */
   var h='<section class="opener">'+watermark("dev-"+id)+'<div class="narrow">'
     +'<div class="lbl">'+go("dev",' class="crumb"')+esc(t(DEV.lbl))+'</a></div>'
     +'<h1>'+esc(t(it.lede))+'</h1>'
     +'<p class="status status--big">'+esc(t(it.status))+'</p>'
-    +'<p class="deck">'+esc(t(it.intro))+'</p></div></section>';
+    +'<p class="deck">'+esc(t(it.why))+'</p></div></section>';
   h+=flowSplit(5,"var(--paper)","var(--paper)",5);
-  /* 2. the numbers and the render side by side */
+  /* 2. the concept, next to the render */
   h+='<section class="band band--tight">'+bandMark(WMARKS["dev-"+id][1],WMARKS["dev-"+id][0])+'<div class="wrap">'
     +'<div class="devhero rv">'
     +'<div class="devmedia'+(cut?' devmedia--cut':'')+'">'+(src?'<img src="'+src+'" alt="'+esc(t(it.t))+'">':ph(t(it.t),"16:10"))+'</div>'
-    +'<div class="stats stats--dev">';
-  for(var s=0;s<it.stats.length;s++)
-    h+='<div><div class="n">'+esc(t(it.stats[s].n))+'</div><div class="k">'+esc(t(it.stats[s].k))+'</div></div>';
-  h+='</div></div></div></section>';
-  /* 3. who we're looking for: the reason the page exists, so it comes before the
-     technology and gets a three-column table — who, what we ask, what you get. */
+    +'<div class="concept"><div class="lbl">'+esc(t(DEV.conceptl))+'</div>';
+  for(var c=0;c<it.concept.length;c++) h+='<p>'+esc(t(it.concept[c]))+'</p>';
+  h+='</div></div>'
+  /* 3. the facts and the value, as one strip to flick through */
+    +'<div class="fcarhead rv"><div class="lbl">'+esc(t(DEV.whyl))+'</div>'
+    +'<div class="fcbtns"><button type="button" class="fcbtn" aria-label="&larr;" '
+    +'onclick="this.closest(\'.fcarhead\').nextElementSibling.scrollBy({left:-320,behavior:\'smooth\'})">&larr;</button>'
+    +'<button type="button" class="fcbtn" aria-label="&rarr;" '
+    +'onclick="this.closest(\'.fcarhead\').nextElementSibling.scrollBy({left:320,behavior:\'smooth\'})">&rarr;</button></div></div>'
+    +'<div class="fcar rv">';
+  for(var f=0;f<it.stats.length;f++)
+    h+='<div class="fcell"><div class="n">'+esc(t(it.stats[f].n))+'</div><div class="k">'+esc(t(it.stats[f].k))+'</div></div>';
+  for(var v=0;v<it.value.length;v++)
+    h+='<div class="fcell"><h3>'+esc(t(it.value[v].h))+'</h3><p>'+esc(t(it.value[v].p))+'</p></div>';
+  h+='</div><p class="fine rv">'+esc(t(DEV.disclaimer))+'</p>'
+    +'</div></section>';
+  /* 4. who we're looking for: the reason the page exists */
   h+='<section class="band band--dark"><div class="wrap">'
     +'<div class="lbl rv">'+esc(t(DEV.askh))+'</div>'
     +'<p class="deck rv" style="margin-top:16px">'+esc(t(DEV.askd))+'</p>'
     +'<div class="askt rv"><div class="askrow askrow--head">';
-  for(var c=0;c<DEV.askcols.length;c++) h+='<div>'+esc(t(DEV.askcols[c]))+'</div>';
+  for(var ac=0;ac<DEV.askcols.length;ac++) h+='<div>'+esc(t(DEV.askcols[ac]))+'</div>';
   h+='</div>';
   for(var a=0;a<it.ask.length;a++){
     var r=it.ask[a];
@@ -616,27 +585,18 @@ function renderDevProject(id){
       +'<div><span class="acol">'+esc(t(DEV.askcols[2]))+'</span>'+esc(t(r.get))+'</div></div>';
   }
   h+='</div>'
-    +'<div class="center rv" style="text-align:center;margin-top:42px">'
+    +'<div class="rv" style="text-align:center;margin-top:42px">'
     +go("contact",' class="btn" data-umami-event="cta-contact" data-umami-event-from="dev-'+id+'"')+esc(t(DEV.ctab))+'</a></div>'
     +'</div></section>';
-  /* 4. the engineering: the numbered blocks, then the design targets as a table */
+  /* 5. how we work and where we stand */
   h+='<section class="band band--grey">'+bandMark("rule","gears")+'<div class="wrap">'
-    +'<h2 class="rv">'+esc(t(DEV.engh))+'</h2>'
+    +'<h2 class="rv">'+esc(t(DEV.howh))+'</h2>'
     +'<div class="devblocks">';
-  for(var b=0;b<it.eng.length;b++)
-    h+='<div class="rv"><span class="sn">'+no(b+1)+'</span><h3>'+esc(t(it.eng[b].h))+'</h3><p>'+esc(t(it.eng[b].p))+'</p></div>';
-  if(it.stage)
-    h+='<div class="rv"><span class="sn">'+no(it.eng.length+1)+'</span><h3>'+esc(t(DEV.stageh))+'</h3><p>'+esc(t(it.stage))+'</p></div>';
-  h+='</div>';
-  if(it.specs){
-    h+='<h2 class="rv" style="margin-top:84px">'+esc(t(DEV.spech))+'</h2><div class="spect rv">';
-    for(var k=0;k<it.specs.length;k++)
-      h+='<div class="specrow"><div class="sk">'+esc(t(it.specs[k].k))+'</div><div class="sv">'+esc(t(it.specs[k].v))+'</div></div>';
-    h+='</div>';
-  }
-  h+='<p class="fine rv">'+esc(t(DEV.disclaimer))+'</p>'
-    +'</div></section>';
-  /* 5. close */
+  for(var b=0;b<DEV.how.length;b++)
+    h+='<div class="rv"><span class="sn">'+no(b+1)+'</span><h3>'+esc(t(DEV.how[b].h))+'</h3><p>'+esc(t(DEV.how[b].p))+'</p></div>';
+  h+='<div class="rv"><span class="sn">'+no(DEV.how.length+1)+'</span><h3>'+esc(t(DEV.stageh))+'</h3><p>'+esc(t(it.stage))+'</p></div>'
+    +'</div></div></section>';
+  /* 6. close */
   h+='<section class="band band--dark"><div class="wrap">'
     +'<div class="teamcta rv" style="margin-top:0;padding-top:0;border-top:0"><h2>'+esc(t(DEV.ctah))+'</h2><p>'+esc(t(DEV.ctap))+'</p>'
     +go("contact",' class="btn" data-umami-event="cta-contact" data-umami-event-from="dev-'+id+'-end"')+esc(t(DEV.ctab))+'</a>'
@@ -644,7 +604,6 @@ function renderDevProject(id){
     +'</div></section>';
   return h;
 }
-
 function renderWork(){
   var d=C.work;
   var h='<section class="opener">'+watermark("work")+'<div class="narrow"><div class="lbl">Portfolio</div>'

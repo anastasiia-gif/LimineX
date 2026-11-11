@@ -158,15 +158,6 @@ PAGES = [
    "h1":"Custom parts and production support",
    "intro":"We make your design manufacturable and have it made by the workshop that fits it. Larger volumes we manage for you, locally or abroad."}},
 
- {"id":"yard",  "nl":{"slug":"project-yard", "nav":"Project Yard", "title":"Project Yard — werkplaats voor Brabant | Liminex",
-   "desc":"Een werkplaats waar bedrijven, studenten en makers dezelfde machines gebruiken. In opbouw — we toetsen eerst of er vraag is.",
-   "h1":"Project Yard — een gedeelde werkplaats voor Brabant",
-   "intro":"Machines, ruimte en begeleiding, open voor mkb'ers met een idee, studenten die willen bouwen, en makers zonder eigen werkplaats. In opbouw."},
-   "en":{"nav":"Project Yard", "slug":"project-yard", "title":"Project Yard — a shared workshop for Brabant | Liminex",
-   "desc":"A workshop where companies, students and makers use the same machines. In development — we're testing whether the demand is real first.",
-   "h1":"Project Yard — a shared workshop for Brabant",
-   "intro":"Machines, space and guidance, open to SME owners with an idea, students who want to build, and makers without a workshop. In development."}},
-
  {"id":"start", "nl":{"slug":"start-ups", "nav":"Start-ups", "title":"Technisch team voor start-ups | Liminex",
    "desc":"U heeft een idee en geen technisch team. Wij zijn dat team, tot u er zelf een heeft — van haalbaarheid tot werkend prototype.",
    "h1":"Een technisch team voor start-ups",
@@ -204,11 +195,11 @@ PAGES = [
    "intro":"Three projects of our own, on the table. We are looking for partners, pilots and funding for each."}},
 
  {"id":"dev-knee", "nl":{"slug":"in-ontwikkeling/knee", "nav":"Liminex Knee", "title":"Liminex Knee — kniepleister voor herstel thuis | In ontwikkeling",
-   "desc":"Twee huidpleisters met bewegingssensor, een app en een AI die vastleggen hoe een knie beweegt en wanneer hij door zijn hoeven zakt. MDR klasse IIa, SPRIND-traject. We zoeken leveranciers, klinische partners en investeerders.",
+   "desc":"Twee huidpleisters met bewegingssensor, een app en een AI die vastleggen hoe een knie beweegt en wanneer hij door zijn hoeven zakt. MDR klasse IIa. We zoeken leveranciers, klinische partners en investeerders.",
    "h1":"Knieën worden beoordeeld in een gesprek van tien minuten. Ze falen thuis.",
    "intro":"Een kniepleister die het herstel thuis volgt en vastlegt wanneer een knie door zijn hoeven zakt. Concept v0.3."},
    "en":{"nav":"Liminex Knee", "slug":"in-development/knee", "title":"Liminex Knee — a knee patch for recovery at home | In development",
-   "desc":"Two skin patches with a motion sensor, an app and an AI that record how a knee moves and when it gives way. MDR Class IIa, SPRIND track. We are looking for suppliers, clinical partners and investors.",
+   "desc":"Two skin patches with a motion sensor, an app and an AI that record how a knee moves and when it gives way. MDR Class IIa. We are looking for suppliers, clinical partners and investors.",
    "h1":"Knees are judged in a ten-minute visit. They fail at home.",
    "intro":"A knee patch that follows recovery at home and catches the moments a knee gives way. Concept v0.3."}},
 
@@ -222,11 +213,11 @@ PAGES = [
    "intro":"A bolt-on module that teaches a robot who is standing next to it, and what they did together yesterday. Concept, seeking pilot partners."}},
 
  {"id":"dev-ballout", "nl":{"slug":"in-ontwikkeling/ball-out", "nav":"Ball Out", "title":"Ball Out — voetbalautomaat naast het veld | In ontwikkeling",
-   "desc":"Een automaat naast openbare veldjes en Cruyff Courts: scannen, spelen, terugleggen. Geen account, geen app. We zoeken gemeenten en sportbedrijven voor een eerste proef.",
+   "desc":"Een automaat naast openbare veldjes en sportcomplexen: scannen, spelen, terugleggen. Geen account, geen app. We zoeken gemeenten en sportbedrijven voor een eerste proef.",
    "h1":"Geen bal, geen wedstrijd.",
    "intro":"Een voetbalautomaat naast het veld. Scannen, spelen, terugleggen. Concept v0.1."},
    "en":{"nav":"Ball Out", "slug":"in-development/ball-out", "title":"Ball Out — a pitch-side football dispenser | In development",
-   "desc":"A dispenser next to public pitches and Cruyff Courts: scan, play, put it back. No account, no app. We are looking for municipalities and sports operators for a first trial.",
+   "desc":"A dispenser next to public pitches and sports complexes: scan, play, put it back. No account, no app. We are looking for municipalities and sports operators for a first trial.",
    "h1":"No ball, no game.",
    "intro":"A pitch-side football dispenser. Scan, play, put it back. Concept v0.1."}},
 
