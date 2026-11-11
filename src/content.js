@@ -354,6 +354,23 @@ proto:{
     {h:{nl:"Data & simulatie",en:"Data & simulation"},p:{nl:"Python, meetdata, modellen. Uitrekenen wat er gebeurt voordat u bouwt.",en:"Python, measurement data, models. Working out what happens before you build."}}
   ]
 },
+make:{
+  lede:{nl:"Uw ontwerp maakbaar maken, laten maken en de kwaliteit bewaken.",
+        en:"Getting your design made: manufacturable, ordered, and checked when it comes back."},
+  intro:{nl:"Wij hebben geen eigen machinepark, en dat is precies waarom we vrij kunnen kiezen. Voor \u00e9\u00e9n onderdeel of een kleine serie zoeken we het proces en de werkplaats die er het best bij passen \u2014 3D-printen, lasersnijden, frezen, plaatwerk. U krijgt \u00e9\u00e9n prijs en \u00e9\u00e9n aanspreekpunt, wij regelen de rest. Voor grotere aantallen begeleiden we productie in Nederland of in het buitenland, en rekenen we voor wanneer dat n\u00edet loont.",
+         en:"We own no machines of our own, which is exactly why we can choose freely. For a single part or a short run we pick the process and the workshop that suit it best \u2014 3D printing, laser cutting, milling, sheet metal. You get one price and one point of contact; we arrange the rest. For larger volumes we manage production in the Netherlands or abroad, and we do the maths on when that is not worth it."},
+  aroundh:{nl:"Wat we doen",en:"What we do"},
+  svcs:[
+    {n:{nl:"Ontwerp + maken",en:"Design + make"},
+     d:{nl:"U heeft een probleem, wij leveren het onderdeel. Een schets of foto is genoeg om te beginnen.",en:"You have a problem, we deliver the part. A sketch or a photo is enough to start."}},
+    {n:{nl:"Klaarmaken voor serie",en:"Ready for series"},
+     d:{nl:"Uw ontwerp geschikt maken voor serieproductie, leveranciers zoeken en beoordelen, monsters laten maken en de kwaliteit controleren.",
+        en:"Getting your design ready for series production, finding and vetting suppliers, running samples and checking quality."}},
+    {n:{nl:"Inkoopbegeleiding",en:"Sourcing"},
+     d:{nl:"Wij regelen de productie en de kwaliteitscontrole. U blijft zelf importeur van de goederen — dat scheelt u niets in kwaliteit en ons allebei een hoop juridische rompslomp.",
+        en:"We manage production and quality control. You remain importer of record — it costs you nothing in quality and saves us both a great deal of legal trouble."}}
+  ],
+  },
 start:{
   lede:{nl:"U heeft een idee en geen technisch team. Wij zijn dat team, tot u er zelf een heeft.",
         en:"You have an idea and no technical team. We are that team, until you have your own."},
@@ -691,7 +708,7 @@ var DEV = {
   askd:{nl:"Dit is waarom deze pagina bestaat. Staat u in een van deze rijen, dan willen we u spreken.",
         en:"This is why this page exists. If you fit one of these rows, we want to talk to you."},
   askcols:[{nl:"Wie",en:"Who"},{nl:"Wat we vragen",en:"What we ask"},{nl:"Wat u krijgt",en:"What you get"}],
-  howh:{nl:"Hoe we werken en waar we staan", en:"How we work and where we stand"},
+  howh:{nl:"Hoe we werken", en:"How we work"},
   how:[
     {h:{nl:"Eerst haalbaarheid",en:"Feasibility first"},
      p:{nl:"Elke fase begint met de vraag of het kan en wat het kost \u2014 met een eerlijke go/no-go voordat er geld naar bouwen gaat.",

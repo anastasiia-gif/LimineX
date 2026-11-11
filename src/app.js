@@ -568,8 +568,7 @@ function renderDevProject(id){
     h+='<div class="fcell"><div class="n">'+esc(t(it.stats[f].n))+'</div><div class="k">'+esc(t(it.stats[f].k))+'</div></div>';
   for(var v=0;v<it.value.length;v++)
     h+='<div class="fcell"><h3>'+esc(t(it.value[v].h))+'</h3><p>'+esc(t(it.value[v].p))+'</p></div>';
-  h+='</div><p class="fine rv">'+esc(t(DEV.disclaimer))+'</p>'
-    +'</div></section>';
+  h+='</div></div></section>';
   /* 4. who we're looking for: the reason the page exists */
   h+='<section class="band band--dark"><div class="wrap">'
     +'<div class="lbl rv">'+esc(t(DEV.askh))+'</div>'
@@ -594,8 +593,7 @@ function renderDevProject(id){
     +'<div class="devblocks">';
   for(var b=0;b<DEV.how.length;b++)
     h+='<div class="rv"><span class="sn">'+no(b+1)+'</span><h3>'+esc(t(DEV.how[b].h))+'</h3><p>'+esc(t(DEV.how[b].p))+'</p></div>';
-  h+='<div class="rv"><span class="sn">'+no(DEV.how.length+1)+'</span><h3>'+esc(t(DEV.stageh))+'</h3><p>'+esc(t(it.stage))+'</p></div>'
-    +'</div></div></section>';
+  h+='</div></div></section>';
   /* 6. close */
   h+='<section class="band band--dark"><div class="wrap">'
     +'<div class="teamcta rv" style="margin-top:0;padding-top:0;border-top:0"><h2>'+esc(t(DEV.ctah))+'</h2><p>'+esc(t(DEV.ctap))+'</p>'
