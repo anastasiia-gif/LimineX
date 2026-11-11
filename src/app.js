@@ -9,7 +9,8 @@ function no(n){ return (n<10?"0":"")+n; }
 var ACT=[{id:"web",nl:"Software & web",en:"Software & web"},
   {id:"proto",nl:"Engineering",en:"Engineering"},{id:"make",nl:"Productie",en:"Manufacturing"},
   {id:"yard",nl:"Project Yard",en:"Project Yard"},{id:"start",nl:"Start-ups",en:"Start-ups"},
-  {id:"work",nl:"Ons werk",en:"Our work"}];
+  {id:"work",nl:"Ons werk",en:"Our work"},
+  {id:"dev",nl:"In ontwikkeling",en:"In development"}];
 var NAV=[{id:"price",nl:"Tarieven",en:"Pricing"},
   {id:"about",nl:"Over ons",en:"About us"},{id:"contact",nl:"Contact",en:"Contact"}];
 var ACTL={nl:"Activiteiten",en:"Activities"};
@@ -58,6 +59,7 @@ function renderFooter(){
   w+=go("work")+esc(t(C.foot.work))+'</a>';
   for(var i=0;i<TOPROW;i++) w+=go(AREAS[i].id)+esc(aName(AREAS[i]))+'</a>';
   for(var j=TOPROW;j<AREAS.length;j++) m+=go(AREAS[j].id)+esc(aName(AREAS[j]))+'</a>';
+  m+=go("dev")+esc(t(DEV.lbl))+'</a>';
   if(!hidden("price")) m+=go("price")+esc(lang==="nl"?"Tarieven":"Pricing")+'</a>';
   if(!hidden("about")) m+=go("about")+esc(lang==="nl"?"Over ons":"About us")+'</a>';
   m+=go("contact")+esc(t(C.foot.contact))+'</a>';
@@ -250,6 +252,10 @@ var WMARKS={
   start: ["signal","gears"],
   price: ["rule","valve"],
   work:  ["layout","gears"],
+  dev:   ["bench","signal"],
+  "dev-knee":["signal","pcb"],
+  "dev-crew":["gears","drone"],
+  "dev-ballout":["part","rule"],
   about: ["gears","bench"],
   contact:["signal","rule"]
 };
@@ -316,6 +322,14 @@ function renderHome(){
         +'<span class="more">'+esc(t(d.more))+' &rarr;</span></span></a>';
   }
   h+='</div></div></section>';
+
+  /* 2b. what we build ourselves: three projects in development, same card shape */
+  h+='<section class="band"><div class="wrap center">'
+    +'<div class="lbl rv">'+esc(t(DEV.homeh))+'</div>'
+    +'<h2 class="rv" style="margin-top:18px">'+esc(t(DEV.homed))+'</h2></div>'
+    +'<div class="wrap">'+devCards()+'</div>'
+    +'<div class="wrap center rv" style="margin-top:34px">'+go("dev",' class="btn btn--ghost"')+esc(t(DEV.all))+'</a></div>'
+    +'</section>';
 
   /* 3. how working with us actually goes */
   h+=flowSplit(1,"var(--paper2)","var(--paper)",5);
@@ -481,69 +495,12 @@ function formPreview(url,title,sub,open){
     +'<span class="fp-q"><span class="fp-l"></span><span class="fp-l fp-l--s"></span></span>'
     +'<span class="fp-btn">'+esc(open)+' &rarr;</span></span></a>';
 }
-function indiaPanel(){
-  var d=C.india;
-  var pic=renderSrc("india");
-  return '<section class="band band--india"><div class="wrap"><div class="soonrow'+(pic?' has-pic':'')+'">'
-    +(pic?'<div class="soonpic rv"><img src="'+pic+'" alt=""></div>':'')
-    +'<div class="soon rv" id="soon">'
-    +'<div class="lbl lbl--q">'+esc(t(d.lbl))+'</div>'
-    +'<h2>'+esc(t(d.h))+'</h2>'
-    +'<p class="deck">'+esc(t(d.p)).split("\n\n").join('</p><p class="deck">')+'</p>'
-    +'<div id="soonbox">'
-      +'<button class="btn" id="soonbtn" type="button">'+esc(t(d.btn))+'</button>'
-    +'</div>'
-    +'<p class="formstat" id="soonstat" role="status" aria-live="polite"></p>'
-    +'</div></div></div></section>';
-}
-function setupSoon(){
-  var box=document.getElementById("soonbox");
-  if(!box) return;
-  var d=C.india, stat=document.getElementById("soonstat");
-  var done=false;
-  try{ done = localStorage.getItem("liminex-india")==="1"; }catch(e){}
-  if(done){ box.innerHTML=""; stat.className="formstat is-ok"; stat.textContent=t(d.already); return; }
-
-  document.getElementById("soonbtn").addEventListener("click",function(){
-    box.innerHTML='<form id="soonform" class="soonform">'
-      +'<label class="sr" for="soonmail">'+esc(t(d.mailph))+'</label>'
-      +'<input id="soonmail" name="email" type="email" placeholder="'+esc(t(d.mailph))+'">'
-      +'<button class="btn" type="submit">'+esc(t(d.send))+'</button></form>';
-    document.getElementById("soonmail").focus();
-    document.getElementById("soonform").addEventListener("submit",function(e){
-      e.preventDefault();
-      var mail=document.getElementById("soonmail").value.trim();
-      var finish=function(ok){
-        try{ localStorage.setItem("liminex-india","1"); }catch(e){}
-        box.innerHTML="";
-        stat.className="formstat is-ok";
-        stat.textContent = ok ? (mail?t(d.ok):t(d.okq)) : t(d.fail);
-      };
-      if(typeof FORM_ENDPOINT!=="string" || !FORM_ENDPOINT){ finish(true); return; }
-      if(FORM_ENDPOINT==="netlify"){
-        var nb=new URLSearchParams({"form-name":"interest", email: mail||"no address given",
-          message:"Someone registered interest in series production in India."+(mail?"":" They did not leave an address.")});
-        fetch(location.pathname,{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:nb.toString()})
-          .then(function(r){ finish(r.ok); }).catch(function(){ finish(false); });
-        return;
-      }
-      var fd=new FormData();
-      if(typeof FORM_KEY==="string" && FORM_KEY) fd.append("access_key",FORM_KEY);
-      fd.append("subject","Liminex \u2014 interest: production in India");
-      fd.append("_subject","Liminex \u2014 interest: production in India");
-      fd.append("email", mail || "no address given");
-      fd.append("message","Someone registered interest in series production in India."
-        +(mail?"":" They did not leave an address."));
-      fetch(FORM_ENDPOINT,{method:"POST",body:fd,headers:{"Accept":"application/json"}})
-        .then(function(r){ finish(r.ok); })
-        .catch(function(){ finish(false); });
-    });
-  });
-}
 
 function renderArea(id){
   if(id==="web") return renderWeb();
   if(id==="yard") return renderYard();
+  if(id==="dev") return renderDev();
+  if(id.indexOf("dev-")===0) return renderDevProject(id.slice(4));
   var a=area(id),d=C[id],h="";
   h+='<section class="opener">'+watermark(id)
     +'<div class="narrow"><div class="lbl">'+esc(aName(a))+'</div>'
@@ -584,10 +541,106 @@ function renderArea(id){
     +stepList(d.steps,STEPICONS[id],"pics");
   if(d.note && id!=="start") h+='<div class="marginnote"><h3>'+esc(t(d.noteh))+'</h3><p>'+esc(t(d.note))+'</p></div>';
   h+='</div></section>';
-  if(id==="make") h+=indiaPanel();
   h+='<section class="band band--tight"><div class="wrap">'
     +(id==="start" ? "" : expBlock(true,id))
     +ctaBlock(lang==="nl"?"Zullen we hier een half uur over praten?":"Shall we spend half an hour on this?")
+    +'</div></section>';
+  return h;
+}
+
+/* ---------------- in development ----------------
+   Our own products. DEV in content.js holds the copy; the cards reuse .block from the
+   home page so the two rows look like one site. A project page is: opener with status,
+   three numbers, the render, the blocks, and the ask. */
+function devItem(id){ for(var i=0;i<DEV.items.length;i++){ if(DEV.items[i].id===id) return DEV.items[i]; } return null; }
+function devCards(){
+  var h='<div class="blocks blocks--dev">';
+  for(var i=0;i<DEV.items.length;i++){
+    var it=DEV.items[i];
+    var src=renderSrc(it.img);
+    var cut=src && typeof CUTOUT!=="undefined" && CUTOUT.indexOf(it.img)>=0;
+    h+=go("dev-"+it.id,' class="block rv'+(cut?' has-cut':'')+'"')
+      +'<span class="prev'+(src?(cut?' has-cut':' has-img'):'')+'">'
+      +(src?'<img src="'+src+'" alt="">':GLYPH.frame+'<span class="cap">'+esc(t(it.t))+'</span>')
+      +'</span>'
+      +'<span class="body"><span class="status">'+esc(t(it.status))+'</span>'
+      +'<h3>'+esc(t(it.t))+'</h3>'
+      +'<span class="intro">'+esc(t(it.one))+'</span>'
+      +'<span class="more">'+esc(t(DEV.more))+' &rarr;</span></span></a>';
+  }
+  return h+'</div>';
+}
+function renderDev(){
+  var h='<section class="opener">'+watermark("dev")+'<div class="narrow"><div class="lbl">'+esc(t(DEV.lbl))+'</div>'
+    +'<h1>'+esc(t(DEV.h))+'</h1><p class="deck">'+esc(t(DEV.d))+'</p></div></section>';
+  h+=flowSplit(6,"var(--paper)","var(--paper)",5);
+  h+='<section class="band band--tight">'+bandMark("bench","signal")+'<div class="wrap">'+devCards()+'</div></section>';
+  h+='<section class="band band--grey"><div class="wrap">'
+    +'<div class="cta"><h2>'+esc(t(DEV.ctah))+'</h2><p class="deck" style="margin:14px auto 0;max-width:52ch">'+esc(t(DEV.ctap))+'</p>'
+    +go("contact",' class="btn" data-umami-event="cta-contact" data-umami-event-from="dev"')+esc(t(DEV.ctab))+'</a></div>'
+    +'</div></section>';
+  return h;
+}
+function renderDevProject(id){
+  var it=devItem(id); if(!it) return renderDev();
+  var src=renderSrc(it.img);
+  var cut=src && typeof CUTOUT!=="undefined" && CUTOUT.indexOf(it.img)>=0;
+  /* 1. why the problem is real: lede, status, and an intro that argues it */
+  var h='<section class="opener">'+watermark("dev-"+id)+'<div class="narrow">'
+    +'<div class="lbl">'+go("dev",' class="crumb"')+esc(t(DEV.lbl))+'</a></div>'
+    +'<h1>'+esc(t(it.lede))+'</h1>'
+    +'<p class="status status--big">'+esc(t(it.status))+'</p>'
+    +'<p class="deck">'+esc(t(it.intro))+'</p></div></section>';
+  h+=flowSplit(5,"var(--paper)","var(--paper)",5);
+  /* 2. the numbers and the render side by side */
+  h+='<section class="band band--tight">'+bandMark(WMARKS["dev-"+id][1],WMARKS["dev-"+id][0])+'<div class="wrap">'
+    +'<div class="devhero rv">'
+    +'<div class="devmedia'+(cut?' devmedia--cut':'')+'">'+(src?'<img src="'+src+'" alt="'+esc(t(it.t))+'">':ph(t(it.t),"16:10"))+'</div>'
+    +'<div class="stats stats--dev">';
+  for(var s=0;s<it.stats.length;s++)
+    h+='<div><div class="n">'+esc(t(it.stats[s].n))+'</div><div class="k">'+esc(t(it.stats[s].k))+'</div></div>';
+  h+='</div></div></div></section>';
+  /* 3. who we're looking for: the reason the page exists, so it comes before the
+     technology and gets a three-column table — who, what we ask, what you get. */
+  h+='<section class="band band--dark"><div class="wrap">'
+    +'<div class="lbl rv">'+esc(t(DEV.askh))+'</div>'
+    +'<p class="deck rv" style="margin-top:16px">'+esc(t(DEV.askd))+'</p>'
+    +'<div class="askt rv"><div class="askrow askrow--head">';
+  for(var c=0;c<DEV.askcols.length;c++) h+='<div>'+esc(t(DEV.askcols[c]))+'</div>';
+  h+='</div>';
+  for(var a=0;a<it.ask.length;a++){
+    var r=it.ask[a];
+    h+='<div class="askrow">'
+      +'<div class="awho"><span class="acol">'+esc(t(DEV.askcols[0]))+'</span>'+esc(t(r.who))+'</div>'
+      +'<div><span class="acol">'+esc(t(DEV.askcols[1]))+'</span>'+esc(t(r.ask))+'</div>'
+      +'<div><span class="acol">'+esc(t(DEV.askcols[2]))+'</span>'+esc(t(r.get))+'</div></div>';
+  }
+  h+='</div>'
+    +'<div class="center rv" style="text-align:center;margin-top:42px">'
+    +go("contact",' class="btn" data-umami-event="cta-contact" data-umami-event-from="dev-'+id+'"')+esc(t(DEV.ctab))+'</a></div>'
+    +'</div></section>';
+  /* 4. the engineering: the numbered blocks, then the design targets as a table */
+  h+='<section class="band band--grey">'+bandMark("rule","gears")+'<div class="wrap">'
+    +'<h2 class="rv">'+esc(t(DEV.engh))+'</h2>'
+    +'<div class="devblocks">';
+  for(var b=0;b<it.eng.length;b++)
+    h+='<div class="rv"><span class="sn">'+no(b+1)+'</span><h3>'+esc(t(it.eng[b].h))+'</h3><p>'+esc(t(it.eng[b].p))+'</p></div>';
+  if(it.stage)
+    h+='<div class="rv"><span class="sn">'+no(it.eng.length+1)+'</span><h3>'+esc(t(DEV.stageh))+'</h3><p>'+esc(t(it.stage))+'</p></div>';
+  h+='</div>';
+  if(it.specs){
+    h+='<h2 class="rv" style="margin-top:84px">'+esc(t(DEV.spech))+'</h2><div class="spect rv">';
+    for(var k=0;k<it.specs.length;k++)
+      h+='<div class="specrow"><div class="sk">'+esc(t(it.specs[k].k))+'</div><div class="sv">'+esc(t(it.specs[k].v))+'</div></div>';
+    h+='</div>';
+  }
+  h+='<p class="fine rv">'+esc(t(DEV.disclaimer))+'</p>'
+    +'</div></section>';
+  /* 5. close */
+  h+='<section class="band band--dark"><div class="wrap">'
+    +'<div class="teamcta rv" style="margin-top:0;padding-top:0;border-top:0"><h2>'+esc(t(DEV.ctah))+'</h2><p>'+esc(t(DEV.ctap))+'</p>'
+    +go("contact",' class="btn" data-umami-event="cta-contact" data-umami-event-from="dev-'+id+'-end"')+esc(t(DEV.ctab))+'</a>'
+    +'<div class="twolinks" style="justify-content:center;margin-top:28px">'+go("dev",' class="btn btn--ghost"')+esc(t(DEV.back))+'</a></div></div>'
     +'</div></section>';
   return h;
 }
@@ -633,25 +686,17 @@ function renderWork(){
    Fixed packages, add-ons and Care plans, from C.price. The launch discount is computed
    here, not written into the copy, so changing pct or until in content.js is the only edit
    needed — and after `until` the page quietly goes back to list prices. */
-function promoOn(){
-  var p=C.price.promo; if(!p||!p.pct) return false;
-  /* end of that day in the Netherlands; +01:00 is right for any date after late October */
-  return new Date() < new Date(new Date(p.until+"T23:59:59+01:00").getTime()+1000);
-}
+/* Website packages and the discountable add-ons carry the October 2026 launch prices as
+   their list prices: C.price.web.pct below the calculated rate, shown plainly, with no
+   badge and nothing struck through. */
+function webPrice(n){ var w=C.price.web; return (w&&w.pct) ? Math.round(n*(100-w.pct)/100) : n; }
 function money(n){
   var s=String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, lang==="nl"?".":",");
   return "€"+s;
 }
-function disc(n){ return Math.round(n*(100-C.price.promo.pct)/100); }
-function priceTag(v,from,discountable){
+function priceTag(v,from,web){
   var fromTxt = from ? '<span class="pfrom">'+(lang==="nl"?"vanaf ":"from ")+'</span>' : '';
-  if(discountable && promoOn())
-    return fromTxt+'<s><span class="sr">'+(lang==="nl"?"normaal ":"normally ")+'</span>'+money(v)+'</s> '
-      +'<b><span class="sr">'+(lang==="nl"?"nu ":"now ")+'</span>'+money(disc(v))+'</b>';
-  return fromTxt+'<b>'+money(v)+'</b>';
-}
-function promoBadge(){
-  return promoOn() ? '<p class="promo rv">'+esc(t(C.price.promo.label))+'</p>' : '';
+  return fromTxt+'<b>'+money(web?webPrice(v):v)+'</b>';
 }
 function pkgCards(){
   var d=C.price,h='<div class="pkgs rv">';
@@ -668,7 +713,7 @@ function pkgCards(){
 function pricePreview(){
   if(hidden("price")) return "";
   var d=C.price;
-  return '<div class="pricepre"><h2 class="rv">'+esc(t(d.pkgh))+'</h2>'+promoBadge()+pkgCards()
+  return '<div class="pricepre"><h2 class="rv">'+esc(t(d.pkgh))+'</h2>'+pkgCards()
     +'<p class="onreq rv" style="margin-top:22px">'+go("price",' class="inlink" data-umami-event="price-preview-click"')
     +esc(t(d.previewmore))+' &rarr;</a></p></div>';
 }
@@ -802,7 +847,7 @@ function mainMenu(){
   var d=C.price, out=[], i;
   var webMin=0;
   for(i=0;i<d.pkgs.length;i++){ var v=price(d.pkgs[i].c,d.pkgs[i].x); if(!webMin||v<webMin) webMin=v; }
-  out.push(menuItem(t(d.pkgh), fromTag(promoOn()?disc(webMin):webMin), webPanel()));
+  out.push(menuItem(t(d.pkgh), fromTag(webPrice(webMin)), webPanel()));
   var indMin=0;
   for(i=0;i<d.ind.length;i++){ var w=price(d.ind[i].c,d.ind[i].x); if(!indMin||w<indMin) indMin=w; }
   out.push(menuItem(t(d.indh), fromTag(indMin), indPanel()));
@@ -848,7 +893,7 @@ function renderPrice(){
   h+='<section class="band band--grey">'+bandMark("gears","part")+'<div class="wrap">'
     +'<h2 class="rv">'+esc(t(d.domh))+'</h2>'
     +'<p class="deck rv" style="margin-top:18px">'+esc(t(d.domd))+'</p>'
-    +promoBadge()+mainMenu()
+    +mainMenu()
     +'<p class="onreq rv">'+esc(t(d.domnote))+'</p>'
     +'<h2 class="rv" style="margin-top:78px">'+esc(t(d.careseh))+'</h2>'
     +'<p class="deck rv" style="margin-top:14px">'+esc(t(d.caresed))+'</p>'
@@ -1092,7 +1137,6 @@ function render(moveFocus){
   setupReveal();
   setupFly();
   setupForm();
-  setupSoon();
 }
 /* The opening collapses over the first ~85% of a screen height of scrolling.
    p = 0 fully open, p = 1 fully closed. The nav slides in as it closes. */

@@ -192,8 +192,8 @@ home:{
          en:"Seven in ten SMEs have a website, but for many it is years old and brings in nothing."},
     proto:{nl:"De meeste bureaus doen \u00f3f elektronica, \u00f3f mechanica, \u00f3f industrieel ontwerp. Wij doen het in \u00e9\u00e9n team, op mkb-schaal.",
            en:"Most studios do either electronics, or mechanics, or industrial design. We do all of it in one team, at SME scale."},
-    make:{nl:"Onder een paar honderd stuks wint Nederland bijna altijd van India. Wij rekenen het voor en zeggen het eerlijk.",
-          en:"Below a few hundred units the Netherlands almost always beats India. We do the maths and say so."},
+    make:{nl:"Onder een paar honderd stuks is dichtbij laten maken meestal sneller én goedkoper dan ver weg. Wij rekenen het per project voor en zeggen het eerlijk.",
+          en:"Below a few hundred units, making it nearby is usually faster and cheaper than far away. We do the maths per project and say so."},
     yard:{nl:"Brabant telt 22.805 bedrijven met twee of meer medewerkers in onze sectoren, en ruim 30.000 technische studenten. Die groepen komen elkaar nauwelijks tegen.",
           en:"Brabant has 22,805 companies with two or more staff in our sectors, and over 30,000 engineering students. Those groups barely meet."},
     start:{nl:"Eerst haalbaarheid, dan pas bouwen \u2014 zodat het dure deel pas betaald wordt als het idee klopt.",
@@ -284,8 +284,8 @@ about:{
      p:{nl:"Scope, prijs en planning op één pagina voordat er iets gemaakt wordt. Geen prijslijst — elk project is anders.",
         en:"Scope, price and timeline on one page before anything is made. No price list — every project differs."}},
     {h:{nl:"We zeggen het als het niet past",en:"We say so when it doesn't fit"},
-     p:{nl:"Kleine series maken we hier; grote aantallen in India of lokaal, en we rekenen voor wanneer dat níet loont.",
-        en:"Small runs we make here; large volumes in India or locally, and we do the maths on when that is not worth it."}},
+     p:{nl:"Kleine series maken we hier, bij werkplaatsen in de regio. Voor grotere aantallen rekenen we voor welke producent loont — en we zeggen het als dat niet bij ons is.",
+        en:"Small runs we make here, with workshops in the region. For larger volumes we do the maths on which producer pays off — and we say so when that is not us."}},
     {h:{nl:"Studenten bouwen mee",en:"Students build with us"},
      p:{nl:"Onder begeleiding, op echt werk. Dat houdt onze tarieven redelijk en leidt mensen op die Brabant nodig heeft.",
         en:"Supervised, on real work. It keeps our rates reasonable and trains the people Brabant needs."}}
@@ -360,39 +360,6 @@ proto:{
     {h:{nl:"Data & simulatie",en:"Data & simulation"},p:{nl:"Python, meetdata, modellen. Uitrekenen wat er gebeurt voordat u bouwt.",en:"Python, measurement data, models. Working out what happens before you build."}}
   ]
 },
-india:{
-  lbl:{nl:"Binnenkort",en:"Coming soon"},
-  h:{nl:"Serieproductie in India",en:"Series production in India"},
-  p:{nl:"We zijn een route naar Indiase fabrikanten aan het opzetten voor klanten die naar grotere aantallen gaan. Nog niet live \u2014 we willen eerst weten of er vraag naar is voordat we er tijd in steken.\n\nInteresse? Eén klik, en uw e-mailadres als u bericht wilt wanneer het zover is. Verder niets.",
-     en:"We are setting up a route to Indian manufacturers for clients moving to larger volumes. Not live yet \u2014 we want to know whether there is demand before we put time into it.\n\nInterested? One click, plus your email address if you want to hear when it is ready. Nothing else."},
-  btn:{nl:"Ja, hier heb ik interesse in",en:"Yes, I'd be interested"},
-  mailph:{nl:"uw e-mailadres (optioneel)",en:"your email address (optional)"},
-  send:{nl:"Doorgeven",en:"Register interest"},
-  ok:{nl:"Genoteerd, dank u. We laten het weten zodra dit er is.",
-      en:"Noted, thank you. We'll let you know when this is ready."},
-  okq:{nl:"Genoteerd \u2014 zonder e-mailadres, dus we tellen u mee maar kunnen u niet bereiken.",
-       en:"Noted \u2014 without an email address, so you're counted but we can't reach you."},
-  fail:{nl:"Doorgeven lukte niet. Mail ons gerust rechtstreeks.",
-        en:"That didn't register. Feel free to email us directly."},
-  already:{nl:"U heeft hier al interesse in doorgegeven. Dank.",en:"You've already registered interest. Thank you."}
-},
-make:{
-  lede:{nl:"Uw ontwerp maakbaar maken, laten maken en de kwaliteit bewaken.",
-        en:"Getting your design made: manufacturable, ordered, and checked when it comes back."},
-  intro:{nl:"Wij hebben geen eigen machinepark, en dat is precies waarom we vrij kunnen kiezen. Voor \u00e9\u00e9n onderdeel of een kleine serie zoeken we het proces en de werkplaats die er het best bij passen \u2014 3D-printen, lasersnijden, frezen, plaatwerk. U krijgt \u00e9\u00e9n prijs en \u00e9\u00e9n aanspreekpunt, wij regelen de rest. Voor grotere aantallen begeleiden we productie in Nederland of in het buitenland, en rekenen we voor wanneer dat n\u00edet loont.",
-         en:"We own no machines of our own, which is exactly why we can choose freely. For a single part or a short run we pick the process and the workshop that suit it best \u2014 3D printing, laser cutting, milling, sheet metal. You get one price and one point of contact; we arrange the rest. For larger volumes we manage production in the Netherlands or abroad, and we do the maths on when that is not worth it."},
-  aroundh:{nl:"Wat we doen",en:"What we do"},
-  svcs:[
-    {n:{nl:"Ontwerp + maken",en:"Design + make"},
-     d:{nl:"U heeft een probleem, wij leveren het onderdeel. Een schets of foto is genoeg om te beginnen.",en:"You have a problem, we deliver the part. A sketch or a photo is enough to start."}},
-    {n:{nl:"Klaarmaken voor serie",en:"Ready for series"},
-     d:{nl:"Uw ontwerp geschikt maken voor serieproductie, leveranciers zoeken en beoordelen, monsters laten maken en de kwaliteit controleren.",
-        en:"Getting your design ready for series production, finding and vetting suppliers, running samples and checking quality."}},
-    {n:{nl:"Inkoopbegeleiding",en:"Sourcing"},
-     d:{nl:"Wij regelen de productie en de kwaliteitscontrole. U blijft zelf importeur van de goederen — dat scheelt u niets in kwaliteit en ons allebei een hoop juridische rompslomp.",
-        en:"We manage production and quality control. You remain importer of record — it costs you nothing in quality and saves us both a great deal of legal trouble."}}
-  ],
-  },
 yard:{
   lede:{nl:"Een plek in Noord-Brabant waar bedrijven, studenten en makers samen techniek bouwen. We onderzoeken nu of er genoeg vraag is.",
         en:"A place in Noord-Brabant where companies, students and makers build technology together. We're testing whether the demand is really there."},
@@ -466,10 +433,11 @@ price:{
         en:"Fixed prices for websites, and fixed starting prices for AI in production."},
   intro:{nl:"De meeste bureaus zeggen \u201Cneem contact op\u201D en laten u raden. Wij zetten de prijs erbij. Websites hebben vaste pakketprijzen; industrieel werk begint met een vast onderzoek, en pas daarna volgt een prijs voor de bouw. Past uw vraag nergens in, dan krijgt u na \u00e9\u00e9n gesprek een vaste prijs op \u00e9\u00e9n pagina.",
          en:"Most agencies say \u201Cget in touch\u201D and leave you guessing. We put the price on the page. Websites have fixed package prices; industrial work starts with a fixed study, and only then comes a price for building. If your question fits nowhere, you get a fixed price on one page after one conversation."},
-  /* Launch discount. It switches itself off after `until` (end of that day, Dutch time),
-     so the site never shows an expired offer. To end it early, set pct to 0. */
-  promo:{pct:20, until:"2026-10-31",
-         label:{nl:"Introductieprijs: 20% korting t/m 31 oktober 2026",en:"Launch price: 20% off until 31 October 2026"}},
+  /* The October 2026 launch prices are the list prices: website packages and the two
+     discountable add-ons are shown at pct below the calculated rate. Set pct to 0 and
+     the full calculated prices come back. No badge, no strikethrough: these are simply
+     the prices now. */
+  web:{pct:20},
   pkgh:{nl:"Websites en webshops",en:"Websites and online shops"},
   pkgs:[
     {n:"Start", c:0.5, x:1.5, from:false,
@@ -507,8 +475,8 @@ price:{
       {k:{nl:"Google Bedrijfsprofiel bijhouden",en:"Google Business Profile upkeep"}, v:[false,true,true]},
       {k:{nl:"Snelheids- en SEO-check per kwartaal + kort rapport",en:"Quarterly speed/SEO check + short report"}, v:[false,false,true]}
     ]},
-  vat:{nl:"Alle bedragen zijn exclusief btw. De introductiekorting geldt alleen voor de websitepakketten en uitbreidingen \u2014 niet voor Website Care, Model Care, industrieel werk of werk tegen uurtarief.",
-       en:"All amounts exclude VAT. The launch discount applies only to the website packages and add-ons \u2014 not to Website Care, Model Care, industrial work or work at the hourly rate."},
+  vat:{nl:"Alle bedragen zijn exclusief btw.",
+       en:"All amounts exclude VAT."},
   previewmore:{nl:"Uitbreidingen, Care-abonnementen en alle details",en:"Add-ons, Care plans and all the details"},
   /* ---- Industry: AI in production. The two studies are published because they are the
      front door; the pilot carries a "from"; anything whose price depends on the plant
@@ -743,4 +711,220 @@ contact:{
     {k:{nl:"Talen",en:"Languages"},v:{nl:"Nederlands, Engels, Oekraïens, Russisch, Hindi, Punjabi, Indonesisch",en:"Dutch, English, Ukrainian, Russian, Hindi, Punjabi, Indonesian"}}
   ]
 }
+};
+
+
+/* ============================================================ IN DEVELOPMENT
+   Our own products, in the open. Each project: status, lede, intro, three numbers,
+   the ask (who / what we ask / what you get), the engineering (blocks + a spec table),
+   and where we are. Ids map to pages "dev-<id>" in build.py and to renders
+   assets/renders/dev-<id>.* (16:10, or a cut-out with transparency).
+   ============================================================ */
+var DEV = {
+  lbl:{nl:"In ontwikkeling", en:"In development"},
+  h:{nl:"Wat we zelf bouwen", en:"What we're building"},
+  d:{nl:"Drie eigen projecten, open op tafel. Geen van drie is af. We laten ze zien omdat ze precies tonen wat we voor opdrachtgevers doen, en omdat we er partners, pilots en geld voor zoeken.",
+     en:"Three projects of our own, on the table. None of them is finished. We show them because they show exactly what we do for clients, and because we are looking for partners, pilots and funding for each."},
+  homeh:{nl:"Wat we zelf bouwen", en:"What we're building"},
+  homed:{nl:"Dezelfde vier mensen, hetzelfde proces, eigen producten. Open in ontwikkeling.",
+         en:"The same four people, the same process, our own products. Developed in the open."},
+  more:{nl:"Bekijk het project", en:"See the project"},
+  all:{nl:"Alle projecten in ontwikkeling", en:"All projects in development"},
+  askh:{nl:"Wie we zoeken", en:"Who we're looking for"},
+  askd:{nl:"Dit is waarom deze pagina bestaat. Staat u in een van deze rijen, dan willen we u spreken.",
+        en:"This is why this page exists. If you fit one of these rows, we want to talk to you."},
+  askcols:[{nl:"Wie",en:"Who"},{nl:"Wat we vragen",en:"What we ask"},{nl:"Wat u krijgt",en:"What you get"}],
+  engh:{nl:"Hoe het werkt", en:"How it works"},
+  spech:{nl:"Ontwerpdoelen", en:"Design targets"},
+  engh:{nl:"De techniek", en:"The engineering"},
+  stageh:{nl:"Waar we staan", en:"Where we are"},
+  ctah:{nl:"Kunt u leveren, testen, adviseren of financieren?", en:"Can you supply, pilot, advise or fund?"},
+  ctap:{nl:"Stuur twee zinnen. U krijgt het volledige voorstel onder geheimhouding, en binnen een week een gesprek met de engineer die eraan werkt.",
+        en:"Send two sentences. You'll get the full proposal under NDA, and a call within a week with the engineer working on it."},
+  ctab:{nl:"Neem contact op", en:"Get in touch"},
+  back:{nl:"Alle projecten", en:"All projects"},
+  disclaimer:{nl:"Cijfers zijn planningsschattingen; specificaties zijn ontwerpdoelen; afbeeldingen zijn conceptrenders.",
+              en:"Figures are planning estimates; specifications are design targets; images are concept renders."},
+  items:[
+
+   /* ---------------------------------------------------------------- KNEE */
+   {id:"knee", img:"dev-knee",
+    t:{nl:"Liminex Knee", en:"Liminex Knee"},
+    status:{nl:"Concept v0.3 · november 2026 · SPRIND-aanvraag ingediend", en:"Concept v0.3 · November 2026 · SPRIND application filed"},
+    one:{nl:"Een kniepleister die het herstel thuis volgt en vastlegt wanneer een knie door zijn hoeven zakt.",
+         en:"A knee patch that follows recovery at home and catches the moments a knee gives way."},
+    lede:{nl:"Knieën worden beoordeeld in een gesprek van tien minuten. Ze falen thuis.",
+          en:"Knees are judged in a ten-minute visit. They fail at home."},
+    intro:{nl:"De grote kniebeslissingen (opereren of revalideren, terug naar sport of niet, prothese reviseren of wachten) rusten op een handtest, een goniometer en het geheugen van de patiënt. Draagbare laxiteitstests werken in het lab; een review uit 2024 vond geen bewijs dat ze de instabiliteit meten die patiënten thuis ervaren. In onze marktscan van oktober 2026 vonden we geen product dat ‘door de knie zakken’ in het dagelijks leven telt. Dat is het gat: een objectief verslag, thuis gemaakt, van hoe een knie beweegt en wanneer hij wegzakt, dat een arts in één oogopslag leest.",
+           en:"The big knee decisions (surgery or rehab, back to sport or not, revise the implant or wait) rest on a hand test, a goniometer and the patient's memory. Wearable laxity tests work in the lab; a 2024 review found no evidence that they measure the instability patients experience at home. In our market scan of October 2026 we found no product that counts giving-way episodes in daily life. That is the gap: an objective record, made at home, of how a knee moves and when it gives way, that a clinician reads in one glance."},
+    stats:[
+      {n:{nl:"28.708",en:"28,708"}, k:{nl:"knieprotheses in Nederland in 2024 (LROI)", en:"primary knee replacements in the Netherlands in 2024 (LROI)"}},
+      {n:{nl:"1 op 4",en:"1 in 4"}, k:{nl:"revisies in 2015–2024 kwam door instabiliteit (LROI)", en:"revisions over 2015–2024 were for instability (LROI)"}},
+      {n:"0", k:{nl:"producten die thuis ‘door de knie zakken’ tellen (onze marktscan, oktober 2026)", en:"products that count giving-way episodes at home (our market scan, October 2026)"}}
+    ],
+    ask:[
+      {who:{nl:"Sensor- en behuizingsleveranciers",en:"Sensor and housing suppliers"},
+       ask:{nl:"Een offerte voor 50–500 stuks (IMU-module, behuizing, medische lijm) en een leveringsintentie op papier.",en:"A quote for 50–500 units (IMU module, housing, medical adhesive) and a supply-intent letter."},
+       get:{nl:"Een plek in de SPRIND-aanvraag en de eerste serie als de financiering rond is.",en:"A place in the SPRIND application and the first series once funding closes."}},
+      {who:{nl:"MDR-ervaren engineers",en:"Engineers with MDR experience"},
+       ask:{nl:"Twintig minuten advies over het klasse IIa-traject en ISO 13485.",en:"Twenty minutes of advice on the Class IIa path and ISO 13485."},
+       get:{nl:"Een eerlijk verslag van wat we ermee deden, en een eerste optie op het certificeringswerk.",en:"An honest account of what we did with it, and first refusal on the certification work."}},
+      {who:{nl:"Orthopeden, fysiotherapeuten, sportartsen",en:"Orthopaedic, physio and sports-medicine groups"},
+       ask:{nl:"Een gesprek over de thuisdraagstudie: 30 patiënten, twee weken, na een knieprothese.",en:"A conversation about the home-wear study: 30 patients, two one-week blocks, after knee replacement."},
+       get:{nl:"Co-auteurschap, toegang tot de dataset en het artsenoverzicht als eerste.",en:"Co-authorship, dataset access and the clinician view first."}},
+      {who:{nl:"Universiteiten en studententeams",en:"Universities and student teams"},
+       ask:{nl:"Motion-capture-labtijd voor validatiesessies; afstudeerprojecten op de knie-engine.",en:"Motion-capture lab time for validation sessions; graduation projects on the knee engine."},
+       get:{nl:"Een open benchmark en een gepubliceerd baselinemodel met uw naam erop.",en:"An open benchmark and a published baseline model with your name on it."}},
+      {who:{nl:"Investeerders in medtech",en:"Early-stage medtech investors"},
+       ask:{nl:"Een kennismaking nu, voor een seedronde in 2028.",en:"An introduction now, ahead of a 2028 seed round."},
+       get:{nl:"Het volledige voorstel onder geheimhouding en kwartaalupdates vanaf fase 1.",en:"The full proposal under NDA and quarterly updates from Stage 1."}}
+    ],
+    eng:[
+      {h:{nl:"Twee pleisters, één scharnier",en:"Two patches, one hinge"},
+       p:{nl:"Een pleister op het dijbeen (voor-buitenzijde, halverwege, waar de huid het minst over het bot schuift) en een op het scheenbeen (platte voorkant van het bovenste scheenbeen). In elke pleister een gevalideerde 9-assige IMU (white-label Xsens), die naar eigen geheugen logt en uit de lijm klikt voor hergebruik. De twee sensoren spannen samen één scharniermodel op: de knie heeft één dominante draai-as, en die beperking is wat de hoek stabiel maakt.",
+          en:"A patch on the thigh (front-outer, half-way down, where skin moves least over the bone) and one on the shin (flat front of the upper tibia). Each holds a validated 9-axis IMU (white-label Xsens) that logs to its own memory and clicks out of the adhesive for reuse. The two sensors together span one hinge model: the knee has one dominant axis of rotation, and that constraint is what makes the angle stable."}},
+      {h:{nl:"De knie-engine",en:"The knee engine"},
+       p:{nl:"Sensorfusie van gyroscoop, accelerometer en magnetometer per segment, daarna een kniegewricht-beperking tussen de twee segmenten. Drift wordt in toom gehouden door het scharniermodel en opnieuw genuld in rust; we valideren eerst over één uur, dan over dagen. Doel: 3–5° fout in kniebuiging bij lopen en dagelijkse taken, het bereik dat tweesensorsystemen in de literatuur halen. Zijwaartse beweging is te ruis voor graden; die gebruiken we alleen als patroon voor de AI.",
+          en:"Sensor fusion of gyroscope, accelerometer and magnetometer per segment, then a knee-joint constraint between the two segments. Drift is held in check by the hinge model and re-zeroed at rest; we validate over one hour first, then over days. Target: 3–5° error in knee flexion during walking and daily tasks, the range two-sensor systems reach in published studies. Sideways motion is too noisy for degrees; we use it only as a pattern for the AI."}},
+      {h:{nl:"Plaatsing en kalibratie",en:"Placement and calibration"},
+       p:{nl:"De camera van de telefoon laat zien waar elke pleister hoort en controleert segment en zijde. Tien seconden beenzwaai en een korte stand kalibreren beide sensoren ten opzichte van het been. Geen lab, geen fysiotherapeut nodig om hem op te plakken.",
+          en:"The phone camera shows where each patch goes and checks segment and side. About ten seconds of leg swing and a short stand calibrate both sensors to the leg. No lab, no physio needed to put it on."}},
+      {h:{nl:"Labels, data en AI",en:"Labels, data and AI"},
+       p:{nl:"Eén knop in de app: ‘hij zakte door’. Elke tik is een label met tijdstempel; samen met klinisch onderzoek en uitkomstscores zijn dat de labels waar de detector van leert. We pretrainen op open datasets (COMPWALK-ACL, Kuopio, Sint Maartenskliniek; 39 sets in kaart, licenties vastgelegd) en finetunen op patiënten. Fase 1 levert één geharmoniseerde, geversioneerde kniedataset met een open benchmark en een open baselinemodel; de gespecialiseerde klinische modellen (herstelvlag, wegzakdetector) blijven product.",
+          en:"One button in the app: ‘it gave way’. Every tap is a time-stamped label; with clinical exams and outcome scores, those are the labels the detector learns from. We pretrain on open datasets (COMPWALK-ACL, Kuopio, Sint Maartenskliniek; 39 sets mapped, licences recorded) and fine-tune on patients. Stage 1 delivers one harmonised, versioned knee dataset with an open benchmark and an open baseline model; the specialised clinical models (recovery flag, giving-way detector) stay product."}},
+      {h:{nl:"Wat de arts ziet",en:"What the clinician sees"},
+       p:{nl:"Kniehoek, herstelcurve en wegzakmomenten in een weekoverzicht dat in minder dan twee minuten te lezen is, met een melding alleen als iets verandert. Export naar het ziekenhuisdossier. Doel voor fase 2: herstelvlag met ≥80% sensitiviteit bij ≥80% specificiteit tegen het oordeel van de arts.",
+          en:"Knee angle, recovery curve and giving-way events in a weekly summary readable in under two minutes, with an alert only when something changes. Export to the hospital record. Stage 2 target: recovery flag at ≥80% sensitivity and ≥80% specificity against the clinician's judgement."}},
+      {h:{nl:"Regelgeving en privacy",en:"Regulation and privacy"},
+       p:{nl:"EU MDR klasse IIa; de hoog-risicoregels van de AI Act gelden vanaf augustus 2028, en we bouwen de datagovernance en menselijke controle vanaf dag één in. DPIA vóór de eerste opname, pseudonimisering aan de bron, hosting in de EU, intrekken kan altijd. Partners houden hun ruwe data; wij krijgen alleen wat de overeenkomst toestaat, en elke toegang wordt gelogd.",
+          en:"EU MDR Class IIa; the AI Act's high-risk rules apply from August 2028, and we build in data governance and human oversight from day one. DPIA before the first recording, pseudonymised at source, EU hosting, withdrawal at any time. Partners keep their raw data; we receive only what the agreement allows, and every access is logged."}}
+    ],
+    specs:[
+      {k:{nl:"Sensor",en:"Sensor"}, v:{nl:"9-assige IMU, white-label Xsens, eigen geheugen, herbruikbaar",en:"9-axis IMU, white-label Xsens, on-board memory, reusable"}},
+      {k:{nl:"Plaatsing",en:"Placement"}, v:{nl:"Dijbeen voor-buitenzijde + bovenste scheenbeen",en:"Thigh front-outer + upper shin"}},
+      {k:{nl:"Lijm",en:"Adhesive"}, v:{nl:"Colofonium-vrije siliconen, ISO 10993; 1–3 dagen, 7 als streefdoel",en:"Colophonium-free silicone, ISO 10993; 1–3 days, 7 as stretch goal"}},
+      {k:{nl:"Kniebuiging",en:"Knee flexion"}, v:{nl:"3–5° fout bij lopen en dagelijkse taken, t.o.v. motion capture",en:"3–5° error in walking and daily tasks, against motion capture"}},
+      {k:{nl:"Kalibratie",en:"Calibration"}, v:{nl:"~10 s beenzwaai + korte stand, via de camera-app",en:"~10 s leg swing + short stand, through the camera app"}},
+      {k:{nl:"Labels",en:"Labels"}, v:{nl:"Hoek, activiteit, ‘zakte door’-tik, klinisch onderzoek, ROM, KOOS",en:"Angle, activity, ‘gave way’ tap, clinical exam, ROM, KOOS"}},
+      {k:{nl:"Dataset v1",en:"Dataset v1"}, v:{nl:"~250 personen open data + 30 lab + 30 thuis + 20 ACL; ~400 patiëntdagen",en:"~250 people open data + 30 lab + 30 home + 20 ACL; ~400 patient-days"}},
+      {k:{nl:"Klasse",en:"Class"}, v:{nl:"EU MDR klasse IIa; AI Act hoog risico vanaf 2 aug 2028",en:"EU MDR Class IIa; AI Act high-risk from 2 Aug 2028"}}
+    ],
+    stage:{nl:"Concept v0.3. SPRIND Recoding Medicine-aanvraag voor fase 1 (dataset en eerste modellen, november 2026 – oktober 2027). Een Britse knieprothese-dataset met motion capture en een Nederlandse klinische groep zijn in gesprek; geen data-overeenkomst is nog getekend. Fase 2 (2028): herstelvlag getest bij patiënten thuis. Fase 3 (2028): productpleister op gecustomiseerde sensoren, ISO 13485, investeringsronde. ACL-instabiliteit als tweede pijler 2028–2029. CE-markering op zijn vroegst 2029; ons plan gaat uit van 2030.",
+           en:"Concept v0.3. SPRIND Recoding Medicine application for Stage 1 (dataset and first models, November 2026 – October 2027). A UK knee-replacement dataset with motion capture and a Dutch clinical group are in discussion; no data agreement is signed yet. Stage 2 (2028): recovery flag tested in patients at home. Stage 3 (2028): product patch on customised sensors, ISO 13485, investor round. ACL instability as the second pillar in 2028–2029. CE marking 2029 at the earliest; our plan assumes 2030."}},
+
+   /* ---------------------------------------------------------------- CREW */
+   {id:"crew", img:"dev-crew",
+    t:{nl:"Crew — interactiemodule voor robots", en:"Crew — a robot interaction module"},
+    status:{nl:"Concept · november 2026 · pilotpartners gezocht", en:"Concept · November 2026 · seeking pilot partners"},
+    one:{nl:"Een opsteekmodule die een robot leert wie het is die naast hem staat, en wat ze gisteren samen deden.",
+         en:"A bolt-on module that teaches a robot who is standing next to it, and what they did together yesterday."},
+    lede:{nl:"Robots weten waar mensen zijn. Niet wie ze zijn.",
+          en:"Robots know where people are. Not who they are."},
+    intro:{nl:"Een veiligheidsscanner ziet een mens als een obstakel van 40 cm breed. Dat is genoeg om niemand te raken, en te weinig om samen te werken. Een robot die haalt is nuttig; een robot die weet wie u bent, onthoudt wat u gisteren deed en leert hoe de mensen op deze vloer willen dat hij zich gedraagt, is er een die mensen blijven gebruiken. Crew is die laag, als opsteekkit voor robots die al bestaan: identiteit via de badge die mensen al dragen, ‘kom naar Krish’ in plaats van naar een coördinaat, een sessiegeheugen, en gedrag dat zich aanpast aan impliciete feedback. Privacy is de ontwerpregel, niet de disclaimer.",
+           en:"A safety scanner sees a human as an obstacle 40 cm wide. That is enough to hit nobody, and too little to work together. A robot that fetches is useful; a robot that knows who you are, remembers what you did yesterday and learns how the people on this floor want it to behave is one people keep using. Crew is that layer, as a bolt-on kit for robots that already exist: identity from the badge people already wear, ‘go to Krish’ instead of to a coordinate, a session memory, and behaviour that adapts to implicit feedback. Privacy is the design rule, not the disclaimer."},
+    stats:[
+      {n:"25–35%", k:{nl:"van de dag van een bouwvakker is vakwerk; de rest is lopen, wachten en zoeken (Aalto iCONS)", en:"of a construction worker's day is skilled work; the rest is walking, waiting and searching (Aalto iCONS)"}},
+      {n:{nl:"3,6 mln",en:"3.6 M"}, k:{nl:"extra bouwvakkers die de EU nodig heeft tegen 2030 (European Construction Observatory, 2026)", en:"extra construction workers the EU needs by 2030 (European Construction Observatory, 2026)"}},
+      {n:"1 kit", k:{nl:"UWB-lezer, badges, rekenmodule en een ROS 2- of REST-module, op de robot die u al heeft", en:"UWB reader, badges, compute module and a ROS 2 or REST module, on the robot you already have"}}
+    ],
+    ask:[
+      {who:{nl:"Bouwers van mobiele robots en cobots",en:"Mobile-robot and cobot builders"},
+       ask:{nl:"Eén robot, één locatie, drie maanden: de kit op uw platform, in een medegefinancierde pilot.",en:"One robot, one site, three months: the kit on your platform, in a co-funded pilot."},
+       get:{nl:"De integratie doen wij; u krijgt de pilotdata, een werkende demo en eerste recht op de OEM-licentie.",en:"We do the integration; you get the pilot data, a working demo and first right to the OEM licence."}},
+      {who:{nl:"Integrators",en:"Integrators"},
+       ask:{nl:"Een klant waar mensen en robots elkaar in de weg lopen, en een uur met uw engineer.",en:"A customer where people and robots get in each other's way, and an hour with your engineer."},
+       get:{nl:"Partnervoorwaarden op de kit en de ondersteuning bij de eerste installatie.",en:"Partner terms on the kit and support at the first installation."}},
+      {who:{nl:"Bouw-, logistiek- en labbedrijven",en:"Construction, logistics and lab companies"},
+       ask:{nl:"Een robot die niemand vertrouwt, en toestemming van de ondernemingsraad om het te proberen.",en:"A robot nobody trusts, and the works council's go-ahead to try."},
+       get:{nl:"Een pilot zonder gezichtsherkenning, zonder prestatierapporten, met data die op de robot blijft.",en:"A pilot with no face recognition, no performance reports, and data that stays on the robot."}},
+      {who:{nl:"Robotbouwers met littekens",en:"Robot builders with scars"},
+       ask:{nl:"Twintig minuten over wat uw laatste veldrobot de das omdeed.",en:"Twenty minutes on what killed your last field robot."},
+       get:{nl:"Ons verslag van alle gesprekken, geanonimiseerd, en een plek in de eerste demo.",en:"Our write-up of all the interviews, anonymised, and a seat at the first demo."}},
+      {who:{nl:"Ontwikkelpartners en financiers",en:"Development partners and funders"},
+       ask:{nl:"Medefinanciering van de eerste kit en de eerste drie pilots.",en:"Co-funding of the first kit and the first three pilots."},
+       get:{nl:"Het volledige concept inclusief de kar, de pilotresultaten als eerste, en een gesprek over de voorwaarden.",en:"The full concept including the cart, the pilot results first, and a conversation about terms."}}
+    ],
+    eng:[
+      {h:{nl:"Wie en waar: twee vragen, twee sensoren",en:"Who and where: two questions, two sensors"},
+       p:{nl:"‘Waar’ komt van de perceptiekop: 3D-lidar en stereocamera's voor mensen en obstakels, mmWave-radar voor mensen in stof en donker. ‘Wie’ komt alleen van de badge: een UWB/RFID-tag op het bedrijfspasje dat mensen al dragen, met een UWB-lezer op de robot die de positie van elke badge tot op decimeters kent. Camera's identificeren nooit gezichten of lichamen; zonder badge bent u ‘persoon 4’. Dat is geen beperking van de techniek, het is de reden dat een ondernemingsraad ja kan zeggen.",
+          en:"‘Where’ comes from the perception head: 3D lidar and stereo cameras for people and obstacles, mmWave radar for people in dust and dark. ‘Who’ comes only from the badge: a UWB/RFID tag on the company ID people already wear, with a UWB reader on the robot that knows each badge's position to within decimetres. Cameras never identify faces or bodies; without a badge you are ‘person 4’. That is not a limit of the technology, it is the reason a works council can say yes."}},
+      {h:{nl:"Sessiegeheugen",en:"Session memory"},
+       p:{nl:"Per badge slaat de module op: welke gereedschappen, welke vloerpositie, welke klus, met wie. Meer niet: geen snelheid, geen pauzes, geen rapporten voor leidinggevenden. ‘Ga verder met gisteren’ laadt de set en rijdt naar de plek. ‘Kom naar Krish’ vindt de persoon, niet de coördinaat, ook als die is verplaatst. Sessies zijn opt-in; een eenmalige klus kan zonder dat er iets wordt bijgehouden.",
+          en:"Per badge the module stores: which tools, which floor position, which job, with whom. Nothing else: no speed, no breaks, no reports to managers. ‘Continue from yesterday’ loads the set and drives to the spot. ‘Go to Krish’ finds the person, not the coordinate, even if they moved. Sessions are opt-in; a one-off job runs with nothing tracked."}},
+      {h:{nl:"Gedrag dat leert van de vloer",en:"Behaviour that learns from the floor"},
+       p:{nl:"Mensen die opzij stappen, inhouden of ‘aan de kant’ roepen zijn signalen. De module gebruikt ze om route en snelheid in de buurt van mensen bij te stellen, per locatie. Twee robots op twee locaties gedragen zich na een jaar anders, omdat hun mensen anders zijn: op een drukke bouwplaats leert hij uit de weg te blijven, ook als klussen langer duren; in een lab leert hij dat mensen willen dat hij het loopwerk doet. De vangrails staan vast: de veiligheidsscanner en de E-stop blijven buiten de leerlus.",
+          en:"People stepping aside, stopping short or shouting ‘out of the way’ are signals. The module uses them to adjust routes and speed near people, per site. Two robots on two sites behave differently after a year, because their people are different: on a busy site it learns to stay out of the way even if jobs take longer; in a lab it learns people want it to do the running. The guard rails are fixed: the safety scanner and the E-stop stay outside the learning loop."}},
+      {h:{nl:"Integratie: ROS 2 of REST",en:"Integration: ROS 2 or REST"},
+       p:{nl:"De kit is een rekenmodule met UWB-lezer en camera-ingangen, gemonteerd op de robot. Naar buiten toe is het een ROS 2-node (personen met identiteit, doelen, sessiestatus) of een REST-API voor platforms zonder ROS. De bestaande navigatie en veiligheid van de robot blijven de baas; Crew geeft doelen en snelheidslimieten, nooit motorcommando's. Daarom hoeft er aan onze kant niets opnieuw gecertificeerd te worden.",
+          en:"The kit is a compute module with a UWB reader and camera inputs, mounted on the robot. To the outside it is a ROS 2 node (people with identity, goals, session state) or a REST API for platforms without ROS. The robot's existing navigation and safety stay in charge; Crew issues goals and speed limits, never motor commands. That is why nothing on our side needs re-certification."}},
+      {h:{nl:"Privacy als architectuur",en:"Privacy as architecture"},
+       p:{nl:"Data blijft op de robot, niet in een clouddashboard. Badge af is anoniem. Er wordt niets opgeslagen dat een prestatie-oordeel mogelijk maakt. Gebouwd om door een ondernemingsraad te worden goedgekeurd, niet om ervoor verborgen te worden.",
+          en:"Data stays on the robot, not in a cloud dashboard. Badge off is anonymous. Nothing is stored that would allow a performance judgement. Built to be approved by a works council, not hidden from one."}},
+      {h:{nl:"Waar het vandaan komt",en:"Where it comes from"},
+       p:{nl:"Crew is de kern van ons Multi Terrain Cobot Cart-concept: een rupsvoertuig (~100×65 cm, 10–15 cm drempels) met een 6-assige cobotarm (~5 kg, ~850 mm), RFID-gereedschapsladen en een radarscanner die leidingen en kabels op een foto van de muur tekent. De kar is de visie; de interactielaag is wat er nog niet bestaat. Die brengen we eerst naar de markt, op robots die er al zijn.",
+          en:"Crew is the core of our Multi Terrain Cobot Cart concept: a tracked vehicle (~100×65 cm, 10–15 cm steps) with a 6-axis cobot arm (~5 kg, ~850 mm), RFID tool drawers and a radar scanner that draws pipes and cables on a photo of the wall. The cart is the vision; the interaction layer is the part that does not exist yet. We bring that to market first, on robots that already exist."}}
+    ],
+    specs:[
+      {k:{nl:"Identiteit",en:"Identity"}, v:{nl:"UWB/RFID-badge op het bestaande bedrijfspasje; geen gezichtsherkenning",en:"UWB/RFID badge on the existing company ID; no face recognition"}},
+      {k:{nl:"Positie badge",en:"Badge position"}, v:{nl:"UWB-lezer op de robot, decimeternauwkeurig, ~10 Hz",en:"UWB reader on the robot, decimetre accuracy, ~10 Hz"}},
+      {k:{nl:"Mensen zien",en:"People sensing"}, v:{nl:"3D-lidar + stereocamera's; mmWave-radar voor stof en donker",en:"3D lidar + stereo cameras; mmWave radar for dust and dark"}},
+      {k:{nl:"Interface",en:"Interface"}, v:{nl:"ROS 2-node of REST-API; doelen en snelheidslimieten, geen motorcommando's",en:"ROS 2 node or REST API; goals and speed limits, no motor commands"}},
+      {k:{nl:"Opslag",en:"Storage"}, v:{nl:"Op de robot; per badge alleen vloerpositie, gereedschap, klus, met wie",en:"On the robot; per badge only floor position, tools, job, with whom"}},
+      {k:{nl:"Veiligheid",en:"Safety"}, v:{nl:"Scanner en E-stop van de robot blijven leidend en buiten de leerlus",en:"The robot's scanner and E-stop stay in charge and outside the learning loop"}},
+      {k:{nl:"Spraak en status",en:"Voice and status"}, v:{nl:"Spraakcommando's voor laden en doelen; lichtstrip: bezig, onderweg, wacht, laadt",en:"Voice commands for drawers and goals; light strip: busy, coming, waiting, charging"}},
+      {k:{nl:"Pilotvorm",en:"Pilot form"}, v:{nl:"Eén robot, één locatie, drie maanden, medegefinancierd",en:"One robot, one site, three months, co-funded"}}
+    ],
+    stage:{nl:"Concept, november 2026. De kar bestaat als ontwerp met specificaties als ontwerpdoelen; de interactiemodule is wat we eerst bouwen. Volgende stap: tien gesprekken met robotbouwers en integrators (Precisiebeurs, 18 november 2026), daarna een eerste kit op een bestaand platform en de eerste medegefinancierde pilot.",
+           en:"Concept, November 2026. The cart exists as a design with specifications as targets; the interaction module is what we build first. Next step: ten interviews with robot builders and integrators (Precision Fair, 18 November 2026), then a first kit on an existing platform and the first co-funded pilot."}},
+
+   /* ---------------------------------------------------------------- BALL OUT */
+   {id:"ballout", img:"dev-ballout",
+    t:{nl:"Ball Out", en:"Ball Out"},
+    status:{nl:"Concept v0.1 · oktober 2026 · locatiepartners gezocht", en:"Concept v0.1 · October 2026 · seeking location partners"},
+    one:{nl:"Een voetbalautomaat naast het veld. Scannen, spelen, terugleggen.",
+         en:"A pitch-side football dispenser. Scan, play, put it back."},
+    lede:{nl:"Geen bal, geen wedstrijd.", en:"No ball, no game."},
+    intro:{nl:"Nederland heeft duizenden openbare veldjes die gratis zijn en meestal leeg. Het enige dat een spontaan potje tegenhoudt is de bal die niemand heeft meegenomen. Een automaat naast het veld haalt dat laatste excuus weg: geen account, geen app, geen planning. Je loopt langs, je scant, je speelt, je legt hem terug. Technisch is het een kleine, robuuste machine met één lastig onderdeel: een inname die een bal keurt voordat hij terug in voorraad gaat.",
+           en:"The Netherlands has thousands of public pitches that are free to use and mostly empty. The only thing stopping a spontaneous game is the ball nobody brought. A dispenser next to the pitch removes that last excuse: no account, no app, no planning. You walk past, you scan, you play, you put it back. Technically it is a small, rugged machine with one hard part: an intake that inspects a ball before it goes back into stock."},
+    stats:[
+      {n:"4", k:{nl:"stappen: scannen, bal rolt eruit, spelen, terugleggen", en:"steps: scan, ball rolls out, play, put it back"}},
+      {n:"2", k:{nl:"baltypes: een basisbal en een wedstrijdbal", en:"ball types: a basic ball and a match-quality ball"}},
+      {n:"0", k:{nl:"personeel ter plaatse; onderhoud op basis van de data van de automaat zelf", en:"staff on site; service visits driven by the machine's own data"}}
+    ],
+    ask:[
+      {who:{nl:"Gemeenten, sportbedrijven, Cruyff Foundation",en:"Municipalities, sports operators, Cruyff Foundation"},
+       ask:{nl:"Eén veldje voor de eerste proef, met stroom of een plek in de zon, drie maanden.",en:"One pitch for the first trial, with power or a sunny spot, for three months."},
+       get:{nl:"De automaat, het onderhoud en de gebruikscijfers; u betaalt niets voor de proef.",en:"The machine, the maintenance and the usage figures; the trial costs you nothing."}},
+      {who:{nl:"Balfabrikanten en -distributeurs",en:"Ball makers and distributors"},
+       ask:{nl:"Ballen voor de proef en een gesprek over wat een bal moet doen om honderd keer geleend te worden.",en:"Balls for the trial and a conversation about what a ball needs to survive a hundred loans."},
+       get:{nl:"Uw bal in de eerste automaten en de slijtagedata.",en:"Your ball in the first machines and the wear data."}},
+      {who:{nl:"Mensen die zelf een bal missen",en:"People who are missing a ball"},
+       ask:{nl:"Vertel ons op welk veldje.",en:"Tell us which pitch."},
+       get:{nl:"Een stem in waar de eerste automaat komt.",en:"A say in where the first machine goes."}}
+    ],
+    eng:[
+      {h:{nl:"Uitgifte en inname",en:"Dispense and intake"},
+       p:{nl:"Twee voorraadkolommen (basisbal, wedstrijdbal) met een zwaartekrachtgevoede uitgifte en één gemotoriseerde sluis per kolom. De inname is een aparte opening met een rol- en weegstation: de bal wordt gewogen, de omtrek en de stuiter worden gemeten, en pas dan gaat hij terug in voorraad of in de afkeurbak. Zo komt een lekke of vreemde bal nooit bij de volgende speler terecht.",
+          en:"Two stock columns (basic ball, match ball) with a gravity-fed dispense and one motorised gate per column. The intake is a separate opening with a roll-and-weigh station: the ball is weighed, its circumference and bounce are measured, and only then does it go back into stock or into the reject bin. A flat or foreign ball never reaches the next player."}},
+      {h:{nl:"Scannen zonder app",en:"Scan without an app"},
+       p:{nl:"Een QR op de kast opent een webpagina; betalen of borg via iDEAL/Apple Pay in de browser; geen account. De automaat krijgt een vrijgavesignaal, de sluis opent. Terugleggen is gratis en geeft de borg terug zodra de inname de bal goedkeurt.",
+          en:"A QR on the cabinet opens a web page; payment or deposit via iDEAL/Apple Pay in the browser; no account. The machine receives a release signal, the gate opens. Returning is free and refunds the deposit once the intake approves the ball."}},
+      {h:{nl:"Besturing en connectiviteit",en:"Control and connectivity"},
+       p:{nl:"Een microcontroller stuurt sluizen, sensoren en het display; een LTE-modem meldt voorraad, afkeuringen en storingen. Onderhoud wordt gepland op die data, niet op een vaste ronde. Alles draait lokaal door als het netwerk wegvalt.",
+          en:"A microcontroller drives gates, sensors and the display; an LTE modem reports stock, rejects and faults. Maintenance is scheduled on that data, not on a fixed round. Everything keeps running locally if the network drops."}},
+      {h:{nl:"Kast en energie",en:"Cabinet and power"},
+       p:{nl:"Gepoedercoat plaatstaal, afgeschuind dak tegen zitten en regen, vandalismebestendig slot, geen uitstekende delen. Netstroom waar die er is; anders een zonnepaneel op het dak en een accu voor de nacht, want het verbruik zit vrijwel alleen in de sluizen en het modem.",
+          en:"Powder-coated sheet steel, a sloped roof against sitting and rain, a vandal-resistant lock, no protruding parts. Mains where available; otherwise a roof solar panel and a battery for the night, since nearly all consumption is in the gates and the modem."}}
+    ],
+    specs:[
+      {k:{nl:"Voorraad",en:"Stock"}, v:{nl:"2 kolommen, ~8 ballen elk; apart afkeurvak",en:"2 columns, ~8 balls each; separate reject bin"}},
+      {k:{nl:"Innamecontrole",en:"Intake check"}, v:{nl:"Gewicht, omtrek, stuiter; goedkeuren of afkeuren in <10 s",en:"Weight, circumference, bounce; accept or reject in <10 s"}},
+      {k:{nl:"Betaling",en:"Payment"}, v:{nl:"QR → webpagina, iDEAL / Apple Pay, borg, geen account",en:"QR → web page, iDEAL / Apple Pay, deposit, no account"}},
+      {k:{nl:"Besturing",en:"Control"}, v:{nl:"Microcontroller, LTE-modem, lokale fallback",en:"Microcontroller, LTE modem, local fallback"}},
+      {k:{nl:"Energie",en:"Power"}, v:{nl:"Net, of zonnepaneel + accu (laag verbruik)",en:"Mains, or solar + battery (low consumption)"}},
+      {k:{nl:"Kast",en:"Cabinet"}, v:{nl:"Gepoedercoat staal, schuin dak, vandalismebestendig slot",en:"Powder-coated steel, sloped roof, vandal-resistant lock"}}
+    ],
+    stage:{nl:"Concept v0.1, oktober 2026. Doellocaties: Cruyff Courts, openbare veldjes en sportcomplexen. Volgende stap: één veldje, één automaat, drie maanden tellen hoe vaak er gespeeld wordt.",
+           en:"Concept v0.1, October 2026. Target locations: Cruyff Courts, public pitches and multi-pitch complexes. Next step: one pitch, one machine, three months of counting how often people play."}}
+  ]
 };
