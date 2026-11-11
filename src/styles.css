@@ -576,7 +576,7 @@ textarea{min-height:96px;resize:vertical;line-height:1.6}
 .formnote{font-size:13.5px;color:var(--muted);margin:0}
 .details{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:28px;margin-top:68px}
 .details .k{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
-.cta{text-align:center;margin-top:92px}
+.cta{text-align:center;margin-top:36px}
 .cta h2{max-width:20ch;margin:0 auto 28px}
 
 /* ---------------- footer ---------------- */

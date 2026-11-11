@@ -70,7 +70,6 @@ function renderFooter(){
   document.getElementById("f-h2").textContent=t(C.foot.more);
   document.getElementById("f-h3").textContent=t(C.foot.contact);
   document.getElementById("f-legal").textContent=t(C.foot.legal);
-  document.getElementById("f-seo").textContent=t(C.foot.seo);
   var fm=document.getElementById("f-mail");
   if(fm){ fm.textContent=mailAddress(); fm.setAttribute("href","mailto:"+mailAddress()); }
   /* Nothing above the footer columns: every page already closes on its own call to
@@ -324,8 +323,7 @@ function renderHome(){
 
   /* 2b. what we build ourselves: three projects in development, same card shape */
   h+='<section class="band"><div class="wrap center">'
-    +'<div class="lbl rv">'+esc(t(DEV.homeh))+'</div>'
-    +'<h2 class="rv" style="margin-top:18px">'+esc(t(DEV.homed))+'</h2></div>'
+    +'<h2 class="rv">'+esc(t(DEV.homeh))+'</h2></div>'
     +'<div class="wrap">'+devCards()+'</div>'
     +'<div class="wrap center rv" style="margin-top:34px">'+go("dev",' class="btn btn--ghost"')+esc(t(DEV.all))+'</a></div>'
     +'</section>';
@@ -605,7 +603,7 @@ function renderDevProject(id){
 function renderWork(){
   var d=C.work;
   var h='<section class="opener">'+watermark("work")+'<div class="narrow"><div class="lbl">Portfolio</div>'
-    +'<h1>'+(lang==="nl"?"Werk":"Work")+'</h1><p class="deck">'+esc(t(d.lede))+'</p></div></section>';
+    +'<h1>'+(lang==="nl"?"Werk":"Work")+'</h1></div></section>';
   h+=flowSplit(6,"var(--paper)","var(--paper)",5);
   h+='<section class="band band--tight">'+bandMark("layout","gears")+'<div class="wrap">';
   for(var i=0;i<d.cases.length;i++){
@@ -780,7 +778,10 @@ function webPanel(){
     var k=d.pkgs[i], items=(lang==="nl"?k.d.nl:k.d.en);
     h+=rowLine(k.n, items.join(" \u00b7 "), priceTag(price(k.c,k.x),k.from,true));
   }
-  return h+'<div class="psub">'+esc(t(d.addh))+'</div>'+bare(addRows());
+  h+='<div class="psub">'+esc(t(d.addh))+'</div>'+bare(addRows());
+  /* Care belongs to what it cares for: the website plan lives inside the website fold. */
+  return h+'<div class="psub">'+esc(t(d.careh))+'</div>'
+    +'<p class="pnote">'+esc(t(d.cared))+'</p>'+careTable(d.care);
 }
 /* Industry: the fixed studies, then what the plant prices itself. */
 function indPanel(){
@@ -789,7 +790,9 @@ function indPanel(){
     var r=d.ind[i];
     h+=rowLine(t(r.n), t(r.d), (r.from?fromTag(price(r.c,r.x)):'<b>'+money(price(r.c,r.x))+'</b>'));
   }
-  return h+'<div class="psub">'+esc(t(d.indqh))+'</div>'+bare(priceRows(d.indq));
+  h+='<div class="psub">'+esc(t(d.indqh))+'</div>'+bare(priceRows(d.indq));
+  return h+'<div class="psub">'+esc(t(d.mcareh))+'</div>'
+    +'<p class="pnote">'+esc(t(d.mcared))+'</p>'+careTable(d.mcare);
 }
 /* Cheapest thing behind a button, so the menu answers the page's own question without
    anything being opened. */
@@ -804,22 +807,14 @@ function mainMenu(){
   var d=C.price, out=[], i;
   var webMin=0;
   for(i=0;i<d.pkgs.length;i++){ var v=price(d.pkgs[i].c,d.pkgs[i].x); if(!webMin||v<webMin) webMin=v; }
-  out.push(menuItem(t(d.pkgh), fromTag(webPrice(webMin)), webPanel()));
+  out.push(menuItem(t(d.pkgh), fromTag(webPrice(webMin)), webPanel(), true));
   var indMin=0;
   for(i=0;i<d.ind.length;i++){ var w=price(d.ind[i].c,d.ind[i].x); if(!indMin||w<indMin) indMin=w; }
-  out.push(menuItem(t(d.indh), fromTag(indMin), indPanel()));
+  out.push(menuItem(t(d.indh), fromTag(indMin), indPanel(), true));
   for(i=0;i<d.domains.length;i++)
     out.push(menuItem(domTitle(d.domains[i].key), fromTag(domMin(d.domains[i].items)),
              domRows(d.domains[i].items,true)));
   return menuGrid(out);
-}
-/* Both Care plans, listed under the menu. Full width: S/M/L needs the room. */
-function careMenu(){
-  var d=C.price;
-  return menuGrid([
-    menuItem(t(d.careh), "", '<p class="pnote">'+esc(t(d.cared))+'</p>'+careTable(d.care), true),
-    menuItem(t(d.mcareh), "", '<p class="pnote">'+esc(t(d.mcared))+'</p>'+careTable(d.mcare), true)
-  ]);
 }
 function domTitle(key){
   for(var j=0;j<DISCIPLINES.items.length;j++)
@@ -852,16 +847,12 @@ function renderPrice(){
     +'<p class="deck rv" style="margin-top:18px">'+esc(t(d.domd))+'</p>'
     +mainMenu()
     +'<p class="onreq rv">'+esc(t(d.domnote))+'</p>'
-    +'<h2 class="rv" style="margin-top:78px">'+esc(t(d.careseh))+'</h2>'
-    +'<p class="deck rv" style="margin-top:14px">'+esc(t(d.caresed))+'</p>'
-    +careMenu()
     +'<p class="onreq rv">'+esc(t(d.vat))+'</p>'
     +'</div></section>';
   h+=flowSplit(6,"var(--paper2)","var(--paper)",5);
   h+='<section class="band">'+bandMark("valve","rule")+'<div class="wrap">'
     +'<h2 class="rv">'+esc(t(d.fixh))+'</h2>'
     +stepList(d.fix,["web","elec","data","dfm"])
-    +'<div class="marginnote"><h3>'+esc(t(d.noteh))+'</h3><p>'+esc(t(d.note))+'</p></div>'
     +ctaBlock(lang==="nl"?"Stuur uw vraag in twee zinnen."
                         :"Send your question in two sentences.")+'</div></section>';
   return h;
@@ -934,10 +925,6 @@ function contactForm(p,shape){
       +esc(t(d.fields.send))+'</button>'
     +'<p class="formstat" id="'+p+'stat" role="status" aria-live="polite"></p>'
     +'<p class="reqnote">'+esc(t(d.fields.reqnote))+'</p>';
-  if(full){
-    h+='<p class="formnote">'+esc(t(d.formnote))+'</p>'
-      +'<p class="formnote">'+esc(t(d.privacy))+'</p>';
-  }
   return h+'</form>';
 }
 

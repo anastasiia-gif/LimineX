@@ -258,8 +258,6 @@ home:{
   ctab:{nl:"Neem contact op", en:"Get in touch"}
 },
 foot:{
-  seo:{nl:"Liminex is een engineeringbureau in 's-Hertogenbosch. Wij bouwen websites en webshops, doen AI-automatisering, en ontwikkelen prototypes: mechanica, elektronica, PCB-ontwerp, firmware, besturingstechniek, robotica, drones en CAD. Onderdelen en kleine series laten we maken bij werkplaatsen waar we mee werken. Actief in Noord-Brabant \u2014 's-Hertogenbosch, Eindhoven, Tilburg, Breda \u2014 en de rest van Nederland.",
-       en:"Liminex is an engineering firm in 's-Hertogenbosch, the Netherlands. We build websites and online shops, do AI automation, and develop prototypes: mechanics, electronics, PCB design, firmware, control engineering, robotics, drones and CAD. Parts and short runs are made by workshops we work with. Working across Noord-Brabant \u2014 's-Hertogenbosch, Eindhoven, Tilburg, Breda \u2014 and the rest of the Netherlands."},
   formh:{nl:"Stuur ons twee zinnen",en:"Send us two sentences"},
   formd:{nl:"Vertel kort wat er moet gebeuren. U krijgt binnen drie werkdagen antwoord van de engineer die het zou doen \u2014 ook als dat antwoord \u2018dit past niet bij ons\u2019 is \u2014 en binnen een week een afspraak.",
          en:"Tell us briefly what needs to happen. You'll hear back within three working days from the engineer who would do it \u2014 including if the answer is \u2018this isn't for us\u2019 \u2014 and have a meeting within a week."},
@@ -401,10 +399,10 @@ start:{
   ],
 },
 price:{
-  lede:{nl:"Vaste prijzen voor websites, en vaste startprijzen voor AI in productie.",
-        en:"Fixed prices for websites, and fixed starting prices for AI in production."},
-  intro:{nl:"De meeste bureaus zeggen \u201Cneem contact op\u201D en laten u raden. Wij zetten de prijs erbij. Websites hebben vaste pakketprijzen; industrieel werk begint met een vast onderzoek, en pas daarna volgt een prijs voor de bouw. Past uw vraag nergens in, dan krijgt u na \u00e9\u00e9n gesprek een vaste prijs op \u00e9\u00e9n pagina.",
-         en:"Most agencies say \u201Cget in touch\u201D and leave you guessing. We put the price on the page. Websites have fixed package prices; industrial work starts with a fixed study, and only then comes a price for building. If your question fits nowhere, you get a fixed price on one page after one conversation."},
+  lede:{nl:"Een vaste prijs voor elk project — van website tot prototype.",
+        en:"A fixed price for every project — from a website to a prototype."},
+  intro:{nl:"De meeste bureaus zeggen “neem contact op” en laten u raden. Wij zetten de prijs erbij. Kies hieronder een vakgebied en u ziet wat een project kost — websites als vast pakket, industrieel werk vanaf een vast onderzoek. Past uw vraag nergens in, dan krijgt u na één gesprek een vaste prijs op één pagina.",
+         en:"Most agencies say “get in touch” and leave you guessing. We put the price on the page. Pick a field below and you see what a project costs — websites as a fixed package, industrial work starting from a fixed study. If your question fits nowhere, you get a fixed price on one page after one conversation."},
   /* The October 2026 launch prices are the list prices: website packages and the two
      discountable add-ons are shown at pct below the calculated rate. Set pct to 0 and
      the full calculated prices come back. No badge, no strikethrough: these are simply
@@ -428,9 +426,6 @@ price:{
     {n:{nl:"Extra pagina",en:"Extra page"}, hrs:[[0,0.4]], disc:true},
     {n:{nl:"Werk buiten de scope",en:"Out-of-scope work"}, rate:"exec", unit:{nl:"/ uur",en:"/ hour"}, disc:false}
   ],
-  careseh:{nl:"Care \u2014 draaiend houden wat we opleveren",en:"Care \u2014 keeping what we deliver running"},
-  caresed:{nl:"Twee abonnementen: \u00e9\u00e9n voor websites, \u00e9\u00e9n voor modellen die in de fabriek draaien.",
-           en:"Two plans: one for websites, one for models running in a plant."},
   careh:{nl:"Website Care — hosting en onderhoud",en:"Website Care — hosting and upkeep"},
   cared:{nl:"Na oplevering houden wij de site draaiend. Per maand of per jaar, en bij een jaar is één maand gratis.",
          en:"After launch we keep the site running. Monthly or yearly, and a year gets you one month free."},
@@ -580,16 +575,14 @@ price:{
   ],
   domnote:{nl:"Dit is de prijs bij de hierboven beschreven omvang, vastgelegd na een gratis half uur. Wat daarbuiten valt gaat tegen het uurtarief. We rekenen ruim: we zijn een jong bureau en doen sommige dingen voor het eerst \u2014 die uren staan er gewoon in, in plaats van op uw rekening. De doorlooptijd loopt van het eerste gesprek tot oplevering \u2014 niet het aantal uren dat we eraan werken.",
            en:"This is the price at the scope described above, fixed after a free half hour. Anything outside it goes at the hourly rate. We budget generously: we are a young firm and some of this we do for the first time \u2014 those hours are in the estimate rather than on your invoice. Lead time runs from the first conversation to delivery, not the hours spent working on it."},
-  fixh:{nl:"Van pakket naar live site",en:"From package to live site"},
+  fixh:{nl:"Van vraag naar oplevering",en:"From question to delivery"},
   fix:[
     {h:{nl:"Twee zinnen",en:"Two sentences"},p:{nl:"U stuurt wat er moet gebeuren. Wij zeggen eerlijk of het bij ons past — soms is het antwoord nee.",en:"You send what needs to happen. We say honestly whether it suits us — sometimes the answer is no."}},
     {h:{nl:"Een half uur",en:"Half an hour"},p:{nl:"Gratis, met de engineer die het werk zou doen. Geen accountmanager.",en:"Free, with the engineer who'd do the work. No account manager."}},
-    {h:{nl:"Eén pagina",en:"One page"},p:{nl:"Pakket, eventuele uitbreidingen en planning. Geen bijlagen van dertig pagina's.",en:"Package, any add-ons and timeline. No thirty-page appendix."}},
+    {h:{nl:"Eén pagina",en:"One page"},p:{nl:"Scope, prijs en planning op één pagina. Geen bijlagen van dertig pagina's.",en:"Scope, price and timeline on one page. No thirty-page appendix."}},
     {h:{nl:"Daarna pas rekenen",en:"Only then the bill"},p:{nl:"Meerwerk gaat alleen door als u er vooraf ja op zegt. Geen verrassingen achteraf.",en:"Extra work only proceeds if you say yes to it in advance. No surprises afterwards."}}
   ],
-  noteh:{nl:"Iets anders dan een website?",en:"Something other than a website?"},
-  note:{nl:"Prototypes, elektronica, automatisering en ander engineeringwerk begroten we per project — na één gesprek krijgt u een vaste prijs op één pagina.",
-        en:"Prototypes, electronics, automation and other engineering work are priced per project — after one conversation you get a fixed price on one page."}
+
 },
 
 privacy:{
@@ -623,8 +616,6 @@ privacy:{
   ]
 },
 work:{
-  lede:{nl:"Opgeleverd werk, nog in gebruik. Wilt u met een klant spreken, dan regelen we dat.",
-        en:"Delivered work, still in use. If you want to speak to a client, we'll arrange it."},
   cases:[
     {t:"HUTKO Kitchen", img:"hutko", tag:{nl:"Website & webshop",en:"Website & online shop"}, url:"hutko-kitchen.com",
      short:{nl:"Oekraïens diepvriesmerk in Nederland. Wij bouwen en onderhouden de site, de webshop en de orderafhandeling.",en:"Ukrainian frozen food brand in the Netherlands. We build and maintain the site, the shop and order handling."},
@@ -672,10 +663,6 @@ contact:{
   fail:{nl:"Het versturen lukte niet \u2014 een adblocker of bedrijfsnetwerk blokkeert soms dit soort formulieren. Uw tekst is niet weg:",
         en:"That didn't send \u2014 an ad blocker or a corporate network sometimes blocks forms like this. Your text isn't lost:"},
   need:{nl:"Vul uw e-mailadres en uw bericht in.",en:"Please fill in your email address and your message."},
-  privacy:{nl:"Wat u hier invult gebruiken we alleen om te antwoorden. We bewaren het niet langer dan nodig en geven het niet door.",
-           en:"What you enter here is used only to reply. We don't keep it longer than needed and don't pass it on."},
-  formnote:{nl:"Dit formulier is nog niet aangesloten — in de live site komen de berichten binnen op anastasiia@liminex.net.",
-            en:"This form is not wired up yet — on the live site messages arrive at anastasiia@liminex.net."},
   details:[
     {k:{nl:"E-mail",en:"Email"},v:"anastasiia@liminex.net"},
     {k:{nl:"Werkgebied",en:"We work across"},v:{nl:"'s-Hertogenbosch en heel Noord-Brabant",en:"'s-Hertogenbosch and all of Noord-Brabant"}},
@@ -695,11 +682,9 @@ contact:{
 var DEV = {
   lbl:{nl:"In ontwikkeling", en:"In development"},
   h:{nl:"Wat we zelf bouwen", en:"What we're building"},
-  d:{nl:"Drie eigen projecten, open op tafel. Geen van drie is af. We laten ze zien omdat ze tonen wat we voor opdrachtgevers doen, en omdat we er partners, pilots en financiering voor zoeken.",
-     en:"Three projects of our own, on the table. None of them is finished. We show them because they show what we do for clients, and because we are looking for partners, pilots and funding for each."},
+  d:{nl:"We zoeken er partners, pilots en financiering voor — bij elk project staat precies wie.",
+     en:"We are looking for partners, pilots and funding — each project says exactly who."},
   homeh:{nl:"Wat we zelf bouwen", en:"What we're building"},
-  homed:{nl:"Dezelfde vier mensen, hetzelfde proces, eigen producten. Open in ontwikkeling.",
-         en:"The same four people, the same process, our own products. Developed in the open."},
   more:{nl:"Bekijk het project", en:"See the project"},
   all:{nl:"Alle projecten in ontwikkeling", en:"All projects in development"},
   conceptl:{nl:"Het concept", en:"The concept"},
