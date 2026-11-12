@@ -309,8 +309,8 @@ folio:{
 web:{
   lede:{nl:"U stelt het zich voor, wij vinden samen de beste uitvoering. Website, webshop, app, AI, SEO of iets dat nog geen naam heeft.",
         en:"You imagine it, we find the best execution together. Website, online shop, app, AI, SEO, or something that doesn't have a name yet."},
-  intro:{nl:"We beginnen niet bij de techniek maar bij uw klant: wat moet iemand bij u kunnen ervaren, boeken, bestellen of begrijpen? Daarna kiezen we samen wat daar het beste bij past \u2014 een website, een webshop, een app of webapp, een stuk AI in uw proces, betere vindbaarheid, of een combinatie. Vaak blijkt de eenvoudigste uitvoering de beste, en soms is het iets wat nog niemand voor u gebouwd heeft. Het is uw verbeelding en onze uitvoering.",
-         en:"We don't start from the technology but from your customer: what should someone be able to experience, book, order or understand with you? Then we choose together what fits that best \u2014 a website, an online shop, an app or web app, a piece of AI in your process, better findability, or a mix. Often the simplest execution turns out to be the best one, and sometimes it is something nobody has built for you before. It is your imagination and our execution."},
+  intro:{nl:"We beginnen niet bij de techniek maar bij uw klant: wat moet iemand bij u kunnen ervaren, boeken, bestellen of begrijpen? Daarna kiezen we samen wat daar het beste bij past \u2014 een website, een webshop, een app of webapp, software op maat, een stuk AI in uw proces, betere vindbaarheid, of een combinatie. Vaak blijkt de eenvoudigste uitvoering de beste, en soms is het iets wat nog niemand voor u gebouwd heeft. Het is uw verbeelding en onze uitvoering.",
+         en:"We don't start from the technology but from your customer: what should someone be able to experience, book, order or understand with you? Then we choose together what fits that best \u2014 a website, an online shop, an app or web app, custom software, a piece of AI in your process, better findability, or a mix. Often the simplest execution turns out to be the best one, and sometimes it is something nobody has built for you before. It is your imagination and our execution."},
   exhibh:{nl:"De tentoonstelling", en:"The exhibition"},
   exhibd:{nl:"Dit is wat we tot nu toe hebben opgeleverd. Beide sites staan live en worden nog gebruikt.",
           en:"This is what we have delivered so far. Both sites are live and still in use."},
@@ -321,7 +321,7 @@ web:{
    {n:{nl:"Boeken, betalen en klantaccounts",en:"Booking, payments and customer accounts"},
     d:{nl:"Afspraken, tijdsloten, aanbetalingen, iDEAL en kaart. Het komt in uw agenda en op uw rekening, niet in het dashboard van een derde partij dat u twee keer per dag moet controleren.",
        en:"Appointments, slots, deposits, iDEAL and card. It lands in your calendar and your bank account — not in a third party's dashboard you have to check twice a day."}},
-   {n:{nl:"Het stuk dat nergens kant-en-klaar bestaat",en:"The part that comes in no box"},
+   {n:{nl:"Software op maat",en:"Custom software"},
     d:{nl:"Een app, een webapp, een configurator, een klantportaal, een offertecalculator, een voorraadscherm aan de muur. Precies het ding dat een standaardplatform niet kan — en meestal ook precies het ding waarin u van uw concurrent verschilt.",
        en:"An app, a web app, a configurator, a customer portal, a quote calculator, a stock screen on the wall. Exactly the thing an off-the-shelf platform cannot do — and usually exactly the thing that makes you different from your competitor."}},
    {n:{nl:"Een ontwerp dat van u is",en:"A design that is actually yours"},
@@ -421,7 +421,7 @@ price:{
      discountable add-ons are shown at pct below the calculated rate. Set pct to 0 and
      the full calculated prices come back. No badge, no strikethrough: these are simply
      the prices now. */
-  web:{pct:20},
+  web:{pct:30},
   pkgh:{nl:"Websites en webshops",en:"Websites and online shops"},
   pkgs:[
     {n:"Start", c:0.5, x:1.5, from:false,

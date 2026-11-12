@@ -416,11 +416,11 @@ function renderWeb(){
     +'<p class="deck" style="max-width:none">'+esc(t(d.intro))+'</p></div>'
     +'<div class="wrap"><h2 class="rv">'+(lang==="nl"?"Wat we doen":"What we do")+'</h2>'
     +altRows([
-      {key:"web-1", t:d.svcs[0].n, p:d.svcs[0].d, shot:C.home.shots.web},
+      {key:"part-layout", t:d.svcs[0].n, p:d.svcs[0].d, shot:C.home.shots.web},
       {key:"web-2", t:d.svcs[1].n, p:d.svcs[1].d, shot:{nl:"Foto \u2014 afrekenen en boeken op een telefoon",
                                                         en:"Photo \u2014 checkout and booking on a phone"}},
-      {key:"part-ai", t:d.svcs[4].n, p:d.svcs[4].d, shot:{nl:"Foto — AI die een proces overneemt",
-                                                        en:"Photo — AI taking over a process"}}
+      {key:"web-1", t:d.svcs[4].n, p:d.svcs[4].d, shot:{nl:"Foto \u2014 een werkstroom die zichzelf uitvoert",
+                                                        en:"Photo \u2014 a workflow that runs itself"}}
     ], true)
     +'<div class="rv" style="margin-top:64px">'
     +svcList([d.svcs[2],d.svcs[3],d.svcs[5]], t(d.moreh), null, true)+'</div>'
@@ -436,7 +436,7 @@ function renderWeb(){
   /* 4. how a project runs, then experience last */
   h+='<section class="band band--bub">'+bandMark("pcb","layout")+'<div class="wrap">'
     +'<h2>'+(lang==="nl"?"Hoe het gaat":"How it goes")+'</h2>'
-    +stepList(d.steps,null,"pics")
+    +stepList(d.steps,null)
     +'</div></section>';
   h+='<section class="band band--tight"><div class="wrap">'
     +ctaBlock(lang==="nl"?"Zullen we hier een half uur over praten?":"Shall we spend half an hour on this?")
@@ -530,7 +530,7 @@ function devCards(){
 }
 function renderDev(){
   var h='<section class="opener">'+watermark("dev")+'<div class="narrow"><div class="lbl">'+esc(t(DEV.lbl))+'</div>'
-    +'<h1>'+esc(t(DEV.h))+'</h1><p class="deck">'+esc(t(DEV.d))+'</p></div></section>';
+    +'<h1>'+esc(t(DEV.h))+'</h1></div></section>';
   h+=flowSplit(6,"var(--paper)","var(--paper)",5);
   h+='<section class="band band--tight">'+bandMark("bench","signal")+'<div class="wrap">'+devCards()+'</div></section>';
   h+='<section class="band band--grey"><div class="wrap">'

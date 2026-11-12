@@ -168,11 +168,11 @@ PAGES = [
    "intro":"You have an idea and no technical team. We are that team until you have your own: feasibility first, then a prototype an investor can react to."}},
 
  {"id":"price", "nl":{"slug":"tarieven", "nav":"Tarieven", "title":"Website laten maken: vaste prijzen | Liminex",
-   "desc":"Website laten maken tegen een vaste prijs: one-pager €760, MKB-site vanaf €1.840, webshop vanaf €2.760. Onderhoud vanaf €35 per maand.",
+   "desc":"Website laten maken tegen een vaste prijs: one-pager €665, MKB-site vanaf €1.610, webshop vanaf €2.415. Onderhoud vanaf €35 per maand.",
    "h1":"Vaste prijzen voor websites en webshops",
    "intro":"Drie pakketten, uitbreidingen en Care-abonnementen — zodat u weet wat het kost voordat u belt."},
    "en":{"nav":"Pricing", "slug":"pricing", "title":"Website pricing: fixed packages | Liminex",
-   "desc":"Fixed prices for a website or online shop: one-pager €760, SME site from €1,840, online shop from €2,760. Care plans from €35 a month.",
+   "desc":"Fixed prices for a website or online shop: one-pager €665, SME site from €1,610, online shop from €2,415. Care plans from €35 a month.",
    "h1":"Fixed prices for websites and online shops",
    "intro":"Three packages, add-ons and Care plans — so you know what it costs before you call."}},
 
