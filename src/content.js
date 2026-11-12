@@ -1,6 +1,6 @@
 /* ============================================================ COPY ============================================================ */
 var AREAS = [
-  {id:"web",   glyph:"wave",  nl:"Software & web",   en:"Software & web"},
+  {id:"web",   glyph:"wave",  nl:"Software, web & AI", en:"Software, web & AI"},
   {id:"proto", glyph:"frame", nl:"Engineering & prototyping", en:"Engineering & prototyping"},
   {id:"make",  glyph:"turn",  nl:"Productie",        en:"Manufacturing"},
   {id:"start", glyph:"vector",nl:"Start-up support", en:"Start-up support"}
@@ -136,6 +136,20 @@ var DISCIPLINES = {
          en:"A synchronised microphone array that detects, classifies and locates drones \u2014 including how certain that answer is."},
      dw:"signal", note:{nl:"Render — de microfoonarray",en:"Render — the microphone array"},
      k:"Python · DSP · analyse"},
+    {ic:"soft", t:{nl:"Industri\u00e9le software",en:"Industrial software"},
+     p:{nl:"De software r\u00f3nd een machine of product: bediening, datalogging, integraties met wat er al draait, en tests zodat het blijft werken.",
+        en:"The software around a machine or product: operator UI, data logging, integrations with what already runs, and tests so it keeps working."},
+     ex:{nl:"Een handmatig Excel-proces vervangen door een intern tool dat met de machinedata meeleest.",
+         en:"A manual Excel process replaced by an internal tool that reads along with the machine data."},
+     dw:"layout", note:{nl:"Render \u2014 software als het ontbrekende stuk",en:"Render \u2014 software as the missing piece"},
+     k:"Python \u00b7 C++ \u00b7 integraties \u00b7 tests"},
+    {ic:"ai", t:{nl:"AI en machine learning",en:"AI and machine learning"},
+     p:{nl:"AI waar meetbaar iets aan hangt: visuele inspectie, voorspellend onderhoud, een model op uw sensordata. Eerst de haalbaarheidsvraag, dan pas het model.",
+        en:"AI with something measurable attached: visual inspection, predictive maintenance, a model on your sensor data. The feasibility question first, the model second."},
+     ex:{nl:"Een camera boven de lijn die goed van fout onderscheidt, getraind op uw eigen afkeur.",
+         en:"A camera over the line telling good from bad, trained on your own rejects."},
+     dw:"signal", note:{nl:"Render \u2014 een camera op de lijn",en:"Render \u2014 a camera on the line"},
+     k:"vision \u00b7 sensordata \u00b7 voorspellend onderhoud"},
     {ic:"dfm", t:{nl:"Ontwerpen voor productie",en:"Design for manufacturing"},
      p:{nl:"Een prototype dat niet te maken is, is geen prototype. We ontwerpen naar het proces dat het uiteindelijk maakt.",
         en:"A prototype that can't be made isn't a prototype. We design towards the process that will eventually make it."},
@@ -170,8 +184,8 @@ home:{
   tagline:{nl:"Make non-existent reality", en:"Make non-existent reality"},
   scroll:{nl:"Scroll", en:"Scroll"},
   blocksh:{nl:"Wat we doen", en:"What we do"},
-  blocksd:{nl:"Vijf richtingen, één team. Software aan de ene kant, hardware aan de andere, en dezelfde mensen aan allebei.",
-           en:"Five directions, one team. Software on one side, hardware on the other, and the same people across both."},
+  blocksd:{nl:"Vier richtingen, \u00e9\u00e9n team. Software aan de ene kant, hardware aan de andere, en dezelfde mensen aan allebei.",
+           en:"Four directions, one team. Software on one side, hardware on the other, and the same people across both."},
   blurbs:{
     web:{nl:"Website, webshop, app, AI, SEO, automatisering. U beschrijft wat u wilt bereiken, wij kiezen samen de beste uitvoering.",
          en:"Website, online shop, app, AI, SEO, automation. You describe what you want to achieve, we pick the best execution together."},
@@ -230,7 +244,7 @@ home:{
   /* `img` names a file in assets/renders/. Swap the four filenames around to change who
      sits under which role — nothing else has to move. Portraits are 4:5. */
   team:[
-    {img:"team-1", n:"Anastasiia Polimasheva", r:{nl:"Software & web — automatisering, AI, en uw eerste aanspreekpunt",en:"Software & web — automation, AI, and your first point of contact"}},
+    {img:"team-1", n:"Anastasiia Polimasheva", r:{nl:"Software, web & AI — automatisering en uw eerste aanspreekpunt",en:"Software, web & AI — automation, and your first point of contact"}},
     {img:"team-2", n:"Krish Yadav", r:{nl:"Leiding & hardware — planning, inkoop, bouw",en:"Operations & hardware — planning, sourcing, build"}},
     {img:"team-3", n:"Clara Handoyo", r:{nl:"Besturingstechniek — machinebesturing, sensoren, meten",en:"Control engineering — machine control, sensors, measurement"}},
     {img:"team-4", n:"Yash Yadav", r:{nl:"CAD & elektronica — mechanica, PCB, 3D-print",en:"CAD & electronics — mechanics, PCB, 3D print"}}
@@ -331,8 +345,8 @@ web:{
 proto:{
   lede:{nl:"U heeft een idee. Vertel het ons, en wij bouwen het \u2014 van schets naar een werkend exemplaar dat u aan iemand kunt laten zien.",
         en:"You have an idea. Tell us, and we build it \u2014 from sketch to a working unit you can put in front of someone."},
-  intro:{nl:"Het begint bij uw idee, niet bij onze specialisatie. Een apparaat, een meetopstelling, een machine die iets moet doen wat nog niets doet \u2014 u beschrijft wat het moet kunnen, wij vertalen dat naar mechanica, elektronica, firmware en besturing, in \u00e9\u00e9n team. Hieronder wat we precies doen en op welke terreinen.",
-         en:"It starts with your idea, not with our specialism. A device, a measurement setup, a machine that has to do something nothing does yet \u2014 you describe what it must be able to do, we translate that into mechanics, electronics, firmware and control, in one team. Below: exactly what we do, and in which fields."},
+  intro:{nl:"Het begint bij uw idee, niet bij onze specialisatie. Een apparaat, een meetopstelling, een machine die iets moet doen wat nog niets doet \u2014 u beschrijft wat het moet kunnen, wij vertalen dat naar mechanica, elektronica, firmware, software, AI en besturing, in \u00e9\u00e9n team. Hieronder wat we precies doen en op welke terreinen.",
+         en:"It starts with your idea, not with our specialism. A device, a measurement setup, a machine that has to do something nothing does yet \u2014 you describe what it must be able to do, we translate that into mechanics, electronics, firmware, software, AI and control, in one team. Below: exactly what we do, and in which fields."},
   svcs:[
     {n:{nl:"Haalbaarheidssprint",en:"Feasibility sprint"},
      d:{nl:"Twee weken: kan het, wat kost het, waar zit het risico. Een technisch onderbouwd antwoord plus kostenraming, en een eerlijk advies om wel of niet door te gaan.",
@@ -529,9 +543,9 @@ price:{
       {n:{nl:"Een scharnier of mechanisme dat nauwkeurig en herhaalbaar moet bewegen",en:"A hinge or linkage that has to move precisely and repeatably"},c:1,x:3},
       {n:{nl:"Een machineframe dat niet mag trillen: berekening plus ontwerp",en:"A machine frame that must not vibrate: calculation plus design"},c:1.5,x:5}]},
     {key:"cad", items:[
-      {n:{nl:"Een oud onderdeel zonder tekening: opgemeten en gemodelleerd",en:"A legacy part with no drawing: measured and modelled"},c:0.5,x:1},
-      {n:{nl:"Een behuizing ontworpen om elektronica die u al heeft",en:"An enclosure designed around electronics you already have"},c:1,x:3},
-      {n:{nl:"Één parametrisch model voor een hele productfamilie",en:"One parametric model that covers a whole product family"},c:1.5,x:4.5}]},
+      {n:{nl:"Een oud onderdeel zonder tekening: opgemeten en gemodelleerd",en:"A legacy part with no drawing: measured and modelled"},c:0.25,x:0.75},
+      {n:{nl:"Een behuizing ontworpen om elektronica die u al heeft",en:"An enclosure designed around electronics you already have"},c:0.75,x:2},
+      {n:{nl:"Één parametrisch model voor een hele productfamilie",en:"One parametric model that covers a whole product family"},c:1,x:3}]},
     {key:"elec", items:[
       {n:{nl:"Een storing die soms optreedt, gevonden door te meten in plaats van te gokken",en:"An intermittent fault found by measuring instead of guessing"},c:0.5,x:1.5},
       {n:{nl:"Voeding en beveiliging voor een natte of stoffige omgeving",en:"Power supply and protection for a wet or dusty environment"},c:1,x:3},
@@ -560,6 +574,14 @@ price:{
       {n:{nl:"Één dataset, één vraag: zit het signaal er werkelijk in?",en:"One dataset, one question: is the signal really in there?"},c:0.5,x:1.5},
       {n:{nl:"Een meetketen: inlezen, filteren, kenmerken, en een dashboard dat gelezen wordt",en:"A measurement pipeline: acquisition, filtering, features, and a dashboard someone reads"},c:1,x:5},
       {n:{nl:"Een detector getraind op uw eigen data en getoetst aan echte gebeurtenissen",en:"A detector trained on your own data and validated against real events"},c:2,x:8}]},
+    {key:"soft", items:[
+      {n:{nl:"Een handmatig proces in Excel vervangen door een klein intern tool",en:"A manual Excel process replaced by a small internal tool"},c:0.5,x:2},
+      {n:{nl:"Twee systemen die niet met elkaar praten: een koppeling, met tests",en:"Two systems that don't talk: an integration, with tests"},c:0.5,x:2.5},
+      {n:{nl:"Bediening en datalogging voor een machine die u al heeft",en:"Operator UI and data logging for a machine you already have"},c:1,x:3.5}]},
+    {key:"ai", items:[
+      {n:{nl:"De haalbaarheidsvraag: kan AI dit \u00fcberhaupt voorspellen uit uw data?",en:"The feasibility question: can AI predict this from your data at all?"},c:1,x:1},
+      {n:{nl:"Visuele inspectie op de lijn: goed/fout uit een camera",en:"Visual inspection on the line: pass/fail from a camera"},c:1,x:4},
+      {n:{nl:"Een model op uw sensordata, van ruw signaal naar beslissing",en:"A model on your sensor data, from raw signal to decision"},c:1,x:5}]},
     {key:"dfm", items:[
       {n:{nl:"Kostprijs per stuk voor één onderdeel, bij drie verschillende aantallen",en:"Cost per piece for one part, at three different volumes"},c:0.5,x:1},
       {n:{nl:"Een prototype geschikt gemaakt voor spuitgieten of plaatwerk",en:"A prototype made fit for injection moulding or sheet metal"},c:1,x:3},

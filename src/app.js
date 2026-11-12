@@ -408,7 +408,7 @@ function renderWeb(){
   var d=C.web,h="";
 
   /* 1. opener */
-  h+='<section class="opener">'+watermark("web")+'<div class="narrow"><div class="lbl">Software &amp; web</div>'
+  h+='<section class="opener">'+watermark("web")+'<div class="narrow"><div class="lbl">Software, web &amp; AI</div>'
     +'<h1>'+esc(t(d.lede))+'</h1></div></section>';
 
   /* 2. what we do — the main content, first on the page */
@@ -419,11 +419,11 @@ function renderWeb(){
       {key:"web-1", t:d.svcs[0].n, p:d.svcs[0].d, shot:C.home.shots.web},
       {key:"web-2", t:d.svcs[1].n, p:d.svcs[1].d, shot:{nl:"Foto \u2014 afrekenen en boeken op een telefoon",
                                                         en:"Photo \u2014 checkout and booking on a phone"}},
-      {key:"web-3", t:d.svcs[2].n, p:d.svcs[2].d, shot:{nl:"Foto \u2014 een configurator op het scherm",
-                                                        en:"Photo \u2014 a configurator on screen"}}
+      {key:"part-ai", t:d.svcs[4].n, p:d.svcs[4].d, shot:{nl:"Foto — AI die een proces overneemt",
+                                                        en:"Photo — AI taking over a process"}}
     ], true)
     +'<div class="rv" style="margin-top:64px">'
-    +svcList(d.svcs.slice(3), t(d.moreh), null, true)+'</div>'
+    +svcList([d.svcs[2],d.svcs[3],d.svcs[5]], t(d.moreh), null, true)+'</div>'
     +pricePreview()+'</div></section>';
 
   /* 3. the exhibition of delivered work, ending on the ask */
@@ -470,9 +470,11 @@ function renderArea(id){
   var SVCICONS={proto:["img:svc-feasibility","img:svc-build","img:svc-capacity"],
                 make:["img:make-design","img:make-series","img:svc-sourcing"],
                 start:["ic:test","ic:cad","ic:elec","ic:data","ic:robot"]};
-  if(d.svcs) h+='<div class="wrap">'
+  /* The start page shows its services once, in the "how we make this affordable"
+     section below, so it skips this generic list. */
+  if(d.svcs && id!=="start") h+='<div class="wrap">'
     +svcList(d.svcs,
-             id==="make" ? t(d.aroundh) : (id==="start" ? "" : (lang==="nl"?"Wat we doen":"What we do")),
+             id==="make" ? t(d.aroundh) : (lang==="nl"?"Wat we doen":"What we do"),
              SVCICONS[id], id==="make")+'</div>';
   h+='</section>';
 
