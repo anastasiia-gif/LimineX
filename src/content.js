@@ -989,7 +989,7 @@ var GALLERY = {
 /* The home page opening: a silent loop behind the logo, darkened so the mark stays the
    subject. Phones get the lighter file. Visitors who ask for reduced motion get the
    still poster instead. Delete the files and the opening is plain black again. */
-var HERO_VIDEO = {big:"field-test-hero", small:"field-test-hero-1280"};
+var HERO_VIDEO = {big:"hero-montage", small:"hero-montage-960"};
 
 /* The Work page, engineering first. */
 var WORKENG = {
@@ -1007,4 +1007,98 @@ var WORKENG = {
     dl:[{k:{nl:"Wat we deden",en:"What we did"},v:{nl:"Sensorkalibratie, afstellen van de regellus, testen",en:"Sensor calibration, control-loop tuning, testing"}},
         {k:{nl:"Status",en:"Status"},v:{nl:"Onder geheimhouding",en:"Under NDA"}}]},
   webl:{nl:"Software & web",en:"Software & web"}
+};
+
+
+/* ============================================================ HOME
+   The home page as a story, in this order:
+     1. hook      — real footage, a promise, two buttons (the first six seconds)
+     2. built     — proof straight away: five things we built, each with a one-line story
+     3. needs     — four situations a visitor recognises, each leading to a service page
+     4. team      — the people, and the numbers we can stand behind
+     5. how       — four short steps next to the contact button
+     6. partners  — our own products, as an invitation to build them with us
+   ============================================================ */
+var HOME2 = {
+  hook:{
+    lbl:{nl:"Engineering & prototyping \u00b7 's-Hertogenbosch",en:"Engineering & prototyping \u00b7 's-Hertogenbosch"},
+    h:{nl:"U heeft het idee. Wij bouwen het ding dat werkt.",en:"You have the idea. We build the thing that works."},
+    p:{nl:"Vier engineers die ontwerpen, bedraden, programmeren en testen \u2014 drones, robots, machines en de software eromheen. Van schets tot een werkend exemplaar dat u aan iemand kunt laten zien.",
+       en:"Four engineers who design, wire, code and test \u2014 drones, robots, machines and the software around them. From a sketch to a working unit you can put in front of someone."},
+    cta:{nl:"Stuur ons twee zinnen",en:"Send us two sentences"},
+    see:{nl:"Bekijk wat we bouwden",en:"See what we've built"},
+    proof:{nl:"Recent: Drone Response 2.0 met Dremian \u00b7 FRC-team 6920, Hawaii Regional",
+           en:"Recently: Drone Response 2.0 with Dremian \u00b7 FRC team 6920, Hawaii Regional"}
+  },
+  built:{
+    lbl:{nl:"Door ons gebouwd",en:"Built by us"},
+    h:{nl:"Geen renders. Dingen die we echt gebouwd, bedraad en getest hebben.",en:"Not renders. Things we actually built, wired and tested."},
+    all:{nl:"Al ons werk",en:"All our work"},
+    items:[
+      {img:"drone-response-build-table", r:1.5,
+       c:{nl:"Drone Response 2.0: we hielpen Dremian met hun drones de wedstrijd in.",en:"Drone Response 2.0: we helped Dremian get their drones into the competition."},
+       alt:{nl:"Twee engineers van Liminex aan hun werktafel tijdens Drone Response 2.0",en:"Two Liminex engineers at their build table during Drone Response 2.0"}},
+      {vid:"frc-6920-robot", r:1.768,
+       c:{nl:"FRC-team 6920: een wedstrijdrobot, gebouwd en bedraad voor de Hawaii Regional.",en:"FRC team 6920: a competition robot, built and wired for the Hawaii Regional."},
+       alt:{nl:"Wedstrijdrobot die rijdt en ringen oppakt",en:"Competition robot driving and collecting rings"}},
+      {img:"microscope-drone-build", r:1.334,
+       c:{nl:"Vluchtelektronica, herwerkt onder de microscoop.",en:"Flight electronics, reworked under the microscope."},
+       alt:{nl:"Handen die drone-elektronica bewerken onder een stereomicroscoop",en:"Hands reworking drone electronics under a stereo microscope"}},
+      {img:"wiring-machine-cabinets", r:0.8,
+       c:{nl:"Besturingskasten voor machines, kast voor kast bedraad.",en:"Machine control cabinets, wired rack by rack."},
+       alt:{nl:"Engineer die bedrading aanlegt tussen twee rijen besturingskasten",en:"Engineer wiring between two rows of machine control cabinets"}},
+      {vid:"field-test-team", r:1.778,
+       c:{nl:"Testdag in het veld: drones op de mat, laptops in het gras.",en:"Test day in the field: drones on the mat, laptops on the grass."},
+       alt:{nl:"Twee engineers die drones klaarmaken in een open veld",en:"Two engineers preparing drones in an open field"}}
+    ]
+  },
+  needs:{
+    lbl:{nl:"Waar staat u?",en:"Where do you stand?"},
+    h:{nl:"Begin bij uw situatie, niet bij onze dienstenlijst.",en:"Start from your situation, not from our list of services."},
+    items:[
+      {id:"proto", img:"team-with-drones", r:1.5,
+       q:{nl:"\u201cIk heb een werkend prototype of een testopstelling nodig.\u201d",en:"\u201cI need a working prototype or a test setup.\u201d"},
+       a:{nl:"Mechanica, elektronica, firmware en besturing in \u00e9\u00e9n team \u2014 van schets tot een exemplaar dat u kunt testen.",en:"Mechanics, electronics, firmware and control in one team \u2014 from sketch to a unit you can test."}},
+      {id:"web", shot:"hutko",
+       q:{nl:"\u201cOnze website of een handmatig proces houdt ons tegen.\u201d",en:"\u201cOur website or a manual process is holding us back.\u201d"},
+       a:{nl:"Websites, webshops, software op maat en AI die in uw proces zit in plaats van in een browsertab.",en:"Websites, shops, custom software, and AI that sits inside your process instead of in a browser tab."}},
+      {id:"make", img:"drill-press-fontys", r:0.801,
+       q:{nl:"\u201cIk wil onderdelen of een kleine serie laten maken.\u201d",en:"\u201cI need parts or a small series made.\u201d"},
+       a:{nl:"We maken uw ontwerp maakbaar en laten het dichtbij maken \u2014 of begeleiden grotere aantallen voor u.",en:"We make your design manufacturable and have it made nearby \u2014 or manage larger volumes for you."}},
+      {id:"start", img:"robot-with-webcam", r:0.8,
+       q:{nl:"\u201cIk heb een idee, maar geen technisch team.\u201d",en:"\u201cI have an idea, but no technical team.\u201d"},
+       a:{nl:"Wij zijn dat team tot u er zelf een heeft: eerst haalbaarheid, dan een prototype waar een investeerder op kan reageren.",en:"We are that team until you have your own: feasibility first, then a prototype an investor can react to."}}
+    ]
+  },
+  team:{
+    lbl:{nl:"Wie we zijn",en:"Who we are"},
+    h:{nl:"U spreekt de engineer die het bouwt.",en:"You talk to the engineer who builds it."},
+    p:{nl:"Vier mechatronici uit het Brabantse bedrijfsleven en van Fontys. Geen accountmanager ertussen \u2014 en studenten die naast ons leren op echt werk.",
+       en:"Four mechatronics engineers from Noord-Brabant's industry and from Fontys. No account manager in between \u2014 and students who learn on real work alongside us."},
+    /* Only numbers we can stand behind. 14 = the domains listed on the Engineering page. */
+    stats:[
+      {n:"4", k:{nl:"engineers, \u00e9\u00e9n team",en:"engineers, one team"}},
+      {n:"14", k:{nl:"technische vakgebieden in huis",en:"engineering domains in-house"}},
+      {n:"1", k:{nl:"werkdag tot antwoord van de engineer",en:"working day to a reply from the engineer"}},
+      {n:"2026", k:{nl:"opgericht in 's-Hertogenbosch",en:"founded in 's-Hertogenbosch"}}
+    ]
+  },
+  how:{
+    lbl:{nl:"Hoe het werkt",en:"How it works"},
+    h:{nl:"Een concreet probleem? Stuur het in twee zinnen.",en:"Got a concrete problem? Send it in two sentences."},
+    p:{nl:"Geen briefing nodig. U zit pas na stap drie ergens aan vast.",en:"No briefing needed. You're not committed to anything until after step three."},
+    steps:[
+      {h:{nl:"U stuurt twee zinnen",en:"You send two sentences"},p:{nl:"Via het formulier of per mail. Wat er moet gebeuren en wanneer.",en:"Through the form or by email. What needs to happen, and by when."}},
+      {h:{nl:"Een half uur, gratis",en:"Half an hour, free"},p:{nl:"Videocall of bij u, met de engineer die het werk zou doen.",en:"Video call or at your site, with the engineer who would do the work."}},
+      {h:{nl:"Een voorstel van \u00e9\u00e9n pagina",en:"A one-page proposal"},p:{nl:"Scope, vaste prijs, planning en wat er niet in zit.",en:"Scope, fixed price, timeline and what is not included."}},
+      {h:{nl:"We bouwen, u ziet het groeien",en:"We build, you watch it grow"},p:{nl:"Korte updates met foto\u2019s. Meerwerk alleen na uw ja.",en:"Short updates with photos. Extra work only after your yes."}}
+    ]
+  },
+  partners:{
+    lbl:{nl:"Eigen producten \u00b7 partners gezocht",en:"Our own products \u00b7 looking for partners"},
+    h:{nl:"We bouwen ook drie eigen producten. Bouwt u mee?",en:"We're also building three products of our own. Want to build them with us?"},
+    p:{nl:"Elk zoekt partners: leveranciers en klinische partners voor Knee, robotbouwers voor medegefinancierde pilots van Crew, gemeenten en sportclubs voor een eerste proef met Ball Out.",
+       en:"Each one needs partners: suppliers and clinical partners for Knee, robot builders for co-funded pilots of Crew, municipalities and sports clubs for a first Ball Out trial."},
+    cta:{nl:"Praat met ons over samenwerken",en:"Talk to us about partnering"}
+  }
 };

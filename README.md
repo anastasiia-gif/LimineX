@@ -79,8 +79,13 @@ differently: they are **not** preloaded behind the loading screen, every photo i
 - **Adding one:** export WebP at 800 px wide (and 1600 if the original is big enough), drop
   it in `assets/photos/`, add an entry to `GALLERY.items`. A missing file is skipped, so
   deleting the file is enough to take a photo off the site.
-- **The home opening** plays `HERO_VIDEO` behind the logo, darkened; phones get the
-  1280 px file. Delete both files and the opening is plain black again.
+- **The home page** is a story in six parts, all copy in `HOME2` in `content.js`: the hook
+  (a 9-second montage, `HERO_VIDEO`, behind the headline; phones get the 960 px file),
+  *Built by us*, *Where do you stand?*, the team, how it works next to the contact
+  button, and our own products as a call for partners. Delete the montage files and the
+  hook is plain black.
+- **No loading screen.** The page is never held back on a first visit any more; the
+  renders are fetched in the background so the next page has them cached.
 - **Videos** play only while a third of them is on screen. With reduced motion nothing
   plays: the hero keeps its poster and strip clips get controls.
 - Client work stays anonymous: the night photo shows lights only, by agreement.

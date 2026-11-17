@@ -359,103 +359,102 @@ function ctaBlock(head){
 }
 
 function renderHome(){
-  var d=C.home,h="";
+  var H=HOME2, d=C.home, h="";
 
-  /* 1. the opening: the mark on black, nothing else */
+  /* 1. the hook — what we do, for whom, and proof it's real, inside six seconds.
+     Real footage behind a promise; the logo lives in the bar above. No reveal delay
+     here: this text is in the prerendered HTML and visible before any script runs. */
   var hv=(typeof HERO_VIDEO!=="undefined") && HERO_VIDEO;
   var hvBig=hv && hasMedia("video/"+hv.big+".mp4"), hvSmall=hv && hasMedia("video/"+hv.small+".mp4");
-  var heroVid = (hvBig||hvSmall)
-    ? '<div class="herovid" aria-hidden="true"><video data-auto data-hero muted loop playsinline preload="metadata"'
-      +(hasMedia("video/"+(hvSmall?hv.small:hv.big)+".webp")?' poster="'+mediaSrc("video/"+(hvSmall?hv.small:hv.big)+".webp")+'"':'')+'>'
+  var poster=hv && (hasMedia("video/"+hv.big+".webp") ? mediaSrc("video/"+hv.big+".webp") : "");
+  h+='<section class="hook'+(hvBig||hvSmall?' hook--vid':'')+'">';
+  if(hvBig||hvSmall)
+    h+='<div class="hookvid" aria-hidden="true"><video data-auto data-hero autoplay muted loop playsinline preload="auto"'
+      +(poster?' poster="'+poster+'"':'')+'>'
       +(hvSmall&&hvBig?'<source src="'+mediaSrc("video/"+hv.small+".mp4")+'" type="video/mp4" media="(max-width: 900px)">':'')
-      +'<source src="'+mediaSrc("video/"+(hvBig?hv.big:hv.small)+".mp4")+'" type="video/mp4"></video></div>'
-    : '';
-  h+='<div class="opening"><section class="overture'+(heroVid?' overture--vid':'')+'">'+heroVid
-    +'<h1 class="logo"><img src="'+LOGO_HERO+'" alt="Liminex \u2014 Make non-existent reality"></h1>'
-    +'<span class="scrollcue" aria-hidden="true">'+esc(t(d.scroll))+'</span></section></div>';
+      +'<source src="'+mediaSrc("video/"+(hvBig?hv.big:hv.small)+".mp4")+'" type="video/mp4"></video></div>';
+  h+='<div class="wrap hookin">'
+    +'<div class="lbl">'+esc(t(H.hook.lbl))+'</div>'
+    +'<h1>'+esc(t(H.hook.h))+'</h1>'
+    +'<p class="hookp">'+esc(t(H.hook.p))+'</p>'
+    +'<div class="hookbtns">'+go("contact",' class="btn btn--light" data-umami-event="cta-contact" data-umami-event-from="hook"')+esc(t(H.hook.cta))+'</a>'
+    +'<a class="btn btn--line" href="#built">'+esc(t(H.hook.see))+' &darr;</a></div>'
+    +'<p class="hookproof">'+esc(t(H.hook.proof))+'</p>'
+    +'</div></section>';
 
-  /* 2. what we do — one card per area, with a preview and the fact worth clicking for */
-  h+='<section class="band band--grey"><div class="wrap center">'
-    +'<div class="lbl rv">'+esc(t(d.blocksh))+'</div>'
-    +'<h2 class="rv" style="margin-top:18px">'+esc(t(d.blocksd))+'</h2></div>'
-    +'<div class="wrap"><div class="blocks blocks--lead">';
-  for(var i=0;i<AREAS.length;i++){
-    var ar=AREAS[i];
-    var cimg = renderSrc("card-"+ar.id);
-    /* a transparent PNG floats in the card's preview area, same rule as altRows */
-    var ccut = cimg && typeof CUTOUT!=="undefined" && CUTOUT.indexOf("card-"+ar.id)>=0;
-    h+=go(ar.id,' class="block rv'+(ccut?' has-cut':'')+(i===0?' block--lead':'')+'"')
-      +'<span class="prev'+(cimg?(ccut?' has-cut':' has-img'):'')+'">'
-        +(cimg ? '<img src="'+cimg+'" alt="">'
-               : GLYPH[ar.glyph]+'<span class="cap">'+esc(t(d.shots[ar.id]))+'</span>')
-      +'</span>'
-      +'<span class="body"><h3>'+esc(aName(ar))+'</h3>'
-        +'<span class="intro">'+esc(t(d.blurbs[ar.id]))+'</span>'
-        +'<span class="hook">'+esc(t(d.hooks[ar.id]))+'</span>'
-        +'<span class="more">'+esc(t(d.more))+' &rarr;</span></span></a>';
+  /* 2. proof, straight away: five things we built, each with a one-line story */
+  var bi=[];
+  for(var i=0;i<H.built.items.length;i++){
+    var it=H.built.items[i];
+    var m = it.img ? photoTag(it.img,it.r,t(it.alt),i===0?"(max-width:760px) 92vw, 560px":"(max-width:760px) 92vw, 280px")
+                   : videoTag(it.vid,it.r,t(it.alt),"bvid");
+    if(m) bi.push('<figure class="bento-i'+(bi.length===0?' bento-i--big':'')+'">'+m
+      +'<figcaption>'+esc(t(it.c))+'</figcaption></figure>');
   }
-  h+='</div></div></section>';
-
-  /* 2a. real work: photos and video loops, engineering first. The renders above say what
-     we offer; this says that we have actually done it. */
-  var gitems=galleryItems();
-  if(gitems.length){
-    h+='<section class="band band--gal"><div class="wrap">'
-      +'<div class="galintro"><div><div class="lbl rv">'+esc(t(GALLERY.lbl))+'</div>'
-      +'<h2 class="rv" style="margin-top:16px;max-width:18ch">'+esc(t(GALLERY.h))+'</h2></div>'
-      +'<p class="deck rv">'+esc(t(GALLERY.d))+'</p></div>'
-      +gallery(gitems.slice(0,14))
-      +'<div class="rv" style="margin-top:30px">'+go("work",' class="btn btn--ghost"')+esc(t(GALLERY.all))+' &rarr;</a></div>'
+  if(bi.length){
+    h+='<section class="band band--built" id="built"><div class="wrap">'
+      +'<div class="lbl rv">'+esc(t(H.built.lbl))+'</div>'
+      +'<h2 class="rv" style="margin-top:16px;max-width:22ch">'+esc(t(H.built.h))+'</h2>'
+      +'<div class="bento rv">'+bi.join("")+'</div>'
+      +'<div class="rv" style="margin-top:30px">'+go("work",' class="btn btn--ghost"')+esc(t(H.built.all))+' &rarr;</a></div>'
       +'</div></section>';
   }
 
-  /* 2b. what we build ourselves: three projects in development, same card shape */
-  h+='<section class="band"><div class="wrap center">'
-    +'<h2 class="rv">'+esc(t(DEV.homeh))+'</h2></div>'
-    +'<div class="wrap">'+devCards()+'</div>'
-    +'<div class="wrap center rv" style="margin-top:34px">'+go("dev",' class="btn btn--ghost"')+esc(t(DEV.all))+'</a></div>'
-    +'</section>';
+  /* 3. four situations a visitor recognises, each one a door to a service page */
+  h+='<section class="band band--grey"><div class="wrap">'
+    +'<div class="lbl rv">'+esc(t(H.needs.lbl))+'</div>'
+    +'<h2 class="rv" style="margin-top:16px;max-width:20ch">'+esc(t(H.needs.h))+'</h2>'
+    +'<div class="needs">';
+  for(var n=0;n<H.needs.items.length;n++){
+    var nd=H.needs.items[n], ar=area(nd.id), pic="";
+    if(nd.img) pic=photoTag(nd.img,nd.r,"", "(max-width:760px) 92vw, 540px");
+    else if(nd.shot && typeof WORKSHOTS!=="undefined" && WORKSHOTS[nd.shot]) pic='<img src="'+WORKSHOTS[nd.shot]+'" alt="" loading="lazy">';
+    h+=go(nd.id,' class="need rv"')
+      +'<span class="needpic'+(nd.shot?' needpic--shot':'')+'">'+pic+'</span>'
+      +'<span class="needbody"><span class="needq">'+esc(t(nd.q))+'</span>'
+      +'<span class="needa">'+esc(t(nd.a))+'</span>'
+      +'<span class="needgo">'+esc(aName(ar))+' &rarr;</span></span></a>';
+  }
+  h+='</div></div></section>';
 
-  /* 3. how working with us actually goes */
-  h+=flowSplit(1,"var(--paper2)","var(--paper)",5);
-  h+='<section class="band band--bub">'+bandMark("rule","gears")+'<div class="wrap">'
-    +'<h2 class="rv">'+esc(t(d.howh))+'</h2>'
-    +'<p class="deck rv" style="margin-top:18px">'+esc(t(d.howd))+'</p>'
-    +altRows([
-      {key:"how-1", n:"01", t:d.how[0].h, p:d.how[0].p, shot:d.how[0].note},
-      {key:"how-2", n:"02", t:d.how[1].h, p:d.how[1].p, shot:d.how[1].note},
-      {key:"how-3", n:"03", t:d.how[2].h, p:d.how[2].p, shot:d.how[2].note},
-      {key:"how-4", n:"04", t:d.how[3].h, p:d.how[3].p, shot:d.how[3].note}
-    ], true)
-    +'</div></section>';
-
-  /* 4. who we are, the team, and the ask — one dark block */
-  /* The claim and the story sit in one column; the three numbers hold the other, so the
-     headline no longer leaves half the screen empty beside it. */
+  /* 4. the people, and only numbers we can stand behind */
   h+='<section class="band band--dark"><div class="wrap">'
     +'<div class="whorow rv"><div class="whotext">'
-    +'<div class="lbl">'+esc(t(d.whoh))+'</div>'
-    +'<h2 style="margin-top:18px">'+esc(t(d.whoq))+'</h2>'
-    +'<p class="muted">'
-    +esc(t(d.whop)).split("\n\n").join('</p><p class="muted">')+'</p></div>'
-    +'<div class="stats stats--side">';
-  for(var s=0;s<d.stats.length;s++)
-    h+='<div><div class="n">'+esc(d.stats[s].n)+'</div><div class="k">'+esc(t(d.stats[s].k))+'</div></div>';
+    +'<div class="lbl">'+esc(t(H.team.lbl))+'</div>'
+    +'<h2 style="margin-top:18px">'+esc(t(H.team.h))+'</h2>'
+    +'<p class="muted">'+esc(t(H.team.p))+'</p></div>'
+    +'<div class="stats stats--side stats--two">';
+  for(var s2=0;s2<H.team.stats.length;s2++)
+    h+='<div><div class="n">'+esc(H.team.stats[s2].n)+'</div><div class="k">'+esc(t(H.team.stats[s2].k))+'</div></div>';
   h+='</div></div>';
-  h+='<p class="muted rv" style="margin-top:70px;max-width:58ch">'+esc(t(d.teamd))+'</p>';
-  h+='<div class="team rv" style="margin-top:26px">';
-  for(var m=0;m<d.team.length;m++)
-    h+='<div class="p">'+portrait(d.team[m])
-      +'<div class="nm">'+esc(t(d.team[m].n))+'</div>'
-      +'<div class="ro">'+esc(t(d.team[m].r))+'</div></div>';
-  h+='</div>';
-  h+='<div class="teamcta rv"><h2>'+esc(t(d.ctah))+'</h2>'
-    +'<p>'+esc(t(d.ctasub))+'</p>'
-    +go("contact",' class="btn" data-umami-event="cta-contact"')+esc(t(d.ctab))+'</a>'
-    +'<div class="twolinks" style="justify-content:center;margin-top:28px">'
-    +(hidden("about")?'':go("about",' class="btn btn--ghost"')+esc(t(d.teamabout))+'</a>')
-    +go("work",' class="btn btn--ghost"')+esc(t(d.teamwork))+'</a></div></div>';
-  h+='</div></section>';
+  h+='<div class="team rv" style="margin-top:56px">';
+  for(var m2=0;m2<d.team.length;m2++)
+    h+='<div class="p">'+portrait(d.team[m2])
+      +'<div class="nm">'+esc(t(d.team[m2].n))+'</div>'
+      +'<div class="ro">'+esc(t(d.team[m2].r))+'</div></div>';
+  h+='</div></div></section>';
+
+  /* 5. how it works, folded into the ask: four short lines next to the button */
+  h+='<section class="band"><div class="wrap"><div class="howask rv">'
+    +'<div class="howask-cta"><div class="lbl">'+esc(t(H.how.lbl))+'</div>'
+    +'<h2>'+esc(t(H.how.h))+'</h2><p class="deck">'+esc(t(H.how.p))+'</p>'
+    +'<div class="twolinks">'+go("contact",' class="btn" data-umami-event="cta-contact" data-umami-event-from="how"')+esc(t(d.ctab))+'</a>'
+    +go("work",' class="btn btn--ghost"')+esc(t(d.teamwork))+'</a></div></div>'
+    +'<ol class="howlist">';
+  for(var k=0;k<H.how.steps.length;k++)
+    h+='<li><span class="sn">'+no(k+1)+'</span><div><h3>'+esc(t(H.how.steps[k].h))+'</h3><p>'+esc(t(H.how.steps[k].p))+'</p></div></li>';
+  h+='</ol></div></div></section>';
+
+  /* 6. our own products, as an invitation */
+  h+='<section class="band band--grey"><div class="wrap">'
+    +'<div class="lbl rv">'+esc(t(H.partners.lbl))+'</div>'
+    +'<h2 class="rv" style="margin-top:16px;max-width:22ch">'+esc(t(H.partners.h))+'</h2>'
+    +'<p class="deck rv" style="margin-top:18px">'+esc(t(H.partners.p))+'</p>'
+    +devCards()
+    +'<div class="twolinks rv" style="margin-top:34px">'
+    +go("contact",' class="btn" data-umami-event="cta-contact" data-umami-event-from="partners"')+esc(t(H.partners.cta))+'</a>'
+    +go("dev",' class="btn btn--ghost"')+esc(t(DEV.all))+'</a></div>'
+    +'</div></section>';
   return h;
 }
 
@@ -1349,11 +1348,9 @@ render(false);
   var l=document.getElementById("loader"), first=true;
   try{ first = !sessionStorage.getItem("liminex-loaded"); }catch(e){}
   if(!l){ return; }
-  if(!first || matchMedia("(prefers-reduced-motion: reduce)").matches){ liftCurtain(); return; }
-  var lg=document.getElementById("loaderlogo"); if(lg && typeof LOGO_MARK!=="undefined") lg.src=LOGO_MARK;
-  document.body.classList.add("loading");
-  preloadAll(function(){
-    try{ sessionStorage.setItem("liminex-loaded","1"); }catch(e){}
-    setTimeout(liftCurtain, 350);      /* let one pulse finish */
-  });
+  /* The page is never held behind the loader any more: the first six seconds are the
+     ones that decide whether someone stays. The renders are still fetched, in the
+     background, so the next page has them cached. */
+  liftCurtain();
+  if(first) preloadAll(function(){ try{ sessionStorage.setItem("liminex-loaded","1"); }catch(e){} });
 })();

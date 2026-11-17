@@ -1006,3 +1006,78 @@ section.band--grey .gmedia{background:var(--paper)}
 /* the About page photo row, filled */
 .phrow .ph.has-img img{object-position:center}
 .fcar:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+
+/* ============================================================
+   HOME — the story layout (renderHome, HOME2 in content.js)
+   ============================================================ */
+/* The page is never held behind the loading screen: the first seconds decide. */
+#loader{display:none!important}
+body.home main{padding-top:60px}
+html{scroll-padding-top:72px}
+
+/* 1. the hook */
+.hook{position:relative;isolation:isolate;overflow:hidden;background:#08080B;color:#FFFFFF;
+  min-height:min(calc(100svh - 60px),880px);display:flex;align-items:flex-end;padding:120px 0 64px}
+.hookvid{position:absolute;inset:0;z-index:-1}
+.hookvid video{width:100%;height:100%;object-fit:cover;display:block}
+.hookvid::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg,rgb(8 8 11/.86) 0%,rgb(8 8 11/.62) 42%,rgb(8 8 11/.18) 78%),
+             linear-gradient(0deg,rgb(8 8 11/.78) 0%,rgb(8 8 11/0) 45%)}
+.hookin{width:100%}
+.hook .lbl{color:#70B9F8}
+.hook h1{font-size:clamp(40px,6.6vw,86px);line-height:.98;letter-spacing:-.035em;max-width:13ch;margin:20px 0 22px}
+.hookp{font-size:clamp(17px,1.6vw,20.5px);line-height:1.55;color:#D2D4DC;max-width:52ch;margin:0}
+.hookbtns{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
+.btn.btn--light{background:#FFFFFF;color:#08080B}
+.btn.btn--light:hover{background:#70B9F8;color:#08080B}
+.btn.btn--line{background:none;color:#FFFFFF;box-shadow:inset 0 0 0 1px rgb(255 255 255/.45)}
+.btn.btn--line:hover{box-shadow:inset 0 0 0 1px #FFFFFF}
+.hookproof{margin:44px 0 0;padding-top:18px;border-top:1px solid rgb(255 255 255/.18);
+  font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:#B9BCC7;max-width:760px}
+@media (max-width:640px){
+  .hook{padding:84px 0 40px;min-height:calc(100svh - 60px)}
+  .hookvid::after{background:linear-gradient(0deg,rgb(8 8 11/.92) 0%,rgb(8 8 11/.6) 55%,rgb(8 8 11/.35) 100%)}
+}
+
+/* 2. built by us — one big tile, four small, captions on the picture */
+.band--built{padding-top:96px}
+.bento{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:clamp(190px,19vw,250px);
+  gap:14px;margin-top:40px}
+.bento-i{position:relative;margin:0;border-radius:16px;overflow:hidden;background:var(--paper2)}
+.bento-i--big{grid-column:span 2;grid-row:span 2}
+.bento-i img,.bento-i video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.bento-i figcaption{position:absolute;left:0;right:0;bottom:0;padding:44px 18px 15px;color:#FFFFFF;
+  font-size:14px;line-height:1.4;background:linear-gradient(0deg,rgb(8 8 11/.82),rgb(8 8 11/0))}
+.bento-i--big figcaption{font-size:clamp(16px,1.5vw,19px);padding:70px 24px 20px;max-width:46ch}
+@media (max-width:900px){.bento{grid-template-columns:1fr 1fr;grid-auto-rows:200px}}
+@media (max-width:560px){.bento{grid-template-columns:1fr;grid-auto-rows:240px}.bento-i--big{grid-column:auto;grid-row:span 1}}
+
+/* 3. where do you stand — four doors */
+.needs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin-top:40px}
+@media (max-width:760px){.needs{grid-template-columns:1fr}}
+.need{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);text-decoration:none;color:inherit;
+  background:var(--paper);border:1px solid var(--hair);border-radius:var(--r);overflow:hidden;
+  transition:border-color .25s ease,transform .25s ease}
+.need:hover{border-color:var(--accent);transform:translateY(-3px)}
+.needpic{position:relative;min-height:220px;background:var(--paper2)}
+.needpic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.needpic--shot img{object-position:top left}
+.needbody{display:flex;flex-direction:column;gap:12px;padding:24px 24px 22px}
+.needq{font-size:clamp(19px,1.7vw,23px);font-weight:600;letter-spacing:-.02em;line-height:1.2}
+.needa{font-size:15px;color:var(--muted);line-height:1.55}
+.needgo{margin-top:auto;padding-top:8px;font-size:13.5px;color:var(--accent);font-weight:500}
+@media (max-width:1000px){.need{grid-template-columns:1fr}.needpic{min-height:0;aspect-ratio:16/9}}
+
+/* 4. the team band: four numbers in two columns */
+.whorow .stats--two{display:grid;grid-template-columns:1fr 1fr;gap:30px 26px}
+
+/* 5. how it works, next to the ask */
+.howask{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,6vw,90px);align-items:start}
+@media (max-width:860px){.howask{grid-template-columns:1fr}}
+.howask h2{margin:16px 0 18px;max-width:16ch}
+.howask .twolinks{margin-top:28px}
+.howlist{list-style:none;margin:0;padding:0;border-top:1px solid var(--hair)}
+.howlist li{display:grid;grid-template-columns:44px 1fr;gap:12px;padding:20px 0;border-bottom:1px solid var(--hair)}
+.howlist .sn{font-size:12px;letter-spacing:.16em;color:var(--accent);padding-top:5px;font-variant-numeric:tabular-nums}
+.howlist h3{font-size:19px;margin:0 0 4px}
+.howlist p{margin:0;color:var(--muted);font-size:15px;line-height:1.55}

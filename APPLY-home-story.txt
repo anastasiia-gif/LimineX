@@ -1,0 +1,37 @@
+Liminex: home page as a story (round 2, 17 Nov 2026)
+=====================================================
+
+This package has everything from round 1 (photos, video, engineering first) plus the
+new home page. If you never applied round 1, apply only this one.
+
+COPY over the repo, same paths:
+  build.py, README.md
+  src/app.js, src/content.js, src/styles.css
+  assets/photos/   assets/video/
+
+If you already applied round 1, DELETE these four (replaced by the montage):
+  assets/video/field-test-hero.mp4        assets/video/field-test-hero.webp
+  assets/video/field-test-hero-1280.mp4   assets/video/field-test-hero-1280.webp
+
+THE NEW HOME PAGE (copy in HOME2, src/content.js, NL + EN)
+  1. Hook       9-second montage (robot, drones on the mat, drone on the roof, team)
+                behind "You have the idea. We build the thing that works.", two buttons,
+                and a "Recently:" proof line. The logo now lives in the top bar.
+  2. Built by us   five tiles with one-line stories; link to Work
+  3. Where do you stand?   four situations in the visitor's words, each with a real
+                photo, each leading to its service page (engineering first)
+  4. Who we are    "You talk to the engineer who builds it", 4 numbers, the team
+  5. How it works  four one-line steps beside the contact button (was a full section)
+  6. Own products  Knee, Crew, Ball Out as a call for partners, with a button
+  The loading screen no longer holds the first visit back.
+
+Service and pricing pages keep their renders, as agreed.
+
+CHECKED
+  axe-core: 26 pages, 54 scans, 0 violations, 0 JS errors, 0 overflow
+  desktop, phone, dark mode, NL and EN; reduced motion: no autoplay
+
+TO DECIDE
+  - The numbers: 4 engineers / 14 domains / 1 working day / 2026. See the options in chat.
+  - The site says "reply within 1 working day" in some places and "3 working days" in
+    others (old How-it-works text, footer form). Pick one.
