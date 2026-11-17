@@ -1,11 +1,13 @@
 /* ============================================================ COPY ============================================================ */
+/* Order matters: engineering leads everywhere (home cards, footer, menus), software
+   follows. The first entry gets the wide card on the home page. */
 var AREAS = [
-  {id:"web",   glyph:"wave",  nl:"Software, web & AI", en:"Software, web & AI"},
   {id:"proto", glyph:"frame", nl:"Engineering & prototyping", en:"Engineering & prototyping"},
+  {id:"web",   glyph:"wave",  nl:"Software, web & AI", en:"Software, web & AI"},
   {id:"make",  glyph:"turn",  nl:"Productie",        en:"Manufacturing"},
   {id:"start", glyph:"vector",nl:"Start-up support", en:"Start-up support"}
 ];
-var TOPROW = 3;
+var TOPROW = 4;
 var FORMS = {
   nl:"https://docs.google.com/forms/d/e/1FAIpQLSdeJxAmT8HDOpLdU8Btsm11Axnidh0sK7JIV5eqvxPnAKQYxA/viewform",
   en:"https://docs.google.com/forms/d/e/1FAIpQLScyRzXrcnD57-Fo27h5iNfAS59IsyiOmTJ825Avvrt87ieJWA/viewform"
@@ -184,8 +186,8 @@ home:{
   tagline:{nl:"Make non-existent reality", en:"Make non-existent reality"},
   scroll:{nl:"Scroll", en:"Scroll"},
   blocksh:{nl:"Wat we doen", en:"What we do"},
-  blocksd:{nl:"Vier richtingen, \u00e9\u00e9n team. Software aan de ene kant, hardware aan de andere, en dezelfde mensen aan allebei.",
-           en:"Four directions, one team. Software on one side, hardware on the other, and the same people across both."},
+  blocksd:{nl:"Engineering voorop: mechanica, elektronica, firmware en besturing, van schets tot werkend exemplaar. En de software, websites en AI eromheen, van dezelfde mensen.",
+           en:"Engineering first: mechanics, electronics, firmware and control, from sketch to working unit. And the software, websites and AI around it, from the same people."},
   blurbs:{
     web:{nl:"Website, webshop, app, AI, SEO, automatisering. U beschrijft wat u wilt bereiken, wij kiezen samen de beste uitvoering.",
          en:"Website, online shop, app, AI, SEO, automation. You describe what you want to achieve, we pick the best execution together."},
@@ -253,8 +255,8 @@ home:{
   teamabout:{nl:"Over ons", en:"About us"},
   whoq:{nl:"Vier engineers, zes vakgebieden. U legt het probleem één keer uit, aan de mensen die het bouwen.",
         en:"Four engineers, six disciplines. You explain the problem once, to the people who will build it."},
-  whop:{nl:"We komen uit het Brabantse bedrijfsleven en van Fontys: software, web, mechanica, elektronica, besturing en drones. Voor u betekent dat in feite \u00e9\u00e9n aanspreekpunt dat alles kan \u2014 u hoeft niet zelf uit te zoeken welke discipline uw vraag is, en niets valt tussen twee leveranciers in.\n\nWe leiden studenten op terwijl ze aan echt werk werken. Dat is deels overtuiging en deels rekenkunde: Brabant heeft te weinig technische mensen, en er zijn maar twee manieren om daaraan iets te doen.",
-        en:"We come from working in Noord-Brabant's industry and from Fontys: software, web, mechanics, electronics, control and drones. For you it works like one person who can do everything \u2014 you don't have to work out which discipline your question belongs to, and nothing falls between two suppliers.\n\nWe train students on real work. That is part conviction and part arithmetic: Brabant is short of technical people, and there are only two ways to change that."},
+  whop:{nl:"We komen uit het Brabantse bedrijfsleven en van Fontys: mechanica, elektronica, besturing, drones, software en web. Voor u betekent dat in feite \u00e9\u00e9n aanspreekpunt dat alles kan \u2014 u hoeft niet zelf uit te zoeken welke discipline uw vraag is, en niets valt tussen twee leveranciers in.\n\nWe leiden studenten op terwijl ze aan echt werk werken. Dat is deels overtuiging en deels rekenkunde: Brabant heeft te weinig technische mensen, en er zijn maar twee manieren om daaraan iets te doen.",
+        en:"We come from working in Noord-Brabant's industry and from Fontys: mechanics, electronics, control, drones, software and web. For you it works like one person who can do everything \u2014 you don't have to work out which discipline your question belongs to, and nothing falls between two suppliers.\n\nWe train students on real work. That is part conviction and part arithmetic: Brabant is short of technical people, and there are only two ways to change that."},
   stats:[
     {n:"4", k:{nl:"engineers, plus studenten die meebouwen",en:"engineers, plus students who build with us"}},
     {n:"1", k:{nl:"werkdag tot antwoord van de engineer zelf",en:"working day to a reply from the engineer"}},
@@ -278,8 +280,8 @@ foot:{
   work:{nl:"Werk",en:"Work"}, more:{nl:"Meer",en:"More"}, contact:{nl:"Contact",en:"Contact"},
   legal:{nl:"Richtprijzen staan op de tarievenpagina",en:"Indicative prices are on the pricing page"}},
 about:{
-  lede:{nl:"Software \u00e9n hardware in \u00e9\u00e9n team in 's-Hertogenbosch \u2014 zodat uw project niet opgeknipt wordt.",
-        en:"Software and hardware in one team in 's-Hertogenbosch \u2014 so your project never gets split up."},
+  lede:{nl:"Hardware \u00e9n software in \u00e9\u00e9n team in 's-Hertogenbosch \u2014 zodat uw project niet opgeknipt wordt.",
+        en:"Hardware and software in one team in 's-Hertogenbosch \u2014 so your project never gets split up."},
   storyh:{nl:"Hoe het begon", en:"How it started"},
   wayh:{nl:"Hoe we werken", en:"How we work"},
   way:[
@@ -887,4 +889,122 @@ var DEV = {
        get:{nl:"Een stem in waar de eerste automaat komt.",en:"A say in where the first machine goes."}}
     ]}
   ]
+};
+
+
+/* ============================================================ GALLERY
+   Real photos and video loops of our own work. Shown as a sideways-scrolling strip on the
+   home page, in full on the Work page, and filtered per area at the end of the
+   Engineering, Manufacturing and Start-up pages (`a` lists the areas an item belongs to).
+     img:"name"  ->  assets/photos/name-800.webp (+ name-1600.webp if it exists)
+     vid:"name"  ->  assets/video/name.mp4, poster assets/video/name.webp, silent loop
+     r           ->  width / height, so the strip can reserve the space before it loads
+   An item whose file is missing is skipped, so removing a photo is deleting its file.
+   Order here is the order on the page: strongest engineering first.
+   ============================================================ */
+var GALLERY = {
+  lbl:{nl:"Ons werk",en:"Our work"},
+  h:{nl:"Echt werk, van de werkbank en uit het veld.",en:"Real work, from the bench and the field."},
+  d:{nl:"Drones, wedstrijdrobots, besturingskasten en productie — door onszelf gefotografeerd, meestal halverwege de bouw.",
+     en:"Drones, competition robots, control cabinets and production — photographed by us, mostly mid-build."},
+  all:{nl:"Al ons werk",en:"All our work"},
+  prev:{nl:"Vorige",en:"Previous"}, next:{nl:"Volgende",en:"Next"},
+  region:{nl:"Foto’s en video’s van ons werk",en:"Photos and video of our work"},
+  items:[
+    {img:"drone-response-build-table", r:1.5, a:["proto","start"],
+     c:{nl:"Drone Response 2.0 · Dremian helpen meedoen",en:"Drone Response 2.0 · helping Dremian compete"},
+     alt:{nl:"Twee engineers van Liminex aan hun werktafel in een hangar tijdens Drone Response 2.0",en:"Two Liminex engineers at their build table in a hangar during Drone Response 2.0"}},
+    {vid:"frc-6920-robot", r:1.768, a:["proto"],
+     c:{nl:"FRC-team 6920 · Hawaii Regional",en:"FRC team 6920 · Hawaii Regional"},
+     alt:{nl:"Wedstrijdrobot die rijdt en ringen oppakt",en:"Competition robot driving and collecting rings"}},
+    {img:"microscope-drone-build", r:1.334, a:["proto"],
+     c:{nl:"Drone-elektronica herstellen onder de microscoop",en:"Drone electronics rework under the microscope"},
+     alt:{nl:"Handen die drone-elektronica bewerken onder een stereomicroscoop",en:"Hands reworking drone electronics under a stereo microscope"}},
+    {img:"wiring-machine-cabinets", r:0.8, a:["proto","make"],
+     c:{nl:"Besturingskasten bedraden · 2025",en:"Wiring machine control cabinets · 2025"},
+     alt:{nl:"Engineer die bedrading aanlegt tussen twee rijen besturingskasten",en:"Engineer wiring between two rows of machine control cabinets"}},
+    {vid:"field-test-team", r:1.778, a:["proto","start"],
+     c:{nl:"Testdag in het veld",en:"Field test day"},
+     alt:{nl:"Twee engineers die drones klaarmaken in een open veld",en:"Two engineers preparing drones in an open field"}},
+    {img:"drill-press-fontys", r:0.801, a:["make","proto"],
+     c:{nl:"Verspanen · Fontys, 2022",en:"Machining practice · Fontys, 2022"},
+     alt:{nl:"Twee engineers spannen een werkstuk in onder een kolomboor",en:"Two engineers clamping a part under a drill press"}},
+    {vid:"printer-toolhead", r:0.8, a:["make","proto"],
+     c:{nl:"Printkop van een 3D-printer",en:"3D-printer toolhead"},
+     alt:{nl:"Printkop van een 3D-printer die over zijn portaal beweegt",en:"3D printer toolhead moving along its gantry"}},
+    {img:"team-with-drones", r:1.5, a:["proto","start"],
+     c:{nl:"Zelfgebouwde drones, klaar voor een testdag",en:"Drone builds, ready for a test day"},
+     alt:{nl:"Twee engineers met twee drones die ze zelf gebouwd hebben",en:"Two engineers holding a pair of drones they built"}},
+    {vid:"compliant-mechanism", r:0.8, a:["proto","start"],
+     c:{nl:"Test van een flexibel mechanisme",en:"Compliant mechanism test"},
+     alt:{nl:"Hand die een 3D-geprint flexibel mechanisme bedient",en:"Hand operating a 3D-printed compliant mechanism"}},
+    {img:"robot-with-webcam", r:0.8, a:["proto"],
+     c:{nl:"Eigen project · camerarobot",en:"Side project · camera robot"},
+     alt:{nl:"Kleine robot met webcam, servo en 3D-geprinte dinosauruskop",en:"Small robot with a webcam, a servo and a 3D-printed dinosaur head"}},
+    {img:"night-lights", r:0.8, a:["proto"],
+     c:{nl:"Klantproject · details onder geheimhouding",en:"Client project · details under NDA"},
+     alt:{nl:"Gekleurde statuslampjes die oplichten in het donker",en:"Coloured status lights glowing in the dark"}},
+    {vid:"drone-rooftop", r:1.778, a:["proto"],
+     c:{nl:"Drone op het dak",en:"Drone on the roof"},
+     alt:{nl:"Drone met antennes op een dak, met bomen erachter",en:"Drone with antennas on a rooftop against trees"}},
+    {img:"cnc-vise", r:0.8, a:["make"],
+     c:{nl:"Opspanning op de CNC-freesbank",en:"CNC milling setup"},
+     alt:{nl:"Werkstuk in de bankschroef van een CNC-freesmachine",en:"Part clamped in the vise of a CNC milling machine"}},
+    {img:"pneumatics-trainer", r:0.8, a:["proto"],
+     c:{nl:"Pneumatiek en besturing · 2023",en:"Pneumatics and control · 2023"},
+     alt:{nl:"Engineers die een pneumatiekpaneel aansluiten",en:"Engineers wiring a pneumatics training panel"}},
+    {vid:"robot-carpet", r:0.8, a:["proto"],
+     c:{nl:"FRC-team 6920 · rijtest",en:"FRC team 6920 · drive test"},
+     alt:{nl:"Blauwe wedstrijdrobot die op tapijt draait",en:"Blue competition robot turning on carpet"}},
+    {img:"control-box-wiring", r:0.8, a:["proto","make"],
+     c:{nl:"Bedrading van een besturingskast",en:"Control box wiring"},
+     alt:{nl:"Besturingskast met groene signaalbedrading op een stalen beugel",en:"Control box with green signal wiring on a steel bracket"}},
+    {img:"drone-builds-soldering-bench", r:0.8, a:["proto"],
+     c:{nl:"Droneframes bij de soldeerplek",en:"Drone frames at the soldering bench"},
+     alt:{nl:"Droneframes naast een werkbank met gereedschap en onderdelen",en:"Drone frames next to a workbench with tools and parts"}},
+    {vid:"sheet-metal-machine", r:0.8, a:["make"],
+     c:{nl:"Plaatbewerking",en:"Sheet-metal production"},
+     alt:{nl:"Engineer bij een plaatbewerkingsmachine",en:"Engineer at a sheet-metal machine"}},
+    {img:"sheet-metal-tooling", r:0.8, a:["make"],
+     c:{nl:"Gereedschap voor plaatwerk",en:"Sheet-metal tooling"},
+     alt:{nl:"Plaatdeel ingespannen in een zetbank",en:"Sheet-metal part clamped in a bending tool"}},
+    {img:"frc-6920-robot-and-frame", r:1.5, a:["proto"],
+     c:{nl:"FRC-team 6920 · Hawaii Regional",en:"FRC team 6920 · Hawaii Regional"},
+     alt:{nl:"Wedstrijdrobot voor een houten testframe",en:"Competition robot in front of a wooden test frame"}},
+    {vid:"ground-station", r:0.8, a:["proto"],
+     c:{nl:"Telemetrie op het grondstation",en:"Ground station telemetry"},
+     alt:{nl:"Laptop met dronetelemetrie en een vluchtkaart",en:"Laptop showing drone telemetry and a flight map"}},
+    {img:"workshop-sign", r:1.5, a:["make"],
+     c:{nl:"Werkplaatsbord · gemaakt door Anastasiia",en:"Workshop sign · made by Anastasiia"},
+     alt:{nl:"Verlicht bord ‘Workshop’ boven de deur van een werkplaats",en:"Illuminated ‘Workshop’ sign above a workshop door"}},
+    {img:"drone-response-sprind", r:1.333, a:["start"],
+     c:{nl:"Drone Response 2.0",en:"Drone Response 2.0"},
+     alt:{nl:"Twee engineers van Liminex op de locatie van Drone Response 2.0",en:"Two Liminex engineers at the Drone Response 2.0 venue"}},
+    {img:"robot-in-hand", r:0.8, a:["proto"],
+     c:{nl:"Eigen project · camerarobot",en:"Side project · camera robot"},
+     alt:{nl:"Engineer met de camerarobot in handen",en:"Engineer holding the camera robot"}}
+  ]
+};
+
+/* The home page opening: a silent loop behind the logo, darkened so the mark stays the
+   subject. Phones get the lighter file. Visitors who ask for reduced motion get the
+   still poster instead. Delete the files and the opening is plain black again. */
+var HERO_VIDEO = {big:"field-test-hero", small:"field-test-hero-1280"};
+
+/* The Work page, engineering first. */
+var WORKENG = {
+  lbl:{nl:"Engineering",en:"Engineering"},
+  h:{nl:"Van de werkbank en uit het veld",en:"From the bench and the field"},
+  d:{nl:"Vier mechatronici, en wat we tot nu toe gebouwd en getest hebben: drones, wedstrijdrobots, besturingskasten, verspanen en plaatwerk — bij Fontys, in wedstrijden, voor start-ups en voor klanten. Klantwerk laten we zien zonder de details.",
+     en:"Four mechatronics engineers, and what we have built and tested so far: drones, competition robots, control cabinets, machining and sheet metal — at Fontys, in competitions, for start-ups and for clients. Client work is shown without its details."},
+  /* the thermal clip, with the explanation it needs */
+  feat:{vid:"thermal-calibration", r:1.3,
+    lbl:{nl:"Kalibratie en regeltechniek",en:"Calibration and control engineering"},
+    h:{nl:"Een warmtebeeldcamera die zijn doel vasthoudt",en:"A thermal camera that holds its target"},
+    p:{nl:"Beelden van een test: een warmtebeeldcamera met een volgoverlay. Ons deel is het onzichtbare middenstuk — eerst de sensor kalibreren, daarna de regellus afstellen tot het systeem soepel volgt, zonder vertraging of doorschieten. Het project zelf valt onder geheimhouding; in een gesprek vertellen we meer.",
+       en:"Footage from a test: a thermal camera with a tracking overlay. Our part is the unglamorous middle — calibrating the sensor first, then tuning the control loop until the system follows smoothly, without lag or overshoot. The project itself is under NDA; in a conversation we can say more."},
+    alt:{nl:"Warmtebeeld met een volgkader tijdens een kalibratietest",en:"Thermal camera view with a tracking box during a calibration test"},
+    dl:[{k:{nl:"Wat we deden",en:"What we did"},v:{nl:"Sensorkalibratie, afstellen van de regellus, testen",en:"Sensor calibration, control-loop tuning, testing"}},
+        {k:{nl:"Status",en:"Status"},v:{nl:"Onder geheimhouding",en:"Under NDA"}}]},
+  webl:{nl:"Software & web",en:"Software & web"}
 };

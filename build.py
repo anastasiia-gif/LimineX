@@ -123,22 +123,13 @@ OG_IMAGE = SITE_URL + "/og.png"
 # h1/intro : shown before JavaScript runs, so the page carries its own text.
 PAGES = [
  {"id":"home",  "nl":{"slug":"", "nav":"Home", "title":"Liminex — engineering, prototyping en websites in Den Bosch",
-   "desc":"Software en hardware in één team: websites en AI, prototyping, elektronica, besturing en CAD voor het mkb in Noord-Brabant.",
-   "h1":"Software en hardware in één team, voor het mkb in Brabant.",
-   "intro":"Websites en AI aan de ene kant, prototyping, elektronica en besturing aan de andere. Vier engineers in 's-Hertogenbosch."},
+   "desc":"Engineering en software in één team: prototyping, elektronica, besturing en CAD, plus websites en AI, voor het mkb in Noord-Brabant.",
+   "h1":"Engineering en software in één team, voor het mkb in Brabant.",
+   "intro":"Prototyping, elektronica, besturing en mechanica voorop, met de software, websites en AI eromheen. Vier engineers in 's-Hertogenbosch."},
    "en":{"nav":"Home", "slug":"", "title":"Liminex — engineering, prototyping and websites in Den Bosch",
-   "desc":"Software and hardware in one team: websites and AI, prototyping, electronics, control and CAD for SMEs in Noord-Brabant.",
-   "h1":"Software and hardware in one team, for SMEs in Brabant.",
-   "intro":"Websites and AI on one side, prototyping, electronics and control on the other. Four engineers in 's-Hertogenbosch."}},
-
- {"id":"web",   "nl":{"slug":"website-laten-maken", "nav":"Software, web & AI", "title":"Software, websites en AI voor bedrijven | Liminex",
-   "desc":"Websites, webshops, apps en AI-automatisering voor bedrijven in Noord-Brabant. Van site tot klantportaal tot AI die in uw proces zit in plaats van in een browsertab.",
-   "h1":"Software, websites en AI voor bedrijven",
-   "intro":"Websites die klanten opleveren, software op maat, en AI die in uw proces zit in plaats van in een browsertab."},
-   "en":{"nav":"Software, web & AI", "slug":"web-and-ai", "title":"Software, web & AI for companies | Liminex",
-   "desc":"Websites, online shops, custom apps and AI automation for companies in Noord-Brabant. From site to customer portal to AI that sits inside your process instead of in a browser tab.",
-   "h1":"Software, web & AI for companies",
-   "intro":"Websites that bring in customers, custom software, and AI that sits inside your process instead of in a browser tab."}},
+   "desc":"Engineering and software in one team: prototyping, electronics, control and CAD, plus websites and AI, for SMEs in Noord-Brabant.",
+   "h1":"Engineering and software in one team, for SMEs in Brabant.",
+   "intro":"Prototyping, electronics, control and mechanics first, with the software, websites and AI around them. Four engineers in 's-Hertogenbosch."}},
 
  {"id":"proto", "nl":{"slug":"prototyping", "nav":"Engineering", "title":"Prototype laten maken | Liminex, Noord-Brabant",
    "desc":"Van schets naar werkend prototype: mechanica, elektronica, firmware, software, AI en besturing in één team, op mkb-schaal.",
@@ -167,6 +158,15 @@ PAGES = [
    "h1":"A technical team for start-ups",
    "intro":"You have an idea and no technical team. We are that team until you have your own: feasibility first, then a prototype an investor can react to."}},
 
+ {"id":"web",   "nl":{"slug":"website-laten-maken", "nav":"Software, web & AI", "title":"Software, websites en AI voor bedrijven | Liminex",
+   "desc":"Websites, webshops, apps en AI-automatisering voor bedrijven in Noord-Brabant. Van site tot klantportaal tot AI die in uw proces zit in plaats van in een browsertab.",
+   "h1":"Software, websites en AI voor bedrijven",
+   "intro":"Websites die klanten opleveren, software op maat, en AI die in uw proces zit in plaats van in een browsertab."},
+   "en":{"nav":"Software, web & AI", "slug":"web-and-ai", "title":"Software, web & AI for companies | Liminex",
+   "desc":"Websites, online shops, custom apps and AI automation for companies in Noord-Brabant. From site to customer portal to AI that sits inside your process instead of in a browser tab.",
+   "h1":"Software, web & AI for companies",
+   "intro":"Websites that bring in customers, custom software, and AI that sits inside your process instead of in a browser tab."}},
+
  {"id":"price", "nl":{"slug":"tarieven", "nav":"Tarieven", "title":"Website laten maken: vaste prijzen | Liminex",
    "desc":"Website laten maken tegen een vaste prijs: one-pager €665, MKB-site vanaf €1.610, webshop vanaf €2.415. Onderhoud vanaf €35 per maand.",
    "h1":"Vaste prijzen voor websites en webshops",
@@ -176,14 +176,14 @@ PAGES = [
    "h1":"Fixed prices for websites and online shops",
    "intro":"Three packages, add-ons and Care plans — so you know what it costs before you call."}},
 
- {"id":"work",  "nl":{"slug":"werk", "nav":"Werk", "title":"Ons werk — opgeleverde projecten | Liminex",
-   "desc":"Websites die live staan en engineeringwerk dat we opgeleverd hebben. Een deel valt onder geheimhouding.",
-   "h1":"Werk dat we opgeleverd hebben",
-   "intro":"Twee websites die live staan en in gebruik zijn, plus engineeringwerk waarvan een deel onder geheimhouding valt."},
-   "en":{"nav":"Work", "slug":"work", "title":"Our work — delivered projects | Liminex",
-   "desc":"Websites that are live and engineering work we've delivered. Some of it is under NDA.",
-   "h1":"Work we've delivered",
-   "intro":"Two websites that are live and in use, plus engineering work, some of which is under NDA."}},
+ {"id":"work",  "nl":{"slug":"werk", "nav":"Werk", "title":"Ons werk — engineering en websites | Liminex",
+   "desc":"Foto's en video's van ons engineeringwerk — drones, robots, besturing en productie — en de websites die we bouwden en die live staan.",
+   "h1":"Werk dat we gedaan hebben",
+   "intro":"Engineering eerst: drones, robots, elektronica en productie, in foto's en video's. Daarna de websites die live staan."},
+   "en":{"nav":"Work", "slug":"work", "title":"Our work — engineering and websites | Liminex",
+   "desc":"Photos and video of our engineering work — drones, robots, control and production — and the websites we built that are live.",
+   "h1":"Work we've done",
+   "intro":"Engineering first: drones, robots, electronics and production, in photos and video. Then the websites that are live."}},
 
  {"id":"dev",   "nl":{"slug":"in-ontwikkeling", "nav":"In ontwikkeling", "title":"In ontwikkeling — eigen projecten | Liminex",
    "desc":"Drie eigen projecten van Liminex, open in ontwikkeling: een kniepleister voor herstel thuis, een interactiemodule voor robots en een voetbalautomaat. We zoeken partners, pilots en financiering.",
@@ -222,13 +222,13 @@ PAGES = [
    "intro":"A pitch-side football dispenser. Scan, play, put it back. Concept v0.1."}},
 
  {"id":"about", "nl":{"slug":"over-ons", "nav":"Over ons", "title":"Over Liminex — vier engineers in Den Bosch",
-   "desc":"Vier engineers in 's-Hertogenbosch die software en hardware in één team doen. U spreekt de engineer die het werk doet.",
+   "desc":"Vier engineers in 's-Hertogenbosch die hardware en software in één team doen. U spreekt de engineer die het werk doet.",
    "h1":"Vier engineers in 's-Hertogenbosch",
-   "intro":"Software en hardware in één team. U spreekt de engineer die het werk doet — geen accountmanager ertussen."},
+   "intro":"Hardware en software in één team. U spreekt de engineer die het werk doet — geen accountmanager ertussen."},
    "en":{"nav":"About us", "slug":"about", "title":"About Liminex — four engineers in Den Bosch",
-   "desc":"Four engineers in 's-Hertogenbosch doing software and hardware in one team. You speak to the engineer doing the work.",
+   "desc":"Four engineers in 's-Hertogenbosch doing hardware and software in one team. You speak to the engineer doing the work.",
    "h1":"Four engineers in 's-Hertogenbosch",
-   "intro":"Software and hardware in one team. You speak to the engineer doing the work — no account manager in between."}},
+   "intro":"Hardware and software in one team. You speak to the engineer doing the work — no account manager in between."}},
 
  {"id":"privacy", "nl":{"slug":"privacy", "nav":"Privacyverklaring", "title":"Privacyverklaring | Liminex",
    "desc":"Wat Liminex met uw gegevens doet: alleen wat u zelf stuurt, alleen om te antwoorden, geen volgcookies en geen doorverkoop.",
@@ -423,12 +423,34 @@ if render_files:
     for f in render_files:
         shutil.copy(f, p("dist/assets/renders", os.path.basename(f)))
 
+# Real photos and video loops. Copied as they are and referenced by URL; unlike the
+# renders they are NOT preloaded behind the loading screen and every <img> is lazy, so a
+# page only downloads what it shows. MEDIA lists what exists, so an entry in GALLERY
+# (content.js) whose file is missing is skipped instead of drawing a broken picture.
+#   assets/photos/<name>-800.webp, <name>-1600.webp   (1600 optional)
+#   assets/video/<name>.mp4 + <name>.webp              (the .webp is the poster)
+media = []
+for _sub in ("photos", "video"):
+    _d = p("assets", _sub)
+    if not os.path.isdir(_d):
+        continue
+    os.makedirs(p("dist/assets", _sub), exist_ok=True)
+    _kb = 0
+    for f in sorted(os.listdir(_d)):
+        if os.path.splitext(f)[1].lower() not in (".webp", ".jpg", ".jpeg", ".png", ".mp4", ".webm"):
+            continue
+        shutil.copy(os.path.join(_d, f), p("dist/assets", _sub, f))
+        media.append(_sub + "/" + f)
+        _kb += os.path.getsize(os.path.join(_d, f)) // 1024
+    print("  %-7s %3d files, %d KB (lazy, not preloaded)" % (_sub + ":", sum(1 for m in media if m.startswith(_sub)), _kb))
+
 _css_body = read("src/styles.css")
 _js_body = "\n".join([
     read("assets/logo_assets.js"),
     "var WORKSHOTS = " + json.dumps(shots) + ";",
     "var RENDERS = " + json.dumps(renders) + ";",
     "var CUTOUT = " + json.dumps(cutouts) + ";",
+    "var MEDIA = " + json.dumps(media) + ";",
     "var ROUTES = " + json.dumps(ROUTES, ensure_ascii=False) + ";",
     "var FORM_ENDPOINT = " + json.dumps(FORM_ENDPOINT) + ";",
     "var FORM_KEY = " + json.dumps(FORM_KEY) + ";",
@@ -575,17 +597,17 @@ open(p("dist/robots.txt"), "w").write(
 llms = ["# Liminex", "",
         "> %s" % PAGES[0]["en"]["desc"], "",
         "Engineering firm in 's-Hertogenbosch, Noord-Brabant, the Netherlands.",
-        "Four engineers. Software and hardware in one team. Contact: " + CONTACT_EMAIL, "",
+        "Four engineers. Hardware and software in one team. Contact: " + CONTACT_EMAIL, "",
         "## Pages", ""]
 for pg in PAGES:
     if pg["id"] in HIDDEN: continue
     llms.append("- [%s](%s%s): %s" % (pg["en"]["nav"], SITE_ORIGIN, url_for(pg, "en"), pg["en"]["desc"]))
 llms += ["", "## What we do", "",
-         "- Websites and online shops, built to WCAG 2.1 AA",
-         "- AI and workflow automation for small and medium businesses",
          "- Prototyping: mechanics, electronics, PCB design, firmware, control engineering",
          "- Robotics, drones and UAV systems, CAD and design for manufacturing",
-         "- Parts and short runs made through partner workshops; larger volumes managed in NL and abroad", "",
+         "- Parts and short runs made through partner workshops; larger volumes managed in NL and abroad",
+         "- Websites and online shops, built to WCAG 2.1 AA",
+         "- AI and workflow automation for small and medium businesses", "",
          ] + ([] if "price" in HIDDEN else ["## Pricing", "",
          "Fixed website packages, add-ons and Care plans are published at %s%s. Other "
          "engineering work is priced per project after one conversation." % (SITE_ORIGIN, url_for([x for x in PAGES if x["id"]=="price"][0], "en")), ""])

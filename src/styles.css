@@ -948,3 +948,61 @@ section.band--dark .deck{color:var(--dark-muted)}
   .acol{display:block;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--dark-muted);margin-bottom:5px;font-weight:400}
 }
 
+
+/* ============================================================
+   Real photos and video (assets/photos, assets/video)
+   ============================================================ */
+
+/* the opening: a silent loop behind the mark, darkened so the logo stays the subject.
+   It fades out with the logo as the shutter closes (--p). */
+.overture--vid .herovid{position:absolute;inset:0;z-index:0;pointer-events:none;
+  opacity:calc(1 - var(--p, 0) * 1.4)}
+.overture--vid .herovid video{width:100%;height:100%;object-fit:cover;display:block;opacity:.42}
+.overture--vid .herovid::after{content:"";position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 55% at 50% 50%,rgb(8 8 11/.62),rgb(8 8 11/.25) 70%,rgb(8 8 11/.55)),
+             linear-gradient(180deg,rgb(8 8 11/.35),rgb(8 8 11/0) 30%,rgb(8 8 11/0) 70%,rgb(8 8 11/.75))}
+.overture--vid .logo,.overture--vid .scrollcue{position:relative;z-index:1}
+.overture--vid .scrollcue{position:absolute;color:#B9BCC7}
+
+/* what we do: engineering takes the wide card, software the next one */
+/* one row of four, the first (engineering) half as wide again as the others */
+@media (min-width:1080px){
+  .blocks.blocks--lead{grid-template-columns:1.5fr 1fr 1fr 1fr}
+  .blocks.blocks--lead>.block.rv{grid-column:auto}
+  .block--lead h3{font-size:clamp(24px,2.3vw,30px)}
+  .block--lead .intro{font-size:16px}
+  .blocks--lead>.block--lead.has-cut .prev,.blocks--lead>.block--lead .prev{aspect-ratio:8/3}
+}
+.block--lead .body{position:relative}
+
+/* the strip */
+.galintro{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,5vw,72px);align-items:end}
+.galintro .deck{margin:0}
+@media (max-width:820px){.galintro{grid-template-columns:1fr;gap:18px}}
+.galbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:46px}
+.galcount{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.gal{--h:clamp(240px,25vw,320px);display:flex;gap:18px;margin-top:16px;padding:2px 2px 8px;
+  overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity;scrollbar-width:thin;
+  scrollbar-color:var(--hair) transparent;border-radius:6px}
+.gal:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+.gcell{flex:0 0 auto;width:min(calc(var(--h) * var(--r)),84vw);margin:0;scroll-snap-align:start}
+.gmedia{height:var(--h);border-radius:16px;overflow:hidden;background:var(--paper2);position:relative}
+section.band--grey .gmedia{background:var(--paper)}
+.gmedia img,.gmedia video{width:100%;height:100%;object-fit:cover;display:block}
+.gcell figcaption{margin-top:11px;font-size:13.5px;line-height:1.45;color:var(--muted);max-width:44ch}
+@media (max-width:640px){.gal{--h:300px}}
+
+/* the Work page feature: one clip, told properly */
+.feat{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(28px,5vw,72px);align-items:center}
+@media (max-width:860px){.feat{grid-template-columns:1fr}}
+.featmedia video{width:100%;height:auto;display:block;border-radius:16px;background:#000}
+.feattext h2{font-size:clamp(28px,3.4vw,42px);margin:16px 0 18px;max-width:18ch}
+.feattext p{color:var(--dark-muted);font-size:16.5px;line-height:1.65;max-width:50ch}
+.featdl{display:grid;grid-template-columns:auto 1fr;gap:9px 22px;margin:24px 0 0;font-size:15px}
+.featdl dt{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--dark-muted);padding-top:4px}
+.featdl dd{margin:0}
+.casename{font-size:clamp(26px,3.4vw,40px);margin-top:12px}
+
+/* the About page photo row, filled */
+.phrow .ph.has-img img{object-position:center}
+.fcar:focus-visible{outline:2px solid var(--accent);outline-offset:4px}

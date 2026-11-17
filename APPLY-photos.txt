@@ -1,0 +1,59 @@
+Liminex: real photos and video, engineering first (17 Nov 2026)
+================================================================
+
+COPY these over the repo, same paths:
+
+  build.py
+  README.md
+  src/app.js
+  src/content.js
+  src/styles.css
+  assets/photos/      (new folder, 25 WebP files, about 3 MB)
+  assets/video/       (new folder, 11 MP4 loops + posters, about 15 MB)
+
+Nothing to delete. Update the four src/ files together, as always.
+Then: git add -A && git commit -m "Photos and video, engineering first" && git push
+
+WHAT CHANGED
+
+Engineering first
+  - Activities menu, footer and home cards: Engineering, then Software, web & AI,
+    then Manufacturing, then Start-ups.
+  - Home "What we do": one row of four, the Engineering card wider than the rest.
+    The renders on the cards stay.
+  - New wording on the home heading, the page titles and Google descriptions
+    (home, work, about), and in llms.txt. NL and EN.
+
+Photos and video
+  - Home opening: a 4-second silent clip of the field test behind the logo,
+    darkened. Phones get a lighter file.
+  - Home: new "Real work, from the bench and the field" strip under the cards,
+    14 photos and clips, sideways scroll, arrow buttons, link to Work.
+  - Work page, rebuilt engineering first:
+      1. all 24 photos and clips with captions
+      2. the thermal clip, explained as calibration and control engineering
+      3. then the two websites
+    The "under NDA" paragraph is gone. The NDA is now mentioned in the intro
+    and on the thermal clip.
+  - Engineering, Manufacturing and Start-ups pages end on "Work we've done in this
+    area": the photos from that field only.
+  - About page (still hidden): the two empty photo slots now have photos.
+  - Engineering page: removed an empty white band near the end.
+
+Speed
+  Photos and video are not preloaded and load lazily. A page downloads only the
+  photos you scroll to, and clips start playing when they come into view.
+
+CHECKED
+  build: 28 pages prerendered, no errors
+  axe-core: 26 pages, 54 scans, 0 violations, 0 JS errors, 0 overflow
+  (also fixed: the facts carousel on the project pages could not be reached by
+   keyboard. It had been failing the audit before this change.)
+  reduced motion: nothing autoplays; clips get play controls
+  desktop, phone, dark mode, NL and EN looked at page by page
+
+STILL TO CONFIRM
+  - Robot captions say "FRC team 6920 · Hawaii Regional" with no year: the files
+    are dated March 2024, but you said 2023.
+  - The thermal clip text is our wording: "calibrating the sensor, then tuning the
+    control loop". Correct it if your part was different.

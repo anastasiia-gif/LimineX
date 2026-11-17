@@ -6,8 +6,8 @@ function area(id){ for(var i=0;i<AREAS.length;i++){ if(AREAS[i].id===id) return 
 function aName(a){ return lang==="nl"?a.nl:a.en; }
 function no(n){ return (n<10?"0":"")+n; }
 
-var ACT=[{id:"web",nl:"Software & web",en:"Software & web"},
-  {id:"proto",nl:"Engineering",en:"Engineering"},{id:"make",nl:"Productie",en:"Manufacturing"},
+var ACT=[{id:"proto",nl:"Engineering",en:"Engineering"},
+  {id:"web",nl:"Software & web",en:"Software & web"},{id:"make",nl:"Productie",en:"Manufacturing"},
   {id:"start",nl:"Start-ups",en:"Start-ups"},
   {id:"work",nl:"Ons werk",en:"Our work"},
   {id:"dev",nl:"In ontwikkeling",en:"In development"}];
@@ -185,6 +185,73 @@ function renderSrc(key){
   var r=(typeof RENDERS!=="undefined") && RENDERS[key];
   return r ? ASSET_BASE + r : "";
 }
+
+/* ---------------- real photos and video ----------------
+   Files in assets/photos/ and assets/video/, listed by build.py in MEDIA. Nothing here is
+   preloaded: images are lazy and videos load their poster only, then play while they are
+   on screen (setupVideos). See GALLERY in content.js. */
+function hasMedia(path){ return typeof MEDIA!=="undefined" && MEDIA.indexOf(path)>=0; }
+function mediaSrc(path){ return ASSET_BASE + path; }
+function photoTag(name, r, alt, sizes){
+  if(!hasMedia("photos/"+name+"-800.webp")) return "";
+  var big=hasMedia("photos/"+name+"-1600.webp");
+  return '<img src="'+mediaSrc("photos/"+name+"-800.webp")+'"'
+    +(big?' srcset="'+mediaSrc("photos/"+name+"-800.webp")+' 800w, '+mediaSrc("photos/"+name+"-1600.webp")+' 1600w"'
+         +' sizes="'+(sizes||"(max-width:700px) 84vw, 640px")+'"':'')
+    +' width="800" height="'+Math.round(800/(r||1.5))+'" loading="lazy" decoding="async" alt="'+esc(alt||"")+'">';
+}
+/* A silent loop. data-auto: setupVideos plays it while visible and pauses it off screen;
+   with reduced motion it stays on its poster and gets controls instead. */
+function videoTag(name, r, label, cls){
+  if(!hasMedia("video/"+name+".mp4")) return "";
+  var w=r>=1?960:720, h=Math.round(w/(r||1.6));
+  return '<video class="'+(cls||"gvid")+'" data-auto muted loop playsinline preload="none"'
+    +' width="'+w+'" height="'+h+'"'
+    +(hasMedia("video/"+name+".webp")?' poster="'+mediaSrc("video/"+name+".webp")+'"':'')
+    +' src="'+mediaSrc("video/"+name+".mp4")+'"'
+    +(label?' aria-label="'+esc(label)+'"':' aria-hidden="true"')+'></video>';
+}
+function galleryItems(area){
+  var out=[];
+  for(var i=0;i<GALLERY.items.length;i++){
+    var it=GALLERY.items[i];
+    if(area && it.a.indexOf(area)<0) continue;
+    if(it.img ? !hasMedia("photos/"+it.img+"-800.webp") : !hasMedia("video/"+it.vid+".mp4")) continue;
+    out.push(it);
+  }
+  return out;
+}
+/* The sideways strip. Every cell has the same height and its own width, so photos are
+   never cropped to one shape; captions sit underneath. Arrow buttons scroll it, and it is
+   a focusable region so the keyboard can scroll it too. */
+var galN=0;
+function gallery(items, label){
+  if(!items.length) return "";
+  var id="gal"+(++galN);
+  var h='<div class="galbar rv"><span class="galcount">'+items.length+' '
+    +(lang==="nl"?"foto’s en video’s":"photos and videos")+'</span>'
+    +'<div class="fcbtns"><button type="button" class="fcbtn" data-gal="'+id+'" data-dir="-1" aria-label="'+esc(t(GALLERY.prev))+'">&larr;</button>'
+    +'<button type="button" class="fcbtn" data-gal="'+id+'" data-dir="1" aria-label="'+esc(t(GALLERY.next))+'">&rarr;</button></div></div>'
+    +'<div class="gal rv" id="'+id+'" role="region" tabindex="0" aria-label="'+esc(label||t(GALLERY.region))+'">';
+  for(var i=0;i<items.length;i++){
+    var it=items[i];
+    h+='<figure class="gcell'+(it.vid?' gcell--vid':'')+'" style="--r:'+it.r+'">'
+      +'<div class="gmedia">'+(it.img ? photoTag(it.img,it.r,t(it.alt)) : videoTag(it.vid,it.r,t(it.alt)))+'</div>'
+      +'<figcaption>'+esc(t(it.c))+'</figcaption></figure>';
+  }
+  return h+'</div>';
+}
+/* Gallery block for the end of an engineering activity page: only work from that area. */
+function galleryBlock(area){
+  var items=galleryItems(area);
+  if(!items.length) return "";
+  return '<section class="band band--grey band--gal"><div class="wrap">'
+    +'<div class="lbl lbl--q rv">'+esc(t(EXPH.h))+'</div>'
+    +'<h2 class="rv" style="margin-top:16px;max-width:20ch">'+esc(t(EXPH.d))+'</h2>'
+    +gallery(items)
+    +'<div class="rv" style="margin-top:30px">'+go("work",' class="btn btn--ghost"')+esc(t(GALLERY.all))+' &rarr;</a></div>'
+    +'</div></section>';
+}
 /* Alternating rows: picture then text, then text then picture. `key` names an image in
    assets/renders/; without one you get a labelled photo slot saying what belongs there. */
 function altRows(items,compact){
@@ -295,7 +362,15 @@ function renderHome(){
   var d=C.home,h="";
 
   /* 1. the opening: the mark on black, nothing else */
-  h+='<div class="opening"><section class="overture">'
+  var hv=(typeof HERO_VIDEO!=="undefined") && HERO_VIDEO;
+  var hvBig=hv && hasMedia("video/"+hv.big+".mp4"), hvSmall=hv && hasMedia("video/"+hv.small+".mp4");
+  var heroVid = (hvBig||hvSmall)
+    ? '<div class="herovid" aria-hidden="true"><video data-auto data-hero muted loop playsinline preload="metadata"'
+      +(hasMedia("video/"+(hvSmall?hv.small:hv.big)+".webp")?' poster="'+mediaSrc("video/"+(hvSmall?hv.small:hv.big)+".webp")+'"':'')+'>'
+      +(hvSmall&&hvBig?'<source src="'+mediaSrc("video/"+hv.small+".mp4")+'" type="video/mp4" media="(max-width: 900px)">':'')
+      +'<source src="'+mediaSrc("video/"+(hvBig?hv.big:hv.small)+".mp4")+'" type="video/mp4"></video></div>'
+    : '';
+  h+='<div class="opening"><section class="overture'+(heroVid?' overture--vid':'')+'">'+heroVid
     +'<h1 class="logo"><img src="'+LOGO_HERO+'" alt="Liminex \u2014 Make non-existent reality"></h1>'
     +'<span class="scrollcue" aria-hidden="true">'+esc(t(d.scroll))+'</span></section></div>';
 
@@ -303,13 +378,13 @@ function renderHome(){
   h+='<section class="band band--grey"><div class="wrap center">'
     +'<div class="lbl rv">'+esc(t(d.blocksh))+'</div>'
     +'<h2 class="rv" style="margin-top:18px">'+esc(t(d.blocksd))+'</h2></div>'
-    +'<div class="wrap"><div class="blocks">';
+    +'<div class="wrap"><div class="blocks blocks--lead">';
   for(var i=0;i<AREAS.length;i++){
     var ar=AREAS[i];
     var cimg = renderSrc("card-"+ar.id);
     /* a transparent PNG floats in the card's preview area, same rule as altRows */
     var ccut = cimg && typeof CUTOUT!=="undefined" && CUTOUT.indexOf("card-"+ar.id)>=0;
-    h+=go(ar.id,' class="block rv'+(ccut?' has-cut':'')+'"')
+    h+=go(ar.id,' class="block rv'+(ccut?' has-cut':'')+(i===0?' block--lead':'')+'"')
       +'<span class="prev'+(cimg?(ccut?' has-cut':' has-img'):'')+'">'
         +(cimg ? '<img src="'+cimg+'" alt="">'
                : GLYPH[ar.glyph]+'<span class="cap">'+esc(t(d.shots[ar.id]))+'</span>')
@@ -320,6 +395,19 @@ function renderHome(){
         +'<span class="more">'+esc(t(d.more))+' &rarr;</span></span></a>';
   }
   h+='</div></div></section>';
+
+  /* 2a. real work: photos and video loops, engineering first. The renders above say what
+     we offer; this says that we have actually done it. */
+  var gitems=galleryItems();
+  if(gitems.length){
+    h+='<section class="band band--gal"><div class="wrap">'
+      +'<div class="galintro"><div><div class="lbl rv">'+esc(t(GALLERY.lbl))+'</div>'
+      +'<h2 class="rv" style="margin-top:16px;max-width:18ch">'+esc(t(GALLERY.h))+'</h2></div>'
+      +'<p class="deck rv">'+esc(t(GALLERY.d))+'</p></div>'
+      +gallery(gitems.slice(0,14))
+      +'<div class="rv" style="margin-top:30px">'+go("work",' class="btn btn--ghost"')+esc(t(GALLERY.all))+' &rarr;</a></div>'
+      +'</div></section>';
+  }
 
   /* 2b. what we build ourselves: three projects in development, same card shape */
   h+='<section class="band"><div class="wrap center">'
@@ -394,7 +482,17 @@ function renderAbout(){
     +'<div style="margin-top:24px"><p class="deck" style="max-width:none">'
     +esc(t(hm.whop)).split("\n\n").join('</p><p class="deck" style="max-width:none">')+'</p></div></div>'
     +'<div class="wrap"><div class="phrow rv" style="margin-top:56px">'
-    +ph(t(hm.photo1),t(hm.photo1s))+ph(t(hm.photo2),t(hm.photo2s))+'</div></div></section>';
+    +(hasMedia("photos/drone-response-build-table-wide-800.webp")
+       ? '<div class="ph has-img">'+photoTag("drone-response-build-table-wide",1.5,
+           lang==="nl"?"Twee engineers van Liminex aan hun werktafel tijdens Drone Response 2.0":"Two Liminex engineers at their build table during Drone Response 2.0",
+           "(max-width:760px) 92vw, 760px")+'</div>'
+       : ph(t(hm.photo1),t(hm.photo1s)))
+    +(hasMedia("photos/wiring-machine-cabinets-800.webp")
+       ? '<div class="ph has-img">'+photoTag("wiring-machine-cabinets",0.8,
+           lang==="nl"?"Engineer die bedrading aanlegt tussen besturingskasten":"Engineer wiring between machine control cabinets",
+           "(max-width:760px) 92vw, 380px")+'</div>'
+       : ph(t(hm.photo2),t(hm.photo2s)))
+    +'</div></div></section>';
 
   h+='<section class="band band--dark"><div class="wrap"><div class="stats rv" style="margin-top:0">';
   for(var st=0;st<hm.stats.length;st++)
@@ -491,7 +589,10 @@ function renderArea(id){
   if(d.cards && id!=="proto") h+='<section class="band band--grey"><div class="wrap">'
     +(d.cardsh?'<h2 class="rv">'+esc(t(d.cardsh))+'</h2>':'')
     +'<div class="rv">'+cardRow(d.cards,CARDICONS[id])+'</div></div></section>';
-  h+='<section class="band'+(d.steps?' band--bub':'')+'">'+bandMark(WMARKS[id]?WMARKS[id][1]:"gears",WMARKS[id]?WMARKS[id][0]:"rule")
+  /* A page with no steps and no note has nothing for this band, and it used to leave a
+     screen of empty white between the grey sections. */
+  var stepsBand = d.steps || (d.note && id!=="start");
+  if(stepsBand) h+='<section class="band'+(d.steps?' band--bub':'')+'">'+bandMark(WMARKS[id]?WMARKS[id][1]:"gears",WMARKS[id]?WMARKS[id][0]:"rule")
     +'<div class="wrap">';
   var STEPICONS={proto:["test","cad","elec","firmware","dfm"],
                  make:["dfm","cad","print3d","pipe","test"],
@@ -499,7 +600,8 @@ function renderArea(id){
   if(d.steps) h+='<h2>'+(lang==="nl"?"Hoe het gaat":"How it goes")+'</h2>'
     +stepList(d.steps,STEPICONS[id],"pics");
   if(d.note && id!=="start") h+='<div class="marginnote"><h3>'+esc(t(d.noteh))+'</h3><p>'+esc(t(d.note))+'</p></div>';
-  h+='</div></section>';
+  if(stepsBand) h+='</div></section>';
+  h+=galleryBlock(id);
   h+='<section class="band band--tight"><div class="wrap">'
     +(id==="start" ? "" : expBlock(true,id))
     +ctaBlock(lang==="nl"?"Zullen we hier een half uur over praten?":"Shall we spend half an hour on this?")
@@ -563,7 +665,7 @@ function renderDevProject(id){
     +'onclick="this.closest(\'.fcarhead\').nextElementSibling.scrollBy({left:-320,behavior:\'smooth\'})">&larr;</button>'
     +'<button type="button" class="fcbtn" aria-label="&rarr;" '
     +'onclick="this.closest(\'.fcarhead\').nextElementSibling.scrollBy({left:320,behavior:\'smooth\'})">&rarr;</button></div></div>'
-    +'<div class="fcar rv">';
+    +'<div class="fcar rv" role="region" tabindex="0" aria-label="'+esc(t(DEV.whyl))+'">';
   for(var f=0;f<it.stats.length;f++)
     h+='<div class="fcell"><div class="n">'+esc(t(it.stats[f].n))+'</div><div class="k">'+esc(t(it.stats[f].k))+'</div></div>';
   for(var v=0;v<it.value.length;v++)
@@ -603,17 +705,42 @@ function renderDevProject(id){
   return h;
 }
 function renderWork(){
-  var d=C.work;
+  var d=C.work, W=WORKENG;
   var h='<section class="opener">'+watermark("work")+'<div class="narrow"><div class="lbl">Portfolio</div>'
     +'<h1>'+(lang==="nl"?"Werk":"Work")+'</h1></div></section>';
   h+=flowSplit(6,"var(--paper)","var(--paper)",5);
-  h+='<section class="band band--tight">'+bandMark("layout","gears")+'<div class="wrap">';
+
+  /* 1. engineering first: who we are in one paragraph, then everything in the strip */
+  var gitems=galleryItems();
+  h+='<section class="band band--tight band--gal">'+bandMark("drone","gears")+'<div class="wrap">'
+    +'<div class="galintro"><div><div class="lbl rv">'+esc(t(W.lbl))+'</div>'
+    +'<h2 class="rv" style="margin-top:16px;max-width:16ch">'+esc(t(W.h))+'</h2></div>'
+    +'<p class="deck rv">'+esc(t(W.d))+'</p></div>'
+    +gallery(gitems)
+    +'</div></section>';
+
+  /* 2. one piece of engineering told properly: the thermal clip and what it shows */
+  var f=W.feat, fv=videoTag(f.vid,f.r,t(f.alt),"featvid");
+  if(fv){
+    h+='<section class="band band--dark"><div class="wrap"><div class="feat rv">'
+      +'<div class="featmedia">'+fv+'</div>'
+      +'<div class="feattext"><div class="lbl">'+esc(t(f.lbl))+'</div>'
+      +'<h2>'+esc(t(f.h))+'</h2><p>'+esc(t(f.p))+'</p>'
+      +'<dl class="featdl">';
+    for(var q=0;q<f.dl.length;q++) h+='<dt>'+esc(t(f.dl[q].k))+'</dt><dd>'+esc(t(f.dl[q].v))+'</dd>';
+    h+='</dl></div></div></div></section>';
+  }
+
+  /* 3. software second: the websites that are live */
+  h+='<section class="band band--tight">'+bandMark("layout","pcb")+'<div class="wrap">'
+    +'<div class="lbl rv">'+esc(t(W.webl))+'</div>'
+    +'<h2 class="rv" style="margin-top:16px;margin-bottom:56px">'+esc(t(C.folio.h))+'</h2>';
   for(var i=0;i<d.cases.length;i++){
     var c=d.cases[i];
     h+='<div class="rv" style="margin-bottom:56px">'
-      +'<div class="lbl">'+esc(t(c.tag))+' · '+esc(c.url)+'</div>'
-      +'<h2 style="margin-top:14px">'+esc(c.t)+'</h2>'
-      +'<div class="folio" style="margin-top:28px">'
+      +'<div class="lbl lbl--q">'+esc(t(c.tag))+' · '+esc(c.url)+'</div>'
+      +'<h3 class="casename">'+esc(c.t)+'</h3>'
+      +'<div class="folio" style="margin-top:24px">'
       +((typeof WORKSHOTS!=="undefined" && WORKSHOTS[c.img])
          ? '<a class="shotlink" href="https://'+c.url+'" target="_blank" rel="noopener">'
            +'<img src="'+WORKSHOTS[c.img]+'" alt="'+esc(c.t+(lang==="nl"?" — de site die wij bouwden"
@@ -628,12 +755,6 @@ function renderWork(){
       +' &nearr;</a></p></div></div></div>';
   }
   h+='</div></section>';
-  /* No engineering cases: they are all under NDA. One paragraph says they exist. */
-  h+='<section class="band band--grey"><div class="wrap">'
-    +'<div class="lbl lbl--q rv">'+esc(t(EXPH.engh))+'</div>'
-    +'<div class="marginnote" style="margin-top:26px"><h3>'+esc(t(d.moreh))+'</h3>'
-    +'<p>'+esc(t(d.morep))+'</p></div>'
-    +'</div></section>';
   h+='<section class="band band--tight"><div class="wrap">'+ctaBlock(t(C.folio.next))+'</div></section>';
   return h;
 }
@@ -1054,6 +1175,32 @@ function onFly(){
 }
 window.addEventListener("scroll",onFly,{passive:true});
 window.addEventListener("resize",onFly);
+/* Silent loops play only while at least a third of them is on screen, so a page with a
+   dozen clips decodes one or two at a time. Reduced motion: nothing autoplays; gallery
+   clips get controls so they can still be watched, the hero keeps its poster. */
+var vio=null;
+function setupVideos(){
+  var vids=app.querySelectorAll("video[data-auto]");
+  if(vio){ vio.disconnect(); vio=null; }
+  if(!vids.length) return;
+  var still=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(still || !("IntersectionObserver" in window)){
+    for(var i=0;i<vids.length;i++){
+      vids[i].removeAttribute("autoplay");
+      if(!vids[i].hasAttribute("data-hero") && still) vids[i].setAttribute("controls","");
+      else if(!still) { var pr=vids[i].play(); if(pr&&pr.catch) pr.catch(function(){}); }
+    }
+    return;
+  }
+  vio=new IntersectionObserver(function(en){
+    en.forEach(function(e){
+      var v=e.target;
+      if(e.isIntersecting){ var pr=v.play(); if(pr&&pr.catch) pr.catch(function(){}); }
+      else v.pause();
+    });
+  },{threshold:0.33});
+  for(var j=0;j<vids.length;j++) vio.observe(vids[j]);
+}
 function render(moveFocus){
   var h;
   if(page==="home") h=renderHome();
@@ -1083,6 +1230,7 @@ function render(moveFocus){
   setupReveal();
   setupFly();
   setupForm();
+  setupVideos();
 }
 /* The opening collapses over the first ~85% of a screen height of scrolling.
    p = 0 fully open, p = 1 fully closed. The nav slides in as it closes. */
@@ -1097,6 +1245,16 @@ function onScroll(){
 }
 window.addEventListener("scroll",onScroll,{passive:true});
 document.addEventListener("click",function(e){
+  var gb=e.target.closest("[data-gal]");
+  if(gb){
+    var g=document.getElementById(gb.getAttribute("data-gal"));
+    if(g){
+      var cell=g.querySelector(".gcell"), step=cell ? cell.getBoundingClientRect().width+18 : 320;
+      g.scrollBy({left:Number(gb.getAttribute("data-dir"))*Math.max(step, g.clientWidth*0.7),
+                  behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});
+    }
+    return;
+  }
   var dd=e.target.closest("#ddbtn");
   if(dd){ ddSet(dd.getAttribute("aria-expanded")!=="true"); return; }
   if(!e.target.closest("#ddmenu")) ddSet(false);
@@ -1156,7 +1314,7 @@ window.addEventListener("popstate",function(){
    hold the reveal until they have decoded (capped at 1.2 s) so nothing pops in late. */
 function waitForPictures(){
   var imgs=app.querySelectorAll("img"), pending=[];
-  for(var i=0;i<imgs.length;i++) if(!imgs[i].complete && imgs[i].decode) pending.push(imgs[i].decode().catch(function(){}));
+  for(var i=0;i<imgs.length;i++) if(!imgs[i].complete && imgs[i].decode && imgs[i].loading!=="lazy") pending.push(imgs[i].decode().catch(function(){}));
   if(!pending.length) return;
   app.classList.add("is-waiting");
   var done=false, fin=function(){ if(done) return; done=true; app.classList.remove("is-waiting"); setupReveal(); };

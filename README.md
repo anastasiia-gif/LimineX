@@ -61,6 +61,30 @@ placeholder if there isn't.
 
 The cards and the Work page link out to the live sites either way.
 
+### Photos and video of our own work
+
+Real photos and silent video loops live apart from the renders, because they behave
+differently: they are **not** preloaded behind the loading screen, every photo is
+`loading="lazy"`, and every video loads only its poster until it scrolls into view.
+
+| Folder | Files | Used by |
+|---|---|---|
+| `assets/photos/` | `<name>-800.webp`, optionally `<name>-1600.webp` | `GALLERY` in `src/content.js`, the About photo row |
+| `assets/video/` | `<name>.mp4` + `<name>.webp` (the poster) | `GALLERY`, `HERO_VIDEO`, the Work page clip (`WORKENG.feat`) |
+
+- **The strip** (`gallery()` in `app.js`) shows `GALLERY.items` in order: the first 14 on the
+  home page, all of them on Work, and on Engineering, Manufacturing and Start-ups only the
+  items whose `a` list contains that page. Each item has a caption and alt text in both
+  languages and `r`, its width/height ratio, so the strip keeps its shape while loading.
+- **Adding one:** export WebP at 800 px wide (and 1600 if the original is big enough), drop
+  it in `assets/photos/`, add an entry to `GALLERY.items`. A missing file is skipped, so
+  deleting the file is enough to take a photo off the site.
+- **The home opening** plays `HERO_VIDEO` behind the logo, darkened; phones get the
+  1280 px file. Delete both files and the opening is plain black again.
+- **Videos** play only while a third of them is on screen. With reduced motion nothing
+  plays: the hero keeps its poster and strip clips get controls.
+- Client work stays anonymous: the night photo shows lights only, by agreement.
+
 ### AI crawlers
 
 `robots.txt` explicitly allows GPTBot, OAI-SearchBot, ClaudeBot, PerplexityBot and
