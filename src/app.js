@@ -261,12 +261,13 @@ function fillMedia(m, alt, eager){
 function caseById(id){ for(var i=0;i<CASES.length;i++) if(CASES[i].id===id) return CASES[i]; return null; }
 function caseLinks(c){
   return (c.site?'<a class="caselink" href="'+c.site+'" target="_blank" rel="noopener">'+esc(t(CASEUI.site))+' &nearr;</a>':'')
-        +(c.code?'<a class="caselink caselink--code" href="'+c.code+'" target="_blank" rel="noopener">'+esc(t(CASEUI.code))+' &nearr;</a>':'');
+        +(c.code?[].concat(c.code).map(function(u,i){ return '<a class="caselink caselink--code" href="'+u+'" target="_blank" rel="noopener">'
+             +esc(t(i?CASEUI.code2:CASEUI.code))+(i>1?' '+i:'')+' &nearr;</a>'; }).join(""):'');
 }
 /* The opener of Engineering, Manufacturing and Work: the page's promise over real work. */
 function pageHook(id, title, lbl, firstId){
   var P=PHOOK[id];
-  return '<section class="hook hook--page">'
+  return '<section class="hook hook--page'+(P.side?' hook--side':'')+'">'
     +'<div class="hookvid" aria-hidden="true">'+fillMedia(P.media,"",true)+'</div>'
     +'<div class="wrap hookin"><div class="lbl">'+esc(lbl)+'</div>'
     +'<h1>'+esc(title)+'</h1><p class="hookp">'+esc(t(P.p))+'</p>'
@@ -383,6 +384,87 @@ function offersBlock(){
       +'</div></li>';
   }
   return h+'</ol></div></div></section>';
+}
+
+/* ---------------- tabs ----------------
+   A row of buttons and one panel per button. Proper ARIA tabs: arrow keys move between
+   them (see the keydown handler), only the open panel is in the tab order. */
+var tabN=0;
+function tabs(labels, panels, cls){
+  var id="tb"+(++tabN), h='<div class="tabs '+(cls||"")+'"><div class="tablist rv" role="tablist">';
+  for(var i=0;i<labels.length;i++)
+    h+='<button type="button" role="tab" class="tab" id="'+id+'-t'+i+'" aria-controls="'+id+'-p'+i+'"'
+      +' aria-selected="'+(i===0)+'" tabindex="'+(i===0?0:-1)+'">'+labels[i]+'</button>';
+  h+='</div>';
+  for(var j=0;j<panels.length;j++)
+    h+='<div class="tabpanel" role="tabpanel" id="'+id+'-p'+j+'" aria-labelledby="'+id+'-t'+j+'" tabindex="0"'+(j?' hidden':'')+'>'+panels[j]+'</div>';
+  return h+'</div>';
+}
+function tabSelect(tab){
+  var list=tab.parentNode, all=list.querySelectorAll('[role="tab"]');
+  for(var i=0;i<all.length;i++){
+    var on=all[i]===tab; all[i].setAttribute("aria-selected",String(on)); all[i].tabIndex=on?0:-1;
+    var p=document.getElementById(all[i].getAttribute("aria-controls")); if(p) p.hidden=!on;
+  }
+  var panel=document.getElementById(tab.getAttribute("aria-controls"));
+  if(panel){ var v=panel.querySelectorAll("video[data-auto]"); for(var k=0;k<v.length;k++){ var pr=v[k].play(); if(pr&&pr.catch) pr.catch(function(){}); } }
+}
+/* A small project card, used inside tabs: picture, title, one link to the full story. */
+function miniCase(c){
+  return '<a class="mini" href="'+href("work")+'#case-'+c.id+'">'
+    +'<span class="minimedia'+(c.media.art?' pmedia--art':'')+(c.fit==="contain"?' is-contain':'')+(c.media.shot?' is-shot':'')+'">'+caseMedia(c,false)+'</span>'
+    +'<span class="minibody"><span class="casemeta">'+esc(t(c.meta))+'</span><span class="minih">'+esc(t(c.t))+'</span></span></a>';
+}
+/* Three stories, then more photos, as one closing section of a service page. */
+function proofBlock(area, cta){
+  var list=[];
+  for(var i=0;i<CASES.length && list.length<3;i++) if(CASES[i].area.indexOf(area)>=0) list.push(CASES[i]);
+  var shown={};
+  for(var a=0;a<list.length;a++){ shown[list[a].media.img||list[a].media.vid]=1; if(list[a].more) shown[list[a].more.img||list[a].more.vid]=1; }
+  var P=PHOOK[area], S=PSTEPS[area];
+  if(P&&P.media) shown[P.media.img||P.media.vid]=1;
+  if(S) for(var x=0;x<S.items.length;x++) shown[S.items[x].img||S.items[x].vid]=1;
+  var extra=galleryItems(area).filter(function(it){ return !shown[it.img||it.vid]; });
+  var h='<section class="band"><div class="wrap">'
+    +'<div class="lbl rv">'+esc(t(PROOF.lbl))+'</div>'
+    +'<h2 class="rv" style="margin-top:16px;max-width:20ch">'+esc(t(PROOF.h[area]))+'</h2>';
+  if(list.length){
+    h+='<div class="teasers">';
+    for(var j=0;j<list.length;j++){
+      var c=list[j];
+      h+='<a class="teaser rv" href="'+href("work")+'#case-'+c.id+'">'
+        +'<span class="teasermedia'+(c.media.art?' teasermedia--art':'')+(c.fit==="contain"?' is-contain':'')+'">'+caseMedia(c,false)+'</span>'
+        +'<span class="teaserbody"><span class="casemeta">'+esc(t(c.meta))+'</span>'
+        +'<span class="teaserh">'+esc(t(c.t))+'</span>'
+        +'<span class="needgo">'+esc(t(CASEUI.read))+' &rarr;</span></span></a>';
+    }
+    h+='</div>';
+  }
+  if(extra.length>=3) h+='<h3 class="proofmore rv">'+esc(t(PROOF.more))+'</h3>'+gallery(extra);
+  h+='<div class="twolinks rv" style="margin-top:34px">'
+    +(cta?go("contact",' class="btn" data-umami-event="cta-contact" data-umami-event-from="'+area+'-proof"')+esc(cta)+'</a>':'')
+    +go("work",' class="btn btn--ghost"')+esc(t(GALLERY.all))+' &rarr;</a></div>';
+  return h+'</div></section>';
+}
+/* Manufacturing: one question, four answers. */
+function makeTabs(){
+  var Q=MAKEQ, labels=[], panels=[];
+  for(var i=0;i<Q.items.length;i++){
+    var it=Q.items[i], pc=it.p2 && caseById(it.p2), pic;
+    labels.push(esc(t(it.n)));
+    if(it.photo) pic='<div class="mqpic mqpic--photo">'+photoTag(it.img,0.8,"","(max-width:760px) 92vw, 420px")+'</div>';
+    else { var src=renderSrc(it.img); pic='<div class="mqpic">'+(src?'<img src="'+src+'" alt="" loading="lazy">':'')+'</div>'; }
+    var li=""; for(var j=0;j<it.l.length;j++) li+='<li>'+esc(t(it.l[j]))+'</li>';
+    panels.push('<div class="mq">'+pic+'<div class="mqtext"><h3>'+esc(t(it.h))+'</h3><p>'+esc(t(it.p))+'</p><ul class="mqlist">'+li+'</ul>'
+      +(pc?'<a class="offerseen" href="'+href("work")+'#case-'+pc.id+'">'+esc(t(Q.seen))+': '+esc(t(pc.t))+' &rarr;</a>':'')+'</div></div>');
+  }
+  return '<section class="band band--grey" id="what"><div class="wrap">'
+    +'<div class="lbl rv">'+esc(t(Q.lbl))+'</div>'
+    +'<h2 class="rv" style="margin-top:16px">'+esc(t(Q.h))+'</h2>'
+    +'<p class="deck rv" style="margin-top:14px">'+esc(t(Q.d))+'</p>'
+    +tabs(labels,panels,"tabs--make")
+    +'<p class="onreq rv" style="margin-top:22px">'+go("contact",' class="inlink"')+esc(t(Q.ask))+' &rarr;</a></p>'
+    +'</div></section>';
 }
 
 /* Three stories as cards, for a service page; each links to its place on Work. */
@@ -669,51 +751,34 @@ function renderAbout(){
 
 /* IT & Web reads as an exhibition of what has been delivered */
 function renderWeb(){
-  var d=C.web, S=SOFT, h="";
-  /* 1. the promise, over our own ground-station software */
-  var P={media:S.hook.media, p:S.hook.p, cap:S.hook.cap};
-  PHOOK.web=P;
-  h+=pageHook("web", t(S.hook.h), "Software, web & AI", "sides");
+  var d=C.web, S=SOFT, X=SOFTX, h="";
+  PHOOK.web={media:S.hook.media, side:S.hook.side, p:S.hook.p, cap:S.hook.cap};
+  h+=pageHook("web", t(S.hook.h), "Software, web & AI", "write");
 
-  /* 2. two sides of the same craft */
-  h+='<section class="band" id="sides"><div class="wrap">'
-    +'<div class="lbl rv">'+esc(t(S.sides.lbl))+'</div>'
-    +'<h2 class="rv" style="margin-top:16px;max-width:20ch">'+esc(t(S.sides.h))+'</h2>'
-    +'<div class="sides">';
-  for(var i=0;i<S.sides.items.length;i++){
-    var sd=S.sides.items[i];
-    h+='<div class="side rv"><h3>'+esc(t(sd.h))+'</h3><ul>';
-    for(var j=0;j<sd.l.length;j++) h+='<li>'+esc(t(sd.l[j]))+'</li>';
-    h+='</ul><div class="sideproof">';
-    for(var k=0;k<sd.p.length;k++){ var pc=caseById(sd.p[k]); if(pc) h+='<a href="'+href("work")+'#case-'+pc.id+'">'+esc(t(pc.t))+' &rarr;</a>'; }
-    h+='</div></div>';
+  /* one explorer: a kind of software, what it does for you, where we built it */
+  var labels=[], panels=[];
+  for(var i=0;i<X.items.length;i++){
+    var it=X.items[i], cards="";
+    labels.push(esc(t(it.n)));
+    for(var j=0;j<it.p.length;j++){ var c=caseById(it.p[j]); if(c) cards+=miniCase(c); }
+    panels.push('<div class="sx"><div class="sxtext"><h3>'+esc(t(it.h))+'</h3><p>'+esc(t(it.d))+'</p>'
+      +'<div class="sxk">'+esc(it.k)+'</div></div>'
+      +'<div class="sxwork"><div class="casek">'+esc(t(X.seen))+'</div><div class="minis">'+cards+'</div></div></div>');
   }
-  h+='</div></div></section>';
+  h+='<section class="band" id="write"><div class="wrap">'
+    +'<div class="lbl rv">'+esc(t(X.lbl))+'</div>'
+    +'<h2 class="rv" style="margin-top:16px;max-width:22ch">'+esc(t(X.h))+'</h2>'
+    +'<p class="deck rv" style="margin-top:14px">'+esc(t(X.d))+'</p>'
+    +tabs(labels,panels,"tabs--soft")
+    +(hidden("price")?'':'<p class="onreq rv" style="margin-top:26px">'+esc(t(X.more))+' '+go("price",' class="inlink"')+esc(t(X.morel))+' &rarr;</a></p>')
+    +'</div></section>';
 
-  /* 3. the software we wrote, web and machines together */
-  var soft=CASES.filter(function(c){ return c.area.indexOf("web")>=0; });
-  h+='<section class="band band--grey"><div class="wrap">'
-    +'<div class="lbl rv">'+esc(t(S.projlbl))+'</div>'
-    +'<h2 class="rv" style="margin-top:16px;max-width:20ch">'+esc(t(S.projh))+'</h2>'
-    +projectGrid(soft,true)+'</div></section>';
-
-  /* 4. websites in detail: the services with their renders, and the prices */
-  h+='<section class="band band--tight band--bub">'+bandMark("layout","pcb")+'<div class="wrap">'
-    +'<h2 class="rv">'+esc(t(S.webh))+'</h2>'
-    +'<p class="deck rv" style="margin-top:18px">'+esc(t(d.intro))+'</p>'
-    +altRows([
-      {key:"part-layout", t:d.svcs[0].n, p:d.svcs[0].d, shot:C.home.shots.web},
-      {key:"web-2", t:d.svcs[1].n, p:d.svcs[1].d, shot:{nl:"Foto — afrekenen en boeken op een telefoon",en:"Photo — checkout and booking on a phone"}},
-      {key:"web-1", t:d.svcs[4].n, p:d.svcs[4].d, shot:{nl:"Foto — een werkstroom die zichzelf uitvoert",en:"Photo — a workflow that runs itself"}}
-    ], true)
-    +'<div class="rv" style="margin-top:64px">'+svcList([d.svcs[2],d.svcs[3],d.svcs[5]], t(d.moreh), null, true)+'</div>'
-    +pricePreview()+'</div></section>';
-
-  /* 5. how it goes, next to the ask */
+  /* how it goes, next to the ask */
   h+='<section class="band band--grey"><div class="wrap"><div class="howask rv">'
     +'<div class="howask-cta"><div class="lbl">'+(lang==="nl"?"Hoe het gaat":"How it goes")+'</div>'
     +'<h2>'+esc(t(S.howh))+'</h2><p class="deck">'+esc(t(S.howp))+'</p>'
-    +'<div class="twolinks">'+go("contact",' class="btn" data-umami-event="cta-contact" data-umami-event-from="web"')+esc(t(C.home.ctab))+'</a></div></div>'
+    +'<div class="twolinks">'+go("contact",' class="btn" data-umami-event="cta-contact" data-umami-event-from="web"')+esc(t(C.home.ctab))+'</a>'
+    +go("work",' class="btn btn--ghost"')+esc(t(GALLERY.all))+'</a></div></div>'
     +'<ol class="howlist">';
   for(var st=0;st<d.steps.length;st++)
     h+='<li><span class="sn">'+no(st+1)+'</span><div><h3>'+esc(t(d.steps[st].h))+'</h3><p>'+esc(t(d.steps[st].p))+'</p></div></li>';
@@ -737,6 +802,7 @@ function renderArea(id){
   if(id.indexOf("dev-")===0) return renderDevProject(id.slice(4));
   var a=area(id),d=C[id],h="";
   if(id==="proto"||id==="make") return renderAreaStory(id,a,d);
+  if(id==="start") return renderStart();
   h+='<section class="opener">'+watermark(id)
     +'<div class="narrow"><div class="lbl">'+esc(aName(a))+'</div>'
     +'<h1>'+esc(t(d.lede))+'</h1></div></section>';
@@ -794,24 +860,58 @@ function renderArea(id){
 function renderAreaStory(id,a,d){
   var h=pageHook(id, t(PHOOK[id].h||d.lede), aName(a), "how");
   h+=photoSteps(id);
-  if(id==="proto") h+=offersBlock();
-  else h+='<section class="band band--grey">'+bandMark(WMARKS[id][0],WMARKS[id][1])+'<div class="wrap">'
-    +svcList(d.svcs, t(d.aroundh), ["img:make-design","img:make-series","img:svc-sourcing"], true)+'</div></section>';
   if(id==="proto"){
-    h+=caseTeasers("proto",3);
+    h+=offersBlock();
+    h+=proofBlock("proto");
     h+='<section class="band band--grey"><div class="wrap">'+discGrid()+'</div></section>';
+    h+='<section class="band band--tight"><div class="wrap">'
+      +ctaBlock(lang==="nl"?"Zullen we hier een half uur over praten?":"Shall we spend half an hour on this?")
+      +'</div></section>';
+  } else {
+    h+=makeTabs();
+    h+=proofBlock("make", lang==="nl"?"Stuur ons uw tekening of foto":"Send us your drawing or photo");
   }
-  if(id==="make"){
-    h+='<section class="band band--dark"><div class="wrap"><div class="why rv">';
-    for(var i=0;i<MAKEWHY.length;i++)
-      h+='<div><h3>'+esc(t(MAKEWHY[i].n))+'</h3><p>'+esc(t(MAKEWHY[i].p))+'</p></div>';
-    h+='</div></div></section>';
-    h+=caseTeasers("make",3);
-    h+=galleryBlock(id);
+  return h;
+}
+
+/* Start-ups: a founder's problems first, then what we already do, how payment can fit,
+   the road from idea to unit, and the work. */
+function renderStart(){
+  var S=STARTUP, d=C.start, a=area("start"), h="";
+  PHOOK.start={media:S.hook.media, side:S.hook.side, p:S.hook.p, cap:S.hook.cap};
+  h+=pageHook("start", t(S.hook.h), aName(a), "pains");
+  /* 1. sound familiar? */
+  h+='<section class="band" id="pains"><div class="wrap">'
+    +'<div class="lbl rv">'+esc(t(S.pains.lbl))+'</div>'
+    +'<h2 class="rv" style="margin-top:16px;max-width:20ch">'+esc(t(S.pains.h))+'</h2><div class="pains">';
+  for(var i=0;i<S.pains.items.length;i++)
+    h+='<div class="pain rv" style="--d:'+((i%3)*90)+'ms"><h3>'+esc(t(S.pains.items[i].q))+'</h3><p>'+esc(t(S.pains.items[i].a))+'</p></div>';
+  h+='</div></div></section>';
+  /* 2. what we already do */
+  h+='<section class="band band--dark"><div class="wrap">'
+    +'<div class="lbl rv">'+esc(t(S.done.lbl))+'</div>'
+    +'<h2 class="rv" style="margin-top:16px;max-width:20ch">'+esc(t(S.done.h))+'</h2><div class="done">';
+  for(var j=0;j<S.done.items.length;j++){
+    var it=S.done.items[j];
+    h+='<div class="doneitem rv"><div class="donemedia">'+fillMedia(it,"",false)+'</div>'
+      +'<h3>'+esc(t(it.h))+'</h3><p>'+esc(t(it.p))+'</p></div>';
   }
-  h+='<section class="band band--tight"><div class="wrap">'
-    +ctaBlock(lang==="nl"?"Zullen we hier een half uur over praten?":"Shall we spend half an hour on this?")
-    +'</div></section>';
+  h+='</div></div></section>';
+  /* 3. payment that fits, beside the road from idea to unit */
+  h+='<section class="band band--grey"><div class="wrap"><div class="startsplit">'
+    +'<div><div class="lbl rv">'+esc(t(S.pay.lbl))+'</div>'
+    +'<h2 class="rv" style="margin-top:16px">'+esc(t(S.pay.h))+'</h2>'
+    +'<p class="deck rv" style="margin-top:14px">'+esc(t(S.pay.p))+'</p><div class="payopts">';
+  for(var k=0;k<d.svcs.length;k++)
+    h+='<details class="payopt rv"><summary>'+esc(t(d.svcs[k].n))+'</summary><p>'+esc(t(d.svcs[k].d))+'</p></details>';
+  h+='</div></div>'
+    +'<div><div class="lbl rv">'+esc(t(S.road.lbl))+'</div>'
+    +'<h2 class="rv" style="margin-top:16px">'+esc(t(S.road.h))+'</h2><ol class="howlist rv" style="margin-top:26px">';
+  for(var r=0;r<d.steps.length;r++)
+    h+='<li><span class="sn">'+no(r+1)+'</span><div><h3>'+esc(t(d.steps[r].h))+'</h3><p>'+esc(t(d.steps[r].p))+'</p></div></li>';
+  h+='</ol></div></div></div></section>';
+  /* 4. the work, and the ask */
+  h+=proofBlock("start", t(S.cta));
   return h;
 }
 
@@ -1070,9 +1170,11 @@ function domRows(items,showLead){
 /* The reveal animation only fires for elements an observer has seen, and a closed panel is
    never seen — inside a panel the markup has to be visible from the start. */
 function bare(h){ return h.replace(/ rv(?=")/g,""); }
-function menuItem(label,priceHtml,body,wide){
-  return '<details class="fold fold--dom'+(wide?" fold--full":"")+'">'
-    +'<summary><span class="mn">'+esc(label)+'</span>'
+function menuItem(label,priceHtml,body,wide,pic){
+  var src=pic && renderSrc(pic);
+  return '<details class="fold fold--dom'+(wide?" fold--full":"")+(src?" fold--pic":"")+'">'
+    +'<summary>'+(src?'<span class="mpic" aria-hidden="true"><img src="'+src+'" alt="" loading="lazy"></span>':'')
+    +'<span class="mn">'+esc(label)+'</span>'
     +(priceHtml?'<span class="mp">'+priceHtml+'</span>':'')+'</summary>'
     +'<div class="prices--fold">'+bare(body)+'</div></details>';
 }
@@ -1123,13 +1225,13 @@ function mainMenu(){
   var d=C.price, out=[], i;
   var webMin=0;
   for(i=0;i<d.pkgs.length;i++){ var v=price(d.pkgs[i].c,d.pkgs[i].x); if(!webMin||v<webMin) webMin=v; }
-  out.push(menuItem(t(d.pkgh), fromTag(webPrice(webMin)), webPanel(), true));
+  out.push(menuItem(t(d.pkgh), fromTag(webPrice(webMin)), webPanel(), true, "card-web"));
   var indMin=0;
   for(i=0;i<d.ind.length;i++){ var w=price(d.ind[i].c,d.ind[i].x); if(!indMin||w<indMin) indMin=w; }
-  out.push(menuItem(t(d.indh), fromTag(indMin), indPanel(), true));
+  out.push(menuItem(t(d.indh), fromTag(indMin), indPanel(), true, "part-ai"));
   for(i=0;i<d.domains.length;i++)
     out.push(menuItem(domTitle(d.domains[i].key), fromTag(domMin(d.domains[i].items)),
-             domRows(d.domains[i].items,true)));
+             domRows(d.domains[i].items,true), false, "domain-"+d.domains[i].key));
   return menuGrid(out);
 }
 function domTitle(key){
@@ -1154,23 +1256,30 @@ function domFold(key){
 function renderPrice(){
   var d=C.price,h="";
   h+='<section class="opener">'+watermark("price")+'<div class="narrow"><div class="lbl">'
-    +(lang==="nl"?"Tarieven":"Pricing")+'</div><h1>'+esc(t(d.lede))+'</h1></div></section>';
-  h+='<section class="band band--tight"><div class="narrow">'
-    +'<p class="deck" style="max-width:none">'+esc(t(d.intro))+'</p></div></section>';
-
+    +(lang==="nl"?"Tarieven":"Pricing")+'</div><h1>'+esc(t(d.lede))+'</h1>'
+    +'<p class="deck" style="margin-top:22px">'+esc(t(d.intro))+'</p></div></section>';
+  /* how a price comes about, before any number */
+  h+='<section class="band band--tight"><div class="wrap"><div class="howask rv">'
+    +'<div class="howask-cta"><div class="lbl">'+esc(t(d.howh))+'</div>'
+    +'<h2>'+(lang==="nl"?"Uw probleem bepaalt de prijs, niet onze dienstenlijst.":"Your problem sets the price, not our list of services.")+'</h2>'
+    +'<div class="twolinks">'+go("contact",' class="btn" data-umami-event="cta-contact" data-umami-event-from="price"')+esc(t(C.home.ctab))+'</a></div></div>'
+    +'<ol class="howlist">';
+  for(var i=0;i<d.how.length;i++)
+    h+='<li><span class="sn">'+no(i+1)+'</span><div><h3>'+esc(t(d.how[i].h))+'</h3><p>'+esc(t(d.how[i].p))+'</p></div></li>';
+  h+='</ol></div></div></section>';
+  /* the indicative prices */
   h+='<section class="band band--grey">'+bandMark("gears","part")+'<div class="wrap">'
-    +'<h2 class="rv">'+esc(t(d.domh))+'</h2>'
-    +'<p class="deck rv" style="margin-top:18px">'+esc(t(d.domd))+'</p>'
+    +'<div class="lbl rv">'+esc(t(d.guideh))+'</div>'
+    +'<h2 class="rv" style="margin-top:16px">'+esc(t(d.domh))+'</h2>'
+    +'<p class="deck rv" style="margin-top:18px">'+esc(t(d.guided))+'</p>'
     +mainMenu()
     +'<p class="onreq rv">'+esc(t(d.domnote))+'</p>'
     +'<p class="onreq rv">'+esc(t(d.vat))+'</p>'
     +'</div></section>';
-  h+=flowSplit(6,"var(--paper2)","var(--paper)",5);
-  h+='<section class="band">'+bandMark("valve","rule")+'<div class="wrap">'
-    +'<h2 class="rv">'+esc(t(d.fixh))+'</h2>'
-    +stepList(d.fix,["web","elec","data","dfm"])
-    +ctaBlock(lang==="nl"?"Stuur uw vraag in twee zinnen."
-                        :"Send your question in two sentences.")+'</div></section>';
+  /* start-ups */
+  h+='<section class="band band--tight"><div class="wrap"><div class="pricestart rv">'
+    +'<div><h3>'+esc(t(d.starth))+'</h3><p>'+esc(t(d.startp))+'</p></div>'
+    +go("start",' class="btn btn--ghost"')+(lang==="nl"?"Voor start-ups":"For start-ups")+' &rarr;</a></div></div></section>';
   return h;
 }
 
@@ -1439,6 +1548,8 @@ function onScroll(){
 }
 window.addEventListener("scroll",onScroll,{passive:true});
 document.addEventListener("click",function(e){
+  var tb=e.target.closest('[role="tab"]');
+  if(tb){ tabSelect(tb); return; }
   var pc=e.target.closest(".pchip");
   if(pc){
     var bar=pc.parentNode, grid=document.getElementById(bar.getAttribute("data-grid")), cat=pc.getAttribute("data-cat");
@@ -1488,6 +1599,12 @@ document.addEventListener("toggle",function(e){
   }
 },true);
 document.addEventListener("keydown",function(e){
+  var tb=document.activeElement && document.activeElement.getAttribute && document.activeElement.getAttribute("role")==="tab" && document.activeElement;
+  if(tb && /^(ArrowRight|ArrowLeft|Home|End)$/.test(e.key)){
+    var all=Array.prototype.slice.call(tb.parentNode.querySelectorAll('[role="tab"]')), n=all.indexOf(tb);
+    n = e.key==="Home"?0 : e.key==="End"?all.length-1 : (n+(e.key==="ArrowRight"?1:-1)+all.length)%all.length;
+    e.preventDefault(); all[n].focus(); tabSelect(all[n]); return;
+  }
   var m=document.getElementById("ddmenu"), b=document.getElementById("ddbtn");
   if(!m||!b) return;
   if(e.key==="Escape"&&!m.hidden){ ddSet(false); b.focus(); return; }

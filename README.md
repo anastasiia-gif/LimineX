@@ -98,6 +98,13 @@ differently: they are **not** preloaded behind the loading screen, every photo i
   about each, and a link to the project where we did it.
 - **Software, web & AI** (`SOFT`) shows software for businesses and for machines side by
   side, then the software projects, then the website services with renders and prices.
+- **Round 5 pages.** Manufacturing asks "How many do you need?" (`MAKEQ`, tabs). Start-ups
+  is `STARTUP`: founders' problems, what we already do for free, payment options, the road
+  from idea to unit. Software is one explorer (`SOFTX`, tabs per kind of software, each
+  with its projects). Pricing (`C.price.how`, `guideh`) explains how a price comes about
+  before showing the indicative prices. Service pages close on `proofBlock()`: three
+  stories and the remaining photos in one section. A page opener with `side:true` puts
+  its picture on the right half so the text never covers it.
 - **No loading screen.** The page is never held back on a first visit any more; the
   renders are fetched in the background so the next page has them cached.
 - **Videos** play only while a third of them is on screen. With reduced motion nothing

@@ -230,8 +230,8 @@ home:{
         en:"Video call or at your site, with the engineer who would do the work. We ask questions, you get an honest verdict \u2014 including \u2018we are not the right party for this\u2019."}},
     {ic:"cad", h:{nl:"Een voorstel van \u00e9\u00e9n pagina",en:"A one-page proposal"},
      dw:"rule", note:{nl:"Render — het voorstel van \u00e9\u00e9n pagina",en:"Render — the one-page proposal"},
-     p:{nl:"Een pdf met scope, vaste prijs, planning en wat er niet in zit. Geen bijlage van dertig pagina\u2019s. U beslist op die ene pagina.",
-        en:"A PDF with scope, fixed price, timeline and what is not included. No thirty-page appendix. You decide on that one page."}},
+     p:{nl:"Een pdf met scope, prijs, planning en wat er niet in zit. Geen bijlage van dertig pagina\u2019s. U beslist op die ene pagina.",
+        en:"A PDF with scope, price, timeline and what is not included. No thirty-page appendix. You decide on that one page."}},
     {ic:"dfm", h:{nl:"We bouwen, u ziet het groeien",en:"We build, you watch it grow"},
      dw:"printer", note:{nl:"Foto — het werk in uitvoering",en:"Photo — the work in progress"},
      p:{nl:"Korte updates met foto\u2019s van wat er af is. Meerwerk gaat alleen door als u er vooraf ja op zegt.",
@@ -415,10 +415,23 @@ start:{
   ],
 },
 price:{
-  lede:{nl:"Een vaste prijs voor elk project — van website tot prototype.",
-        en:"A fixed price for every project — from a website to a prototype."},
-  intro:{nl:"De meeste bureaus zeggen “neem contact op” en laten u raden. Wij zetten de prijs erbij. Kies hieronder een vakgebied en u ziet wat een project kost — websites als vast pakket, industrieel werk vanaf een vast onderzoek. Past uw vraag nergens in, dan krijgt u na één gesprek een vaste prijs op één pagina.",
-         en:"Most agencies say “get in touch” and leave you guessing. We put the price on the page. Pick a field below and you see what a project costs — websites as a fixed package, industrial work starting from a fixed study. If your question fits nowhere, you get a fixed price on one page after one conversation."},
+  lede:{nl:"Eerst het probleem, dan de prijs.",
+        en:"First the problem, then the price."},
+  intro:{nl:"We prijzen geen diensten, we prijzen een oplossing voor uw probleem. Daarom komt de prijs pas nadat we het probleem begrijpen: een gratis half uur, dan \u00e9\u00e9n pagina met wat we doen, wat het kost en wanneer het klaar is. Die prijs ligt vast voor die scope. Wilt u vooraf weten in welke orde van grootte u moet denken? Hieronder staan richtprijzen van werk dat we eerder deden.",
+         en:"We don't price services, we price a solution to your problem. So the price comes once we understand the problem: a free half hour, then one page with what we'll do, what it costs and when it's done. That price is fixed for that scope. Want to know the order of magnitude first? Below are indicative prices from work we've done before."},
+  howh:{nl:"Zo komt een prijs tot stand",en:"How a price comes about"},
+  how:[
+    {h:{nl:"U vertelt het probleem",en:"You tell us the problem"},p:{nl:"Twee zinnen is genoeg. Geen briefing, geen aanbesteding.",en:"Two sentences is enough. No briefing, no tender."}},
+    {h:{nl:"Een half uur, gratis",en:"Half an hour, free"},p:{nl:"Met de engineer die het zou bouwen. Soms is het eerlijke antwoord dat u ons niet nodig heeft.",en:"With the engineer who'd build it. Sometimes the honest answer is that you don't need us."}},
+    {h:{nl:"E\u00e9n pagina, \u00e9\u00e9n prijs",en:"One page, one price"},p:{nl:"Wat we doen, wat niet, wat het kost en wanneer. Die prijs staat vast.",en:"What we'll do, what we won't, what it costs and when. That price holds."}},
+    {h:{nl:"Alleen meer met uw ja",en:"More only with your yes"},p:{nl:"Verandert het probleem onderweg, dan hoort u het eerst \u2014 voordat er iets op de rekening komt.",en:"If the problem changes along the way, you hear it first \u2014 before anything goes on the bill."}}
+  ],
+  guideh:{nl:"Richtprijzen",en:"Indicative prices"},
+  guided:{nl:"Voorbeelden van eerder werk, per vakgebied, met prijs en doorlooptijd. Uw probleem staat er niet letterlijk tussen, maar u ziet de orde van grootte.",
+          en:"Examples from earlier work, by field, with price and lead time. Your problem won't be on the list word for word, but you'll see the order of magnitude."},
+  starth:{nl:"Een start-up?",en:"A start-up?"},
+  startp:{nl:"Voor oprichters kan een deel van de betaling achter een werkend exemplaar, later, of als belang. Het eerste advies is gratis.",
+          en:"For founders, part of the payment can wait for a working unit, come later, or become a stake. The first advice is free."},
   /* The October 2026 launch prices are the list prices: website packages and the two
      discountable add-ons are shown at pct below the calculated rate. Set pct to 0 and
      the full calculated prices come back. No badge, no strikethrough: these are simply
@@ -1090,7 +1103,7 @@ var HOME2 = {
     steps:[
       {h:{nl:"U stuurt twee zinnen",en:"You send two sentences"},p:{nl:"Via het formulier of per mail. Wat er moet gebeuren en wanneer.",en:"Through the form or by email. What needs to happen, and by when."}},
       {h:{nl:"Een half uur, gratis",en:"Half an hour, free"},p:{nl:"Videocall of bij u, met de engineer die het werk zou doen.",en:"Video call or at your site, with the engineer who would do the work."}},
-      {h:{nl:"Een voorstel van \u00e9\u00e9n pagina",en:"A one-page proposal"},p:{nl:"Scope, vaste prijs, planning en wat er niet in zit.",en:"Scope, fixed price, timeline and what is not included."}},
+      {h:{nl:"Een voorstel van \u00e9\u00e9n pagina",en:"A one-page proposal"},p:{nl:"Scope, prijs, planning en wat er niet in zit.",en:"Scope, price, timeline and what is not included."}},
       {h:{nl:"We bouwen, u ziet het groeien",en:"We build, you watch it grow"},p:{nl:"Korte updates met foto\u2019s. Meerwerk alleen na uw ja.",en:"Short updates with photos. Extra work only after your yes."}}
     ]
   },
@@ -1146,6 +1159,7 @@ var CASES = [
      {nl:"Twee vliegtuigen op één gedeelde route, als stap richting koppelen in de lucht.",en:"Two planes on one shared route, as a step towards docking in the air."}],
    status:{nl:"Werkend in simulatie",en:"Working in simulation"},
    tags:{nl:["Vluchtbesturing","Simulatie","Camerageleiding"],en:["Flight control","Simulation","Camera guidance"]},
+   code:["https://github.com/aeroteameindhoven/SITL_Test_Codes","https://github.com/aeroteameindhoven/plane_ws"],
    alt:{nl:"Tekening: een vliegtuig volgt een rijdende auto en daalt erop",en:"Drawing: a plane follows a moving car and descends onto it"}},
 
   {id:"robotcell", featured:true, cat:"automation", area:["proto","web"],
@@ -1220,6 +1234,16 @@ var CASES = [
    code:GH+"MUSIC_algo",
    alt:{nl:"Testopstelling met een antennereeks, ontvanger en laptops",en:"Test setup with an antenna array, receiver and laptops"}},
 
+  /* CHECK: for whom ("baitech" in the code) and what came out of it */
+  {id:"farmvision", cat:"data", area:["proto","web","start"], media:{vid:"farm-vision", r:1.333},
+   meta:{nl:"Machine vision \u00b7 Jetson Nano \u00b7 2025",en:"Machine vision \u00b7 Jetson Nano \u00b7 2025"},
+   t:{nl:"Een camera die zeugen en biggen in de stal herkent",en:"A camera that spots sows and piglets in the barn"},
+   one:{nl:"Objectherkenning en segmentatie op nachtbeelden uit een kraamhok, getest op een kleine Jetson Nano-computer met een gewone IP-camera \u2014 de basis voor tellen en waarschuwen.",
+        en:"Object detection and segmentation on night footage from a farrowing pen, tested on a small Jetson Nano computer with an ordinary IP camera \u2014 the groundwork for counting and alerts."},
+   tags:{nl:["Machine vision","AI","Edge-computer"],en:["Machine vision","AI","Edge computing"]},
+   code:"https://github.com/capedpapi/Testing-For-Nano",
+   alt:{nl:"Nachtbeeld van een kraamhok met een zeug en biggen",en:"Night view of a farrowing pen with a sow and piglets"}},
+
   {id:"rul", cat:"data", area:["proto","web"], media:{img:"rul-prediction", r:2.008}, fit:"contain",
    meta:{nl:"Machine learning",en:"Machine learning"},
    t:{nl:"Weten wanneer een motor het gaat begeven",en:"Knowing when a motor will fail"},
@@ -1272,7 +1296,7 @@ var CASECATS = [
   {id:"all",        n:{nl:"Alles",en:"All"}},
   {id:"drones",     n:{nl:"Drones & robots",en:"Drones & robots"}},
   {id:"automation", n:{nl:"Automatisering",en:"Automation"}},
-  {id:"data",       n:{nl:"Data & signalen",en:"Data & signals"}},
+  {id:"data",       n:{nl:"Data, AI & vision",en:"Data, AI & vision"}},
   {id:"web",        n:{nl:"Web",en:"Web"}},
   {id:"making",     n:{nl:"Maken",en:"Making"}}
 ];
@@ -1281,7 +1305,7 @@ var CASEUI = {
   status:{nl:"Stand",en:"Where it stands"}, read:{nl:"Lees het verhaal",en:"Read the story"},
   teaserlbl:{nl:"Uit ons werk",en:"From our work"},
   teaserh:{nl:"Zo ziet dat er in de praktijk uit",en:"What that looks like in practice"},
-  code:{nl:"Code op GitHub",en:"Code on GitHub"}, site:{nl:"Bekijk de site",en:"Visit the site"},
+  code:{nl:"Code op GitHub",en:"Code on GitHub"}, code2:{nl:"Meer code",en:"More code"}, site:{nl:"Bekijk de site",en:"Visit the site"},
   gridlbl:{nl:"Alle projecten",en:"All projects"},
   gridh:{nl:"En nog meer: automatisering, data, web en maken",en:"And more: automation, data, web and making"},
   filter:{nl:"Filter projecten",en:"Filter projects"}
@@ -1293,12 +1317,12 @@ var CASEUI = {
    domains grid further down keep their renders: easier to compare offers on.
    ============================================================ */
 var PHOOK = {
-  proto:{media:{vid:"drone-rooftop"},
+  proto:{media:{img:"team-with-drones", r:1.5}, side:true,
     h:{nl:"Van schets tot een werkend exemplaar dat u aan iemand kunt laten zien.",en:"From a sketch to a working unit you can put in front of someone."},
-    cap:{nl:"Drone op het dak, klaar voor een test",en:"Drone on the roof, ready for a test"},
+    cap:{nl:"Zelfgebouwde drones, klaar voor een testdag",en:"Drones we built, ready for a test day"},
     p:{nl:"Een apparaat, een meetopstelling, een machine die iets moet doen wat nog niets doet. U beschrijft wat het moet kunnen; wij maken er mechanica, elektronica, firmware en besturing van — in één team.",
        en:"A device, a measurement setup, a machine that has to do something nothing does yet. You describe what it must do; we turn it into mechanics, electronics, firmware and control — in one team."}},
-  make:{media:{img:"workshop-sign", r:1.5},
+  make:{media:{img:"workshop-sign", r:1.5}, side:true,
     h:{nl:"Onderdelen en kleine series, dichtbij gemaakt en gecontroleerd.",en:"Parts and short runs, made nearby and checked."},
     cap:{nl:"Werkplaatsbord · gemaakt door Anastasiia",en:"Workshop sign · made by Anastasiia"},
     p:{nl:"Van één onderdeel tot een kleine serie. Wij maken uw ontwerp maakbaar, kiezen het proces en de werkplaats, en controleren wat er terugkomt.",
@@ -1392,7 +1416,7 @@ var OFFERS = {
    so both sides are the same craft.
    ============================================================ */
 var SOFT = {
-  hook:{media:{img:"formation-gcs", r:1.6},
+  hook:{media:{img:"formation-gcs", r:1.6}, side:true,
     h:{nl:"Software voor bedrijven — en voor machines.",en:"Software for businesses — and for machines."},
     p:{nl:"Webshops en afsprakensystemen die echte bedrijven draaiende houden. Grondstations, digital twins en datamodellen die echte hardware aansturen. Geschreven door mechatronici, die weten wat er aan de andere kant van de kabel zit.",
        en:"Online shops and booking systems that keep real businesses running. Ground stations, digital twins and data models that run real hardware. Written by mechatronics engineers, who know what's on the other end of the cable."},
@@ -1419,4 +1443,153 @@ var SOFT = {
   webh:{nl:"Websites, in detail",en:"Websites, in detail"},
   howh:{nl:"Zullen we hier een half uur over praten?",en:"Shall we spend half an hour on this?"},
   howp:{nl:"Website, software of iets dat er nog tussenin zit — we beginnen bij wat het moet opleveren.",en:"Website, software or something in between — we start from what it has to achieve."}
+};
+
+
+/* ============================================================ MANUFACTURING: HOW MANY DO YOU NEED?
+   One question, four answers. Each tab is a service; the render stays (easier to compare
+   offers on), the text says what we do at that quantity and what comes back.
+   ============================================================ */
+var MAKEQ = {
+  lbl:{nl:"Wat we doen",en:"What we do"},
+  h:{nl:"Hoeveel heeft u er nodig?",en:"How many do you need?"},
+  d:{nl:"Het aantal bepaalt bijna alles: het proces, de werkplaats, de prijs per stuk. Kies er een.",
+     en:"The quantity decides almost everything: the process, the workshop, the price per part. Pick one."},
+  items:[
+    {n:{nl:"Eén stuk",en:"Just one"}, img:"make-design",
+     h:{nl:"Een probleem, en wij leveren het onderdeel",en:"A problem, and we deliver the part"},
+     p:{nl:"Een schets of een foto is genoeg. Wij tekenen het uit, kiezen of het geprint, gelaserd of gefreesd wordt, en leveren het af — vaak dezelfde week.",
+        en:"A sketch or a photo is enough. We draw it up, decide whether it's printed, laser-cut or milled, and deliver it — often the same week."},
+     l:[{nl:"Ontwerp in CAD",en:"Design in CAD"},{nl:"3D-print, laser of frees",en:"3D print, laser or mill"},{nl:"Passen en bijstellen",en:"Fit and adjust"}],
+     p2:"workshop"},
+    {n:{nl:"10 tot 100",en:"10 to 100"}, img:"make-series",
+     h:{nl:"Een kleine serie, dichtbij gemaakt",en:"A short run, made nearby"},
+     p:{nl:"Onder een paar honderd stuks is in de regio laten maken meestal sneller én goedkoper. Wij kiezen de werkplaats, laten eerst een proefstuk maken en controleren wat er terugkomt.",
+        en:"Below a few hundred units, making it in the region is usually faster and cheaper. We pick the workshop, have a sample made first and check what comes back."},
+     l:[{nl:"Maakbaar maken",en:"Design for manufacture"},{nl:"Proefstuk eerst",en:"Sample first"},{nl:"Kwaliteitscontrole",en:"Quality check"}],
+     p2:"filament"},
+    {n:{nl:"Honderden of meer",en:"Hundreds or more"}, img:"svc-sourcing",
+     h:{nl:"Serieproductie, in Nederland of verder weg",en:"Series production, in the Netherlands or further away"},
+     p:{nl:"We maken het ontwerp klaar voor serie, zoeken en beoordelen leveranciers, laten monsters maken en bewaken de kwaliteit. U blijft zelf importeur — dat scheelt u niets in kwaliteit en ons allebei juridische rompslomp.",
+        en:"We get the design ready for series, find and vet suppliers, run samples and watch the quality. You stay importer of record — it costs you nothing in quality and saves us both legal trouble."},
+     l:[{nl:"Leveranciers zoeken",en:"Find suppliers"},{nl:"Monsters en goedkeuring",en:"Samples and sign-off"},{nl:"Kwaliteit bewaken",en:"Watch the quality"}],
+     p2:""},
+    {n:{nl:"Gemonteerd en bedraad",en:"Assembled and wired"}, img:"wiring-machine-cabinets", photo:true,
+     h:{nl:"Niet alleen onderdelen: een werkend geheel",en:"Not just parts: a working whole"},
+     p:{nl:"Als de onderdelen terug zijn, zetten we ze in elkaar — tot en met de besturingskast, bedraad, gelabeld en nagemeten.",
+        en:"When the parts are back we put them together — down to the control cabinet, wired, labelled and checked."},
+     l:[{nl:"Montage",en:"Assembly"},{nl:"Kasten bedraden",en:"Cabinet wiring"},{nl:"Testen voor oplevering",en:"Test before handover"}],
+     p2:"cabinets"}
+  ],
+  seen:{nl:"Gedaan bij",en:"Done in"},
+  ask:{nl:"Weet u het aantal nog niet? Dat zoeken we samen uit.",en:"Not sure about the number yet? We'll work it out together."}
+};
+
+/* The proof block at the end of a service page: three stories, then more photos, in one. */
+var PROOF = {
+  lbl:{nl:"Uit ons werk",en:"From our work"},
+  h:{proto:{nl:"Zo ziet dat er in de praktijk uit",en:"What that looks like in practice"},
+     make:{nl:"Gemaakt, gemonteerd en bedraad",en:"Made, assembled and wired"},
+     start:{nl:"Met oprichters en teams die iets nieuws bouwen",en:"With founders and teams building something new"}},
+  more:{nl:"Meer uit de werkplaats",en:"More from the workshop"}
+};
+
+/* ============================================================ START-UPS
+   Problem first: what a founder runs into, and what we do about each. Then what we
+   already do for free, how payment can fit a start-up, and the road from idea to unit.
+   ============================================================ */
+var STARTUP = {
+  hook:{media:{img:"robot-with-webcam", r:0.8}, side:true,
+    h:{nl:"Een idee voor een product? Weet of het werkt voordat u uw spaargeld uitgeeft.",en:"An idea for a product? Know it works before you spend your savings."},
+    p:{nl:"Wij zijn het technische team dat u nog niet heeft: eerlijk advies, een werkend exemplaar om te laten zien, en onderdelen als niemand u kleine aantallen wil verkopen.",
+       en:"We're the technical team you don't have yet: honest advice, a working unit to show, and parts when nobody will sell you small quantities."},
+    cap:{nl:"Een eigen prototype: camerarobot",en:"One of our prototypes: a camera robot"}},
+  pains:{
+    lbl:{nl:"Klinkt dit bekend?",en:"Sound familiar?"},
+    h:{nl:"Waar oprichters op vastlopen — en wat wij doen",en:"Where founders get stuck — and what we do"},
+    items:[
+      {q:{nl:"“Ik weet niet of het technisch kan.”",en:"“I don't know if it's technically possible.”"},
+       a:{nl:"Een eerlijk antwoord voordat u geld uitgeeft. Het eerste gesprek is gratis, en soms is het antwoord nee.",en:"An honest answer before you spend money. The first conversation is free, and sometimes the answer is no."}},
+      {q:{nl:"“Bureaus vragen €50.000 voordat ze het snappen.”",en:"“Agencies quote €50,000 before they understand it.”"},
+       a:{nl:"We beginnen klein: eerst het ene riskante onderdeel bewijzen, pas daarna de rest.",en:"We start small: prove the one risky part first, everything else after."}},
+      {q:{nl:"“Ik heb iets nodig om te laten zien.”",en:"“I need something to show.”"},
+       a:{nl:"Een werkend exemplaar voor klanten en investeerders. Een prototype verandert het gesprek.",en:"A working unit for customers and investors. A prototype changes the conversation."}},
+      {q:{nl:"“Niemand verkoopt me vijf stuks.”",en:"“Nobody will sell me five of anything.”"},
+       a:{nl:"Wij regelen onderdelen in kleine aantallen — dat doen we al voor droneteams.",en:"We source parts in small quantities — we already do that for drone teams."}},
+      {q:{nl:"“Wat kost het echt om te maken?”",en:"“What will it really cost to make?”"},
+       a:{nl:"Ontwikkeling, onderdelen, certificering, productie: het hele plaatje, niet alleen het leuke deel.",en:"Development, parts, certification, production: the whole picture, not just the fun part."}},
+      {q:{nl:"“Ik heb geen technische medeoprichter.”",en:"“I don't have a technical co-founder.”"},
+       a:{nl:"Wij zijn dat team tot u er zelf een heeft — en dragen dan alles over, zonder iets achter te houden.",en:"We're that team until you have your own — then we hand everything over and keep nothing back."}}
+    ]},
+  /* CHECK: say who, if they agree to be named */
+  done:{
+    lbl:{nl:"Wat we al doen",en:"What we already do"},
+    h:{nl:"Niet alles staat op een factuur",en:"Not everything goes on an invoice"},
+    items:[
+      {img:"drone-response-sprind", r:1.333,
+       h:{nl:"Gratis eerste advies",en:"Free first advice"},
+       p:{nl:"We hebben oprichters kosteloos geadviseerd: of hun idee technisch klopt, wat het gaat kosten en waar ze moeten beginnen.",
+          en:"We've advised founders free of charge: whether their idea holds up technically, what it will cost and where to start."}},
+      {img:"drone-builds-soldering-bench", r:0.8,
+       h:{nl:"Onderdelen voor drones",en:"Drone parts support"},
+       p:{nl:"We hebben droneteams geholpen met onderdelen: uitzoeken wat werkt, het vinden en leveren, ook in kleine aantallen.",
+          en:"We've helped drone teams with parts: working out what fits, finding it and supplying it, in small quantities too."}},
+      {vid:"field-test-team", r:1.778,
+       h:{nl:"Ter plekke, als het spannend wordt",en:"On site when it counts"},
+       p:{nl:"Met Dremian in de hangar op Drone Response 2.0, tussen de vluchten door.",
+          en:"With Dremian in the hangar at Drone Response 2.0, between runs."}}
+    ]},
+  pay:{
+    lbl:{nl:"Betalen zoals het past",en:"Paying in a way that fits"},
+    h:{nl:"Een start-up heeft zelden het budget van een bestaand bedrijf",en:"A start-up rarely has the budget of an established company"},
+    p:{nl:"Vier dingen die we daarom anders doen — alle vier op papier voordat we beginnen.",en:"Four things we do differently because of that — all four on paper before we begin."}},
+  road:{
+    lbl:{nl:"Van idee tot exemplaar",en:"From idea to unit"},
+    h:{nl:"Vier stappen, en u kunt na elke stap stoppen",en:"Four steps, and you can stop after any of them"}},
+  cta:{nl:"Plan een gratis half uur",en:"Book a free half hour"}
+};
+
+/* ============================================================ SOFTWARE: WHAT WE WRITE
+   One explorer instead of separate blocks: pick a kind of software, see what it does for
+   you and the projects where we wrote it. `p` are ids from CASES.
+   ============================================================ */
+var SOFTX = {
+  lbl:{nl:"Wat we schrijven",en:"What we write"},
+  h:{nl:"Elke soort software die tussen een idee en een werkend systeem zit",en:"Every kind of software between an idea and a working system"},
+  d:{nl:"Kies een soort. U ziet wat het voor u doet, en waar we het al gebouwd hebben.",en:"Pick one. You'll see what it does for you, and where we've already built it."},
+  items:[
+    {id:"web", n:{nl:"Web & webshops",en:"Web & shops"},
+     h:{nl:"Websites en webshops die het werk doen",en:"Websites and shops that do the work"},
+     d:{nl:"Betalen, boeken, accounts, en bestellingen die vanzelf bij de juiste persoon landen. Gebouwd volgens WCAG 2.1 AA, zodat iedereen ze kan gebruiken.",
+        en:"Payments, booking, accounts, and orders that land with the right person on their own. Built to WCAG 2.1 AA, so everyone can use them."},
+     k:"HTML · JavaScript · Python · Stripe", p:["hutko","maks"]},
+    {id:"plc", n:{nl:"PLC & bediening",en:"PLC & operator screens"},
+     h:{nl:"Machines en lijnen die doen wat ze moeten",en:"Machines and lines that do what they should"},
+     d:{nl:"Besturingsprogramma’s, touchscreens voor de operator en de veiligheid eromheen — van tekening tot een draaiende lijn.",
+        en:"Control programs, operator touchscreens and the safety around them — from drawing to a running line."},
+     k:"Siemens TIA Portal · S7 · HMI · OPC UA", p:["milk","minifactory","cabinets"]},
+    {id:"ai", n:{nl:"AI & machine learning",en:"AI & machine learning"},
+     h:{nl:"Modellen die iets voorspellen waar u op kunt handelen",en:"Models that predict something you can act on"},
+     d:{nl:"Wanneer een motor stukgaat, wat een sensor ziet, wat er uit een e-mail moet — AI die in uw proces zit in plaats van in een browsertab.",
+        en:"When a motor will fail, what a sensor sees, what needs pulling out of an email — AI that sits inside your process instead of in a browser tab."},
+     k:"Python · scikit-learn · PyTorch", p:["rul","farmvision"]},
+    {id:"vision", n:{nl:"Vision",en:"Vision"},
+     h:{nl:"Camera’s die begrijpen wat ze zien",en:"Cameras that understand what they see"},
+     d:{nl:"Herkennen, tellen, uitlijnen: van biggen in een stal tot een vliegtuig dat op een marker landt — ook op kleine computers naast de camera.",
+        en:"Detecting, counting, lining up: from piglets in a barn to a plane landing on a marker — on small computers right next to the camera, too."},
+     k:"OpenCV · detectie & segmentatie · Jetson", p:["farmvision","aero"]},
+    {id:"data", n:{nl:"Data & pipelines",en:"Data & pipelines"},
+     h:{nl:"Ruwe data die vanzelf een antwoord wordt",en:"Raw data that turns into an answer on its own"},
+     d:{nl:"Metingen opschonen en filteren, signalen verwerken, en koppelingen die gegevens van het ene systeem naar het andere brengen zonder dat iemand overtypt.",
+        en:"Cleaning and filtering measurements, processing signals, and links that move data from one system to the next without anyone retyping it."},
+     k:"Python · NumPy/SciPy · API’s & webhooks", p:["sdr","visco","hutko"]},
+    {id:"control", n:{nl:"Besturing & simulatie",en:"Control & simulation"},
+     h:{nl:"Eerst in de simulator, dan in het echt",en:"In the simulator first, then for real"},
+     d:{nl:"Regelaars, digital twins en grondstations: we bewijzen het in software voordat het echte ding risico loopt.",
+        en:"Controllers, digital twins and ground stations: we prove it in software before the real thing is at risk."},
+     k:"ROS 2 · MAVLink · ArduPilot · NX MCD", p:["dremian","aero","robotcell"]}
+  ],
+  seen:{nl:"Waar we het bouwden",en:"Where we built it"},
+  more:{nl:"Website nodig? Er zijn vaste pakketten.",en:"Need a website? There are set packages."},
+  morel:{nl:"Bekijk de richtprijzen",en:"See the indicative prices"}
 };
