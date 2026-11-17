@@ -254,7 +254,14 @@ function fillMedia(m, alt, eager){
       +(hasMedia("video/"+m.vid+".webp")?' poster="'+mediaSrc("video/"+m.vid+".webp")+'"':'')
       +' src="'+mediaSrc("video/"+m.vid+".mp4")+'"'+(alt?' aria-label="'+esc(alt)+'"':' aria-hidden="true"')+'></video>';
   if(m.art) return caseArt(m.art, alt);
+  if(m.shot && typeof WORKSHOTS!=="undefined" && WORKSHOTS[m.shot])
+    return '<img class="isshot" src="'+WORKSHOTS[m.shot]+'" alt="'+esc(alt||"")+'" loading="lazy">';
   return "";
+}
+function caseById(id){ for(var i=0;i<CASES.length;i++) if(CASES[i].id===id) return CASES[i]; return null; }
+function caseLinks(c){
+  return (c.site?'<a class="caselink" href="'+c.site+'" target="_blank" rel="noopener">'+esc(t(CASEUI.site))+' &nearr;</a>':'')
+        +(c.code?'<a class="caselink caselink--code" href="'+c.code+'" target="_blank" rel="noopener">'+esc(t(CASEUI.code))+' &nearr;</a>':'');
 }
 /* The opener of Engineering, Manufacturing and Work: the page's promise over real work. */
 function pageHook(id, title, lbl, firstId){
@@ -316,6 +323,7 @@ function caseRows(){
   var h='<div class="cases">';
   for(var i=0;i<CASES.length;i++){
     var c=CASES[i], tags=t(c.tags)||[];
+    if(!c.featured) continue;
     h+='<article class="case rv" id="case-'+c.id+'">'
       +'<div class="casemedia'+(c.media.art?' casemedia--art':'')+'">'+caseMedia(c,false)
       +(c.more?'<div class="casemore">'+fillMedia(c.more,"",false)+'</div>':'')+'</div>'
@@ -326,10 +334,57 @@ function caseRows(){
     for(var j=0;j<c.did.length;j++) h+='<li>'+esc(t(c.did[j]))+'</li>';
     h+='</ul><div class="casefoot"><span class="casestatus">'+esc(t(c.status))+'</span>';
     for(var k=0;k<tags.length;k++) h+='<span class="casetag">'+esc(tags[k])+'</span>';
-    h+='</div></div></article>';
+    h+='</div>'+(c.site||c.code?'<div class="caselinks">'+caseLinks(c)+'</div>':'')+'</div></article>';
   }
   return h+'</div>';
 }
+/* The project grid: every project that is not a full story, as a card, with filter
+   chips. Cards carry id="case-<id>" so a teaser elsewhere can link straight to one. */
+var gridN=0;
+function projectGrid(list, withFilter){
+  if(!list.length) return "";
+  var gid="pg"+(++gridN), h="";
+  if(withFilter){
+    var have={};
+    for(var x=0;x<list.length;x++) have[list[x].cat]=1;
+    h+='<div class="pfilter rv" role="group" aria-label="'+esc(t(CASEUI.filter))+'" data-grid="'+gid+'">';
+    for(var f=0;f<CASECATS.length;f++){
+      var cc=CASECATS[f]; if(cc.id!=="all" && !have[cc.id]) continue;
+      h+='<button type="button" class="pchip" data-cat="'+cc.id+'" aria-pressed="'+(cc.id==="all")+'">'+esc(t(cc.n))+'</button>';
+    }
+    h+='</div>';
+  }
+  h+='<div class="pgrid" id="'+gid+'">';
+  for(var i=0;i<list.length;i++){
+    var c=list[i], tags=t(c.tags)||[];
+    h+='<article class="pcard rv" id="case-'+c.id+'" data-cat="'+c.cat+'">'
+      +'<div class="pmedia'+(c.media.art?' pmedia--art':'')+(c.fit==="contain"?' is-contain':'')+(c.media.shot?' is-shot':'')+'">'+caseMedia(c,false)+'</div>'
+      +'<div class="pbody"><span class="casemeta">'+esc(t(c.meta))+'</span>'
+      +'<h3>'+esc(t(c.t))+'</h3><p>'+esc(t(c.one))+'</p>'
+      +'<div class="casefoot">';
+    for(var k=0;k<tags.length;k++) h+='<span class="casetag">'+esc(tags[k])+'</span>';
+    h+='</div>'+(c.site||c.code?'<div class="caselinks">'+caseLinks(c)+'</div>':'')+'</div></article>';
+  }
+  return h+'</div>';
+}
+/* Engineering: problems a client recognises, what we do about each, and where we did
+   it. A sticky heading on the left; the rows reveal one after another on the right. */
+function offersBlock(){
+  var O=OFFERS, h='<section class="band band--grey" id="offers"><div class="wrap"><div class="offers">'
+    +'<div class="offershead"><div class="lbl">'+esc(t(O.lbl))+'</div>'
+    +'<h2>'+esc(t(O.h))+'</h2><p class="deck">'+esc(t(O.d))+'</p>'
+    +go("contact",' class="btn" data-umami-event="cta-contact" data-umami-event-from="offers"')+esc(t(O.cta))+'</a></div>'
+    +'<ol class="offerlist">';
+  for(var i=0;i<O.items.length;i++){
+    var it=O.items[i], pc=it.p && caseById(it.p);
+    h+='<li class="offer rv" style="--d:'+((i%3)*90)+'ms"><span class="sn">'+no(i+1)+'</span><div>'
+      +'<h3>'+esc(t(it.q))+'</h3><p>'+esc(t(it.a))+'</p>'
+      +(pc?'<a class="offerseen" href="'+href("work")+'#case-'+pc.id+'">'+esc(t(O.seen))+': '+esc(t(pc.t))+' &rarr;</a>':'')
+      +'</div></li>';
+  }
+  return h+'</ol></div></div></section>';
+}
+
 /* Three stories as cards, for a service page; each links to its place on Work. */
 function caseTeasers(area, n){
   var list=[];
@@ -342,7 +397,7 @@ function caseTeasers(area, n){
   for(var j=0;j<list.length;j++){
     var c=list[j];
     h+='<a class="teaser rv" href="'+href("work")+'#case-'+c.id+'">'
-      +'<span class="teasermedia'+(c.media.art?' teasermedia--art':'')+'">'+caseMedia(c,false)+'</span>'
+      +'<span class="teasermedia'+(c.media.art?' teasermedia--art':'')+(c.fit==="contain"?' is-contain':'')+'">'+caseMedia(c,false)+'</span>'
       +'<span class="teaserbody"><span class="casemeta">'+esc(t(c.meta))+'</span>'
       +'<span class="teaserh">'+esc(t(c.t))+'</span>'
       +'<span class="needgo">'+esc(t(CASEUI.read))+' &rarr;</span></span></a>';
@@ -614,42 +669,55 @@ function renderAbout(){
 
 /* IT & Web reads as an exhibition of what has been delivered */
 function renderWeb(){
-  var d=C.web,h="";
+  var d=C.web, S=SOFT, h="";
+  /* 1. the promise, over our own ground-station software */
+  var P={media:S.hook.media, p:S.hook.p, cap:S.hook.cap};
+  PHOOK.web=P;
+  h+=pageHook("web", t(S.hook.h), "Software, web & AI", "sides");
 
-  /* 1. opener */
-  h+='<section class="opener">'+watermark("web")+'<div class="narrow"><div class="lbl">Software, web &amp; AI</div>'
-    +'<h1>'+esc(t(d.lede))+'</h1></div></section>';
+  /* 2. two sides of the same craft */
+  h+='<section class="band" id="sides"><div class="wrap">'
+    +'<div class="lbl rv">'+esc(t(S.sides.lbl))+'</div>'
+    +'<h2 class="rv" style="margin-top:16px;max-width:20ch">'+esc(t(S.sides.h))+'</h2>'
+    +'<div class="sides">';
+  for(var i=0;i<S.sides.items.length;i++){
+    var sd=S.sides.items[i];
+    h+='<div class="side rv"><h3>'+esc(t(sd.h))+'</h3><ul>';
+    for(var j=0;j<sd.l.length;j++) h+='<li>'+esc(t(sd.l[j]))+'</li>';
+    h+='</ul><div class="sideproof">';
+    for(var k=0;k<sd.p.length;k++){ var pc=caseById(sd.p[k]); if(pc) h+='<a href="'+href("work")+'#case-'+pc.id+'">'+esc(t(pc.t))+' &rarr;</a>'; }
+    h+='</div></div>';
+  }
+  h+='</div></div></section>';
 
-  /* 2. what we do — the main content, first on the page */
-  h+='<section class="band band--tight band--bub">'+bandMark("layout","pcb")+'<div class="narrow">'
-    +'<p class="deck" style="max-width:none">'+esc(t(d.intro))+'</p></div>'
-    +'<div class="wrap"><h2 class="rv">'+(lang==="nl"?"Wat we doen":"What we do")+'</h2>'
+  /* 3. the software we wrote, web and machines together */
+  var soft=CASES.filter(function(c){ return c.area.indexOf("web")>=0; });
+  h+='<section class="band band--grey"><div class="wrap">'
+    +'<div class="lbl rv">'+esc(t(S.projlbl))+'</div>'
+    +'<h2 class="rv" style="margin-top:16px;max-width:20ch">'+esc(t(S.projh))+'</h2>'
+    +projectGrid(soft,true)+'</div></section>';
+
+  /* 4. websites in detail: the services with their renders, and the prices */
+  h+='<section class="band band--tight band--bub">'+bandMark("layout","pcb")+'<div class="wrap">'
+    +'<h2 class="rv">'+esc(t(S.webh))+'</h2>'
+    +'<p class="deck rv" style="margin-top:18px">'+esc(t(d.intro))+'</p>'
     +altRows([
       {key:"part-layout", t:d.svcs[0].n, p:d.svcs[0].d, shot:C.home.shots.web},
-      {key:"web-2", t:d.svcs[1].n, p:d.svcs[1].d, shot:{nl:"Foto \u2014 afrekenen en boeken op een telefoon",
-                                                        en:"Photo \u2014 checkout and booking on a phone"}},
-      {key:"web-1", t:d.svcs[4].n, p:d.svcs[4].d, shot:{nl:"Foto \u2014 een werkstroom die zichzelf uitvoert",
-                                                        en:"Photo \u2014 a workflow that runs itself"}}
+      {key:"web-2", t:d.svcs[1].n, p:d.svcs[1].d, shot:{nl:"Foto — afrekenen en boeken op een telefoon",en:"Photo — checkout and booking on a phone"}},
+      {key:"web-1", t:d.svcs[4].n, p:d.svcs[4].d, shot:{nl:"Foto — een werkstroom die zichzelf uitvoert",en:"Photo — a workflow that runs itself"}}
     ], true)
-    +'<div class="rv" style="margin-top:64px">'
-    +svcList([d.svcs[2],d.svcs[3],d.svcs[5]], t(d.moreh), null, true)+'</div>'
+    +'<div class="rv" style="margin-top:64px">'+svcList([d.svcs[2],d.svcs[3],d.svcs[5]], t(d.moreh), null, true)+'</div>'
     +pricePreview()+'</div></section>';
 
-  /* 3. the exhibition of delivered work, ending on the ask */
-  h+=flowSplit(3,"var(--paper)","var(--paper2)",5);
-  h+='<section class="band band--grey"><div class="wrap center">'
-    +'<div class="lbl lbl--q rv">'+esc(t(d.exhibh))+'</div>'
-    +'<p class="deck rv" style="margin-top:16px">'+esc(t(d.exhibd))+'</p></div>'
-    +'<div class="wrap">'+folioCards()+'</div></section>';
-
-  /* 4. how a project runs, then experience last */
-  h+='<section class="band band--bub">'+bandMark("pcb","layout")+'<div class="wrap">'
-    +'<h2>'+(lang==="nl"?"Hoe het gaat":"How it goes")+'</h2>'
-    +stepList(d.steps,null)
-    +'</div></section>';
-  h+='<section class="band band--tight"><div class="wrap">'
-    +ctaBlock(lang==="nl"?"Zullen we hier een half uur over praten?":"Shall we spend half an hour on this?")
-    +'</div></section>';
+  /* 5. how it goes, next to the ask */
+  h+='<section class="band band--grey"><div class="wrap"><div class="howask rv">'
+    +'<div class="howask-cta"><div class="lbl">'+(lang==="nl"?"Hoe het gaat":"How it goes")+'</div>'
+    +'<h2>'+esc(t(S.howh))+'</h2><p class="deck">'+esc(t(S.howp))+'</p>'
+    +'<div class="twolinks">'+go("contact",' class="btn" data-umami-event="cta-contact" data-umami-event-from="web"')+esc(t(C.home.ctab))+'</a></div></div>'
+    +'<ol class="howlist">';
+  for(var st=0;st<d.steps.length;st++)
+    h+='<li><span class="sn">'+no(st+1)+'</span><div><h3>'+esc(t(d.steps[st].h))+'</h3><p>'+esc(t(d.steps[st].p))+'</p></div></li>';
+  h+='</ol></div></div></section>';
   return h;
 }
 
@@ -726,11 +794,9 @@ function renderArea(id){
 function renderAreaStory(id,a,d){
   var h=pageHook(id, t(PHOOK[id].h||d.lede), aName(a), "how");
   h+=photoSteps(id);
-  var SVCICONS={proto:["img:svc-feasibility","img:svc-build","img:svc-capacity"],
-                make:["img:make-design","img:make-series","img:svc-sourcing"]};
-  h+='<section class="band band--grey">'+bandMark(WMARKS[id][0],WMARKS[id][1])+'<div class="wrap">'
-    +svcList(d.svcs, id==="make" ? t(d.aroundh) : (lang==="nl"?"Wat u bij ons afneemt":"What you can hire us for"),
-             SVCICONS[id], id==="make")+'</div></section>';
+  if(id==="proto") h+=offersBlock();
+  else h+='<section class="band band--grey">'+bandMark(WMARKS[id][0],WMARKS[id][1])+'<div class="wrap">'
+    +svcList(d.svcs, t(d.aroundh), ["img:make-design","img:make-series","img:svc-sourcing"], true)+'</div></section>';
   if(id==="proto"){
     h+=caseTeasers("proto",3);
     h+='<section class="band band--grey"><div class="wrap">'+discGrid()+'</div></section>';
@@ -740,6 +806,7 @@ function renderAreaStory(id,a,d){
     for(var i=0;i<MAKEWHY.length;i++)
       h+='<div><h3>'+esc(t(MAKEWHY[i].n))+'</h3><p>'+esc(t(MAKEWHY[i].p))+'</p></div>';
     h+='</div></div></section>';
+    h+=caseTeasers("make",3);
     h+=galleryBlock(id);
   }
   h+='<section class="band band--tight"><div class="wrap">'
@@ -854,6 +921,14 @@ function renderWork(){
     +'<p class="deck rv" style="margin-top:18px">'+esc(t(W.d))+'</p>'
     +caseRows()+'</div></section>';
 
+  /* 1b. every other project, filterable */
+  var rest=CASES.filter(function(c){ return !c.featured; });
+  if(rest.length)
+    h+='<section class="band band--grey"><div class="wrap">'
+      +'<div class="lbl rv">'+esc(t(CASEUI.gridlbl))+'</div>'
+      +'<h2 class="rv" style="margin-top:16px;max-width:20ch">'+esc(t(CASEUI.gridh))+'</h2>'
+      +projectGrid(rest,true)+'</div></section>';
+
   /* 2. the thermal clip, which can only be told without its client */
   var f=W.feat, fv=videoTag(f.vid,f.r,t(f.alt),"featvid");
   if(fv){
@@ -865,31 +940,6 @@ function renderWork(){
     for(var q=0;q<f.dl.length;q++) h+='<dt>'+esc(t(f.dl[q].k))+'</dt><dd>'+esc(t(f.dl[q].v))+'</dd>';
     h+='</dl></div></div></div></section>';
   }
-
-  /* 3. software second: the websites that are live */
-  h+='<section class="band">'+bandMark("layout","pcb")+'<div class="wrap">'
-    +'<div class="lbl rv">'+esc(t(W.webl))+'</div>'
-    +'<h2 class="rv" style="margin-top:16px;margin-bottom:56px">'+esc(t(C.folio.h))+'</h2>';
-  for(var i=0;i<d.cases.length;i++){
-    var c=d.cases[i];
-    h+='<div class="rv" style="margin-bottom:56px">'
-      +'<div class="lbl lbl--q">'+esc(t(c.tag))+' · '+esc(c.url)+'</div>'
-      +'<h3 class="casename">'+esc(c.t)+'</h3>'
-      +'<div class="folio" style="margin-top:24px">'
-      +((typeof WORKSHOTS!=="undefined" && WORKSHOTS[c.img])
-         ? '<a class="shotlink" href="https://'+c.url+'" target="_blank" rel="noopener">'
-           +'<img src="'+WORKSHOTS[c.img]+'" alt="'+esc(c.t+(lang==="nl"?" — de site die wij bouwden"
-                                                                      :" — the site we built"))+'"></a>'
-         : ph(lang==="nl"?"Screenshot van de site":"Screenshot of the site","16:10"))
-      +'<div><p>'+esc(t(c.p))+'</p><dl style="display:grid;grid-template-columns:auto 1fr;gap:9px 22px;margin:0;font-size:15px">';
-    for(var k=0;k<c.dl.length;k++)
-      h+='<dt style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);padding-top:4px">'
-        +esc(t(c.dl[k].k))+'</dt><dd style="margin:0">'+esc(t(c.dl[k].v))+'</dd>';
-    h+='</dl><p style="margin-top:20px"><a class="livelink" data-umami-event="portfolio-visit" data-umami-event-site="'+esc(c.url)+'" href="https://'+c.url
-      +'" target="_blank" rel="noopener">'+(lang==="nl"?"Bekijk de site":"Visit the site")
-      +' &nearr;</a></p></div></div></div>';
-  }
-  h+='</div></section>';
 
   /* 4. everything else from the workshop */
   var gitems=galleryItems();
@@ -1389,6 +1439,15 @@ function onScroll(){
 }
 window.addEventListener("scroll",onScroll,{passive:true});
 document.addEventListener("click",function(e){
+  var pc=e.target.closest(".pchip");
+  if(pc){
+    var bar=pc.parentNode, grid=document.getElementById(bar.getAttribute("data-grid")), cat=pc.getAttribute("data-cat");
+    var chips=bar.querySelectorAll(".pchip");
+    for(var ci=0;ci<chips.length;ci++) chips[ci].setAttribute("aria-pressed", String(chips[ci]===pc));
+    if(grid){ var cards=grid.querySelectorAll(".pcard");
+      for(var cj=0;cj<cards.length;cj++){ cards[cj].hidden = !(cat==="all" || cards[cj].getAttribute("data-cat")===cat); cards[cj].classList.add("in"); } }
+    return;
+  }
   var gb=e.target.closest("[data-gal]");
   if(gb){
     var g=document.getElementById(gb.getAttribute("data-gal"));

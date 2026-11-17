@@ -936,8 +936,8 @@ var GALLERY = {
      c:{nl:"Zelfgebouwde drones, klaar voor een testdag",en:"Drone builds, ready for a test day"},
      alt:{nl:"Twee engineers met twee drones die ze zelf gebouwd hebben",en:"Two engineers holding a pair of drones they built"}},
     {vid:"compliant-mechanism", r:0.8, a:["proto","start"],
-     c:{nl:"Test van een flexibel mechanisme",en:"Compliant mechanism test"},
-     alt:{nl:"Hand die een 3D-geprint flexibel mechanisme bedient",en:"Hand operating a 3D-printed compliant mechanism"}},
+     c:{nl:"Filamentwisselaar voor een 3D-printer \u00b7 v3",en:"Filament swap mechanism for a 3D printer \u00b7 v3"},
+     alt:{nl:"Hand die het 3D-geprinte wisselmechanisme bedient",en:"Hand operating the 3D-printed filament swap mechanism"}},
     {img:"robot-with-webcam", r:0.8, a:["proto"],
      c:{nl:"Eigen project · camerarobot",en:"Side project · camera robot"},
      alt:{nl:"Kleine robot met webcam, servo en 3D-geprinte dinosauruskop",en:"Small robot with a webcam, a servo and a 3D-printed dinosaur head"}},
@@ -966,8 +966,8 @@ var GALLERY = {
      c:{nl:"Plaatbewerking",en:"Sheet-metal production"},
      alt:{nl:"Engineer bij een plaatbewerkingsmachine",en:"Engineer at a sheet-metal machine"}},
     {img:"sheet-metal-tooling", r:0.8, a:["make"],
-     c:{nl:"Gereedschap voor plaatwerk",en:"Sheet-metal tooling"},
-     alt:{nl:"Plaatdeel ingespannen in een zetbank",en:"Sheet-metal part clamped in a bending tool"}},
+     c:{nl:"Uitlijnmal op de metaalschaar, zelf ontworpen",en:"Alignment jig on the metal cutter, our design"},
+     alt:{nl:"Zelfontworpen uitlijnmal op een metaalschaar",en:"Our alignment jig mounted on a metal cutter"}},
     {img:"frc-6920-robot-and-frame", r:1.5, a:["proto"],
      c:{nl:"FRC-team 6920 · Hawaii Regional",en:"FRC team 6920 · Hawaii Regional"},
      alt:{nl:"Wedstrijdrobot voor een houten testframe",en:"Competition robot in front of a wooden test frame"}},
@@ -1105,17 +1105,38 @@ var HOME2 = {
 
 
 /* ============================================================ CASES
-   Projects told as short stories for people who are not engineers: the situation, what
-   we did in plain words, and where it stands. Shown in full on the Work page; the
-   Engineering page shows three of them as teasers that link here (#case-<id>).
-     media.img / media.vid  -> a photo or clip from assets/; media.art -> a drawing in app.js
-     more                   -> a second, smaller photo
-   Facts marked CHECK were written from photos and code, not from you — confirm them.
+   Every project, told for people who are not engineers.
+     featured:true  -> a full story on Work (situation, what we did, where it stands)
+     otherwise      -> a card in the project grid on Work (title, one line, tags)
+     cat            -> the filter chip it falls under (CASECATS)
+     area           -> which pages show it: proto, make, web, start
+     media          -> img / vid from assets/, shot (a site screenshot), or art (a drawing)
+     code / site    -> links shown as "Code on GitHub" / "Visit the site"
+   Lines marked CHECK were written from photos, code and the portfolio — confirm them.
    ============================================================ */
+var GH = "https://github.com/anastasiia-gif/";
 var CASES = [
-  {id:"aero", media:{art:"planecar"}, area:["proto"],
+  {id:"dremian", featured:true, cat:"drones", area:["proto","web","start"],
+   media:{vid:"field-test-team", r:1.778}, more:{img:"formation-gcs", r:1.6},
+   meta:{nl:"Dremian · afstudeerstage · Drone Response 2.0",en:"Dremian · graduation internship · Drone Response 2.0"},
+   t:{nl:"Vier drones die vliegen als één — met een net ertussen",en:"Four drones that fly as one — with a net between them"},
+   one:{nl:"Een grondstation dat een groep drones als één vorm laat vliegen, eerst in simulatie en dan echt.",en:"A ground station that flies a group of drones as one shape, first in simulation, then for real."},
+   sit:{nl:"Dremian bouwt een systeem dat drones vangt met een net dat tussen een paar drones hangt. Zo’n groep met de hand besturen is vrijwel onmogelijk.",
+        en:"Dremian is building a rig that catches drones with a net strung between several drones. Flying a group like that by hand is close to impossible."},
+   did:[
+     {nl:"Een grondstation dat de hele groep als één vorm vliegt: u stuurt één punt, de formatie volgt.",en:"A ground station that flies the whole group as one shape: you steer one point, the formation follows."},
+     {nl:"Elke missie eerst in een simulator geoefend; daarna vliegt dezelfde software de echte drones, zonder aanpassingen.",en:"Every mission rehearsed in a simulator first; then the same software flies the real drones, unchanged."},
+     {nl:"Veiligheid ingebouwd: een opstijgvolgorde waarbij het net nooit in de propellers komt, een virtueel hek en botsingscontrole tussen elk paar.",en:"Safety built in: a take-off sequence that keeps the net out of the propellers, a virtual fence, and collision checks between every pair."},
+     {nl:"Ter plekke met het team van Dremian op Drone Response 2.0.",en:"On site with Dremian's team at Drone Response 2.0."}],
+   status:{nl:"Getest · volgende stap: volledige autonomie",en:"Tested · next step: full autonomy"},
+   tags:{nl:["Drones","Grondstation-software","Simulatie"],en:["Drones","Ground-station software","Simulation"]},
+   code:GH+"Dremian",
+   alt:{nl:"Twee engineers die drones klaarmaken in een open veld",en:"Two engineers preparing drones in an open field"}},
+
+  {id:"aero", featured:true, cat:"drones", area:["proto"], media:{art:"planecar"},
    meta:{nl:"Met Aero Team Eindhoven · studententeam · 2025",en:"With Aero Team Eindhoven · student team · 2025"},
    t:{nl:"Een vliegtuig leren landen op een rijdende auto",en:"Teaching a plane to land on a moving car"},
+   one:{nl:"Een onbemand vliegtuig dat een rijdend voertuig volgt en erop landt, bewezen in simulatie.",en:"An unmanned plane that follows a moving vehicle and lands on it, proven in simulation."},
    sit:{nl:"Aero Team Eindhoven wilde een onbemand vliegtuig dat een rijdend voertuig vindt, volgt en er precies op neerkomt — en later twee vliegtuigen die samen één route vliegen.",
         en:"Aero Team Eindhoven wanted an unmanned plane that finds a moving vehicle, follows it and comes down on it precisely — and, later, two planes flying one route together."},
    did:[
@@ -1127,24 +1148,28 @@ var CASES = [
    tags:{nl:["Vluchtbesturing","Simulatie","Camerageleiding"],en:["Flight control","Simulation","Camera guidance"]},
    alt:{nl:"Tekening: een vliegtuig volgt een rijdende auto en daalt erop",en:"Drawing: a plane follows a moving car and descends onto it"}},
 
-  /* CHECK: what exactly you did for Dremian */
-  {id:"dr2", media:{img:"drone-response-build-table", r:1.5}, more:{img:"drone-response-sprind", r:1.333}, area:["proto","start"],
-   meta:{nl:"Met Dremian · Drone Response 2.0",en:"With Dremian · Drone Response 2.0"},
-   t:{nl:"Dremian met zijn drones naar Drone Response 2.0",en:"Getting Dremian's drones into Drone Response 2.0"},
-   sit:{nl:"Dremian deed mee aan Drone Response 2.0 en had ter plekke extra engineers nodig.",
-        en:"Dremian entered Drone Response 2.0 and needed extra engineers on site."},
+  {id:"robotcell", featured:true, cat:"automation", area:["proto","web"],
+   media:{vid:"robot-cell-twin", r:1.333},
+   meta:{nl:"Digital twin · Fontys",en:"Digital twin · Fontys"},
+   t:{nl:"Een robotcel die op een echte PLC draait, voordat hij bestaat",en:"A robot cell that runs on a real PLC before it exists"},
+   one:{nl:"Een virtuele robotcel, live bestuurd door het echte machineprogramma.",en:"A virtual robot cell, driven live by the real machine program."},
+   sit:{nl:"Een pick-and-place-robot met transportband moest geprogrammeerd en bewezen worden voordat er hardware stond.",
+        en:"A pick-and-place robot with a conveyor had to be programmed and proven before any hardware was there."},
    did:[
-     {nl:"Aangesloten bij hun team, ter plekke in de hangar.",en:"Joined their team on site, in the hangar."},
-     {nl:"Gewerkt aan de drones, de elektronica en de software van het grondstation, tussen de vluchten door.",en:"Worked on the drones, the electronics and the ground-station software between runs."},
-     {nl:"Alles werkend gehouden onder wedstrijddruk.",en:"Kept everything working under competition pressure."}],
-   status:{nl:"Wedstrijd · met Dremian",en:"Competition · with Dremian"},
-   tags:{nl:["Drones","Elektronica","Grondstation"],en:["Drones","Electronics","Ground station"]},
-   alt:{nl:"Twee engineers van Liminex aan hun werktafel tijdens Drone Response 2.0",en:"Two Liminex engineers at their build table during Drone Response 2.0"}},
+     {nl:"Een 3D-model van de cel dat beweegt zoals het echte ding.",en:"A 3D model of the cell that moves like the real thing."},
+     {nl:"Live bestuurd door het echte industriële besturingsprogramma, via het netwerk.",en:"Driven live by the real industrial control program, over the network."},
+     {nl:"Drie volledige cycli, stoppen en hervatten, en een storing — allemaal op video bewezen voordat er één bout vastzit.",en:"Three full cycles, a stop and resume, and a fault — all proven on video before a single bolt is turned."}],
+   status:{nl:"Bewezen in simulatie",en:"Proven in simulation"},
+   tags:{nl:["Digital twin","PLC","Automatisering"],en:["Digital twin","PLC","Automation"]},
+   code:GH+"RoboticArm_DigitalTwin",
+   alt:{nl:"Robotarm in een virtuele cel die een product van de band pakt",en:"Robot arm in a virtual cell picking a product off the conveyor"}},
 
   /* CHECK: your part in the robot */
-  {id:"frc", media:{vid:"frc-6920-robot", r:1.768}, more:{img:"frc-6920-robot-and-frame", r:1.5}, area:["proto"],
+  {id:"frc", featured:true, cat:"drones", area:["proto"],
+   media:{vid:"frc-6920-robot", r:1.768}, more:{img:"frc-6920-robot-and-frame", r:1.5},
    meta:{nl:"FRC-team 6920 · Hawaii Regional",en:"FRC team 6920 · Hawaii Regional"},
    t:{nl:"Een wedstrijdrobot voor de Hawaii Regional",en:"A competition robot for the Hawaii Regional"},
+   one:{nl:"Een wedstrijdrobot gebouwd, bedraad en getest voor de FIRST Robotics Competition.",en:"A competition robot built, wired and tested for the FIRST Robotics Competition."},
    sit:{nl:"In de FIRST Robotics Competition bouwt elk team in een paar weken een robot die rijdt, verzamelt en scoort — tegen andere teams, op tijd.",
         en:"In the FIRST Robotics Competition every team has a few weeks to build a robot that drives, collects and scores — against other teams, against the clock."},
    did:[
@@ -1156,9 +1181,11 @@ var CASES = [
    alt:{nl:"Wedstrijdrobot die rijdt en ringen oppakt",en:"Competition robot driving and collecting rings"}},
 
   /* CHECK: for whom, and what was included */
-  {id:"cabinets", media:{img:"wiring-machine-cabinets", r:0.8}, more:{img:"control-box-wiring", r:0.8}, area:["make","proto"],
+  {id:"cabinets", featured:true, cat:"automation", area:["make","proto"],
+   media:{img:"wiring-machine-cabinets", r:0.8}, more:{img:"control-box-wiring", r:0.8},
    meta:{nl:"Industrie · 2025",en:"Industry · 2025"},
    t:{nl:"Besturingskasten voor machines, kast voor kast bedraad",en:"Machine control cabinets, wired rack by rack"},
+   one:{nl:"Besturingskasten bedraad volgens tekening, gelabeld en nagemeten.",en:"Control cabinets wired to the drawings, labelled and checked."},
    sit:{nl:"Een rij machines had besturingskasten nodig die volgens tekening bedraad en gecontroleerd werden.",
         en:"A row of machines needed their control cabinets wired to the drawings and checked."},
    did:[
@@ -1167,13 +1194,97 @@ var CASES = [
      {nl:"Signalen nagemeten voor de oplevering.",en:"Checked the signals before handover."}],
    status:{nl:"Opgeleverd · 2025",en:"Delivered · 2025"},
    tags:{nl:["Besturing","Bedrading","Montage"],en:["Control","Wiring","Assembly"]},
-   alt:{nl:"Engineer die bedrading aanlegt tussen twee rijen besturingskasten",en:"Engineer wiring between two rows of machine control cabinets"}}
+   alt:{nl:"Engineer die bedrading aanlegt tussen twee rijen besturingskasten",en:"Engineer wiring between two rows of machine control cabinets"}},
+
+  {id:"milk", cat:"automation", area:["proto","web"], media:{vid:"milk-line-hmi", r:1.778},
+   meta:{nl:"PLC & HMI · Fontys",en:"PLC & HMI · Fontys"},
+   t:{nl:"Een melkproductielijn: besturing en bedienscherm",en:"A milk production line: control program and operator screen"},
+   one:{nl:"Het PLC-programma voor een melkproductieproces, plus het touchscreen waarmee een operator het bedient.",en:"The PLC program for a milk production process, plus the touchscreen an operator runs it from."},
+   tags:{nl:["PLC","HMI","Procesbesturing"],en:["PLC","HMI","Process control"]},
+   code:GH+"MilkProductionPLC",
+   alt:{nl:"Bedieningspaneel en touchscreen van de melkproductielijn",en:"Control panel and touchscreen of the milk production line"}},
+
+  {id:"minifactory", cat:"automation", area:["proto","make"], media:{img:"mini-factory", r:1.776},
+   meta:{nl:"Veiligheid · Bosch Rexroth-lijn",en:"Safety · Bosch Rexroth line"},
+   t:{nl:"Een veiligheidsupgrade voor een minifabriek",en:"A safety upgrade for a mini factory"},
+   one:{nl:"Risicoanalyse, eisen en veiligheidsaanpassingen aan een Bosch Rexroth-trainingslijn — mechanisch, elektrisch en in de code.",en:"Risk assessment, requirements and safety upgrades on a Bosch Rexroth training line — mechanical, electrical and in the code."},
+   tags:{nl:["Machineveiligheid","PLC","Mechanica"],en:["Machine safety","PLC","Mechanics"]},
+   code:GH+"MiniFactoryTCF",
+   alt:{nl:"De Bosch Rexroth-minifabriek op een werkbank",en:"The Bosch Rexroth mini factory on a workbench"}},
+
+  {id:"sdr", cat:"data", area:["proto","web"], media:{img:"kraken-sdr-setup", r:1.333},
+   meta:{nl:"Signaalverwerking",en:"Signal processing"},
+   t:{nl:"Uitvinden waar een radiosignaal vandaan komt",en:"Finding where a radio signal comes from"},
+   one:{nl:"Een antennereeks en software die richting en afstand van een zender schatten.",en:"An antenna array and software that estimate the direction and distance of a transmitter."},
+   tags:{nl:["Signaalverwerking","Radio","Python"],en:["Signal processing","Radio","Python"]},
+   code:GH+"MUSIC_algo",
+   alt:{nl:"Testopstelling met een antennereeks, ontvanger en laptops",en:"Test setup with an antenna array, receiver and laptops"}},
+
+  {id:"rul", cat:"data", area:["proto","web"], media:{img:"rul-prediction", r:2.008}, fit:"contain",
+   meta:{nl:"Machine learning",en:"Machine learning"},
+   t:{nl:"Weten wanneer een motor het gaat begeven",en:"Knowing when a motor will fail"},
+   one:{nl:"Een model dat uit sensordata de resterende levensduur voorspelt en 250 onderdelen vóór het einde waarschuwt — voor drie machinetypes, met de kostenafweging erbij.",en:"A model that predicts a motor's remaining life from sensor data and warns 250 parts before the end — for three machine types, with the cost case."},
+   tags:{nl:["Machine learning","Onderhoud","Data"],en:["Machine learning","Maintenance","Data"]},
+   code:GH+"Predictive-Maintenance",
+   alt:{nl:"Grafiek: voorspelde tegen werkelijke resterende levensduur van een motor",en:"Chart: predicted against true remaining life of a motor"}},
+
+  {id:"visco", cat:"data", area:["proto"], media:{img:"viscoelastic-response", r:1.667}, fit:"contain",
+   meta:{nl:"Testdata",en:"Test data"},
+   t:{nl:"Rommelige materiaaltestdata leesbaar maken",en:"Making sense of messy material-test data"},
+   one:{nl:"Kracht- en rekmetingen uit een materiaaltest opgeschoond, gefilterd en gefit.",en:"Force and strain measurements from a materials test, cleaned, filtered and fitted."},
+   tags:{nl:["Data","Testen","Python"],en:["Data","Testing","Python"]},
+   code:GH+"Viscoelasticity",
+   alt:{nl:"Grafiek: gemeten kracht en rek in de tijd",en:"Chart: measured force and strain over time"}},
+
+  {id:"hutko", cat:"web", area:["web"], media:{shot:"hutko"},
+   meta:{nl:"Webshop · hutko-kitchen.com",en:"Online shop · hutko-kitchen.com"},
+   t:{nl:"Een webshop die een diepvriesbedrijf draaiende houdt",en:"An online shop that runs a frozen-food business"},
+   one:{nl:"Winkel, accounts, Stripe-betalingen, bezorgzones per postcode, en bestellingen die direct op het Trello-bord van de keuken landen.",en:"Storefront, accounts, Stripe payments, delivery zones by postcode, and orders that land straight on the kitchen's Trello board."},
+   tags:{nl:["Webshop","Betalingen","Automatisering"],en:["Online shop","Payments","Automation"]},
+   site:"https://hutko-kitchen.com",
+   alt:{nl:"De webshop van HUTKO Kitchen",en:"The HUTKO Kitchen online shop"}},
+
+  {id:"maks", cat:"web", area:["web"], media:{shot:"maks"},
+   meta:{nl:"Website met afspraken · maksavtoservice.com",en:"Website with booking · maksavtoservice.com"},
+   t:{nl:"Een site die de eigenaar in Excel bijwerkt",en:"A site the owner edits in Excel"},
+   one:{nl:"Een tweetalige site die uit één spreadsheet wordt gemaakt; afspraken komen direct in Google Agenda, met bevestigingsmail.",en:"A bilingual site generated from one spreadsheet; bookings go straight into Google Calendar, with confirmation emails."},
+   tags:{nl:["Website","Afspraken","Automatisering"],en:["Website","Booking","Automation"]},
+   site:"https://maksavtoservice.com", code:GH+"maksavtoservice",
+   alt:{nl:"De website van МАКС Автосервіс",en:"The МАКС Автосервіс website"}},
+
+  {id:"workshop", cat:"making", area:["make"], media:{img:"workshop-flat-patterns", r:1.306}, more:{img:"workshop-sign", r:1.5},
+   meta:{nl:"CAD & plaatwerk",en:"CAD & sheet metal"},
+   t:{nl:"Mallen, bevestigingen en het werkplaatsbord, in staal gesneden",en:"Jigs, fixtures and the workshop sign, cut in steel"},
+   one:{nl:"Ontworpen in CAD, uitgeslagen en gelaserd uit 3 mm staal: een uitlijnmal, wielbevestigingen, gereedschapshouders en het bord.",en:"Designed in CAD, unfolded and laser-cut from 3 mm steel: an alignment jig, carriage wheels, tool holders and the sign."},
+   tags:{nl:["CAD","Plaatwerk","Lasersnijden"],en:["CAD","Sheet metal","Laser cutting"]},
+   code:GH+"Workshop",
+   alt:{nl:"Uitslagen van de plaatdelen, klaar om te lasersnijden",en:"Flat patterns of the sheet-metal parts, ready for laser cutting"}},
+
+  {id:"filament", cat:"making", area:["make","proto"], media:{vid:"compliant-mechanism", r:0.8}, more:{img:"filament-swap-model", r:1},
+   meta:{nl:"Mechanisme · 3D-print",en:"Mechanism · 3D print"},
+   t:{nl:"Een filamentwisselaar voor een 3D-printer",en:"A filament swap mechanism for a 3D printer"},
+   one:{nl:"Een zwenkarm met instelbare veerspanning en ingebouwde slangen, doorontwikkeld tot versie 3.",en:"A swing arm with adjustable spring tension and routed tubes, iterated to version 3."},
+   tags:{nl:["Mechanisme","3D-printen"],en:["Mechanism design","3D printing"]},
+   code:GH+"FillamentSwap",
+   alt:{nl:"Hand die het 3D-geprinte wisselmechanisme bedient",en:"Hand operating the 3D-printed swap mechanism"}}
+];
+var CASECATS = [
+  {id:"all",        n:{nl:"Alles",en:"All"}},
+  {id:"drones",     n:{nl:"Drones & robots",en:"Drones & robots"}},
+  {id:"automation", n:{nl:"Automatisering",en:"Automation"}},
+  {id:"data",       n:{nl:"Data & signalen",en:"Data & signals"}},
+  {id:"web",        n:{nl:"Web",en:"Web"}},
+  {id:"making",     n:{nl:"Maken",en:"Making"}}
 ];
 var CASEUI = {
   sit:{nl:"De situatie",en:"The situation"}, did:{nl:"Wat we deden",en:"What we did"},
   status:{nl:"Stand",en:"Where it stands"}, read:{nl:"Lees het verhaal",en:"Read the story"},
   teaserlbl:{nl:"Uit ons werk",en:"From our work"},
-  teaserh:{nl:"Zo ziet dat er in de praktijk uit",en:"What that looks like in practice"}
+  teaserh:{nl:"Zo ziet dat er in de praktijk uit",en:"What that looks like in practice"},
+  code:{nl:"Code op GitHub",en:"Code on GitHub"}, site:{nl:"Bekijk de site",en:"Visit the site"},
+  gridlbl:{nl:"Alle projecten",en:"All projects"},
+  gridh:{nl:"En nog meer: automatisering, data, web en maken",en:"And more: automation, data, web and making"},
+  filter:{nl:"Filter projecten",en:"Filter projects"}
 };
 
 /* ============================================================ PAGE OPENERS AND STEPS
@@ -1238,3 +1349,74 @@ var MAKEWHY = [
    p:{nl:"Onderdelen zijn vaak niet het eind. We monteren, bedraden en testen ook — zie de besturingskasten hierboven.",
       en:"Parts are often not the end. We also assemble, wire and test — see the control cabinets above."}}
 ];
+
+
+/* ============================================================ ENGINEERING: WHAT WE TAKE OFF YOUR HANDS
+   Problem first, then what we do about it, then where we did it (a project id from
+   CASES). Replaces the old "what you can hire us for" rows on the Engineering page.
+   ============================================================ */
+var OFFERS = {
+  lbl:{nl:"Wat we van u overnemen",en:"What we take off your hands"},
+  h:{nl:"U heeft een probleem. Wij hebben er al eens zo een opgelost.",en:"You have a problem. We've solved one like it before."},
+  d:{nl:"Herkent u er een? Dan weet u waar we beginnen.",en:"Recognise one? Then you know where we'd start."},
+  seen:{nl:"Gedaan bij",en:"Done in"},
+  items:[
+    {q:{nl:"“Werkt dit eigenlijk wel?”",en:"“Will this even work?”"},
+     a:{nl:"Een haalbaarheidssprint van twee weken: kan het, wat kost het, waar zit het risico — en een eerlijk advies.",en:"A two-week feasibility sprint: can it be done, what will it cost, where's the risk — and an honest recommendation."}, p:"aero"},
+    {q:{nl:"“We moeten iets kunnen laten zien.”",en:"“We need something we can show.”"},
+     a:{nl:"Een werkend prototype: behuizing, elektronica en firmware in één exemplaar dat u aan een klant of investeerder geeft.",en:"A working prototype: enclosure, electronics and firmware in one unit you can hand to a customer or investor."}, p:"filament"},
+    {q:{nl:"“Het werkt, maar niet soepel.”",en:"“It works, but not smoothly.”"},
+     a:{nl:"Regeltechniek: we meten hoe uw systeem echt reageert en stellen de regeling af tot het rustig doet wat het moet.",en:"Control engineering: we measure how your system really responds and tune the loop until it calmly does what it should."}, p:"aero"},
+    {q:{nl:"“We kunnen de echte machine niet riskeren.”",en:"“We can't risk the real machine.”"},
+     a:{nl:"Een digital twin: uw machineprogramma draait eerst op een virtuele machine, inclusief storingen.",en:"A digital twin: your machine program runs on a virtual machine first, faults included."}, p:"robotcell"},
+    {q:{nl:"“Meerdere drones of robots moeten samenwerken.”",en:"“Several drones or robots have to work together.”"},
+     a:{nl:"Grondstations en besturing voor een hele vloot, eerst in simulatie, dan echt.",en:"Ground stations and control for a whole fleet, first in simulation, then for real."}, p:"dremian"},
+    {q:{nl:"“Onze lijn heeft een nieuwe besturing nodig.”",en:"“Our line needs new controls.”"},
+     a:{nl:"PLC-programma’s, bedienschermen en bedrade kasten — van tekening tot oplevering.",en:"PLC programs, operator screens and wired cabinets — from drawing to handover."}, p:"milk"},
+    {q:{nl:"“Is onze machine wel veilig genoeg?”",en:"“Is our machine safe enough?”"},
+     a:{nl:"Risicoanalyse, eisen en de aanpassingen zelf: mechanisch, elektrisch en in de code.",en:"Risk assessment, requirements and the changes themselves: mechanical, electrical and in the code."}, p:"minifactory"},
+    {q:{nl:"“Machines gaan stuk op het slechtste moment.”",en:"“Machines fail at the worst moment.”"},
+     a:{nl:"Voorspellend onderhoud: uit uw sensordata halen wanneer een onderdeel op is, en wat vervangen kost.",en:"Predictive maintenance: working out from your sensor data when a part is worn out, and what replacing it costs."}, p:"rul"},
+    {q:{nl:"“We moeten iets meten, maar hoe?”",en:"“We need to measure something, but how?”"},
+     a:{nl:"Meetopstellingen en de software erachter: van ruwe signalen tot een antwoord waar u op kunt bouwen.",en:"Test setups and the software behind them: from raw signals to an answer you can build on."}, p:"sdr"},
+    {q:{nl:"“We hebben een mal, beugel of houder nodig.”",en:"“We need a jig, bracket or holder.”"},
+     a:{nl:"Ontworpen in CAD en gelaserd of geprint — vaak dezelfde week in gebruik.",en:"Designed in CAD and laser-cut or printed — often in use the same week."}, p:"workshop"},
+    {q:{nl:"“We hebben een engineer nodig, geen vacature.”",en:"“We need an engineer, not a vacancy.”"},
+     a:{nl:"Engineering-capaciteit: vaste uren per maand, of losse dagen als u alleen even handen nodig heeft.",en:"Engineering capacity: fixed hours a month, or single days when you just need hands."}, p:""}
+  ],
+  cta:{nl:"Staat het uwe er niet bij? Vertel het ons.",en:"Yours not on the list? Tell us."}
+};
+
+/* ============================================================ SOFTWARE, WEB & AI
+   Software for businesses and software for machines: we are mechatronics engineers,
+   so both sides are the same craft.
+   ============================================================ */
+var SOFT = {
+  hook:{media:{img:"formation-gcs", r:1.6},
+    h:{nl:"Software voor bedrijven — en voor machines.",en:"Software for businesses — and for machines."},
+    p:{nl:"Webshops en afsprakensystemen die echte bedrijven draaiende houden. Grondstations, digital twins en datamodellen die echte hardware aansturen. Geschreven door mechatronici, die weten wat er aan de andere kant van de kabel zit.",
+       en:"Online shops and booking systems that keep real businesses running. Ground stations, digital twins and data models that run real hardware. Written by mechatronics engineers, who know what's on the other end of the cable."},
+    cap:{nl:"Ons grondstation voor een dronevloot",en:"Our ground station for a drone fleet"}},
+  sides:{
+    lbl:{nl:"Twee kanten, één team",en:"Two sides, one team"},
+    h:{nl:"Software is bij ons nooit los van de rest.",en:"For us, software is never separate from the rest."},
+    items:[
+      {h:{nl:"Voor uw bedrijf",en:"For your business"},
+       l:[{nl:"Websites en webshops die klanten opleveren",en:"Websites and online shops that bring in customers"},
+          {nl:"Boeken, betalen en klantaccounts",en:"Booking, payments and customer accounts"},
+          {nl:"AI en automatisering in uw eigen proces",en:"AI and automation inside your own process"},
+          {nl:"Gevonden worden (SEO) en onderhoud",en:"Being found (SEO), and care"}],
+       p:["hutko","maks"]},
+      {h:{nl:"Voor uw machines",en:"For your machines"},
+       l:[{nl:"Besturingsprogramma’s en bedienschermen (PLC/HMI)",en:"Control programs and operator screens (PLC/HMI)"},
+          {nl:"Digital twins en simulatie",en:"Digital twins and simulation"},
+          {nl:"Grondstations voor drones en robots",en:"Ground stations for drones and robots"},
+          {nl:"Data, voorspellend onderhoud en signaalverwerking",en:"Data, predictive maintenance and signal processing"}],
+       p:["dremian","robotcell","rul"]}
+    ]},
+  projlbl:{nl:"Software die we schreven",en:"Software we wrote"},
+  projh:{nl:"Van webshop tot dronevloot",en:"From online shop to drone fleet"},
+  webh:{nl:"Websites, in detail",en:"Websites, in detail"},
+  howh:{nl:"Zullen we hier een half uur over praten?",en:"Shall we spend half an hour on this?"},
+  howp:{nl:"Website, software of iets dat er nog tussenin zit — we beginnen bij wat het moet opleveren.",en:"Website, software or something in between — we start from what it has to achieve."}
+};

@@ -90,6 +90,14 @@ differently: they are **not** preloaded behind the loading screen, every photo i
   we did, where it stands); the Engineering page shows three as cards that link to
   `/work/#case-<id>`. A project without photos can use a drawing (`media:{art:"…"}`,
   drawn in `caseArt()` in `app.js`).
+- **Projects** live in `CASES` (`content.js`). `featured:true` gives a full story on Work;
+  the rest become cards in the filterable grid (categories in `CASECATS`). `area` decides
+  where else a project shows: `web` puts it on the Software page grid, `proto`/`make` in the
+  teasers on Engineering/Manufacturing. `code` and `site` add the GitHub and live-site links.
+- **Engineering's offers** (`OFFERS`) are problems a client would say out loud, what we do
+  about each, and a link to the project where we did it.
+- **Software, web & AI** (`SOFT`) shows software for businesses and for machines side by
+  side, then the software projects, then the website services with renders and prices.
 - **No loading screen.** The page is never held back on a first visit any more; the
   renders are fetched in the background so the next page has them cached.
 - **Videos** play only while a third of them is on screen. With reduced motion nothing
