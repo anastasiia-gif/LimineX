@@ -190,12 +190,19 @@ function renderSrc(key){
    Files in assets/photos/ and assets/video/, listed by build.py in MEDIA. Nothing here is
    preloaded: images are lazy and videos load their poster only, then play while they are
    on screen (setupVideos). See GALLERY in content.js. */
+/* Every photo or clip a page has drawn so far. Reset in render(). A later block on the same
+   page (a strip, a teaser) skips what is already there, so nothing shows twice. */
+var PAGEUSED={};
+function markUsed(n){ PAGEUSED[n]=1; PAGEUSED[n.replace(/-wide$/,"")]=1; PAGEUSED[n.replace(/-wide$/,"")+"-wide"]=1; } /* a crop counts as the same photo */
+function isUsed(n){ return !!PAGEUSED[n]; }
+function focusStyle(name){ var f=(typeof FOCUS!=="undefined") && FOCUS[name]; return f?' style="object-position:'+f+'"':''; }
 function hasMedia(path){ return typeof MEDIA!=="undefined" && MEDIA.indexOf(path)>=0; }
 function mediaSrc(path){ return ASSET_BASE + path; }
 function photoTag(name, r, alt, sizes){
   if(!hasMedia("photos/"+name+"-800.webp")) return "";
   var big=hasMedia("photos/"+name+"-1600.webp");
-  return '<img src="'+mediaSrc("photos/"+name+"-800.webp")+'"'
+  markUsed(name);
+  return '<img src="'+mediaSrc("photos/"+name+"-800.webp")+'"'+focusStyle(name)
     +(big?' srcset="'+mediaSrc("photos/"+name+"-800.webp")+' 800w, '+mediaSrc("photos/"+name+"-1600.webp")+' 1600w"'
          +' sizes="'+(sizes||"(max-width:700px) 84vw, 640px")+'"':'')
     +' width="800" height="'+Math.round(800/(r||1.5))+'" loading="lazy" decoding="async" alt="'+esc(alt||"")+'">';
@@ -205,6 +212,7 @@ function photoTag(name, r, alt, sizes){
 function videoTag(name, r, label, cls){
   if(!hasMedia("video/"+name+".mp4")) return "";
   var w=r>=1?960:720, h=Math.round(w/(r||1.6));
+  markUsed(name);
   return '<video class="'+(cls||"gvid")+'" data-auto muted loop playsinline preload="none"'
     +' width="'+w+'" height="'+h+'"'
     +(hasMedia("video/"+name+".webp")?' poster="'+mediaSrc("video/"+name+".webp")+'"':'')
@@ -216,6 +224,7 @@ function galleryItems(area){
   for(var i=0;i<GALLERY.items.length;i++){
     var it=GALLERY.items[i];
     if(area && it.a.indexOf(area)<0) continue;
+    if(isUsed(it.img||it.vid)) continue;
     if(it.img ? !hasMedia("photos/"+it.img+"-800.webp") : !hasMedia("video/"+it.vid+".mp4")) continue;
     out.push(it);
   }
@@ -249,7 +258,7 @@ function fillMedia(m, alt, eager){
     var t2=photoTag(m.img, m.r||1.5, alt||"", "100vw");
     return eager ? t2.replace(' loading="lazy"',' fetchpriority="high"') : t2;
   }
-  if(m.vid && hasMedia("video/"+m.vid+".mp4"))
+  if(m.vid && hasMedia("video/"+m.vid+".mp4") && !markUsed(m.vid))
     return '<video data-auto'+(eager?' data-hero autoplay preload="auto"':' preload="none"')+' muted loop playsinline'
       +(hasMedia("video/"+m.vid+".webp")?' poster="'+mediaSrc("video/"+m.vid+".webp")+'"':'')
       +' src="'+mediaSrc("video/"+m.vid+".mp4")+'"'+(alt?' aria-label="'+esc(alt)+'"':' aria-hidden="true"')+'></video>';
@@ -318,7 +327,11 @@ function caseArt(name, alt){
     +'</svg>';
   return "";
 }
-function caseMedia(c, eager){ return fillMedia(c.media, t(c.alt), eager); }
+function caseMedia(c, eager){
+  var main=c.media.img||c.media.vid, alt=c.more && (c.more.img||c.more.vid);
+  if(main && isUsed(main) && alt && !isUsed(alt)) return fillMedia(c.more, t(c.alt), eager);
+  return fillMedia(c.media, t(c.alt), eager);
+}
 /* The full story rows on the Work page. */
 function caseRows(){
   var h='<div class="cases">';
@@ -419,12 +432,6 @@ function miniCase(c){
 function proofBlock(area, cta){
   var list=[];
   for(var i=0;i<CASES.length && list.length<3;i++) if(CASES[i].area.indexOf(area)>=0) list.push(CASES[i]);
-  var shown={};
-  for(var a=0;a<list.length;a++){ shown[list[a].media.img||list[a].media.vid]=1; if(list[a].more) shown[list[a].more.img||list[a].more.vid]=1; }
-  var P=PHOOK[area], S=PSTEPS[area];
-  if(P&&P.media) shown[P.media.img||P.media.vid]=1;
-  if(S) for(var x=0;x<S.items.length;x++) shown[S.items[x].img||S.items[x].vid]=1;
-  var extra=galleryItems(area).filter(function(it){ return !shown[it.img||it.vid]; });
   var h='<section class="band"><div class="wrap">'
     +'<div class="lbl rv">'+esc(t(PROOF.lbl))+'</div>'
     +'<h2 class="rv" style="margin-top:16px;max-width:20ch">'+esc(t(PROOF.h[area]))+'</h2>';
@@ -440,6 +447,7 @@ function proofBlock(area, cta){
     }
     h+='</div>';
   }
+  var extra=galleryItems(area);
   if(extra.length>=3) h+='<h3 class="proofmore rv">'+esc(t(PROOF.more))+'</h3>'+gallery(extra);
   h+='<div class="twolinks rv" style="margin-top:34px">'
     +(cta?go("contact",' class="btn" data-umami-event="cta-contact" data-umami-event-from="'+area+'-proof"')+esc(cta)+'</a>':'')
@@ -657,6 +665,7 @@ function renderHome(){
   for(var n=0;n<H.needs.items.length;n++){
     var nd=H.needs.items[n], ar=area(nd.id), pic="";
     if(nd.img) pic=photoTag(nd.img,nd.r,"", "(max-width:760px) 92vw, 540px");
+    else if(nd.vid) pic=fillMedia({vid:nd.vid},"",false);
     else if(nd.shot && typeof WORKSHOTS!=="undefined" && WORKSHOTS[nd.shot]) pic='<img src="'+WORKSHOTS[nd.shot]+'" alt="" loading="lazy">';
     h+=go(nd.id,' class="need rv"')
       +'<span class="needpic'+(nd.shot?' needpic--shot':'')+'">'+pic+'</span>'
@@ -1029,26 +1038,13 @@ function renderWork(){
       +'<h2 class="rv" style="margin-top:16px;max-width:20ch">'+esc(t(CASEUI.gridh))+'</h2>'
       +projectGrid(rest,true)+'</div></section>';
 
-  /* 2. the thermal clip, which can only be told without its client */
-  var f=W.feat, fv=videoTag(f.vid,f.r,t(f.alt),"featvid");
-  if(fv){
-    h+='<section class="band band--dark"><div class="wrap"><div class="feat rv">'
-      +'<div class="featmedia">'+fv+'</div>'
-      +'<div class="feattext"><div class="lbl">'+esc(t(f.lbl))+'</div>'
-      +'<h2>'+esc(t(f.h))+'</h2><p>'+esc(t(f.p))+'</p>'
-      +'<dl class="featdl">';
-    for(var q=0;q<f.dl.length;q++) h+='<dt>'+esc(t(f.dl[q].k))+'</dt><dd>'+esc(t(f.dl[q].v))+'</dd>';
-    h+='</dl></div></div></div></section>';
-  }
-
   /* 4. everything else from the workshop */
   var gitems=galleryItems();
-  if(gitems.length)
-    h+='<section class="band band--grey band--gal"><div class="wrap">'
-      +'<div class="lbl rv">'+esc(t(GALLERY.lbl))+'</div>'
+  h+='<section class="band band--gal"><div class="wrap">'
+    +(gitems.length?'<div class="lbl rv">'+esc(t(GALLERY.lbl))+'</div>'
       +'<h2 class="rv" style="margin-top:16px;max-width:18ch">'+(lang==="nl"?"Meer uit de werkplaats":"More from the workshop")+'</h2>'
-      +gallery(gitems)+'</div></section>';
-  h+='<section class="band band--tight"><div class="wrap">'+ctaBlock(t(C.folio.next))+'</div></section>';
+      +gallery(gitems)+'<div style="margin-top:80px"></div>':'')
+    +ctaBlock(t(C.folio.next))+'</div></section>';
   return h;
 }
 
@@ -1504,7 +1500,7 @@ function setupVideos(){
   for(var j=0;j<vids.length;j++) vio.observe(vids[j]);
 }
 function render(moveFocus){
-  var h;
+  var h; PAGEUSED={};
   if(page==="home") h=renderHome();
   else if(page==="about") h=renderAbout();
   else if(page==="work") h=renderWork();

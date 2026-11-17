@@ -1010,15 +1010,6 @@ var WORKENG = {
   h:{nl:"Van de werkbank en uit het veld",en:"From the bench and the field"},
   d:{nl:"Vier mechatronici, en wat we tot nu toe gebouwd en getest hebben: drones, wedstrijdrobots, besturingskasten, verspanen en plaatwerk — bij Fontys, in wedstrijden, voor start-ups en voor klanten. Klantwerk laten we zien zonder de details.",
      en:"Four mechatronics engineers, and what we have built and tested so far: drones, competition robots, control cabinets, machining and sheet metal — at Fontys, in competitions, for start-ups and for clients. Client work is shown without its details."},
-  /* the thermal clip, with the explanation it needs */
-  feat:{vid:"thermal-calibration", r:1.3,
-    lbl:{nl:"Kalibratie en regeltechniek",en:"Calibration and control engineering"},
-    h:{nl:"Een warmtebeeldcamera die zijn doel vasthoudt",en:"A thermal camera that holds its target"},
-    p:{nl:"Beelden van een test: een warmtebeeldcamera met een volgoverlay. Ons deel is het onzichtbare middenstuk — eerst de sensor kalibreren, daarna de regellus afstellen tot het systeem soepel volgt, zonder vertraging of doorschieten. Het project zelf valt onder geheimhouding; in een gesprek vertellen we meer.",
-       en:"Footage from a test: a thermal camera with a tracking overlay. Our part is the unglamorous middle — calibrating the sensor first, then tuning the control loop until the system follows smoothly, without lag or overshoot. The project itself is under NDA; in a conversation we can say more."},
-    alt:{nl:"Warmtebeeld met een volgkader tijdens een kalibratietest",en:"Thermal camera view with a tracking box during a calibration test"},
-    dl:[{k:{nl:"Wat we deden",en:"What we did"},v:{nl:"Sensorkalibratie, afstellen van de regellus, testen",en:"Sensor calibration, control-loop tuning, testing"}},
-        {k:{nl:"Status",en:"Status"},v:{nl:"Onder geheimhouding",en:"Under NDA"}}]},
   webl:{nl:"Software & web",en:"Software & web"}
 };
 
@@ -1051,18 +1042,18 @@ var HOME2 = {
       {img:"drone-response-build-table", r:1.5,
        c:{nl:"Drone Response 2.0: we hielpen Dremian met hun drones de wedstrijd in.",en:"Drone Response 2.0: we helped Dremian get their drones into the competition."},
        alt:{nl:"Twee engineers van Liminex aan hun werktafel tijdens Drone Response 2.0",en:"Two Liminex engineers at their build table during Drone Response 2.0"}},
-      {vid:"frc-6920-robot", r:1.768,
+      {img:"frc-6920-robot-and-frame", r:1.5,
        c:{nl:"FRC-team 6920: een wedstrijdrobot, gebouwd en bedraad voor de Hawaii Regional.",en:"FRC team 6920: a competition robot, built and wired for the Hawaii Regional."},
-       alt:{nl:"Wedstrijdrobot die rijdt en ringen oppakt",en:"Competition robot driving and collecting rings"}},
+       alt:{nl:"Wedstrijdrobot voor een houten testframe",en:"Competition robot in front of a wooden test frame"}},
       {img:"microscope-drone-build", r:1.334,
        c:{nl:"Vluchtelektronica, herwerkt onder de microscoop.",en:"Flight electronics, reworked under the microscope."},
        alt:{nl:"Handen die drone-elektronica bewerken onder een stereomicroscoop",en:"Hands reworking drone electronics under a stereo microscope"}},
       {img:"wiring-machine-cabinets", r:0.8,
        c:{nl:"Besturingskasten voor machines, kast voor kast bedraad.",en:"Machine control cabinets, wired rack by rack."},
        alt:{nl:"Engineer die bedrading aanlegt tussen twee rijen besturingskasten",en:"Engineer wiring between two rows of machine control cabinets"}},
-      {vid:"field-test-team", r:1.778,
-       c:{nl:"Testdag in het veld: drones op de mat, laptops in het gras.",en:"Test day in the field: drones on the mat, laptops on the grass."},
-       alt:{nl:"Twee engineers die drones klaarmaken in een open veld",en:"Two engineers preparing drones in an open field"}}
+      {img:"kraken-sdr-setup", r:1.333,
+       c:{nl:"Een antennereeks die uitvindt waar een radiosignaal vandaan komt.",en:"An antenna array that works out where a radio signal comes from."},
+       alt:{nl:"Testopstelling met een antennereeks, ontvanger en laptops",en:"Test setup with an antenna array, receiver and laptops"}}
     ]
   },
   needs:{
@@ -1072,13 +1063,13 @@ var HOME2 = {
       {id:"proto", img:"team-with-drones", r:1.5,
        q:{nl:"\u201cIk heb een werkend prototype of een testopstelling nodig.\u201d",en:"\u201cI need a working prototype or a test setup.\u201d"},
        a:{nl:"Mechanica, elektronica, firmware en besturing in \u00e9\u00e9n team \u2014 van schets tot een exemplaar dat u kunt testen.",en:"Mechanics, electronics, firmware and control in one team \u2014 from sketch to a unit you can test."}},
-      {id:"web", shot:"hutko",
-       q:{nl:"\u201cOnze website of een handmatig proces houdt ons tegen.\u201d",en:"\u201cOur website or a manual process is holding us back.\u201d"},
-       a:{nl:"Websites, webshops, software op maat en AI die in uw proces zit in plaats van in een browsertab.",en:"Websites, shops, custom software, and AI that sits inside your process instead of in a browser tab."}},
+      {id:"web", vid:"robot-cell-twin", r:1.333,
+       q:{nl:"\u201cOnze software, of een handmatig proces, houdt ons tegen.\u201d",en:"\u201cOur software, or a manual process, is holding us back.\u201d"},
+       a:{nl:"PLC-programma\u2019s, digital twins, data, AI en websites \u2014 software voor uw bedrijf \u00e9n uw machines.",en:"PLC programs, digital twins, data, AI and websites \u2014 software for your business and your machines."}},
       {id:"make", img:"drill-press-fontys", r:0.801,
        q:{nl:"\u201cIk wil onderdelen of een kleine serie laten maken.\u201d",en:"\u201cI need parts or a small series made.\u201d"},
        a:{nl:"We maken uw ontwerp maakbaar en laten het dichtbij maken \u2014 of begeleiden grotere aantallen voor u.",en:"We make your design manufacturable and have it made nearby \u2014 or manage larger volumes for you."}},
-      {id:"start", img:"robot-with-webcam", r:0.8,
+      {id:"start", img:"drone-response-sprind", r:1.333,
        q:{nl:"\u201cIk heb een idee, maar geen technisch team.\u201d",en:"\u201cI have an idea, but no technical team.\u201d"},
        a:{nl:"Wij zijn dat team tot u er zelf een heeft: eerst haalbaarheid, dan een prototype waar een investeerder op kan reageren.",en:"We are that team until you have your own: feasibility first, then a prototype an investor can react to."}}
     ]
@@ -1235,7 +1226,7 @@ var CASES = [
    alt:{nl:"Testopstelling met een antennereeks, ontvanger en laptops",en:"Test setup with an antenna array, receiver and laptops"}},
 
   /* CHECK: for whom ("baitech" in the code) and what came out of it */
-  {id:"farmvision", cat:"data", area:["proto","web","start"], media:{vid:"farm-vision", r:1.333},
+  {id:"farmvision", cat:"data", area:["proto","web","start"], media:{vid:"farm-vision", r:1.333}, more:{img:"farm-vision-segmented", r:1.358},
    meta:{nl:"Machine vision \u00b7 Jetson Nano \u00b7 2025",en:"Machine vision \u00b7 Jetson Nano \u00b7 2025"},
    t:{nl:"Een camera die zeugen en biggen in de stal herkent",en:"A camera that spots sows and piglets in the barn"},
    one:{nl:"Objectherkenning en segmentatie op nachtbeelden uit een kraamhok, getest op een kleine Jetson Nano-computer met een gewone IP-camera \u2014 de basis voor tellen en waarschuwen.",
@@ -1358,7 +1349,7 @@ var PSTEPS = {
        p:{nl:"3D-printen, lasersnijden, frezen of plaatwerk — wat past bij het onderdeel en het aantal.",en:"3D printing, laser cutting, milling or sheet metal — whatever suits the part and the quantity."}},
       {vid:"printer-toolhead", r:0.8, h:{nl:"Eerst een proefstuk",en:"Samples first"},
        p:{nl:"Een eerste onderdeel of korte serie, gecontroleerd voordat er iets groters besteld wordt.",en:"A first part or a short run, checked before anything bigger is ordered."}},
-      {img:"wiring-machine-cabinets", r:0.8, h:{nl:"Monteren en bedraden",en:"Assemble and wire"},
+      {img:"control-box-wiring", r:0.8, h:{nl:"Monteren en bedraden",en:"Assemble and wire"},
        p:{nl:"Als de onderdelen terug zijn, zetten we ze in elkaar — tot en met de besturingskast.",en:"When the parts are back we put them together — down to the control cabinet."}}]}
 };
 /* Manufacturing: the two honest reasons, as one band */
@@ -1474,7 +1465,7 @@ var MAKEQ = {
         en:"We get the design ready for series, find and vet suppliers, run samples and watch the quality. You stay importer of record — it costs you nothing in quality and saves us both legal trouble."},
      l:[{nl:"Leveranciers zoeken",en:"Find suppliers"},{nl:"Monsters en goedkeuring",en:"Samples and sign-off"},{nl:"Kwaliteit bewaken",en:"Watch the quality"}],
      p2:""},
-    {n:{nl:"Gemonteerd en bedraad",en:"Assembled and wired"}, img:"wiring-machine-cabinets", photo:true,
+    {n:{nl:"Gemonteerd en bedraad",en:"Assembled and wired"}, img:"svc-build",
      h:{nl:"Niet alleen onderdelen: een werkend geheel",en:"Not just parts: a working whole"},
      p:{nl:"Als de onderdelen terug zijn, zetten we ze in elkaar — tot en met de besturingskast, bedraad, gelabeld en nagemeten.",
         en:"When the parts are back we put them together — down to the control cabinet, wired, labelled and checked."},
@@ -1499,11 +1490,11 @@ var PROOF = {
    already do for free, how payment can fit a start-up, and the road from idea to unit.
    ============================================================ */
 var STARTUP = {
-  hook:{media:{img:"robot-with-webcam", r:0.8}, side:true,
+  hook:{media:{img:"drone-response-build-table-wide", r:1.5}, side:true,
     h:{nl:"Een idee voor een product? Weet of het werkt voordat u uw spaargeld uitgeeft.",en:"An idea for a product? Know it works before you spend your savings."},
     p:{nl:"Wij zijn het technische team dat u nog niet heeft: eerlijk advies, een werkend exemplaar om te laten zien, en onderdelen als niemand u kleine aantallen wil verkopen.",
        en:"We're the technical team you don't have yet: honest advice, a working unit to show, and parts when nobody will sell you small quantities."},
-    cap:{nl:"Een eigen prototype: camerarobot",en:"One of our prototypes: a camera robot"}},
+    cap:{nl:"Met Dremian op Drone Response 2.0",en:"With Dremian at Drone Response 2.0"}},
   pains:{
     lbl:{nl:"Klinkt dit bekend?",en:"Sound familiar?"},
     h:{nl:"Waar oprichters op vastlopen — en wat wij doen",en:"Where founders get stuck — and what we do"},
@@ -1592,4 +1583,18 @@ var SOFTX = {
   seen:{nl:"Waar we het bouwden",en:"Where we built it"},
   more:{nl:"Website nodig? Er zijn vaste pakketten.",en:"Need a website? There are set packages."},
   morel:{nl:"Bekijk de richtprijzen",en:"See the indicative prices"}
+};
+
+
+/* Where the subject sits in each photo, as a CSS object-position. Every crop on the site
+   keeps this point in frame, so faces and parts don't get cut off. Missing = centre. */
+var FOCUS = {
+  "cnc-vise":"50% 70%", "control-box-wiring":"50% 55%", "drill-press-fontys":"58% 42%",
+  "drone-response-build-table":"50% 32%", "drone-response-build-table-wide":"50% 35%",
+  "drone-response-sprind":"45% 38%", "frc-6920-robot-and-frame":"34% 78%",
+  "microscope-drone-build":"55% 55%", "night-lights":"45% 50%", "pneumatics-trainer":"45% 52%",
+  "robot-in-hand":"50% 45%", "robot-with-webcam":"45% 28%", "sheet-metal-tooling":"50% 45%",
+  "team-with-drones":"52% 52%", "wiring-machine-cabinets":"50% 52%", "workshop-sign":"50% 42%",
+  "formation-gcs":"30% 30%", "robot-cell-model":"40% 50%", "kraken-sdr-setup":"55% 50%",
+  "drone-builds-soldering-bench":"50% 45%"
 };

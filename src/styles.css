@@ -1060,7 +1060,7 @@ html{scroll-padding-top:72px}
   transition:border-color .25s ease,transform .25s ease}
 .need:hover{border-color:var(--accent);transform:translateY(-3px)}
 .needpic{position:relative;min-height:220px;background:var(--paper2)}
-.needpic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.needpic img,.needpic video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
 .needpic--shot img{object-position:top left}
 .needbody{display:flex;flex-direction:column;gap:12px;padding:24px 24px 22px}
 .needq{font-size:clamp(19px,1.7vw,23px);font-weight:600;letter-spacing:-.02em;line-height:1.2}
