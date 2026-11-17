@@ -1081,3 +1081,67 @@ html{scroll-padding-top:72px}
 .howlist .sn{font-size:12px;letter-spacing:.16em;color:var(--accent);padding-top:5px;font-variant-numeric:tabular-nums}
 .howlist h3{font-size:19px;margin:0 0 4px}
 .howlist p{margin:0;color:var(--muted);font-size:15px;line-height:1.55}
+
+/* ============================================================
+   Engineering, Manufacturing and Work: openers, photo steps, stories
+   ============================================================ */
+.hookvid img{width:100%;height:100%;object-fit:cover;display:block}
+.hook--page{min-height:min(calc(78svh - 60px),720px);padding:110px 0 56px}
+.hook--page h1{font-size:clamp(34px,4.8vw,62px);line-height:1.02;max-width:17ch}
+.hookcap{position:absolute;right:24px;bottom:18px;font-size:12px;color:#B9BCC7;
+  background:rgb(8 8 11/.5);padding:5px 10px;border-radius:999px;backdrop-filter:blur(4px)}
+@media (max-width:640px){.hookcap{display:none}}
+
+/* four steps, each a picture */
+.psteps{list-style:none;margin:44px 0 0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px}
+@media (max-width:1000px){.psteps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.psteps{grid-template-columns:1fr}}
+.psmedia{position:relative;aspect-ratio:4/5;border-radius:16px;overflow:hidden;background:var(--paper2);margin-bottom:16px}
+.psmedia img,.psmedia video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.pstep .sn{display:block;font-size:11px;letter-spacing:.2em;color:var(--accent);margin-bottom:8px;font-variant-numeric:tabular-nums}
+.pstep h3{font-size:19px;margin:0 0 6px}
+.pstep p{margin:0;color:var(--muted);font-size:15px;line-height:1.55}
+@media (max-width:560px){.psmedia{aspect-ratio:16/10}}
+
+/* project stories */
+.cases{display:flex;flex-direction:column;gap:clamp(56px,8vw,104px);margin-top:56px}
+.case{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(28px,5vw,64px);align-items:center}
+.case:nth-child(even) .casemedia{order:2}
+@media (max-width:860px){.case{grid-template-columns:1fr}.case:nth-child(even) .casemedia{order:0}}
+.casemedia{position:relative;aspect-ratio:4/3;border-radius:18px;overflow:visible}
+.casemedia>img,.casemedia>video,.casemedia>svg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;border-radius:18px}
+.casemedia--art{background:#0E1016;border-radius:18px}
+.casemore{position:absolute;width:34%;aspect-ratio:4/5;right:-18px;bottom:-26px;border-radius:14px;overflow:hidden;
+  border:5px solid var(--paper);box-shadow:0 18px 40px rgb(0 0 0/.18)}
+.case:nth-child(even) .casemore{right:auto;left:-18px}
+.casemore img,.casemore video{width:100%;height:100%;object-fit:cover;display:block}
+@media (max-width:860px){.casemore{right:10px;bottom:-20px;width:30%}.case:nth-child(even) .casemore{left:auto;right:10px}}
+.casemeta{display:block;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
+.casetext h3{font-size:clamp(25px,2.9vw,36px);letter-spacing:-.025em;line-height:1.1;margin:0 0 20px}
+.casek{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin:16px 0 6px}
+.casetext p{margin:0;color:var(--muted);font-size:16px;line-height:1.6}
+.casetext ul{margin:0;padding-left:18px;font-size:15.5px;line-height:1.55}
+.casetext li{margin:5px 0}
+.casefoot{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.casestatus,.casetag{font-size:12.5px;padding:5px 11px;border-radius:999px;border:1px solid var(--hair)}
+.casestatus{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.casetag{color:var(--muted)}
+.caseart{display:block}
+
+/* story teasers on a service page */
+.teasers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin-top:40px}
+@media (max-width:900px){.teasers{grid-template-columns:1fr}}
+.teaser{display:flex;flex-direction:column;text-decoration:none;color:inherit;border:1px solid var(--hair);border-radius:var(--r);
+  overflow:hidden;background:var(--paper);transition:border-color .25s ease,transform .25s ease}
+.teaser:hover{border-color:var(--accent);transform:translateY(-3px)}
+.teasermedia{position:relative;aspect-ratio:16/10;background:var(--paper2)}
+.teasermedia--art{background:#0E1016}
+.teasermedia img,.teasermedia video,.teasermedia svg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.teaserbody{display:flex;flex-direction:column;gap:6px;padding:20px 22px 22px;flex:1}
+.teaserh{font-size:20px;font-weight:600;letter-spacing:-.02em;line-height:1.2;margin-bottom:8px}
+
+/* Manufacturing: three honest reasons */
+.why{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(24px,4vw,56px)}
+@media (max-width:860px){.why{grid-template-columns:1fr}}
+.why h3{font-size:clamp(24px,2.6vw,32px);margin:0 0 12px;letter-spacing:-.025em}
+.why p{margin:0;color:var(--dark-muted);font-size:16px;line-height:1.6}

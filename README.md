@@ -84,6 +84,12 @@ differently: they are **not** preloaded behind the loading screen, every photo i
   *Built by us*, *Where do you stand?*, the team, how it works next to the contact
   button, and our own products as a call for partners. Delete the montage files and the
   hook is plain black.
+- **Engineering, Manufacturing and Work** open on a real photo or clip (`PHOOK`), explain
+  their process in four photographed steps (`PSTEPS`), and keep the service lists and the
+  domains grid with their renders. Projects are short stories in `CASES` (situation, what
+  we did, where it stands); the Engineering page shows three as cards that link to
+  `/work/#case-<id>`. A project without photos can use a drawing (`media:{art:"…"}`,
+  drawn in `caseArt()` in `app.js`).
 - **No loading screen.** The page is never held back on a first visit any more; the
   renders are fetched in the background so the next page has them cached.
 - **Videos** play only while a third of them is on screen. With reduced motion nothing

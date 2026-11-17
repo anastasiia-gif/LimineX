@@ -1102,3 +1102,139 @@ var HOME2 = {
     cta:{nl:"Praat met ons over samenwerken",en:"Talk to us about partnering"}
   }
 };
+
+
+/* ============================================================ CASES
+   Projects told as short stories for people who are not engineers: the situation, what
+   we did in plain words, and where it stands. Shown in full on the Work page; the
+   Engineering page shows three of them as teasers that link here (#case-<id>).
+     media.img / media.vid  -> a photo or clip from assets/; media.art -> a drawing in app.js
+     more                   -> a second, smaller photo
+   Facts marked CHECK were written from photos and code, not from you — confirm them.
+   ============================================================ */
+var CASES = [
+  {id:"aero", media:{art:"planecar"}, area:["proto"],
+   meta:{nl:"Met Aero Team Eindhoven · studententeam · 2025",en:"With Aero Team Eindhoven · student team · 2025"},
+   t:{nl:"Een vliegtuig leren landen op een rijdende auto",en:"Teaching a plane to land on a moving car"},
+   sit:{nl:"Aero Team Eindhoven wilde een onbemand vliegtuig dat een rijdend voertuig vindt, volgt en er precies op neerkomt — en later twee vliegtuigen die samen één route vliegen.",
+        en:"Aero Team Eindhoven wanted an unmanned plane that finds a moving vehicle, follows it and comes down on it precisely — and, later, two planes flying one route together."},
+   did:[
+     {nl:"Gemeten hoe het vliegtuig echt reageert, zodat de regelaars op feiten beginnen en niet op gokwerk.",en:"Measured how the plane really responds, so the controllers start from facts instead of guesses."},
+     {nl:"Snelheid, hoogte en koers afgesteld in een simulator, nog voor er één echte vlucht was.",en:"Tuned speed, height and heading in a simulator, before a single real flight."},
+     {nl:"Camerageleiding met geprinte markers, zodat het vliegtuig zich precies op het voertuig uitlijnt.",en:"Camera guidance with printed markers, so the plane lines up on the vehicle precisely."},
+     {nl:"Twee vliegtuigen op één gedeelde route, als stap richting koppelen in de lucht.",en:"Two planes on one shared route, as a step towards docking in the air."}],
+   status:{nl:"Werkend in simulatie",en:"Working in simulation"},
+   tags:{nl:["Vluchtbesturing","Simulatie","Camerageleiding"],en:["Flight control","Simulation","Camera guidance"]},
+   alt:{nl:"Tekening: een vliegtuig volgt een rijdende auto en daalt erop",en:"Drawing: a plane follows a moving car and descends onto it"}},
+
+  /* CHECK: what exactly you did for Dremian */
+  {id:"dr2", media:{img:"drone-response-build-table", r:1.5}, more:{img:"drone-response-sprind", r:1.333}, area:["proto","start"],
+   meta:{nl:"Met Dremian · Drone Response 2.0",en:"With Dremian · Drone Response 2.0"},
+   t:{nl:"Dremian met zijn drones naar Drone Response 2.0",en:"Getting Dremian's drones into Drone Response 2.0"},
+   sit:{nl:"Dremian deed mee aan Drone Response 2.0 en had ter plekke extra engineers nodig.",
+        en:"Dremian entered Drone Response 2.0 and needed extra engineers on site."},
+   did:[
+     {nl:"Aangesloten bij hun team, ter plekke in de hangar.",en:"Joined their team on site, in the hangar."},
+     {nl:"Gewerkt aan de drones, de elektronica en de software van het grondstation, tussen de vluchten door.",en:"Worked on the drones, the electronics and the ground-station software between runs."},
+     {nl:"Alles werkend gehouden onder wedstrijddruk.",en:"Kept everything working under competition pressure."}],
+   status:{nl:"Wedstrijd · met Dremian",en:"Competition · with Dremian"},
+   tags:{nl:["Drones","Elektronica","Grondstation"],en:["Drones","Electronics","Ground station"]},
+   alt:{nl:"Twee engineers van Liminex aan hun werktafel tijdens Drone Response 2.0",en:"Two Liminex engineers at their build table during Drone Response 2.0"}},
+
+  /* CHECK: your part in the robot */
+  {id:"frc", media:{vid:"frc-6920-robot", r:1.768}, more:{img:"frc-6920-robot-and-frame", r:1.5}, area:["proto"],
+   meta:{nl:"FRC-team 6920 · Hawaii Regional",en:"FRC team 6920 · Hawaii Regional"},
+   t:{nl:"Een wedstrijdrobot voor de Hawaii Regional",en:"A competition robot for the Hawaii Regional"},
+   sit:{nl:"In de FIRST Robotics Competition bouwt elk team in een paar weken een robot die rijdt, verzamelt en scoort — tegen andere teams, op tijd.",
+        en:"In the FIRST Robotics Competition every team has a few weeks to build a robot that drives, collects and scores — against other teams, against the clock."},
+   did:[
+     {nl:"De robot mee gebouwd en bedraad.",en:"Helped build and wire the robot."},
+     {nl:"Rijden en ringen oppakken getest op een eigen oefenveld, met een zelfgebouwd doel.",en:"Tested driving and picking up rings on our own practice field, with a goal we built ourselves."},
+     {nl:"Meegedaan aan de Hawaii Regional.",en:"Competed at the Hawaii Regional."}],
+   status:{nl:"Wedstrijd",en:"Competition"},
+   tags:{nl:["Robotica","Bedrading","Testen"],en:["Robotics","Wiring","Testing"]},
+   alt:{nl:"Wedstrijdrobot die rijdt en ringen oppakt",en:"Competition robot driving and collecting rings"}},
+
+  /* CHECK: for whom, and what was included */
+  {id:"cabinets", media:{img:"wiring-machine-cabinets", r:0.8}, more:{img:"control-box-wiring", r:0.8}, area:["make","proto"],
+   meta:{nl:"Industrie · 2025",en:"Industry · 2025"},
+   t:{nl:"Besturingskasten voor machines, kast voor kast bedraad",en:"Machine control cabinets, wired rack by rack"},
+   sit:{nl:"Een rij machines had besturingskasten nodig die volgens tekening bedraad en gecontroleerd werden.",
+        en:"A row of machines needed their control cabinets wired to the drawings and checked."},
+   did:[
+     {nl:"De kasten bedraad volgens het schema.",en:"Wired the cabinets to the schematics."},
+     {nl:"Elke kabel gelegd en gelabeld, zodat een monteur er later zijn weg in vindt.",en:"Routed and labelled every cable, so a service engineer can find their way later."},
+     {nl:"Signalen nagemeten voor de oplevering.",en:"Checked the signals before handover."}],
+   status:{nl:"Opgeleverd · 2025",en:"Delivered · 2025"},
+   tags:{nl:["Besturing","Bedrading","Montage"],en:["Control","Wiring","Assembly"]},
+   alt:{nl:"Engineer die bedrading aanlegt tussen twee rijen besturingskasten",en:"Engineer wiring between two rows of machine control cabinets"}}
+];
+var CASEUI = {
+  sit:{nl:"De situatie",en:"The situation"}, did:{nl:"Wat we deden",en:"What we did"},
+  status:{nl:"Stand",en:"Where it stands"}, read:{nl:"Lees het verhaal",en:"Read the story"},
+  teaserlbl:{nl:"Uit ons werk",en:"From our work"},
+  teaserh:{nl:"Zo ziet dat er in de praktijk uit",en:"What that looks like in practice"}
+};
+
+/* ============================================================ PAGE OPENERS AND STEPS
+   The Engineering, Manufacturing and Work pages open on a real photo or clip instead of
+   a white header, and explain their process with photos. The service lists and the
+   domains grid further down keep their renders: easier to compare offers on.
+   ============================================================ */
+var PHOOK = {
+  proto:{media:{vid:"drone-rooftop"},
+    h:{nl:"Van schets tot een werkend exemplaar dat u aan iemand kunt laten zien.",en:"From a sketch to a working unit you can put in front of someone."},
+    cap:{nl:"Drone op het dak, klaar voor een test",en:"Drone on the roof, ready for a test"},
+    p:{nl:"Een apparaat, een meetopstelling, een machine die iets moet doen wat nog niets doet. U beschrijft wat het moet kunnen; wij maken er mechanica, elektronica, firmware en besturing van — in één team.",
+       en:"A device, a measurement setup, a machine that has to do something nothing does yet. You describe what it must do; we turn it into mechanics, electronics, firmware and control — in one team."}},
+  make:{media:{img:"workshop-sign", r:1.5},
+    h:{nl:"Onderdelen en kleine series, dichtbij gemaakt en gecontroleerd.",en:"Parts and short runs, made nearby and checked."},
+    cap:{nl:"Werkplaatsbord · gemaakt door Anastasiia",en:"Workshop sign · made by Anastasiia"},
+    p:{nl:"Van één onderdeel tot een kleine serie. Wij maken uw ontwerp maakbaar, kiezen het proces en de werkplaats, en controleren wat er terugkomt.",
+       en:"From a single part to a short run. We make your design manufacturable, pick the process and the workshop, and check what comes back."}},
+  work:{media:{img:"drone-response-build-table-wide", r:1.5},
+    lbl:{nl:"Ons werk",en:"Our work"},
+    h:{nl:"Wat we gebouwd hebben, en hoe.",en:"What we've built, and how."},
+    cap:{nl:"Drone Response 2.0, met Dremian",en:"Drone Response 2.0, with Dremian"},
+    p:{nl:"Engineering eerst: vliegtuigen, drones, robots en besturingskasten, als korte verhalen. Daarna de websites die live staan.",
+       en:"Engineering first: planes, drones, robots and control cabinets, as short stories. Then the websites that are live."}},
+  cta:{nl:"Stuur ons twee zinnen",en:"Send us two sentences"},
+  see:{nl:"Zo werken we",en:"How we work"},
+  seework:{nl:"Naar de projecten",en:"To the projects"}
+};
+var PSTEPS = {
+  proto:{lbl:{nl:"Hoe we het bouwen",en:"How we build it"},
+    h:{nl:"Van schets tot iets wat u kunt testen",en:"From a sketch to something you can test"},
+    items:[
+      {img:"robot-with-webcam", r:0.8, h:{nl:"Eerst het riskante deel",en:"Prove the risky part first"},
+       p:{nl:"Een ruwe eerste versie die de ene vraag beantwoordt waar het idee op kan stranden.",en:"A rough first version that answers the one question that could sink the idea."}},
+      {img:"microscope-drone-build", r:1.334, h:{nl:"De hardware bouwen",en:"Build the hardware"},
+       p:{nl:"Mechanica, elektronica en bedrading — ontworpen zodat het ook echt gemaakt kan worden.",en:"Mechanics, electronics and wiring — designed so it can actually be made."}},
+      {vid:"ground-station", r:0.8, h:{nl:"Het slim maken",en:"Make it think"},
+       p:{nl:"Firmware, besturing en software, afgesteld in een simulator voordat het het echte ding raakt.",en:"Firmware, control and software, tuned in a simulator before it touches the real thing."}},
+      {vid:"field-test-team", r:1.778, h:{nl:"Testen buiten het lab",en:"Test it outside the lab"},
+       p:{nl:"In het veld, onder echte omstandigheden, tot het doet wat het moet doen.",en:"In the field, in real conditions, until it does what it should."}}]},
+  make:{lbl:{nl:"Hoe het gaat",en:"How it goes"},
+    h:{nl:"Van schets tot onderdelen in uw handen",en:"From a sketch to parts in your hands"},
+    items:[
+      {img:"sheet-metal-tooling", r:0.8, h:{nl:"Maakbaar maken",en:"Make it makeable"},
+       p:{nl:"We tekenen uw idee zo uit dat een werkplaats het kan maken zonder te gokken.",en:"We draw your idea so a workshop can produce it without guessing."}},
+      {img:"cnc-vise", r:0.8, h:{nl:"Proces en werkplaats kiezen",en:"Pick the process and the workshop"},
+       p:{nl:"3D-printen, lasersnijden, frezen of plaatwerk — wat past bij het onderdeel en het aantal.",en:"3D printing, laser cutting, milling or sheet metal — whatever suits the part and the quantity."}},
+      {vid:"printer-toolhead", r:0.8, h:{nl:"Eerst een proefstuk",en:"Samples first"},
+       p:{nl:"Een eerste onderdeel of korte serie, gecontroleerd voordat er iets groters besteld wordt.",en:"A first part or a short run, checked before anything bigger is ordered."}},
+      {img:"wiring-machine-cabinets", r:0.8, h:{nl:"Monteren en bedraden",en:"Assemble and wire"},
+       p:{nl:"Als de onderdelen terug zijn, zetten we ze in elkaar — tot en met de besturingskast.",en:"When the parts are back we put them together — down to the control cabinet."}}]}
+};
+/* Manufacturing: the two honest reasons, as one band */
+var MAKEWHY = [
+  {n:{nl:"Dichtbij",en:"Nearby"},
+   p:{nl:"Onder een paar honderd stuks is in de regio laten maken meestal sneller én goedkoper dan ver weg. We rekenen het per project voor en zeggen het eerlijk.",
+      en:"Below a few hundred units, making it in the region is usually faster and cheaper than far away. We do the maths per project and say so."}},
+  {n:{nl:"Geen eigen machines",en:"No machines of our own"},
+   p:{nl:"Daarom kunnen we vrij kiezen: elk onderdeel gaat naar de werkplaats die het het best kan. U krijgt één prijs en één aanspreekpunt.",
+      en:"Which is why we choose freely: every part goes to the workshop that does it best. You get one price and one point of contact."}},
+  {n:{nl:"Tot en met de kast",en:"Down to the cabinet"},
+   p:{nl:"Onderdelen zijn vaak niet het eind. We monteren, bedraden en testen ook — zie de besturingskasten hierboven.",
+      en:"Parts are often not the end. We also assemble, wire and test — see the control cabinets above."}}
+];

@@ -241,9 +241,121 @@ function gallery(items, label){
   }
   return h+'</div>';
 }
+/* ---------------- page openers, photo steps, project stories ---------------- */
+/* A picture or clip that fills its box. eager: for the first screen, never lazy. */
+function fillMedia(m, alt, eager){
+  if(!m) return "";
+  if(m.img){
+    var t2=photoTag(m.img, m.r||1.5, alt||"", "100vw");
+    return eager ? t2.replace(' loading="lazy"',' fetchpriority="high"') : t2;
+  }
+  if(m.vid && hasMedia("video/"+m.vid+".mp4"))
+    return '<video data-auto'+(eager?' data-hero autoplay preload="auto"':' preload="none"')+' muted loop playsinline'
+      +(hasMedia("video/"+m.vid+".webp")?' poster="'+mediaSrc("video/"+m.vid+".webp")+'"':'')
+      +' src="'+mediaSrc("video/"+m.vid+".mp4")+'"'+(alt?' aria-label="'+esc(alt)+'"':' aria-hidden="true"')+'></video>';
+  if(m.art) return caseArt(m.art, alt);
+  return "";
+}
+/* The opener of Engineering, Manufacturing and Work: the page's promise over real work. */
+function pageHook(id, title, lbl, firstId){
+  var P=PHOOK[id];
+  return '<section class="hook hook--page">'
+    +'<div class="hookvid" aria-hidden="true">'+fillMedia(P.media,"",true)+'</div>'
+    +'<div class="wrap hookin"><div class="lbl">'+esc(lbl)+'</div>'
+    +'<h1>'+esc(title)+'</h1><p class="hookp">'+esc(t(P.p))+'</p>'
+    +'<div class="hookbtns">'+go("contact",' class="btn btn--light" data-umami-event="cta-contact" data-umami-event-from="'+id+'-hook"')+esc(t(PHOOK.cta))+'</a>'
+    +'<a class="btn btn--line" href="#'+firstId+'">'+esc(t(id==="work"?PHOOK.seework:PHOOK.see))+' &darr;</a></div></div>'
+    +(P.cap?'<span class="hookcap">'+esc(t(P.cap))+'</span>':'')
+    +'</section>';
+}
+/* How we work, in four photographed steps. */
+function photoSteps(id){
+  var S=PSTEPS[id]; if(!S) return "";
+  var h='<section class="band band--steps" id="how"><div class="wrap">'
+    +'<div class="lbl rv">'+esc(t(S.lbl))+'</div>'
+    +'<h2 class="rv" style="margin-top:16px;max-width:20ch">'+esc(t(S.h))+'</h2>'
+    +'<ol class="psteps">';
+  for(var i=0;i<S.items.length;i++){
+    var it=S.items[i];
+    h+='<li class="pstep rv"><div class="psmedia">'+fillMedia(it,"",false)+'</div>'
+      +'<span class="sn">'+no(i+1)+'</span><h3>'+esc(t(it.h))+'</h3><p>'+esc(t(it.p))+'</p></li>';
+  }
+  return h+'</ol></div></section>';
+}
+/* Drawings for projects we have no photos of. On-brand line work, no text inside, so
+   one drawing serves both languages; the alt text says what it shows. */
+function caseArt(name, alt){
+  if(name==="planecar") return '<svg class="caseart" viewBox="0 0 640 420" role="img" aria-label="'+esc(alt||"")+'">'
+    +'<defs><linearGradient id="caFlight" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#70B9F8"/><stop offset="1" stop-color="#8B5CF6"/></linearGradient>'
+    +'<pattern id="caGrid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#FFFFFF" stroke-opacity=".06"/></pattern></defs>'
+    +'<rect width="640" height="420" fill="#0E1016"/><rect width="640" height="420" fill="url(#caGrid)"/>'
+    /* the road, in perspective */
+    +'<path d="M40 400 L600 300" stroke="#FFFFFF" stroke-opacity=".28" stroke-width="2"/>'
+    +'<path d="M40 420 L640 312" stroke="#FFFFFF" stroke-opacity=".18" stroke-width="2"/>'
+    +'<path d="M60 410 L620 306" stroke="#FFFFFF" stroke-opacity=".22" stroke-width="2" stroke-dasharray="14 14"/>'
+    /* the car, with the marker on its roof */
+    +'<g transform="translate(408 318) rotate(-10.5)"><rect x="-58" y="-26" width="116" height="34" rx="9" fill="#1C2130" stroke="#70B9F8" stroke-opacity=".8"/>'
+    +'<rect x="-32" y="-44" width="62" height="22" rx="7" fill="#1C2130" stroke="#70B9F8" stroke-opacity=".8"/>'
+    +'<g transform="translate(-10 -40)"><rect width="20" height="14" fill="#FFFFFF"/><rect x="3" y="3" width="6" height="4" fill="#0E1016"/><rect x="11" y="7" width="6" height="4" fill="#0E1016"/></g>'
+    +'<circle cx="-34" cy="9" r="9" fill="#0E1016" stroke="#70B9F8" stroke-opacity=".8"/><circle cx="34" cy="9" r="9" fill="#0E1016" stroke="#70B9F8" stroke-opacity=".8"/></g>'
+    /* the flight path, descending onto the car */
+    +'<path d="M70 70 C 210 40, 300 110, 340 190 S 380 270, 400 278" fill="none" stroke="url(#caFlight)" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round"/>'
+    +'<g fill="#70B9F8"><circle cx="70" cy="70" r="3.5"/><circle cx="190" cy="58" r="3.5"/><circle cx="290" cy="118" r="3.5"/><circle cx="340" cy="190" r="3.5"/></g>'
+    /* the camera cone from the plane to the marker */
+    +'<path d="M372 232 L382 278 L420 268 Z" fill="#70B9F8" fill-opacity=".14"/>'
+    /* the plane, nose down along the path */
+    +'<g transform="translate(364 224) rotate(52) scale(1.25)"><path d="M24 0 L7 -3 L2 -22 L-4 -22 L-2 -3 L-15 -2 L-19 -9 L-23 -9 L-21 0 L-23 9 L-19 9 L-15 2 L-2 3 L-4 22 L2 22 L7 3 Z" fill="#FFFFFF"/></g>'
+    /* a second plane, flying the same route behind */
+    +'<g transform="translate(150 55) rotate(-6) scale(.85)" opacity=".7"><path d="M24 0 L7 -3 L2 -22 L-4 -22 L-2 -3 L-15 -2 L-19 -9 L-23 -9 L-21 0 L-23 9 L-19 9 L-15 2 L-2 3 L-4 22 L2 22 L7 3 Z" fill="#B9A8FF"/></g>'
+    +'</svg>';
+  return "";
+}
+function caseMedia(c, eager){ return fillMedia(c.media, t(c.alt), eager); }
+/* The full story rows on the Work page. */
+function caseRows(){
+  var h='<div class="cases">';
+  for(var i=0;i<CASES.length;i++){
+    var c=CASES[i], tags=t(c.tags)||[];
+    h+='<article class="case rv" id="case-'+c.id+'">'
+      +'<div class="casemedia'+(c.media.art?' casemedia--art':'')+'">'+caseMedia(c,false)
+      +(c.more?'<div class="casemore">'+fillMedia(c.more,"",false)+'</div>':'')+'</div>'
+      +'<div class="casetext"><div class="casemeta">'+esc(t(c.meta))+'</div>'
+      +'<h3>'+esc(t(c.t))+'</h3>'
+      +'<div class="casek">'+esc(t(CASEUI.sit))+'</div><p>'+esc(t(c.sit))+'</p>'
+      +'<div class="casek">'+esc(t(CASEUI.did))+'</div><ul>';
+    for(var j=0;j<c.did.length;j++) h+='<li>'+esc(t(c.did[j]))+'</li>';
+    h+='</ul><div class="casefoot"><span class="casestatus">'+esc(t(c.status))+'</span>';
+    for(var k=0;k<tags.length;k++) h+='<span class="casetag">'+esc(tags[k])+'</span>';
+    h+='</div></div></article>';
+  }
+  return h+'</div>';
+}
+/* Three stories as cards, for a service page; each links to its place on Work. */
+function caseTeasers(area, n){
+  var list=[];
+  for(var i=0;i<CASES.length && list.length<(n||3);i++) if(CASES[i].area.indexOf(area)>=0) list.push(CASES[i]);
+  if(!list.length) return "";
+  var h='<section class="band"><div class="wrap">'
+    +'<div class="lbl rv">'+esc(t(CASEUI.teaserlbl))+'</div>'
+    +'<h2 class="rv" style="margin-top:16px;max-width:20ch">'+esc(t(CASEUI.teaserh))+'</h2>'
+    +'<div class="teasers">';
+  for(var j=0;j<list.length;j++){
+    var c=list[j];
+    h+='<a class="teaser rv" href="'+href("work")+'#case-'+c.id+'">'
+      +'<span class="teasermedia'+(c.media.art?' teasermedia--art':'')+'">'+caseMedia(c,false)+'</span>'
+      +'<span class="teaserbody"><span class="casemeta">'+esc(t(c.meta))+'</span>'
+      +'<span class="teaserh">'+esc(t(c.t))+'</span>'
+      +'<span class="needgo">'+esc(t(CASEUI.read))+' &rarr;</span></span></a>';
+  }
+  return h+'</div></div></section>';
+}
+
 /* Gallery block for the end of an engineering activity page: only work from that area. */
 function galleryBlock(area){
-  var items=galleryItems(area);
+  var shown={}, P=(typeof PHOOK!=="undefined") && PHOOK[area], S=(typeof PSTEPS!=="undefined") && PSTEPS[area];
+  if(P&&P.media) shown[P.media.img||P.media.vid]=1;
+  if(S) for(var x=0;x<S.items.length;x++) shown[S.items[x].img||S.items[x].vid]=1;
+  var items=galleryItems(area).filter(function(it){ return !shown[it.img||it.vid]; });
   if(!items.length) return "";
   return '<section class="band band--grey band--gal"><div class="wrap">'
     +'<div class="lbl lbl--q rv">'+esc(t(EXPH.h))+'</div>'
@@ -556,6 +668,7 @@ function renderArea(id){
   if(id==="dev") return renderDev();
   if(id.indexOf("dev-")===0) return renderDevProject(id.slice(4));
   var a=area(id),d=C[id],h="";
+  if(id==="proto"||id==="make") return renderAreaStory(id,a,d);
   h+='<section class="opener">'+watermark(id)
     +'<div class="narrow"><div class="lbl">'+esc(aName(a))+'</div>'
     +'<h1>'+esc(t(d.lede))+'</h1></div></section>';
@@ -603,6 +716,33 @@ function renderArea(id){
   h+=galleryBlock(id);
   h+='<section class="band band--tight"><div class="wrap">'
     +(id==="start" ? "" : expBlock(true,id))
+    +ctaBlock(lang==="nl"?"Zullen we hier een half uur over praten?":"Shall we spend half an hour on this?")
+    +'</div></section>';
+  return h;
+}
+
+/* Engineering and Manufacturing: open on real work, show how it's done in photos, then
+   the services (with their renders, easier to compare), then proof, then the ask. */
+function renderAreaStory(id,a,d){
+  var h=pageHook(id, t(PHOOK[id].h||d.lede), aName(a), "how");
+  h+=photoSteps(id);
+  var SVCICONS={proto:["img:svc-feasibility","img:svc-build","img:svc-capacity"],
+                make:["img:make-design","img:make-series","img:svc-sourcing"]};
+  h+='<section class="band band--grey">'+bandMark(WMARKS[id][0],WMARKS[id][1])+'<div class="wrap">'
+    +svcList(d.svcs, id==="make" ? t(d.aroundh) : (lang==="nl"?"Wat u bij ons afneemt":"What you can hire us for"),
+             SVCICONS[id], id==="make")+'</div></section>';
+  if(id==="proto"){
+    h+=caseTeasers("proto",3);
+    h+='<section class="band band--grey"><div class="wrap">'+discGrid()+'</div></section>';
+  }
+  if(id==="make"){
+    h+='<section class="band band--dark"><div class="wrap"><div class="why rv">';
+    for(var i=0;i<MAKEWHY.length;i++)
+      h+='<div><h3>'+esc(t(MAKEWHY[i].n))+'</h3><p>'+esc(t(MAKEWHY[i].p))+'</p></div>';
+    h+='</div></div></section>';
+    h+=galleryBlock(id);
+  }
+  h+='<section class="band band--tight"><div class="wrap">'
     +ctaBlock(lang==="nl"?"Zullen we hier een half uur over praten?":"Shall we spend half an hour on this?")
     +'</div></section>';
   return h;
@@ -704,21 +844,17 @@ function renderDevProject(id){
   return h;
 }
 function renderWork(){
-  var d=C.work, W=WORKENG;
-  var h='<section class="opener">'+watermark("work")+'<div class="narrow"><div class="lbl">Portfolio</div>'
-    +'<h1>'+(lang==="nl"?"Werk":"Work")+'</h1></div></section>';
-  h+=flowSplit(6,"var(--paper)","var(--paper)",5);
+  var d=C.work, W=WORKENG, P=PHOOK.work;
+  var h=pageHook("work", t(P.h), t(P.lbl), "cases");
 
-  /* 1. engineering first: who we are in one paragraph, then everything in the strip */
-  var gitems=galleryItems();
-  h+='<section class="band band--tight band--gal">'+bandMark("drone","gears")+'<div class="wrap">'
-    +'<div class="galintro"><div><div class="lbl rv">'+esc(t(W.lbl))+'</div>'
-    +'<h2 class="rv" style="margin-top:16px;max-width:16ch">'+esc(t(W.h))+'</h2></div>'
-    +'<p class="deck rv">'+esc(t(W.d))+'</p></div>'
-    +gallery(gitems)
-    +'</div></section>';
+  /* 1. engineering, as stories */
+  h+='<section class="band" id="cases"><div class="wrap">'
+    +'<div class="lbl rv">'+esc(t(W.lbl))+'</div>'
+    +'<h2 class="rv" style="margin-top:16px;max-width:18ch">'+esc(t(W.h))+'</h2>'
+    +'<p class="deck rv" style="margin-top:18px">'+esc(t(W.d))+'</p>'
+    +caseRows()+'</div></section>';
 
-  /* 2. one piece of engineering told properly: the thermal clip and what it shows */
+  /* 2. the thermal clip, which can only be told without its client */
   var f=W.feat, fv=videoTag(f.vid,f.r,t(f.alt),"featvid");
   if(fv){
     h+='<section class="band band--dark"><div class="wrap"><div class="feat rv">'
@@ -731,7 +867,7 @@ function renderWork(){
   }
 
   /* 3. software second: the websites that are live */
-  h+='<section class="band band--tight">'+bandMark("layout","pcb")+'<div class="wrap">'
+  h+='<section class="band">'+bandMark("layout","pcb")+'<div class="wrap">'
     +'<div class="lbl rv">'+esc(t(W.webl))+'</div>'
     +'<h2 class="rv" style="margin-top:16px;margin-bottom:56px">'+esc(t(C.folio.h))+'</h2>';
   for(var i=0;i<d.cases.length;i++){
@@ -754,6 +890,14 @@ function renderWork(){
       +' &nearr;</a></p></div></div></div>';
   }
   h+='</div></section>';
+
+  /* 4. everything else from the workshop */
+  var gitems=galleryItems();
+  if(gitems.length)
+    h+='<section class="band band--grey band--gal"><div class="wrap">'
+      +'<div class="lbl rv">'+esc(t(GALLERY.lbl))+'</div>'
+      +'<h2 class="rv" style="margin-top:16px;max-width:18ch">'+(lang==="nl"?"Meer uit de werkplaats":"More from the workshop")+'</h2>'
+      +gallery(gitems)+'</div></section>';
   h+='<section class="band band--tight"><div class="wrap">'+ctaBlock(t(C.folio.next))+'</div></section>';
   return h;
 }
@@ -1225,7 +1369,8 @@ function render(moveFocus){
   if(page!=="home") document.body.classList.add("scrolled"); else onScroll();
   ddSet(false);
   if(moveFocus) app.focus();
-  window.scrollTo(0,0);
+  var target = !moveFocus && location.hash && document.getElementById(location.hash.slice(1));
+  if(target) setTimeout(function(){ target.scrollIntoView(); }, 0); else window.scrollTo(0,0);
   setupReveal();
   setupFly();
   setupForm();
